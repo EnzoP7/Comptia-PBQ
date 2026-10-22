@@ -1,0 +1,6 @@
+{
+  "name": "CompTIA Security+ SY0-701 PBQ Simulator",
+  "description": "Interactive Performance-Based Questions (PBQ) tactical exam simulator for CompTIA Security+ (SY0-701) with partial credit grading and CyberKraft methodology.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
