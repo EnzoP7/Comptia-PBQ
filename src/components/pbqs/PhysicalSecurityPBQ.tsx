@@ -72,9 +72,9 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('perimeterBarrier', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="chain_link_fence">Cerca de alambre de púas tradicional (Sin resistencia a impactos)</option>
-            <option value="wooden_barrier">Barrera de madera con señal de prohibido el paso</option>
             <option value="bollards_k12_reinforced">Bolardos reforzados de acero con certificación anti-impacto (Crash-rated K12)</option>
+            <option value="chain_link_fence">Cerca perimetral de malla de 2,4 m con concertina</option>
+            <option value="wooden_barrier">Barrera levadiza (boom gate) con caseta de guardia</option>
           </select>
         </div>
 
@@ -92,9 +92,9 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('datacenterEntrance', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="single_door_badge">Puerta simple con lector de tarjeta RFID (Sin control de tailgating)</option>
-            <option value="manual_key">Cerradura con llave física estándar</option>
-            <option value="mantrap_biometric_weight">Mantrap / Esclusa de Seguridad con Biometría + Tarjeta y Sensor de Peso por Presión</option>
+            <option value="single_door_badge">Puerta con lector de tarjeta RFID + PIN</option>
+            <option value="mantrap_biometric_weight">Vestíbulo de control de acceso (mantrap) con tarjeta + biometría</option>
+            <option value="manual_key">Puerta con cerradura biométrica de huella dactilar</option>
           </select>
         </div>
 
@@ -113,8 +113,8 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="wet_pipe_water">Rociadores de tubería húmeda con agua presurizada (Wet Pipe Sprinklers)</option>
-            <option value="dry_powder">Extintor de polvo químico seco (Corrosivo para circuitos impresos)</option>
             <option value="clean_agent_gas">Sistema de gas limpio no conductor (Clean Agent FM-200 / Novec 1230)</option>
+            <option value="dry_powder">Rociadores de tubería seca (Dry Pipe Sprinklers)</option>
           </select>
         </div>
 
@@ -132,9 +132,9 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('thermalManagement', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="fans_ambient">Ventiladores de techo y ventanas abiertas</option>
-            <option value="mixed_aisles">Disposición aleatoria de racks sin separación de flujo de aire</option>
+            <option value="fans_ambient">Aumentar la capacidad de los equipos CRAC sin cambiar la disposición de los racks</option>
             <option value="hot_cold_aisle_containment">Confinamiento de Pasillos Fríos y Pasillos Calientes (Hot Aisle / Cold Aisle)</option>
+            <option value="mixed_aisles">Todos los racks orientados en la misma dirección (frente contra espalda)</option>
           </select>
         </div>
 
@@ -152,9 +152,9 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('rfShielding', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="none_sheetrock">Paredes estándar de yeso / drywall sin protección</option>
-            <option value="soundproof_foam">Espuma acústica insonorizante ordinaria</option>
-            <option value="faraday_cage_tempest">Jaula de Faraday con apantallamiento de cobre/malla metálica conectada a tierra (TEMPEST)</option>
+            <option value="none_sheetrock">Muros de hormigón armado de 30 cm</option>
+            <option value="faraday_cage_tempest">Jaula de Faraday (apantallamiento metálico conectado a tierra)</option>
+            <option value="soundproof_foam">Sala sin ventanas con película de privacidad en vidrios internos</option>
           </select>
         </div>
       </div>

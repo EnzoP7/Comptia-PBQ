@@ -164,17 +164,17 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               onChange={(e) => handleFieldChange('signatureAlgorithm', e.target.value)}
               className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
+              <option value="SHA-256 with RSA 2048/4096">
+                SHA-256 with RSA 2048 o 4096
+              </option>
+              <option value="ECDSA with P-256">
+                ECDSA con Curva Elíptica P-256 (Criptografía moderna de alto rendimiento)
+              </option>
               <option value="SHA-1 with RSA 1024">
                 SHA-1 with RSA 1024 (Vulnerable a colisiones criptográficas - PROHIBIDO)
               </option>
               <option value="MD5 with RSA 512">
                 MD5 with RSA 512 (Completamente roto)
-              </option>
-              <option value="SHA-256 with RSA 2048/4096">
-                SHA-256 with RSA 2048 o 4096 (Estándar FIPS/NIST recomendado)
-              </option>
-              <option value="ECDSA with P-256">
-                ECDSA con Curva Elíptica P-256 (Criptografía moderna de alto rendimiento)
               </option>
             </select>
           </div>
@@ -222,14 +222,14 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               onChange={(e) => handleFieldChange('revocationCheckMethod', e.target.value)}
               className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
+              <option value="OCSP Stapling (RFC 6066 - Grapado en el handshake)">
+                OCSP Stapling RFC 6066 (El servidor envía la prueba de revocación en el handshake - Privado y Rápido)
+              </option>
               <option value="CRL (Descarga periódica lenta)">
                 CRL - Listas de Revocación de Certificados (Archivos grandes, latencia alta)
               </option>
               <option value="OCSP Directo (Online Certificate Status Protocol)">
                 OCSP en línea tradicional (Expone la IP del cliente al proveedor de la CA)
-              </option>
-              <option value="OCSP Stapling (RFC 6066 - Grapado en el handshake)">
-                OCSP Stapling RFC 6066 (El servidor envía la prueba de revocación en el handshake - Privado y Rápido)
               </option>
             </select>
           </div>

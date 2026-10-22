@@ -1,6 +1,6 @@
 /**
  * CompTIA Security+ (SY0-701) PBQ Data Types and Interfaces
- * Supports 21 comprehensive PBQs covering all exam objectives.
+ * Covers every SY0-701 domain; see src/data/sy0701Objectives.ts.
  */
 
 export type PBQCategory =
@@ -41,7 +41,18 @@ export type PBQCategory =
   | 'privacy-pets'
   | 'malware-triage'
   | 'api-security'
-  | 'soar-automation';
+  | 'soar-automation'
+  | 'security-controls'
+  | 'change-management'
+  | 'third-party-governance'
+  | 'pentest-audit'
+  | 'app-attacks'
+  | 'threat-actors'
+  | 'access-control-models'
+  | 'risk-concepts'
+  | 'compliance-awareness'
+  | 'linux-permissions'
+  | 'crypto-concepts';
 
 export interface PartialCreditItem {
   id: string;
@@ -661,3 +672,66 @@ export interface SoarAutomationState {
 
 
 
+
+// ==========================================
+// Generic classification matrix PBQs (drag-and-drop style)
+// ==========================================
+export interface MatrixOption {
+  value: string;
+  label: string;
+}
+
+export interface MatrixColumn {
+  id: string;
+  label: string;
+  options: MatrixOption[];
+}
+
+export interface MatrixRow {
+  id: string;
+  prompt: string;
+  /** Optional log line, payload or code snippet shown in monospace. */
+  evidence?: string;
+  /** Correct option value per column id. */
+  answers: Record<string, string>;
+  /** Shown after grading: why this is the answer and the usual exam trap. */
+  explanation: string;
+}
+
+export interface MatrixSection {
+  id: string;
+  title: string;
+  columns: MatrixColumn[];
+  rows: MatrixRow[];
+}
+
+export interface MatrixPbqConfig {
+  pbqId: string;
+  consoleTitle: string;
+  instructions: string;
+  sections: MatrixSection[];
+}
+
+/** rowId -> columnId -> selected option value */
+export type MatrixAnswers = Record<string, Record<string, string>>;
+
+// ==========================================
+// Linux file permissions (chmod / chown / umask / special bits)
+// ==========================================
+export interface LinuxPermFile {
+  id: string;
+  path: string;
+  isDirectory: boolean;
+  owner: string;
+  group: string;
+  /** Business requirement shown to the candidate. */
+  requirement: string;
+  /** Current mode, e.g. 0o755. */
+  mode: number;
+}
+
+export interface LinuxPermissionsState {
+  files: LinuxPermFile[];
+  /** questionId -> selected option value */
+  answers: Record<string, string>;
+}

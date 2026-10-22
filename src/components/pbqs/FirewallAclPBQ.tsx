@@ -25,6 +25,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { sound } from '../../utils/audio';
+import { useHints } from '../../context/HintsContext';
 
 interface Props {
   rules: FirewallRule[];
@@ -41,6 +42,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
   initialRules = INITIAL_FIREWALL_RULES,
   helperText = 'Audita el orden y parámetros de la tabla ACL. Recuerda que la evaluación es First-Match (de arriba hacia abajo).',
 }) => {
+  const hints = useHints();
   const [packetResults, setPacketResults] = useState<{
     [testId: string]: { matchedRule: FirewallRule | null; action: RuleAction };
   } | null>(null);
@@ -204,14 +206,14 @@ export const FirewallAclPBQ: React.FC<Props> = ({
             <Plus className="w-3.5 h-3.5" />
             Agregar Regla
           </button>
-          <button
+          {hints && (<button
             onClick={runTrafficSimulation}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950/80 border border-emerald-700/80 hover:bg-emerald-900 rounded-lg transition-colors shrink-0"
           >
             <Play className="w-3.5 h-3.5" />
             Simular Paquetes
-          </button>
-          <button
+          </button>)}
+          {hints && (<button
             onClick={() => {
               sound.playClick();
               setShowReference(!showReference);
@@ -224,7 +226,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
           >
             <BookOpen className="w-3.5 h-3.5" />
             <span>Guía Puertos CompTIA</span>
-          </button>
+          </button>)}
           <button
             onClick={handleReset}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors shrink-0"
@@ -236,7 +238,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
       </div>
 
       {/* Collapsible CompTIA Port Reference Panel */}
-      {showReference && (
+      {hints && showReference && (
         <div className="p-4 rounded-xl bg-slate-900 border border-amber-500/30 space-y-3 shadow-xl animate-in fade-in">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
@@ -361,11 +363,13 @@ export const FirewallAclPBQ: React.FC<Props> = ({
             <tbody className="divide-y divide-slate-800/80 font-mono">
               {rules.map((rule, idx) => {
                 const isSshOpenAny =
+                  hints &&
                   rule.destPort === '22' &&
                   rule.action === 'PERMIT' &&
                   rule.sourceIp.includes('0.0.0.0');
 
                 const isDenyTooHigh =
+                  hints &&
                   rule.action === 'DENY' &&
                   rule.sourceIp.includes('0.0.0.0') &&
                   rule.destIp.includes('0.0.0.0') &&
@@ -413,9 +417,9 @@ export const FirewallAclPBQ: React.FC<Props> = ({
                         className="w-full px-2 py-1 rounded bg-slate-900 text-slate-200 border border-slate-700 text-xs"
                       >
                         <option value="TCP">TCP</option>
+                        <option value="ANY">ANY</option>
                         <option value="UDP">UDP</option>
                         <option value="ICMP">ICMP</option>
-                        <option value="ANY">ANY</option>
                       </select>
                     </td>
 
@@ -568,18 +572,18 @@ export const FirewallAclPBQ: React.FC<Props> = ({
                 Evalúa qué regla del Firewall hace coincidencia (Match) primero para cada escenario de tráfico de prueba.
               </p>
             </div>
-            <button
+            {hints && <button
               onClick={runTrafficSimulation}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950 border border-emerald-700 rounded-lg"
             >
               <Play className="w-3.5 h-3.5" />
               Re-ejecutar Pruebas
-            </button>
+            </button>}
           </div>
 
           <div className="grid grid-cols-1 gap-3">
             {packetTests.map((test) => {
-              const res = packetResults ? packetResults[test.id] : null;
+              const res = hints && packetResults ? packetResults[test.id] : null;
               const isMatchExpected = res ? res.action === test.expectedAction : null;
 
               return (

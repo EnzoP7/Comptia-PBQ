@@ -80,10 +80,10 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500 font-mono"
               >
                 <option value="">-- Seleccionar Rol Oficial --</option>
+                <option value="data_processor">Data Processor (Proveedor externo que procesa datos)</option>
+                <option value="data_steward">Data Steward (Gestor de Calidad y Políticas)</option>
                 <option value="data_owner">Data Owner (Propietario de la Información - Rol de Negocio)</option>
                 <option value="data_custodian">Data Custodian (Custodio Técnico / Sysadmin)</option>
-                <option value="data_steward">Data Steward (Gestor de Calidad y Políticas)</option>
-                <option value="data_processor">Data Processor (Proveedor externo que procesa datos)</option>
               </select>
             </div>
 
@@ -101,10 +101,10 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500 font-mono"
               >
                 <option value="">-- Seleccionar Rol Oficial --</option>
-                <option value="data_steward">Data Steward (Administrador de Calidad y Etiquetado)</option>
-                <option value="data_owner">Data Owner (Propietario Ejecutivo)</option>
                 <option value="data_custodian">Data Custodian (Operador de Backups)</option>
                 <option value="security_auditor">Security Auditor (Auditor externo)</option>
+                <option value="data_steward">Data Steward (Administrador de Calidad y Etiquetado)</option>
+                <option value="data_owner">Data Owner (Propietario Ejecutivo)</option>
               </select>
             </div>
 
@@ -122,10 +122,10 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500 font-mono"
               >
                 <option value="">-- Seleccionar Rol Oficial --</option>
-                <option value="data_custodian">Data Custodian (Custodio de Sistemas y Almacenamiento)</option>
-                <option value="data_owner">Data Owner (Líder Comercial)</option>
                 <option value="data_controller">Data Controller (Entidad legal responsable)</option>
                 <option value="privacy_officer">Privacy Officer (Abogado de Privacidad)</option>
+                <option value="data_owner">Data Owner (Líder Comercial)</option>
+                <option value="data_custodian">Data Custodian (Custodio de Sistemas y Almacenamiento)</option>
               </select>
             </div>
 
@@ -145,8 +145,8 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 <option value="">-- Seleccionar Rol Oficial --</option>
                 <option value="data_privacy_officer">Data Protection Officer (DPO / Oficial de Privacidad)</option>
                 <option value="data_steward">Data Steward (Gestor de Calidad)</option>
-                <option value="it_director">IT Director (Director de Tecnología)</option>
-                <option value="compliance_intern">Compliance Intern (Becario de Auditoría)</option>
+                <option value="compliance_intern">Chief Compliance Officer (CCO)</option>
+                <option value="it_director">CISO (Director de Seguridad de la Información)</option>
               </select>
             </div>
           </div>
@@ -175,9 +175,9 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500 font-mono"
               >
                 <option value="">-- Control de Tránsito --</option>
+                <option value="telnet_ftp">SSL 3.0 / TLS 1.0</option>
                 <option value="tls_13_ipsec">TLS 1.3 con PFS / Túneles IPsec ESP cifrados</option>
-                <option value="telnet_ftp">Telnet y FTP sin cifrar (Texto claro)</option>
-                <option value="wep_tkip">Cifrado legado WEP / TKIP</option>
+                <option value="wep_tkip">WPA2 con TKIP</option>
               </select>
             </div>
 
@@ -197,8 +197,8 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
               >
                 <option value="">-- Control de Reposo --</option>
                 <option value="aes_256_bitlocker">AES-256 (BitLocker / LUKS / TDE / Cifrado de disco)</option>
+                <option value="ntfs_permissions_only">Permisos NTFS restrictivos y ACLs</option>
                 <option value="base64_obfuscation">Codificación Base64 en archivos locales</option>
-                <option value="ntfs_permissions_only">Permisos NTFS sin cifrado de hardware</option>
               </select>
             </div>
 
@@ -217,9 +217,9 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500 font-mono"
               >
                 <option value="">-- Control en Uso --</option>
-                <option value="confidential_computing_enclaves">Computación Confidencial (Enclaves por hardware SGX/SEV)</option>
-                <option value="os_swap_file">Paginación a disco (pagefile.sys sin cifrar)</option>
                 <option value="standard_ram_allocation">Asignación estándar de RAM en memoria compartida</option>
+                <option value="os_swap_file">Paginación a disco (pagefile.sys)</option>
+                <option value="confidential_computing_enclaves">Computación Confidencial (Enclaves por hardware SGX/SEV)</option>
               </select>
             </div>
           </div>
@@ -247,9 +247,9 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500 font-mono"
               >
                 <option value="">-- Seleccionar Procedimiento --</option>
-                <option value="logical_overwrite_zero_fill">Sobreescritura lógica de sectores con ceros o patrones pseudoaleatorios</option>
-                <option value="quick_format">Formateo rápido de Windows (Quick Format - Deja datos recuperables)</option>
+                <option value="quick_format">Formateo rápido (Quick Format)</option>
                 <option value="delete_recycle_bin">Mover a la Papelera de reciclaje</option>
+                <option value="logical_overwrite_zero_fill">Sobreescritura lógica de sectores con ceros o patrones pseudoaleatorios</option>
               </select>
             </div>
 
@@ -267,9 +267,9 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
                 className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500 font-mono"
               >
                 <option value="">-- Seleccionar Procedimiento --</option>
-                <option value="degaussing_magnetic">Degaussing (Desmagnetización electromagnética destructiva de platos HDD)</option>
-                <option value="single_pass_overwrite">Sobreescritura simple de 1 pasada (Insuficiente contra análisis de laboratorio)</option>
                 <option value="partition_delete">Eliminación de tabla de particiones MBR/GPT</option>
+                <option value="degaussing_magnetic">Degaussing (desmagnetización de discos HDD)</option>
+                <option value="single_pass_overwrite">Sobreescritura de 1 pasada con ceros</option>
               </select>
             </div>
 
@@ -288,8 +288,8 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
               >
                 <option value="">-- Seleccionar Procedimiento --</option>
                 <option value="physical_shredding_incineration">Trituración mecánica en fragmentos &lt; 2mm (Shredding) o Incineración</option>
-                <option value="degaussing_ssd">Degaussing en discos SSD (Ineficaz: los chips Flash no son magnéticos)</option>
-                <option value="throw_to_dumpster">Desecho en contenedor de basura común (Vulnerable a Dumpster Diving)</option>
+                <option value="throw_to_dumpster">Formateo de bajo nivel y reciclaje con un proveedor</option>
+                <option value="degaussing_ssd">Degaussing de los discos SSD</option>
               </select>
             </div>
 
@@ -308,8 +308,8 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
               >
                 <option value="">-- Seleccionar Procedimiento --</option>
                 <option value="cryptographic_erasure_key_destruction">Destrucción irreversible de la clave de descifrado (DEK/KEK) en el KMS</option>
-                <option value="unmount_volume">Desmontar el volumen del sistema operativo de la máquina virtual</option>
                 <option value="rename_bucket">Renombrar el depósito de almacenamiento en el panel cloud</option>
+                <option value="unmount_volume">Desmontar el volumen del sistema operativo de la máquina virtual</option>
               </select>
             </div>
           </div>

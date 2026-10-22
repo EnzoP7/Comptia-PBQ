@@ -26,6 +26,7 @@ import {
   Lock,
 } from 'lucide-react';
 import { sound } from '../../utils/audio';
+import { useHints } from '../../context/HintsContext';
 
 interface Props {
   slots: NetworkZoneSlot[];
@@ -42,6 +43,7 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
   variant = 'traditional',
   initialSlots = INITIAL_NETWORK_SLOTS_PBQ1,
 }) => {
+  const hints = useHints();
   const [selectedControl, setSelectedControl] = useState<NetworkControlId | null>(null);
 
   const getIcon = (type: string, className = 'w-5 h-5') => {
@@ -400,9 +402,9 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
               </button>
             )}
           </div>
-          <div className="text-[10px] text-slate-500 leading-tight mb-2">
+          {hints && (<div className="text-[10px] text-slate-500 leading-tight mb-2">
             {slot.allowedRoleHint}
-          </div>
+          </div>)}
         </div>
 
         {placedControl ? (

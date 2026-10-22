@@ -14,6 +14,7 @@ import {
   KeyRound,
 } from 'lucide-react';
 import { sound } from '../../utils/audio';
+import { useHints } from '../../context/HintsContext';
 
 interface Props {
   state: ConditionalAccessState;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset }) => {
+  const hints = useHints();
   const handleFieldChange = (field: keyof ConditionalAccessState, value: string) => {
     sound.playClick();
     onChange({
@@ -31,6 +33,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
   };
 
   const getStatusBadge = (isCompliant: boolean) => {
+    if (!hints) return null;
     if (isCompliant) {
       return (
         <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono font-semibold flex items-center gap-1">
@@ -91,12 +94,12 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('requireMfa', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="disabled">MFA Deshabilitado (Solo contraseña estática - INSEGURO)</option>
             <option value="sms_otp">MFA basado en SMS / Llamada telefónica (Vulnerable a SIM Swapping)</option>
-            <option value="totp_app">MFA con Aplicación Autenticadora TOTP estándar (Vulnerable a AiTM)</option>
             <option value="fido2_phishing_resistant">
               MFA Resistente a Phishing (FIDO2 WebAuthn / Llave de Seguridad FIPS)
             </option>
+            <option value="totp_app">MFA con Aplicación Autenticadora TOTP estándar (Vulnerable a AiTM)</option>
+            <option value="disabled">MFA Deshabilitado (Solo contraseña estática)</option>
           </select>
         </div>
 
@@ -117,11 +120,11 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('geoBlockingPolicy', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="allow_all">Permitir inicios de sesión desde cualquier país del mundo</option>
-            <option value="warn_only">Solo alertar en el SIEM sin bloquear conexiones remotas</option>
             <option value="block_untrusted_geos">
               Bloquear acceso desde países no autorizados (Geoblocking estricto)
             </option>
+            <option value="warn_only">Solo alertar en el SIEM sin bloquear conexiones remotas</option>
+            <option value="allow_all">Permitir inicios de sesión desde cualquier país del mundo</option>
           </select>
         </div>
 
@@ -142,11 +145,11 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('deviceCompliance', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="any_device">Permitir acceso desde cualquier dispositivo personal (BYOD sin gestión)</option>
-            <option value="browser_only">Permitir solo mediante navegador sin validar salud del endpoint</option>
             <option value="require_mdm_compliant">
               Exigir dispositivo corporativo registrado y conforme (MDM / Intune Compliant)
             </option>
+            <option value="any_device">Permitir acceso desde cualquier dispositivo personal (BYOD sin gestión)</option>
+            <option value="browser_only">Permitir solo mediante navegador sin validar salud del endpoint</option>
           </select>
         </div>
 
@@ -171,7 +174,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
               Privilegios permanentes de Administrador Global (Standing Access - Alto Riesgo)
             </option>
             <option value="enforce_pim_jit">
-              Exigir PIM Just-In-Time con aprobación justificada y expiración automática (Recomendado)
+              Exigir PIM Just-In-Time con aprobación justificada y expiración automática
             </option>
           </select>
         </div>

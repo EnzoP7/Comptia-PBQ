@@ -1603,7 +1603,7 @@ export function evaluatePhysicalSecurityPBQ19(state: PhysicalSecurityState): Eva
     maxPoints: 20,
     explanation: gasCorrect
       ? 'Correcto: El gas limpio no conductor extingue el fuego por enfriamiento e interrupción química sin dañar servidores ni dejar residuos.'
-      : 'Incorrecto: Los rociadores de agua y polvo químico provocan cortocircuitos y corrosión severa en servidores.'
+      : 'Incorrecto: Cualquier sistema de rociadores (húmedo o seco) descarga agua sobre equipos energizados. En salas de servidores se prefiere un agente limpio (FM-200 / Novec 1230), no conductor y sin residuos.'
   });
 
   const thermalCorrect = state.thermalManagement === 'hot_cold_aisle_containment';
@@ -1904,34 +1904,34 @@ export function evaluateDigitalForensicsPBQ22(state: ForensicVerificationState):
 export function evaluateRiskManagementPBQ23(state: RiskManagementState): EvaluationResult {
   const breakdown: PartialCreditItem[] = [];
 
-  // Calculations:
-  // SLE = AV * EF = 200,000 * 0.40 = 80,000
-  // ALE = SLE * ARO = 80,000 * 0.5 = 40,000
-  const expectedSle = 80000;
-  const expectedAle = 40000;
+  // SLE = AV × EF, ALE = SLE × ARO (values are randomized per attempt)
+  const ef = state.exposureFactorPercent / 100;
+  const expectedSle = Math.round(state.assetValue * ef);
+  const expectedAle = Math.round(expectedSle * state.aroValue);
+  const usd = (n: number) => `$${n.toLocaleString('en-US')}`;
 
   const sleCorrect = Math.abs(state.calculatedSleInput - expectedSle) < 1;
   breakdown.push({
     id: 'risk-sle',
-    label: 'Cálculo de Expectativa de Pérdida Única (SLE = $80,000)',
+    label: `Cálculo de Expectativa de Pérdida Única (SLE = ${usd(expectedSle)})`,
     achieved: sleCorrect,
     points: sleCorrect ? 25 : 0,
     maxPoints: 25,
     explanation: sleCorrect
-      ? 'Correcto: SLE = Valor del Activo ($200,000) × Factor de Exposición (40% o 0.40) = $80,000 USD.'
-      : `Incorrecto: Ingresaste $${state.calculatedSleInput || 0}. El valor exacto es $80,000 ($200,000 × 0.40).`
+      ? `Correcto: SLE = Valor del Activo (${usd(state.assetValue)}) × Factor de Exposición (${ef}) = ${usd(expectedSle)}.`
+      : `Incorrecto: Ingresaste ${usd(state.calculatedSleInput || 0)}. El valor exacto es ${usd(expectedSle)} (${usd(state.assetValue)} × ${ef}). Error típico: usar el EF como porcentaje entero en lugar de decimal.`
   });
 
   const aleCorrect = Math.abs(state.calculatedAleInput - expectedAle) < 1;
   breakdown.push({
     id: 'risk-ale',
-    label: 'Cálculo de Expectativa de Pérdida Anualizada (ALE = $40,000)',
+    label: `Cálculo de Expectativa de Pérdida Anualizada (ALE = ${usd(expectedAle)})`,
     achieved: aleCorrect,
     points: aleCorrect ? 25 : 0,
     maxPoints: 25,
     explanation: aleCorrect
-      ? 'Correcto: ALE = SLE ($80,000) × ARO (0.5 eventos/año) = $40,000 USD anuales.'
-      : `Incorrecto: Ingresaste $${state.calculatedAleInput || 0}. El valor exacto es $40,000 ($80,000 × 0.5).`
+      ? `Correcto: ALE = SLE (${usd(expectedSle)}) × ARO (${state.aroValue}) = ${usd(expectedAle)} anuales.`
+      : `Incorrecto: Ingresaste ${usd(state.calculatedAleInput || 0)}. El valor exacto es ${usd(expectedAle)} (${usd(expectedSle)} × ${state.aroValue}). Si el evento ocurre una vez cada N años, ARO = 1/N.`
   });
 
   const treat1Correct = state.treatmentThreat1 === 'mitigate';
@@ -1966,7 +1966,7 @@ export function evaluateRiskManagementPBQ23(state: RiskManagementState): Evaluat
     detailedFeedback:
       totalScore === 100
         ? '¡Dominio completo de análisis cuantitativo de riesgos! Has aplicado las fórmulas SLE = AV × EF y ALE = SLE × ARO y seleccionado los tratamientos correctos.'
-        : `Puntuación obtenida: ${totalScore}/100. Recuerda: SLE=$80,000, ALE=$40,000, y asocia seguros a Transferencia y controles técnicos a Mitigación.`,
+        : `Puntuación obtenida: ${totalScore}/100. Recuerda: SLE = AV × EF = ${usd(expectedSle)}; ALE = SLE × ARO = ${usd(expectedAle)}. Seguros = Transferir; controles = Mitigar.`,
     sy0701Objective: 'Objetivo 5.2: Explicar elementos clave de la gestión del riesgo de seguridad e interpretar fórmulas de riesgo cuantitativo.',
     domainName: 'Dominio 5: Gestión y Supervisión de Programas de Seguridad'
   };

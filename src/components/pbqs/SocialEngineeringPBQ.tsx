@@ -148,11 +148,11 @@ export const SocialEngineeringPBQ: React.FC<Props> = ({
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                   >
                     <option value="">-- Seleccionar Ataque --</option>
-                    <option value="smishing">Smishing (SMS Phishing)</option>
-                    <option value="vishing">Vishing (Voice Phishing / Voz)</option>
                     <option value="whaling_bec">Whaling / BEC (Business Email Compromise)</option>
-                    <option value="baiting_usb">Baiting / USB Drop (Señuelo físico)</option>
+                    <option value="smishing">Smishing (SMS Phishing)</option>
                     <option value="spear_phishing">Spear Phishing genérico</option>
+                    <option value="vishing">Vishing (Voice Phishing / Voz)</option>
+                    <option value="baiting_usb">Baiting / USB Drop (Señuelo físico)</option>
                   </select>
                 </div>
 
@@ -169,10 +169,10 @@ export const SocialEngineeringPBQ: React.FC<Props> = ({
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                   >
                     <option value="">-- Seleccionar Principio --</option>
-                    <option value="urgency">Urgencia (Urgency - Actuar de inmediato)</option>
-                    <option value="authority">Autoridad / Intimidación (Authority / Fear)</option>
                     <option value="trust_consensus">Confianza / Consenso (Trust / Social Proof)</option>
+                    <option value="urgency">Urgencia (Urgency - Actuar de inmediato)</option>
                     <option value="scarcity_curiosity">Escasez / Curiosidad (Scarcity / Curiosity)</option>
+                    <option value="authority">Autoridad / Intimidación (Authority / Fear)</option>
                   </select>
                 </div>
 
@@ -190,9 +190,9 @@ export const SocialEngineeringPBQ: React.FC<Props> = ({
                   >
                     <option value="">-- Seleccionar Mitigación --</option>
                     <option value="verify_out_of_band">Verificación fuera de banda (Out-of-Band Callback a número oficial)</option>
-                    <option value="security_awareness_smishing">Campañas de simulación y no pulsar enlaces en SMS</option>
                     <option value="disable_autorun_usb_blocking">Deshabilitar AutoRun / GPO bloqueo de almacenamiento USB masivo</option>
                     <option value="dual_authorization_wire">Doble autorización para transferencias y verificación de cuentas proveedor</option>
+                    <option value="security_awareness_smishing">Campañas de simulación y no pulsar enlaces en SMS</option>
                   </select>
                 </div>
               </div>

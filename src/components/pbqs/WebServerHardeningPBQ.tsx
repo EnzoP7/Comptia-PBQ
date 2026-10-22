@@ -9,6 +9,8 @@ import {
   FileText
 } from 'lucide-react';
 import { WebServerHardeningState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
+import { shuffled } from '../../utils/shuffle';
 
 interface WebServerHardeningPBQProps {
   state: WebServerHardeningState;
@@ -21,6 +23,7 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
   onChange,
   onReset,
 }) => {
+  const hints = useHints();
   const updateField = (field: keyof WebServerHardeningState, value: string) => {
     onChange({ ...state, [field]: value });
   };
@@ -75,11 +78,11 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'hsts_max_age_includesubdomains_preload', label: 'Strict-Transport-Security: max-age=31536000; includeSubDomains; preload', desc: 'Obliga a HTTPS durante 1 año, cubre todos los subdominios y califica para la lista de precarga global de navegadores.' },
               { id: 'hsts_short_no_sub', label: 'Strict-Transport-Security: max-age=300', desc: 'Duración de solo 5 minutos sin subdominios; deja desprotegidos dominios hijos.' },
               { id: 'hsts_disabled', label: 'Sin cabecera HSTS (permitir degradación a HTTP puerto 80)', desc: 'Permite a un atacante ejecutar sslstrip y capturar credenciales en texto claro.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('hstsHeaderConfig', opt.id)}
@@ -90,7 +93,7 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold font-mono text-rose-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -112,11 +115,11 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'csp_default_src_self_nonce', label: "Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-rAnd0m';", desc: 'Solo permite scripts del mismo origen o que posean un nonce criptográfico único generado por el servidor.' },
               { id: 'csp_unsafe_eval', label: "Content-Security-Policy: default-src * 'unsafe-inline' 'unsafe-eval';", desc: 'Insegura: permite ejecución de cualquier script arbitrario en el DOM.' },
               { id: 'csp_none', label: 'Sin política CSP', desc: 'Permite cargar JavaScript desde dominios externos de atacantes sin restricción.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('cspHeaderConfig', opt.id)}
@@ -127,7 +130,7 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold font-mono text-amber-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -149,11 +152,11 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'x_frame_options_deny', label: 'X-Frame-Options: DENY (o frame-ancestors: none)', desc: 'Prohíbe totalmente que la página sea renderizada dentro de cualquier iframe, sin importar el origen.' },
               { id: 'x_frame_allow_all', label: 'X-Frame-Options: ALLOW-FROM *', desc: 'Permite a cualquier sitio malicioso superponer botones invisibles sobre la aplicación corporativa.' },
               { id: 'x_frame_missing', label: 'No enviar cabecera de control de frames', desc: 'Deja la aplicación completamente expuesta a ataques de UI Redressing / Clickjacking.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('frameOptionsConfig', opt.id)}
@@ -164,7 +167,7 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold font-mono text-purple-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -186,11 +189,11 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'tls_1_3_only', label: 'TLS 1.3 Exclusivo (Suites AEAD con ECDHE obligatorias)', desc: 'Elimina algoritmos inseguros (RC4, 3DES, CBC) y handshake de 1-RTT con secreto perfecto hacia adelante (PFS).' },
               { id: 'tls_1_0_compatible', label: 'Permitir TLS 1.0, 1.1 y SSLv3 por compatibilidad', desc: 'Vulnerable a ataques POODLE, BEAST y degradación de cifrado.' },
               { id: 'clear_http_only', label: 'HTTP sin cifrar (puerto 80)', desc: 'Totalmente inseguro para cualquier entorno de producción moderno.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('tlsProtocolVersion', opt.id)}
@@ -201,7 +204,7 @@ export const WebServerHardeningPBQ: React.FC<WebServerHardeningPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold font-mono text-cyan-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>}
               </button>
             ))}
           </div>

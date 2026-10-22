@@ -73,7 +73,7 @@ export const RiskManagementPBQ: React.FC<Props> = ({
             </div>
             <div className="flex justify-between text-slate-300">
               <span>Factor de Exposición (Exposure Factor - EF):</span>
-              <strong className="text-amber-400">{state.exposureFactorPercent}% (0.40)</strong>
+              <strong className="text-amber-400">{state.exposureFactorPercent}%</strong>
             </div>
             <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-800 font-sans">
               Fórmula Oficial CompTIA: <code>SLE = AV × EF</code>
@@ -88,7 +88,7 @@ export const RiskManagementPBQ: React.FC<Props> = ({
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-mono text-xs">$</span>
               <input
                 type="number"
-                placeholder="Ej. 80000"
+                placeholder="Monto en USD"
                 value={state.calculatedSleInput || ''}
                 onChange={(e) => handleInputChange('calculatedSleInput', parseFloat(e.target.value) || 0)}
                 className="w-full pl-7 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-cyan-500"
@@ -107,7 +107,7 @@ export const RiskManagementPBQ: React.FC<Props> = ({
           <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 space-y-2 text-xs font-mono">
             <div className="flex justify-between text-slate-300">
               <span>Frecuencia Anualizada (ARO):</span>
-              <strong className="text-cyan-400">{state.aroValue} (1 vez cada 2 años)</strong>
+              <strong className="text-cyan-400">{state.aroValue >= 1 ? `${state.aroValue} veces al año` : `1 vez cada ${Math.round(1 / state.aroValue)} años`}</strong>
             </div>
             <div className="flex justify-between text-slate-300">
               <span>Expectativa de Pérdida por Incidente (SLE):</span>
@@ -126,7 +126,7 @@ export const RiskManagementPBQ: React.FC<Props> = ({
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-mono text-xs">$</span>
               <input
                 type="number"
-                placeholder="Ej. 40000"
+                placeholder="Monto en USD"
                 value={state.calculatedAleInput || ''}
                 onChange={(e) => handleInputChange('calculatedAleInput', parseFloat(e.target.value) || 0)}
                 className="w-full pl-7 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-cyan-500"
@@ -156,10 +156,10 @@ export const RiskManagementPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Estrategia --</option>
-              <option value="mitigate">Mitigar (Mitigate / Implementar Control de Seguridad)</option>
-              <option value="transfer">Transferir (Transfer / Seguro de ciberriesgo)</option>
-              <option value="accept">Aceptar (Accept / Tolerancia formal por escrito)</option>
               <option value="avoid">Evitar (Avoid / Cancelar la actividad de riesgo)</option>
+              <option value="transfer">Transferir (Transfer / Seguro de ciberriesgo)</option>
+              <option value="mitigate">Mitigar (Mitigate / Implementar Control de Seguridad)</option>
+              <option value="accept">Aceptar (Accept / Tolerancia formal por escrito)</option>
             </select>
           </div>
 
@@ -175,9 +175,9 @@ export const RiskManagementPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Estrategia --</option>
-              <option value="mitigate">Mitigar (Mitigate / Implementar Control)</option>
               <option value="transfer">Transferir (Transfer / Póliza de Ciberseguridad)</option>
               <option value="accept">Aceptar (Accept / Tolerancia formal)</option>
+              <option value="mitigate">Mitigar (Mitigate / Implementar Control)</option>
               <option value="avoid">Evitar (Avoid / Cancelar actividad)</option>
             </select>
           </div>
@@ -194,9 +194,9 @@ export const RiskManagementPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Estrategia --</option>
-              <option value="mitigate">Mitigar (Mitigate / Implementar Control)</option>
               <option value="transfer">Transferir (Transfer / Seguro)</option>
               <option value="accept">Aceptar (Accept / Aceptación formal de riesgo residual)</option>
+              <option value="mitigate">Mitigar (Mitigate / Implementar Control)</option>
               <option value="avoid">Evitar (Avoid / Cancelar actividad)</option>
             </select>
           </div>
@@ -213,9 +213,9 @@ export const RiskManagementPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Estrategia --</option>
-              <option value="mitigate">Mitigar (Mitigate / Implementar Control)</option>
-              <option value="transfer">Transferir (Transfer / Seguro)</option>
               <option value="accept">Aceptar (Accept / Tolerancia formal)</option>
+              <option value="transfer">Transferir (Transfer / Seguro)</option>
+              <option value="mitigate">Mitigar (Mitigate / Implementar Control)</option>
               <option value="avoid">Evitar (Avoid / Descontinuar y apagar el servicio)</option>
             </select>
           </div>

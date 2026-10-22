@@ -17,6 +17,7 @@ import {
   Zap
 } from 'lucide-react';
 import { sound } from '../utils/audio';
+import { SY0701_DOMAINS, getDomainId } from '../data/sy0701Objectives';
 
 interface Props {
   isOpen: boolean;
@@ -27,6 +28,8 @@ interface Props {
   onReviewPBQ: (index: number) => void;
   onRestartExam: () => void;
   onStartMiniDrill?: () => void;
+  title?: string;
+  restartLabel?: string;
 }
 
 export const ExamSummaryModal: React.FC<Props> = ({
@@ -38,53 +41,17 @@ export const ExamSummaryModal: React.FC<Props> = ({
   onReviewPBQ,
   onRestartExam,
   onStartMiniDrill,
+  title = 'Reporte de Preparación PBQ — CompTIA Security+ SY0-701',
+  restartLabel = 'Borrar todo el progreso',
 }) => {
   const [filterMode, setFilterMode] = useState<'all' | 'flagged' | 'unevaluated' | 'failed'>('all');
 
   if (!isOpen) return null;
 
-  // Domain categorization and official weights for CompTIA Security+ SY0-701
-  const DOMAINS_CONFIG = [
-    {
-      id: 1,
-      name: 'Dominio 1: Conceptos Generales de Seguridad',
-      shortName: 'D1: Conceptos Generales',
-      weight: 0.12,
-      matchStr: 'Dominio 1'
-    },
-    {
-      id: 2,
-      name: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
-      shortName: 'D2: Amenazas & Mitigaciones',
-      weight: 0.22,
-      matchStr: 'Dominio 2'
-    },
-    {
-      id: 3,
-      name: 'Dominio 3: Arquitectura de Seguridad',
-      shortName: 'D3: Arquitectura de Seguridad',
-      weight: 0.18,
-      matchStr: 'Dominio 3'
-    },
-    {
-      id: 4,
-      name: 'Dominio 4: Operaciones de Seguridad',
-      shortName: 'D4: Operaciones de Seguridad',
-      weight: 0.28,
-      matchStr: 'Dominio 4'
-    },
-    {
-      id: 5,
-      name: 'Dominio 5: Gestión y Supervisión de Programas',
-      shortName: 'D5: Gestión de Programas',
-      weight: 0.20,
-      matchStr: 'Dominio 5'
-    }
-  ];
 
   // Calculate stats per domain
-  const domainStats = DOMAINS_CONFIG.map((d) => {
-    const domainPbqs = pbqs.filter((p) => p.domain.includes(d.matchStr));
+  const domainStats = SY0701_DOMAINS.map((d) => {
+    const domainPbqs = pbqs.filter((p) => getDomainId(p.domain) === d.id);
     const evaluatedInDomain = domainPbqs.filter((p) => scores[p.id]);
     const scoreSum = evaluatedInDomain.reduce((acc, p) => acc + (scores[p.id]?.totalScore || 0), 0);
     const domainPercentage = domainPbqs.length > 0
@@ -100,8 +67,10 @@ export const ExamSummaryModal: React.FC<Props> = ({
     };
   });
 
-  // Weighted CompTIA score calculation
-  const weightedSum = domainStats.reduce((acc, d) => acc + d.percentage * d.weight, 0);
+  // Weighted estimate over the domains present in this set (a 5-PBQ session never covers all five)
+  const presentDomains = domainStats.filter((d) => d.totalCount > 0);
+  const presentWeight = presentDomains.reduce((acc, d) => acc + d.weight, 0) || 1;
+  const weightedSum = presentDomains.reduce((acc, d) => acc + d.percentage * (d.weight / presentWeight), 0);
   const comptiaScaleScore = Math.min(900, Math.max(100, Math.round(100 + weightedSum * 8)));
   const isPassed = comptiaScaleScore >= 750;
 
@@ -143,13 +112,10 @@ export const ExamSummaryModal: React.FC<Props> = ({
             </div>
             <div>
               <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                <span>Reporte Oficial de Evaluación CompTIA Security+ SY0-701</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
-                  Pearson VUE Format
-                </span>
+                <span>{title}</span>
               </h3>
               <p className="text-xs text-slate-400 font-mono">
-                Ponderación por Dominio Oficial (100 - 900 puntos • Corte de Aprobación: 750)
+                Estimación en escala 100-900 ponderada por dominio • Corte orientativo: 750
               </p>
             </div>
           </div>
@@ -196,10 +162,10 @@ export const ExamSummaryModal: React.FC<Props> = ({
                       isPassed ? 'text-emerald-300' : 'text-rose-300'
                     }`}
                   >
-                    {isPassed ? 'APROBADO (PASS)' : 'NO APROBADO (FAIL)'}
+                    {isPassed ? 'NIVEL DE APROBACIÓN' : 'POR DEBAJO DEL CORTE'}
                   </div>
                   <div className="text-xs text-slate-400">
-                    Puntaje Mínimo Requerido: <span className="font-mono font-bold text-white">750</span>
+                    Corte orientativo: <span className="font-mono font-bold text-white">750</span>
                   </div>
                 </div>
               </div>
@@ -214,15 +180,15 @@ export const ExamSummaryModal: React.FC<Props> = ({
                   className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-sky-600 hover:from-cyan-500 hover:to-sky-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-950 ring-1 ring-cyan-400/40 shrink-0"
                 >
                   <Zap className="w-4 h-4 text-amber-300" />
-                  <span>Iniciar Mini-Simulacro Real (5 PBQs)</span>
+                  <span>Nuevo Simulacro con Tiempo</span>
                 </button>
               )}
             </div>
 
             <p className="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800/60 pt-3">
               {isPassed
-                ? '¡Felicidades! Has superado con éxito el estándar de aprobación de CompTIA (750/900). Tu dominio de las 5 áreas clave demuestra que estás listo para enfrentar las PBQs del examen real de Pearson VUE.'
-                : 'Puntuación insuficiente para certificar. En el examen real, las PBQs representan entre el 20% y el 30% del peso inicial de la prueba. Utiliza el diagnóstico por dominio a continuación para enfocar tu estudio.'}
+                ? 'Buen nivel en PBQs. Para confirmar que estás listo, repite simulacros con PBQs que no hayas visto recientemente y con las pistas desactivadas: memorizar una PBQ no es lo mismo que dominar el objetivo.'
+                : 'Por debajo del corte orientativo. Esta estimación solo considera PBQs (el examen real combina PBQs y preguntas de opción múltiple, y CompTIA no publica cómo pondera cada ítem). Usa el diagnóstico por dominio para enfocar el estudio.'}
             </p>
           </div>
 
@@ -234,7 +200,7 @@ export const ExamSummaryModal: React.FC<Props> = ({
                 <span>Desempeño por Dominios Oficiales CompTIA SY0-701</span>
               </h4>
               <span className="text-[11px] text-slate-500 font-mono">
-                Ponderación Total: 100%
+                Peso oficial de cada dominio en el examen
               </span>
             </div>
 
@@ -416,7 +382,7 @@ export const ExamSummaryModal: React.FC<Props> = ({
             className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            Reiniciar Todo el Examen
+            {restartLabel}
           </button>
 
           <button

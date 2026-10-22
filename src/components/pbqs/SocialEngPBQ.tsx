@@ -98,23 +98,23 @@ export const SocialEngPBQ: React.FC<SocialEngPBQProps> = ({
                   className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500"
                 >
                   <option value="unselected">-- Seleccionar Disparador Psicológico --</option>
+                  <option value="consensus">
+                    Consenso / Prueba Social (Consensus / Social Proof: Todos los demás en el sector lo están haciendo)
+                  </option>
                   <option value="authority">
                     Autoridad (Authority: Simular alto rango ejecutivo o directiva legal)
-                  </option>
-                  <option value="urgency">
-                    Urgencia (Urgency: Presión de tiempo límite inmediato para evitar reflexión)
-                  </option>
-                  <option value="scarcity">
-                    Escasez / Curiosidad (Scarcity: Oportunidad exclusiva o acceso a datos confidenciales limitados)
                   </option>
                   <option value="familiarity">
                     Familiaridad / Simpatía (Familiarity / Liking: Fingir cercanía con un colega o proveedor común)
                   </option>
-                  <option value="consensus">
-                    Consenso / Prueba Social (Consensus / Social Proof: Todos los demás en el sector lo están haciendo)
-                  </option>
                   <option value="intimidation">
                     Intimidación (Intimidation: Amenaza de despido, sanción disciplinaria o denuncia)
+                  </option>
+                  <option value="scarcity">
+                    Escasez / Curiosidad (Scarcity: Oportunidad exclusiva o acceso a datos confidenciales limitados)
+                  </option>
+                  <option value="urgency">
+                    Urgencia (Urgency: Presión de tiempo límite inmediato para evitar reflexión)
                   </option>
                 </select>
               </div>
@@ -139,11 +139,11 @@ export const SocialEngPBQ: React.FC<SocialEngPBQProps> = ({
                   <option value="anti_vishing_call_back">
                     Procedimiento de Devolución de Llamada a Número Corporativo Oficial (Call-back Verification)
                   </option>
-                  <option value="disable_usb_mass_storage">
-                    Deshabilitar almacenamiento masivo USB mediante Directiva de Grupo (GPO / EDR Device Control)
-                  </option>
                   <option value="security_awareness_training">
                     Programa continuo de Concienciación en Seguridad y Simulación periódica de Phishing
+                  </option>
+                  <option value="disable_usb_mass_storage">
+                    Deshabilitar almacenamiento masivo USB mediante Directiva de Grupo (GPO / EDR Device Control)
                   </option>
                 </select>
               </div>

@@ -72,9 +72,9 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('targetRto', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="rto_under_2_hours">Menos de 2 Horas (Requerido para cumplir SLA transaccional 99.99%)</option>
             <option value="rto_7_days">7 Días (Aceptable para empresas sin servicios web críticos)</option>
             <option value="rto_24_hours">24 Horas</option>
-            <option value="rto_under_2_hours">Menos de 2 Horas (Requerido para cumplir SLA transaccional 99.99%)</option>
           </select>
         </div>
 
@@ -92,8 +92,8 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('targetRpo', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="rpo_1_week">1 Semana (Copia semanal básica)</option>
             <option value="rpo_24_hours">24 Horas (Pérdida de un día completo de transacciones)</option>
+            <option value="rpo_1_week">1 Semana (Copia semanal básica)</option>
             <option value="rpo_15_minutes">15 Minutos (Replicación continua / síncrona de base de datos)</option>
           </select>
         </div>
@@ -112,9 +112,9 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('recoverySiteType', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="cold_site">Cold Site (Espacio físico sin equipos configurados ni datos cargados)</option>
-            <option value="warm_site">Warm Site (Equipos instalados pero requiere restauración manual de respaldos)</option>
             <option value="hot_site_mirrored">Hot Site / Mirrored Active-Active (Equipos duplicados con datos replicados en tiempo real)</option>
+            <option value="warm_site">Warm Site (Equipos instalados pero requiere restauración manual de respaldos)</option>
+            <option value="cold_site">Cold Site (Espacio físico sin equipos configurados ni datos cargados)</option>
           </select>
         </div>
 
@@ -132,8 +132,8 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('backupRule', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="single_usb">Copia manual en un único disco duro USB conectado al servidor</option>
             <option value="nas_same_subnet">Respaldo exclusivo a un NAS en la misma subred local</option>
+            <option value="single_usb">Copia manual en un único disco duro USB conectado al servidor</option>
             <option value="rule_3_2_1">Regla 3-2-1: 3 Copias de datos, en 2 medios distintos, con 1 copia fuera de sitio (Off-site)</option>
           </select>
         </div>
@@ -152,8 +152,8 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('immutabilityControl', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="no_lock">Sin bloqueo de retención (Los respaldos pueden ser borrados en cualquier momento)</option>
             <option value="shared_smb_folder">Carpeta compartida SMB con permisos de escritura abiertos</option>
+            <option value="no_lock">Sin bloqueo de retención (Los respaldos pueden ser borrados en cualquier momento)</option>
             <option value="worm_immutable_lock">WORM (Write Once, Read Many) / Almacenamiento Inmutable con Bloqueo de Retención y Air-Gap</option>
           </select>
         </div>

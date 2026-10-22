@@ -73,9 +73,9 @@ export const MobileSecurityPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="">-- Seleccionar Directiva --</option>
+            <option value="no_wipe">No hacer nada y esperar que el empleado borre sus correos manualmente</option>
             <option value="full_device_wipe">Full Device Wipe (Borrado de fábrica completo: destruye fotos y datos personales del usuario)</option>
             <option value="selective_wipe">Enterprise Selective Wipe (Borra exclusivamente el contenedor y datos corporativos respetando la privacidad)</option>
-            <option value="no_wipe">No hacer nada y esperar que el empleado borre sus correos manualmente</option>
           </select>
         </div>
 
@@ -94,9 +94,9 @@ export const MobileSecurityPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="">-- Seleccionar Directiva --</option>
-            <option value="mam_container_sandbox">MAM Sandboxing (Contenedor seguro cifrado que bloquea copiar/pegar y compartir hacia apps no corporativas)</option>
             <option value="allow_open_clipboard">Portapapeles abierto entre todas las aplicaciones del dispositivo</option>
             <option value="screenshot_allowed_unrestricted">Capturas de pantalla permitidas libremente</option>
+            <option value="mam_container_sandbox">MAM Sandboxing (Contenedor seguro cifrado que bloquea copiar/pegar y compartir hacia apps no corporativas)</option>
           </select>
         </div>
 
@@ -116,8 +116,8 @@ export const MobileSecurityPBQ: React.FC<Props> = ({
           >
             <option value="">-- Seleccionar Directiva --</option>
             <option value="block_and_quarantine">Bloqueo Inmediato y Cuarentena (Revocar tokens de acceso corporativo automáticamente)</option>
-            <option value="ignore_warning_only">Enviar advertencia por correo y permitir acceso completo</option>
             <option value="allow_custom_rom">Permitir ROMs modificadas sin restricciones</option>
+            <option value="ignore_warning_only">Enviar advertencia por correo y permitir acceso completo</option>
           </select>
         </div>
 
@@ -136,9 +136,9 @@ export const MobileSecurityPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="">-- Seleccionar Directiva --</option>
+            <option value="auto_play_audio">Reproducir tono de alerta continuo</option>
             <option value="disable_camera_microphone">Deshabilitar cámara, micrófono y Wi-Fi ad-hoc automáticamente mediante Geofencing</option>
             <option value="max_brightness">Subir el brillo de la pantalla al 100%</option>
-            <option value="auto_play_audio">Reproducir tono de alerta continuo</option>
           </select>
         </div>
       </div>

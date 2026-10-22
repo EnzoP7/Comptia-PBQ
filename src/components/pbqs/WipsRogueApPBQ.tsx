@@ -116,11 +116,11 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             onChange={(e) => handleFieldChange('threatClassification', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="Unclassified / Ignore">No clasificado / Ignorar evento</option>
             <option value="Interfering AP (Vecino inofensivo)">AP interferente común de empresa vecina</option>
             <option value="Rogue AP / Evil Twin (Gemelo Malicioso Activo)">
               Rogue AP / Evil Twin (Gemelo Malicioso que suplanta red corporativa)
             </option>
+            <option value="Unclassified / Ignore">No clasificado / Ignorar evento</option>
           </select>
         </div>
 
@@ -145,11 +145,11 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             onChange={(e) => handleFieldChange('switchPortAction', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="Monitor Only (Dejar puerto activo)">Dejar puerto activo y solo registrar tráfico</option>
-            <option value="Lower Speed (Bajar velocidad a 10 Mbps)">Reducir velocidad del puerto a 10 Mbps</option>
             <option value="Shutdown Switch Port (Bloquear y apagar Gi1/0/24 via Port Security)">
               Shutdown Switch Port (Apagar inmediatamente el puerto Gi1/0/24 por Port Security)
             </option>
+            <option value="Lower Speed (Bajar velocidad a 10 Mbps)">Reducir velocidad del puerto a 10 Mbps</option>
+            <option value="Monitor Only (Dejar puerto activo)">Dejar puerto activo y solo registrar tráfico</option>
           </select>
         </div>
 
@@ -199,11 +199,11 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             onChange={(e) => handleFieldChange('clientAuthProtocol', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="WPA2-PSK (Clave compartida)">WPA2-Personal PSK (Vulnerable a Evil Twin y captura de handshake)</option>
-            <option value="PEAP-MSCHAPv2 (Sin validación de CA)">PEAP-MSCHAPv2 sin validación (El cliente entrega hash NTLMv2 al Rogue AP)</option>
             <option value="802.1X EAP-TLS (Certificados Mutuos Cliente y Servidor)">
               802.1X EAP-TLS (Autenticación mutua con certificados digitales en ambos extremos)
             </option>
+            <option value="WPA2-PSK (Clave compartida)">WPA2-Personal PSK (Vulnerable a Evil Twin y captura de handshake)</option>
+            <option value="PEAP-MSCHAPv2 (Sin validación de CA)">PEAP-MSCHAPv2 sin validación (El cliente entrega hash NTLMv2 al Rogue AP)</option>
           </select>
         </div>
 

@@ -37,6 +37,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { sound } from '../utils/audio';
+import { SY0701_DOMAINS, getDomainId } from '../data/sy0701Objectives';
 
 interface Props {
   pbqs: PBQItem[];
@@ -44,6 +45,11 @@ interface Props {
   onSelectIndex: (index: number) => void;
   flaggedIds: Set<string>;
   evaluations: { [pbqId: string]: EvaluationResult };
+  /** Exam in progress: show which PBQs were answered, never their score. */
+  hideScores?: boolean;
+  answeredIds?: Set<string>;
+  /** Number PBQs 1..N by position (exam sessions) instead of by catalog number. */
+  numberByPosition?: boolean;
 }
 
 export const PBQNav: React.FC<Props> = ({
@@ -52,6 +58,9 @@ export const PBQNav: React.FC<Props> = ({
   onSelectIndex,
   flaggedIds,
   evaluations,
+  hideScores = false,
+  answeredIds = new Set(),
+  numberByPosition = false,
 }) => {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -139,49 +148,31 @@ export const PBQNav: React.FC<Props> = ({
   };
 
   const categories = [
-    { id: 'all', label: 'Todas las PBQs', count: pbqs.length },
-    { id: 'api-security', label: 'Seguridad APIs / OWASP', count: pbqs.filter((p) => p.category === 'api-security').length },
-    { id: 'soar-automation', label: 'SIEM & SOAR', count: pbqs.filter((p) => p.category === 'soar-automation').length },
-    { id: 'malware-triage', label: 'Triage Malware', count: pbqs.filter((p) => p.category === 'malware-triage').length },
-    { id: 'data-governance', label: 'Gobernanza Datos', count: pbqs.filter((p) => p.category === 'data-governance').length },
-    { id: 'privacy-pets', label: 'Privacidad & PETs', count: pbqs.filter((p) => p.category === 'privacy-pets').length },
-    { id: 'cloud-shared-responsibility', label: 'Cloud Shared Resp.', count: pbqs.filter((p) => p.category === 'cloud-shared-responsibility').length },
-    { id: 'mitre-threat-hunting', label: 'MITRE / Threat Hunt', count: pbqs.filter((p) => p.category === 'mitre-threat-hunting').length },
-    { id: 'port-security', label: 'Puertos & Protocolos', count: pbqs.filter((p) => p.category === 'port-security').length },
-    { id: 'nmap-recon', label: 'Nmap / Escaneo', count: pbqs.filter((p) => p.category === 'nmap-recon').length },
-    { id: 'dns-security', label: 'DNS & DNSSEC', count: pbqs.filter((p) => p.category === 'dns-security').length },
-    { id: 'zero-trust', label: 'Zero Trust ZTA', count: pbqs.filter((p) => p.category === 'zero-trust').length },
-    { id: 'web-hardening', label: 'Hardening Web', count: pbqs.filter((p) => p.category === 'web-hardening').length },
-    { id: 'forensic-hold', label: 'Forense & Custodia', count: pbqs.filter((p) => p.category === 'forensic-hold').length },
-    { id: 'email-security', label: 'Seguridad Correo', count: pbqs.filter((p) => p.category === 'email-security').length },
-    { id: 'wireless-hardening', label: 'WiFi 802.1X WPA3', count: pbqs.filter((p) => p.category === 'wireless-hardening').length },
-    { id: 'cloud-dlp', label: 'Cloud DLP & CASB', count: pbqs.filter((p) => p.category === 'cloud-dlp').length },
-    { id: 'social-engineering', label: 'Ing. Social', count: pbqs.filter((p) => p.category === 'social-engineering').length },
-    { id: 'network-diagram', label: 'Redes / Cloud', count: pbqs.filter((p) => p.category === 'network-diagram').length },
-    { id: 'firewall-acl', label: 'Firewall ACL', count: pbqs.filter((p) => p.category === 'firewall-acl').length },
-    { id: 'log-siem', label: 'SIEM Logs', count: pbqs.filter((p) => p.category === 'log-siem').length },
-    { id: 'endpoint-hardening', label: 'Hardening', count: pbqs.filter((p) => p.category === 'endpoint-hardening').length },
-    { id: 'iam-permissions', label: 'IAM / RBAC', count: pbqs.filter((p) => p.category === 'iam-permissions').length },
-    { id: 'cryptography-vpn', label: 'Cripto / PKI', count: pbqs.filter((p) => p.category === 'cryptography-vpn').length },
-    { id: 'wireless-security', label: 'Wi-Fi / WIPS', count: pbqs.filter((p) => p.category === 'wireless-security').length },
-    { id: 'vulnerability-management', label: 'Vulnerabilidades', count: pbqs.filter((p) => p.category === 'vulnerability-management').length },
-    { id: 'dlp-data-protection', label: 'DLP / Datos', count: pbqs.filter((p) => p.category === 'dlp-data-protection').length },
-    { id: 'incident-response', label: 'Resp. Incidentes', count: pbqs.filter((p) => p.category === 'incident-response').length },
-    { id: 'container-security', label: 'Contenedores', count: pbqs.filter((p) => p.category === 'container-security').length },
-    { id: 'physical-security', label: 'Seguridad Física', count: pbqs.filter((p) => p.category === 'physical-security').length },
-    { id: 'disaster-recovery', label: 'DRP / Resiliencia', count: pbqs.filter((p) => p.category === 'disaster-recovery').length },
-    { id: 'digital-forensics', label: 'Forense / RFC 3227', count: pbqs.filter((p) => p.category === 'digital-forensics').length },
-    { id: 'risk-management', label: 'Gestión de Riesgo', count: pbqs.filter((p) => p.category === 'risk-management').length },
-    { id: 'security-cli', label: 'Comandos CLI', count: pbqs.filter((p) => p.category === 'security-cli').length },
-    { id: 'ids-yara-rules', label: 'IDS & Reglas YARA', count: pbqs.filter((p) => p.category === 'ids-yara-rules').length },
-    { id: 'devsecops-pipeline', label: 'Pipeline DevSecOps', count: pbqs.filter((p) => p.category === 'devsecops-pipeline').length },
-    { id: 'crypto-attacks', label: 'Ataques Cripto', count: pbqs.filter((p) => p.category === 'crypto-attacks').length },
-    { id: 'identity-federation', label: 'SSO & Identidad', count: pbqs.filter((p) => p.category === 'identity-federation').length },
-    { id: 'mobile-security', label: 'Seguridad Móvil MDM', count: pbqs.filter((p) => p.category === 'mobile-security').length },
+    { id: 'all', label: 'Todas', count: pbqs.length },
+    ...SY0701_DOMAINS.map((d) => ({
+      id: `d${d.id}`,
+      label: `D${d.id} (${Math.round(d.weight * 100)}%)`,
+      count: pbqs.filter((p) => getDomainId(p.domain) === d.id).length,
+    })),
+    ...(hideScores
+      ? []
+      : [
+          { id: 'pending', label: 'Sin hacer', count: pbqs.filter((p) => !evaluations[p.id]).length },
+          { id: 'failed', label: 'Falladas', count: pbqs.filter((p) => evaluations[p.id] && !evaluations[p.id].passed).length },
+        ]),
+    { id: 'flagged', label: 'Marcadas', count: pbqs.filter((p) => flaggedIds.has(p.id)).length },
   ];
 
+  const matchesFilter = (p: PBQItem) => {
+    if (categoryFilter === 'all') return true;
+    if (categoryFilter === 'pending') return !evaluations[p.id];
+    if (categoryFilter === 'failed') return !!evaluations[p.id] && !evaluations[p.id].passed;
+    if (categoryFilter === 'flagged') return flaggedIds.has(p.id);
+    return `d${getDomainId(p.domain)}` === categoryFilter;
+  };
+
   const filteredPbqs = pbqs.filter((p) => {
-    const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter;
+    const matchesCategory = matchesFilter(p);
     const matchesSearch =
       searchQuery.trim() === '' ||
       p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -237,8 +228,8 @@ export const PBQNav: React.FC<Props> = ({
           </div>
 
           <div className="text-[11px] text-slate-500 font-mono hidden lg:flex items-center gap-2.5 shrink-0">
-            <span>Evaluadas: <strong className="text-white">{Object.keys(evaluations).length}</strong>/{pbqs.length}</span>
-            <span>Marcadas: <strong className="text-amber-400">{flaggedIds.size}</strong></span>
+            {!hideScores && <span>Evaluadas: <strong className="text-white">{pbqs.filter((p) => evaluations[p.id]).length}</strong>/{pbqs.length}</span>}
+            <span>Marcadas: <strong className="text-amber-400">{pbqs.filter((p) => flaggedIds.has(p.id)).length}</strong></span>
           </div>
         </div>
       </div>
@@ -254,8 +245,9 @@ export const PBQNav: React.FC<Props> = ({
             const actualIndex = pbqs.findIndex((p) => p.id === pbq.id);
             const isSelected = currentIndex === actualIndex;
             const isFlagged = flaggedIds.has(pbq.id);
-            const evalResult = evaluations[pbq.id];
+            const evalResult = hideScores ? undefined : evaluations[pbq.id];
             const hasEvaluated = evalResult !== undefined;
+            const isAnswered = hideScores && answeredIds.has(pbq.id);
 
             return (
               <button
@@ -286,7 +278,7 @@ export const PBQNav: React.FC<Props> = ({
                 </span>
 
                 {/* PBQ Number & Mini Title */}
-                <span className="font-mono font-bold">PBQ {pbq.number}</span>
+                <span className="font-mono font-bold">PBQ {numberByPosition ? actualIndex + 1 : pbq.number}</span>
                 <span className="text-[11px] text-slate-400 max-w-[110px] truncate hidden md:inline">
                   {pbq.title}
                 </span>
@@ -302,6 +294,10 @@ export const PBQNav: React.FC<Props> = ({
                   >
                     {evalResult.totalScore}%
                   </span>
+                )}
+
+                {isAnswered && (
+                  <CheckCircle2 className="w-3 h-3 text-cyan-400 shrink-0" />
                 )}
 
                 {/* Flag indicator icon */}

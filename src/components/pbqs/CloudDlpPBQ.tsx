@@ -105,9 +105,9 @@ export const CloudDlpPBQ: React.FC<CloudDlpPBQProps> = ({
                 >
                   <option value="unselected">-- Seleccionar Clasificación --</option>
                   <option value="public">Público (Public: Sin impacto reputacional ni legal si se divulga)</option>
-                  <option value="internal">Interno (Internal: Solo para empleados, sin datos regulados)</option>
-                  <option value="confidential">Confidencial (Confidential: Propiedad intelectual y datos de negocio)</option>
                   <option value="restricted_pii">Restringido / PII (Restricted: Sujeto a multas regulatorias GDPR/PCI-DSS)</option>
+                  <option value="confidential">Confidencial (Confidential: Propiedad intelectual y datos de negocio)</option>
+                  <option value="internal">Interno (Internal: Solo para empleados, sin datos regulados)</option>
                 </select>
               </div>
 
@@ -122,10 +122,10 @@ export const CloudDlpPBQ: React.FC<CloudDlpPBQProps> = ({
                   className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500"
                 >
                   <option value="unselected">-- Seleccionar Patrón DLP --</option>
-                  <option value="none">Sin inspección DLP (Archivos públicos de libre descarga)</option>
                   <option value="pci_dss_credit_card">DLP PCI-DSS: Detección de números de tarjeta de crédito (PAN) y CVV</option>
-                  <option value="ssn_pii">DLP PII: Detección de Número de Seguro Social (SSN), DNI y fechas de nacimiento</option>
+                  <option value="none">Sin inspección DLP (Archivos públicos de libre descarga)</option>
                   <option value="api_secrets">DLP Secretos: Detección de tokens AWS/GitHub, claves privadas RSA y contraseñas</option>
+                  <option value="ssn_pii">DLP PII: Detección de Número de Seguro Social (SSN), DNI y fechas de nacimiento</option>
                 </select>
               </div>
             </div>
@@ -151,11 +151,11 @@ export const CloudDlpPBQ: React.FC<CloudDlpPBQProps> = ({
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
               <option value="unselected">-- Seleccionar Modo CASB --</option>
-              <option value="casb_reverse_proxy_inline">
-                CASB Inline (Reverse Proxy): Inspecciona cargas en tiempo real y bloquea activamente archivos no autorizados
-              </option>
               <option value="casb_api_offline">
                 CASB Modo API (Asíncrono): Escanea depósitos tras la subida (No previene la fuga inicial de datos)
+              </option>
+              <option value="casb_reverse_proxy_inline">
+                CASB Inline (Reverse Proxy): Inspecciona cargas en tiempo real y bloquea activamente archivos no autorizados
               </option>
               <option value="no_casb">
                 Sin CASB: Confiar únicamente en los permisos manuales asignados por los usuarios
@@ -173,14 +173,14 @@ export const CloudDlpPBQ: React.FC<CloudDlpPBQProps> = ({
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
               <option value="unselected">-- Seleccionar Gestión de Claves --</option>
+              <option value="unencrypted_plaintext">
+                Deshabilitar cifrado en reposo para optimizar la velocidad de lectura y escritura
+              </option>
               <option value="customer_managed_hsm_kms">
                 Customer-Managed Keys (CMK / BYOK) alojadas en módulo HSM FIPS 140-2 Nivel 3 (Máximo control del cliente)
               </option>
               <option value="cloud_provider_default_keys">
                 Claves por defecto administradas por el proveedor cloud (El proveedor puede descifrar los datos)
-              </option>
-              <option value="unencrypted_plaintext">
-                Deshabilitar cifrado en reposo para optimizar la velocidad de lectura y escritura
               </option>
             </select>
           </div>

@@ -76,9 +76,9 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('baseImage', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="ubuntu_full">ubuntu:latest (Imagen completa con curl, bash, python y apt)</option>
             <option value="node_slim">node:18-slim (Imagen estándar con librerías de sistema)</option>
             <option value="distroless_minimal">gcr.io/distroless/static:nonroot (Minimalista, sin shell ni package manager)</option>
+            <option value="ubuntu_full">ubuntu:latest (Imagen completa con curl, bash, python y apt)</option>
           </select>
         </div>
 
@@ -121,9 +121,9 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('secretsManagement', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="env_vars_plain">ENV DB_PASS=Secret123 en Dockerfile (Texto claro en imagen)</option>
             <option value="configmap_unencrypted">ConfigMap plano sin cifrado en etcd</option>
             <option value="vault_csi_kms">HashiCorp Vault / AWS Secrets Manager inyectado en memoria vía CSI Driver</option>
+            <option value="env_vars_plain">ENV DB_PASS=Secret123 en Dockerfile (Texto claro en imagen)</option>
           </select>
         </div>
 

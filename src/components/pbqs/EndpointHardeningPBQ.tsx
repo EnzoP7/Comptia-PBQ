@@ -15,6 +15,7 @@ import {
   Radio,
 } from 'lucide-react';
 import { sound } from '../../utils/audio';
+import { useHints } from '../../context/HintsContext';
 
 interface Props {
   services: ServiceItem[];
@@ -35,6 +36,7 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
   title = 'Consola de Endurecimiento de Endpoint (Security Baseline Manager)',
   subtitle = 'Aplica el principio de deshabilitación de servicios innecesarios y directivas de seguridad CIS/NIST.',
 }) => {
+  const hints = useHints();
   const handleServiceToggle = (id: string) => {
     sound.playToggle();
     const updated = services.map((s) => {
@@ -88,7 +90,7 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
         </div>
 
         <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
-          <div className="text-right">
+          {hints && <div className="text-right">
             <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
               Cumplimiento de Línea Base
             </div>
@@ -109,7 +111,7 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                 {compliancePoints}%
               </span>
             </div>
-          </div>
+          </div>}
 
           <button
             onClick={onReset}
@@ -142,9 +144,9 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                 <div
                   key={svc.id}
                   className={`p-3.5 rounded-xl border transition-colors flex items-center justify-between gap-3 ${
-                    isRunning && svc.isVulnerable
+                    hints && isRunning && svc.isVulnerable
                       ? 'border-rose-900/60 bg-rose-950/15'
-                      : !isRunning && svc.isVulnerable
+                      : hints && !isRunning && svc.isVulnerable
                       ? 'border-emerald-900/50 bg-emerald-950/10'
                       : 'border-slate-800 bg-slate-900/40'
                   }`}
@@ -157,7 +159,7 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                       <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-cyan-300 border border-slate-800">
                         {svc.protocol}/{svc.port}
                       </span>
-                      {svc.isVulnerable && isRunning && (
+                      {hints && svc.isVulnerable && isRunning && (
                         <span className="text-[10px] font-semibold text-rose-400 flex items-center gap-1">
                           <AlertTriangle className="w-3 h-3" /> Inseguro
                         </span>
@@ -250,11 +252,11 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                         }
                         className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
                       />
-                      <div className="flex justify-between text-[10px] text-slate-500">
+                      {hints && <div className="flex justify-between text-[10px] text-slate-500">
                         <span>Débil (6-10)</span>
                         <span>Aceptable (12)</span>
                         <span className="text-emerald-400 font-bold">Recomendado NIST (≥14)</span>
-                      </div>
+                      </div>}
                     </div>
                   )}
 

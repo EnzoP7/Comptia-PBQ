@@ -11,6 +11,8 @@ import {
   Award,
   Keyboard,
   BookMarked,
+  Lightbulb,
+  LightbulbOff,
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 
@@ -22,12 +24,17 @@ interface Props {
   onToggleTimer: () => void;
   isFlagged: boolean;
   onToggleFlag: () => void;
-  onOpenCyberKraft: () => void;
+  onOpenCyberKraft?: () => void;
   onOpenExamSummary: () => void;
   onOpenCheatSheet?: () => void;
   isMuted: boolean;
   onToggleMute: () => void;
   onOpenShortcuts?: () => void;
+  canPauseTimer?: boolean;
+  /** Overrides the default "less than 5 minutes left" warning colour. */
+  timerWarning?: boolean;
+  hintsEnabled?: boolean;
+  onToggleHints?: () => void;
 }
 
 export const Header: React.FC<Props> = ({
@@ -44,6 +51,10 @@ export const Header: React.FC<Props> = ({
   isMuted,
   onToggleMute,
   onOpenShortcuts,
+  canPauseTimer = true,
+  timerWarning,
+  hintsEnabled,
+  onToggleHints,
 }) => {
   const formatTime = (secs: number) => {
     const mins = Math.floor(secs / 60);
@@ -83,7 +94,7 @@ export const Header: React.FC<Props> = ({
               mode === 'exam' ? 'text-cyan-400 font-bold' : ''
             }`}
           >
-            Modo Examen (90 Minutos)
+            Simulacro con Tiempo
           </button>
           {onOpenCheatSheet && (
             <button
@@ -94,13 +105,15 @@ export const Header: React.FC<Props> = ({
               <span>Cheat Sheet & Puertos</span>
             </button>
           )}
-          <button
-            onClick={onOpenCyberKraft}
-            className="transition-colors whitespace-nowrap shrink-0 hover:text-white flex items-center gap-1.5"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Estrategia CyberKraft</span>
-          </button>
+          {onOpenCyberKraft && (
+            <button
+              onClick={onOpenCyberKraft}
+              className="transition-colors whitespace-nowrap shrink-0 hover:text-white flex items-center gap-1.5"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Estrategia CyberKraft</span>
+            </button>
+          )}
           <button
             onClick={onOpenExamSummary}
             className="transition-colors whitespace-nowrap shrink-0 hover:text-white flex items-center gap-1.5"
@@ -138,14 +151,14 @@ export const Header: React.FC<Props> = ({
             </button>
           )}
 
-          <button
+          {onOpenCyberKraft && <button
             onClick={onOpenCyberKraft}
             className="px-4 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors whitespace-nowrap shrink-0 shadow-md shadow-cyan-950 flex items-center gap-2"
           >
             <BookOpen className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Guía CyberKraft</span>
             <span className="sm:hidden">Guía</span>
-          </button>
+          </button>}
         </div>
       </div>
 
@@ -184,17 +197,17 @@ export const Header: React.FC<Props> = ({
             <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-950 border border-slate-800 font-mono">
               <Clock
                 className={`w-3.5 h-3.5 ${
-                  secondsLeft < 300 ? 'text-rose-400 animate-pulse' : 'text-cyan-400'
+                  (timerWarning ?? secondsLeft < 300) ? 'text-rose-400 animate-pulse' : 'text-cyan-400'
                 }`}
               />
               <span
                 className={`text-xs font-bold tabular-nums ${
-                  secondsLeft < 300 ? 'text-rose-400' : 'text-slate-200'
+                  (timerWarning ?? secondsLeft < 300) ? 'text-rose-400' : 'text-slate-200'
                 }`}
               >
                 {formatTime(secondsLeft)}
               </span>
-              <button
+              {canPauseTimer && <button
                 onClick={onToggleTimer}
                 className="text-slate-400 hover:text-white ml-1 p-0.5"
                 title={timerActive ? 'Pausar Temporizador' : 'Iniciar Temporizador'}
@@ -204,8 +217,26 @@ export const Header: React.FC<Props> = ({
                 ) : (
                   <Play className="w-3 h-3 text-emerald-400" />
                 )}
-              </button>
+              </button>}
             </div>
+
+            {onToggleHints && (
+              <button
+                onClick={() => {
+                  sound.playToggle();
+                  onToggleHints();
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-colors text-xs font-semibold ${
+                  hintsEnabled
+                    ? 'bg-amber-950/60 text-amber-300 border-amber-700'
+                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
+                }`}
+                title="Las pistas muestran feedback en vivo (medidores, explicaciones de opciones, simulador). En el examen real no existen."
+              >
+                {hintsEnabled ? <Lightbulb className="w-3.5 h-3.5" /> : <LightbulbOff className="w-3.5 h-3.5" />}
+                <span>{hintsEnabled ? 'Pistas: ON' : 'Pistas: OFF'}</span>
+              </button>
+            )}
 
             {/* Flag for Review Button */}
             <button

@@ -122,11 +122,11 @@ export const CryptoAttacksPBQ: React.FC<Props> = ({
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                   >
                     <option value="">-- Seleccionar Ataque --</option>
-                    <option value="rainbow_table">Rainbow Table Attack (Tablas precomputadas de hashes)</option>
                     <option value="birthday_collision">Birthday Attack / Hash Collision (Paradoja del cumpleaños)</option>
-                    <option value="replay_attack">Replay Attack (Captura y retransmisión de paquetes)</option>
-                    <option value="downgrade_attack">Downgrade Attack / POODLE (Degradación forzada de protocolo)</option>
                     <option value="side_channel">Side-Channel Attack (Consumo eléctrico / acústica)</option>
+                    <option value="downgrade_attack">Downgrade Attack / POODLE (Degradación forzada de protocolo)</option>
+                    <option value="replay_attack">Replay Attack (Captura y retransmisión de paquetes)</option>
+                    <option value="rainbow_table">Rainbow Table Attack (Tablas precomputadas de hashes)</option>
                   </select>
                 </div>
 
@@ -143,11 +143,11 @@ export const CryptoAttacksPBQ: React.FC<Props> = ({
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                   >
                     <option value="">-- Seleccionar Contramedida --</option>
+                    <option value="session_nonces_timestamp">Implementar Nonces de un solo uso, Timestamps y Kerberos</option>
+                    <option value="rot13">Codificar texto plano con ROT13</option>
+                    <option value="hsts_disable_legacy">Forzar HSTS (Strict Transport Security) y deshabilitar SSLv3/TLS 1.0</option>
                     <option value="salting_key_stretching">Salting criptográfico aleatorio con Key Stretching (bcrypt / Argon2)</option>
                     <option value="sha256_larger_space">Migrar a SHA-256 / SHA-512 con mayor espacio de salida (256-bit+)</option>
-                    <option value="session_nonces_timestamp">Implementar Nonces de un solo uso, Timestamps y Kerberos</option>
-                    <option value="hsts_disable_legacy">Forzar HSTS (Strict Transport Security) y deshabilitar SSLv3/TLS 1.0</option>
-                    <option value="rot13">Codificar texto plano con ROT13</option>
                   </select>
                 </div>
               </div>

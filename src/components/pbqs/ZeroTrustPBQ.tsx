@@ -9,6 +9,8 @@ import {
   Lock
 } from 'lucide-react';
 import { ZeroTrustState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
+import { shuffled } from '../../utils/shuffle';
 
 interface ZeroTrustPBQProps {
   state: ZeroTrustState;
@@ -21,6 +23,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
   onChange,
   onReset,
 }) => {
+  const hints = useHints();
   const updateField = (field: keyof ZeroTrustState, value: string) => {
     onChange({ ...state, [field]: value });
   };
@@ -75,11 +78,11 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'pdp_pe_continuous', label: 'PDP / Policy Engine con evaluación contextual en tiempo real', desc: 'Evalúa la identidad del usuario, telemetría del dispositivo, ubicación y postura de seguridad para emitir la decisión de acceso.' },
               { id: 'pdp_static_lan', label: 'Confianza implícita basada en si la IP proviene de la LAN corporativa', desc: 'Modelo perimetral heredado vulnerable; viola el primer principio de Zero Trust.' },
               { id: 'pdp_admin_manual', label: 'Aprobación manual por correo de cada solicitud de acceso', desc: 'No escala y no permite respuesta adaptativa en tiempo real ante amenazas.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('policyDecisionEngine', opt.id)}
@@ -90,7 +93,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-emerald-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -112,11 +115,11 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'pep_edge_microperimeter', label: 'PEP situado en el microperímetro del recurso (Gateway / Agente)', desc: 'Intercepta, autoriza o finaliza la conexión hacia el recurso específico siguiendo estrictamente las instrucciones del PDP.' },
               { id: 'pep_perimeter_router_only', label: 'Únicamente en el router de borde hacia Internet', desc: 'Deja el interior de la red desprotegido ante movimientos laterales.' },
               { id: 'pep_client_dns_cache', label: 'En el archivo hosts local de cada estación de trabajo', desc: 'Fácilmente evadible por atacantes locales.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('policyEnforcementLocation', opt.id)}
@@ -127,7 +130,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-blue-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -149,11 +152,11 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'microsegmentation_least_privilege', label: 'Microsegmentación basada en software con principio de mínimo privilegio', desc: 'Aisla cargas de trabajo individuales; el servidor web solo puede hablar con el puerto de BD autorizado, bloqueando todo lo demás.' },
               { id: 'flat_vlan_allow_all', label: 'Red plana o VLAN compartida sin filtrado interno', desc: 'Permite a un atacante escanear y comprometer cualquier otro servidor interno.' },
               { id: 'port_mirroring_only', label: 'Solo monitoreo pasivo por Port Mirroring (SPAN)', desc: 'Solo observa pasivamente sin bloquear el movimiento lateral.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('networkTrafficControl', opt.id)}
@@ -164,7 +167,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-violet-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -186,11 +189,11 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'continuous_adaptive_risk_validation', label: 'Validación continua adaptativa de riesgo durante toda la sesión', desc: 'Si la postura del endpoint se degrada (antivirus apagado o IP anómala), el PDP revoca de inmediato los tokens activos.' },
               { id: 'session_trust_infinite', label: 'Confiar indefinidamente una vez completado el MFA matutino', desc: 'Ignora si el endpoint fue infectado 5 minutos después del login.' },
               { id: 'reauth_only_after_8_hours', label: 'Reautenticación fija cada 8 horas sin importar eventos intermedios', desc: 'Inadecuado ante incidentes activos en tiempo real.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('continuousTrustEvaluation', opt.id)}
@@ -201,7 +204,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-amber-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>

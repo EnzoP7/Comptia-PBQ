@@ -28,7 +28,7 @@ const PHASE_OPTIONS = [
   { value: 'isolated_forensic_analysis', label: 'Análisis Forense en Copia de Trabajo (Red Aislada/Sandbox)' },
   { value: 'secure_vault_storage', label: 'Custodia de Evidencia Primaria en Caja Fuerte Ignífuga con Doble Custodio' },
   // Distractor options
-  { value: 'reboot_safe_mode', label: 'Reiniciar equipo en Modo Seguro para limpiar temporales (Distractor Inseguro)' },
+  { value: 'reboot_safe_mode', label: 'Reiniciar equipo en Modo Seguro para limpiar temporales' },
   { value: 'copy_paste_explorer', label: 'Copiar y pegar carpetas sensibles a una memoria USB (Distractor No Válido)' }
 ];
 
@@ -232,14 +232,14 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
               <option value="unselected">-- Seleccionar Orden de Volatilidad --</option>
+              <option value="backup_cloud_first">
+                Iniciar copia de seguridad en la nube de todas las carpetas antes de la intervención
+              </option>
               <option value="ram_before_disk">
                 Volcar la Memoria RAM volátil (DumpIt/WinPmem) ANTES de apagar o extraer el Disco Duro
               </option>
               <option value="disk_before_ram">
                 Desenchufar el cable de corriente y clonar primero el Disco Duro para evitar escritura
-              </option>
-              <option value="backup_cloud_first">
-                Iniciar copia de seguridad en la nube de todas las carpetas antes de la intervención
               </option>
             </select>
           </div>
@@ -254,14 +254,14 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
               <option value="unselected">-- Seleccionar Estándar Judicial --</option>
-              <option value="best_evidence_rule">
-                Best Evidence Rule (Regla de la Mejor Evidencia: duplicado bit-a-bit con hash coincidente)
+              <option value="exclusionary_rule">
+                Exclusionary Rule (Descarte automático de toda evidencia digital no firmada por un notario)
               </option>
               <option value="parol_evidence_rule">
                 Parol Evidence Rule (Testimonio verbal del administrador sobre lo que vio en pantalla)
               </option>
-              <option value="exclusionary_rule">
-                Exclusionary Rule (Descarte automático de toda evidencia digital no firmada por un notario)
+              <option value="best_evidence_rule">
+                Best Evidence Rule (Regla de la Mejor Evidencia: duplicado bit-a-bit con hash coincidente)
               </option>
             </select>
           </div>

@@ -9,6 +9,8 @@ import {
   Cpu
 } from 'lucide-react';
 import { NmapScanState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
+import { shuffled } from '../../utils/shuffle';
 
 interface NmapScanPBQProps {
   state: NmapScanState;
@@ -21,6 +23,7 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
   onChange,
   onReset,
 }) => {
+  const hints = useHints();
   const updateScanFlag = (value: string) => {
     onChange({ ...state, scanFlagAnswer: value });
   };
@@ -121,12 +124,12 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {[
+          {shuffled([
             { id: 'sS', label: '-sS (SYN Stealth Scan)', desc: 'Envía paquete SYN; si recibe SYN/ACK responde con RST para no completar la conexión (Half-open).' },
             { id: 'sT', label: '-sT (TCP Connect Scan)', desc: 'Completa todo el handshake TCP de 3 vías (SYN, SYN/ACK, ACK). Es más ruidoso y queda en logs.' },
             { id: 'sU', label: '-sU (UDP Scan)', desc: 'Envía paquetes UDP vacíos hacia puertos UDP (como 53 DNS o 161 SNMP) esperando ICMP unreachable.' },
             { id: 'sX', label: '-sX (Xmas Scan)', desc: 'Activa los flags FIN, PSH y URG encendidos al mismo tiempo (como un árbol de navidad).' },
-          ].map((opt) => (
+          ]).map((opt) => (
             <button
               key={opt.id}
               onClick={() => updateScanFlag(opt.id)}
@@ -137,7 +140,7 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
               }`}
             >
               <div className="font-mono text-xs font-bold text-purple-300">{opt.label}</div>
-              <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>
+              {hints && <div className="text-[11px] text-slate-400 mt-1">{opt.desc}</div>}
             </button>
           ))}
         </div>
@@ -182,17 +185,17 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
                     className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
                   >
                     <option value="">-- Selecciona el riesgo técnico --</option>
+                    <option value="exposed_remote_access">
+                      Servicio de escritorio remoto RDP expuesto directamente a Internet sin intermediación segura
+                    </option>
+                    <option value="eternalblue_rce_risk">
+                      SMBv1 vulnerable a ejecución remota de código EternalBlue (MS17-010 / WannaCry)
+                    </option>
                     <option value="backdoor_compromise">
                       Backdoor malicioso (CVE-2011-2523 en vsftpd 2.3.4 abre shell root en puerto 6200 con smiley ':)')
                     </option>
                     <option value="insecure_cleartext_cli">
                       Servicio Telnet sin cifrado; contraseñas administrativas viajan en texto plano RFC 854
-                    </option>
-                    <option value="eternalblue_rce_risk">
-                      SMBv1 vulnerable a ejecución remota de código EternalBlue (MS17-010 / WannaCry)
-                    </option>
-                    <option value="exposed_remote_access">
-                      Servicio de escritorio remoto RDP expuesto directamente a Internet sin intermediación segura
                     </option>
                   </select>
                 </div>
@@ -208,14 +211,14 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
                     className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500"
                   >
                     <option value="">-- Selecciona la acción de remediación --</option>
-                    <option value="remove_backdoor_replace_sftp">
-                      Eliminar paquete vsftpd comprometido, aislar host y habilitar SFTP sobre SSH (puerto 22)
+                    <option value="disable_smbv1_enforce_smbv3_signing">
+                      Deshabilitar SMBv1 por GPO/PowerShell, actualizar parches y exigir SMBv3 con cifrado y firma
                     </option>
                     <option value="shutdown_telnet_allow_ssh_22">
                       Detener y deshabilitar daemon telnetd; exigir autenticación por clave pública en OpenSSH (puerto 22)
                     </option>
-                    <option value="disable_smbv1_enforce_smbv3_signing">
-                      Deshabilitar SMBv1 por GPO/PowerShell, actualizar parches y exigir SMBv3 con cifrado y firma
+                    <option value="remove_backdoor_replace_sftp">
+                      Eliminar paquete vsftpd comprometido, aislar host y habilitar SFTP sobre SSH (puerto 22)
                     </option>
                     <option value="isolate_rdp_behind_bastion_mfa">
                       Bloquear acceso perimetral a 3389; canalizar RDP detrás de un Bastion Host / VPN con MFA y NLA

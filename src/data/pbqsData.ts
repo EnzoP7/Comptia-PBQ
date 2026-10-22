@@ -79,8 +79,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Diagramas de Red y Ubicación de Controles',
     title: 'Diseño de Perímetro Seguro y Micro-Segmentación',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Security Architecture)',
-    sy0701Objective: 'Objetivo 3.2: Aplicar conceptos de seguridad a la arquitectura y diseño de redes de acuerdo con el escenario.',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.2: Dado un escenario, aplicar principios de seguridad para asegurar la infraestructura empresarial. (relacionado: 2.5)',
     scenario:
       'Una empresa de e-commerce requiere reestructurar su topología perimetral. Necesitan exponer públicamente un servidor web accesible vía HTTPS con mitigación de ataques web (Capa 7) e inspección profunda de paquetes, mientras garantizan que su Base de Datos de pagos permanezca estrictamente aislada en la red interna (LAN). La administración de servidores internos solo debe realizarse mediante un punto de salto seguro.',
     requirements: [
@@ -102,8 +102,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Reglas de Firewall y ACLs',
     title: 'Endurecimiento de Reglas de Firewall Corporativo',
     estimatedMinutes: 5,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Security Architecture)',
-    sy0701Objective: 'Objetivo 3.3: Configurar e interpretar reglas de filtrado de paquetes y listas de control de acceso (ACLs).',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.5: Dado un escenario, modificar las capacidades empresariales para mejorar la seguridad. (relacionado: 3.2)',
     scenario:
       'Un administrador junior configuró el firewall perimetral corporativo dejando brechas de seguridad críticas y reglas en conflicto. La gerencia de Ciberseguridad le ha ordenado auditar y corregir la tabla de reglas: debe bloquear protocolos inseguros no cifrados, permitir administración remota SSH (Puerto 22) ÚNICAMENTE desde la subred interna autorizada de Admins (10.1.0.0/24), habilitar tráfico seguro hacia la DMZ para HTTPS (443) y DNS (53), y asegurar que la regla implícita de denegación funcione correctamente al final.',
     requirements: [
@@ -123,8 +123,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Análisis de Logs e Identificación de Incidentes',
     title: 'Investigación de Paciente Cero y Cadena de Ataque',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (Security Operations)',
-    sy0701Objective: 'Objetivo 4.3: Dados datos de monitoreo, analizar e investigar indicadores de compromiso (IoC) y actividades sospechosas.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.9: Dado un escenario, usar fuentes de datos para apoyar una investigación. (relacionado: 2.4)',
     scenario:
       'El equipo del Centro de Operaciones de Seguridad (SOC) ha recibido múltiples alertas de tráfico anómalo en la red corporativa. Se sospecha una intrusión activa. Utilice el visor SIEM para analizar los eventos correlacionados entre el servidor Apache, el Firewall perimetral, los registros de eventos de Windows (Event ID 4624 y 4625) y los registros de Syslog del endpoint.',
     requirements: [
@@ -145,7 +145,7 @@ export const PBQ_LIST: PBQItem[] = [
     title: 'Aseguramiento de Servidor Web y Líneas Base de Seguridad',
     estimatedMinutes: 4,
     domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
-    sy0701Objective: 'Objetivo 2.4: Aplicar técnicas de endurecimiento (hardening) en sistemas operativos y servicios de red.',
+    sy0701Objective: 'Objetivo 2.5: Explicar el propósito de las técnicas de mitigación usadas para asegurar la empresa. (relacionado: 4.1)',
     scenario:
       'Se ha implementado una nueva máquina virtual con funciones de servidor web crítico en producción. Antes de pasar a producción, el equipo de Auditoría requiere que se apliquen las líneas base de endurecimiento (CIS Benchmarks) según los estándares CompTIA Security+.',
     requirements: [
@@ -167,8 +167,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'IAM, Permisos y Mínimo Privilegio',
     title: 'Resolución de Conflicto de Permisos en Compartición de Archivos',
     estimatedMinutes: 4,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad & Dominio 3: Arquitectura',
-    sy0701Objective: 'Objetivo 1.3: Explicar la importancia del control de acceso y el principio de mínimo privilegio (Least Privilege).',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.6: Dado un escenario, implementar y mantener la gestión de identidades y accesos. (relacionado: 1.2)',
     scenario:
       'Una auditoría interna descubrió anomalías en los permisos del servidor de archivos corporativo: un auditor sénior del departamento de Finanzas no puede modificar las planillas de auditoría en la carpeta de Finanzas, mientras que un practicante de IT (Intern) tiene asignado Control Total accidental sobre la carpeta confidencial de Nómina y Recursos Humanos (HR). Además, la herencia de permisos está provocando propagación indebida.',
     requirements: [
@@ -188,8 +188,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Criptografía y Configuración de VPNs',
     title: 'Conexión Sitio a Sitio IPSec y Cifrado de Datos en Reposo',
     estimatedMinutes: 4,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad & Dominio 3: Arquitectura',
-    sy0701Objective: 'Objetivo 1.4: Seleccionar e implementar conceptos y soluciones criptográficas apropiadas para proteger datos en tránsito y en reposo.',
+    domain: 'Dominio 1: Conceptos Generales de Seguridad',
+    sy0701Objective: 'Objetivo 1.4: Explicar la importancia de usar soluciones criptográficas apropiadas. (relacionado: 3.3)',
     scenario:
       'La empresa necesita interconectar la Oficina Central con una Sucursal remota mediante un túnel VPN IPSec Sitio a Sitio (Site-to-Site) a través de Internet. El túnel debe cumplir con los estándares criptográficos vigentes de NIST y CompTIA SY0-701, eliminando algoritmos obsoletos o con colisiones conocidas. Adicionalmente, se debe seleccionar el estándar adecuado para cifrar la base de datos interna en reposo (At-Rest) y el protocolo de capa de transporte para el portal web.',
     requirements: [
@@ -210,8 +210,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad Inalámbrica (Wireless AP)',
     title: 'Despliegue Wi-Fi Corporativo WPA3 Enterprise',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Security Architecture)',
-    sy0701Objective: 'Objetivo 3.2: Configurar parámetros y controles de seguridad para redes inalámbricas empresariales.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.1: Dado un escenario, aplicar técnicas de seguridad comunes a los recursos informáticos. (relacionado: 3.2)',
     scenario:
       'Usted es el ingeniero de seguridad encargado de configurar un punto de acceso (AP) inalámbrico empresarial que servirá a la red corporativa interna. Debe implementar el estándar más seguro disponible (WPA3 Enterprise con autenticación centralizada 802.1X), mitigar ataques de fuerza bruta y ataques de desautenticación, y evitar que dispositivos clientes infectados ataquen a otros clientes en la misma celda Wi-Fi.',
     requirements: [
@@ -238,8 +238,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Diagramas de Red y Ubicación de Controles',
     title: 'Arquitectura Híbrida Cloud (AWS/Azure) y Zero Trust Ingress',
     estimatedMinutes: 5,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Security Architecture)',
-    sy0701Objective: 'Objetivo 3.1: Comparar y contrastar conceptos de seguridad aplicados a entornos en la nube e híbridos.',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.1: Comparar y contrastar las implicaciones de seguridad de distintos modelos de arquitectura. (relacionado: 3.2)',
     scenario:
       'Una institución bancaria está migrando microservicios transaccionales hacia una Nube Pública (AWS/Azure VPC) mientras conserva su base de datos principal on-premises en su centro de datos privado. Debes diseñar la arquitectura híbrida aplicando principios Zero Trust: inspección perimetral con Cloud WAF en la entrada de la VPC, broker de acceso ZTNA para DevOps, enrutamiento seguro mediante Transit Gateway y Firewall Next-Gen protegiendo el núcleo local.',
     requirements: [
@@ -261,8 +261,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Reglas de Firewall y ACLs',
     title: 'Mitigación de Exfiltración de Datos y Filtrado Egress (Salida)',
     estimatedMinutes: 5,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Security Architecture)',
-    sy0701Objective: 'Objetivo 3.3: Configurar e interpretar reglas de filtrado de paquetes y listas de control de acceso (ACLs).',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.5: Dado un escenario, modificar las capacidades empresariales para mejorar la seguridad. (relacionado: 2.4)',
     scenario:
       'El equipo de Threat Hunting detectó que un host infectado (10.2.0.88) intentó exfiltrar información confidencial mediante DNS Tunneling hacia un servidor DNS externo no autorizado (198.51.100.200) y abrir una reverse shell por el puerto 4444. Debes auditar las reglas de salida (Egress Filtering) en el Firewall perimetral: bloquear puertos maliciosos conocidos, forzar que todas las consultas DNS (UDP 53) salgan EXCLUSIVAMENTE hacia los servidores DNS internos autorizados (10.0.0.53 y 10.0.0.54) y bloquear tráfico de canales C2 IRC (6667).',
     requirements: [
@@ -283,8 +283,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Análisis de Logs e Identificación de Incidentes',
     title: 'Investigación de Phishing, Beaconing C2 y Ataque Kerberos',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (Security Operations)',
-    sy0701Objective: 'Objetivo 4.3: Dados datos de monitoreo, analizar e investigar indicadores de compromiso (IoC) y actividades sospechosas.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.9: Dado un escenario, usar fuentes de datos para apoyar una investigación. (relacionado: 2.4)',
     scenario:
       'Se ha disparado una alarma de criticidad alta en el SIEM. Un empleado del departamento de finanzas recibió un correo malicioso. Registros de Gateway de Correo, Proxy corporativo y Active Directory (Event ID 4769) muestran una intrusión con balizamiento periódico (C2 Beaconing) y una petición anómala de ticket de servicio Kerberos con cifrado débil RC4. Investiga el incidente y toma las medidas de respuesta correspondientes.',
     requirements: [
@@ -306,7 +306,7 @@ export const PBQ_LIST: PBQItem[] = [
     title: 'Endurecimiento de Estación de Trabajo (VBA, Credential Guard & LLMNR)',
     estimatedMinutes: 4,
     domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
-    sy0701Objective: 'Objetivo 2.4: Aplicar técnicas de endurecimiento (hardening) en sistemas operativos y servicios de red.',
+    sy0701Objective: 'Objetivo 2.5: Explicar el propósito de las técnicas de mitigación usadas para asegurar la empresa. (relacionado: 4.1)',
     scenario:
       'Tras un ejercicio de Red Team donde los atacantes lograron envenenar resoluciones de nombres en la red local y extraer hashes de memoria LSASS, se te solicita implementar la línea base de endurecimiento de estaciones de trabajo Windows 11 corporativas para mitigar ataques de tipo Responder y robo de credenciales en memoria.',
     requirements: [
@@ -328,8 +328,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'IAM, Permisos y Mínimo Privilegio',
     title: 'Políticas de Acceso Condicional (Conditional Access) y Zero Trust',
     estimatedMinutes: 5,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad & Dominio 3: Arquitectura',
-    sy0701Objective: 'Objetivo 1.3: Explicar la importancia del control de acceso y el principio de mínimo privilegio (Least Privilege).',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.6: Dado un escenario, implementar y mantener la gestión de identidades y accesos. (relacionado: 1.2)',
     scenario:
       'Un proveedor de salud en la nube requiere configurar políticas de Acceso Condicional (Conditional Access) y Zero Trust para empleados que acceden a historiales médicos (EHR). Se debe garantizar cumplimiento HIPAA: forzar MFA resistente a phishing (FIDO2), bloquear accesos desde ubicaciones geográficas de alto riesgo, exigir dispositivos conformes (MDM Compliant) y aplicar acceso Just-In-Time (JIT/PIM) para administradores globales.',
     requirements: [
@@ -350,8 +350,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Criptografía y Configuración de VPNs',
     title: 'Diagnóstico de Errores en Cadena de Certificados PKI y Web TLS',
     estimatedMinutes: 5,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad (PKI & Criptografía)',
-    sy0701Objective: 'Objetivo 1.4: Seleccionar e implementar conceptos y soluciones criptográficas apropiadas para proteger datos en tránsito y en reposo.',
+    domain: 'Dominio 1: Conceptos Generales de Seguridad',
+    sy0701Objective: 'Objetivo 1.4: Explicar la importancia de usar soluciones criptográficas apropiadas.',
     scenario:
       'Los clientes que ingresan al portal bancario seguro están recibiendo alertas críticas del navegador: "SEC_ERROR_UNKNOWN_ISSUER" y "Certificate Name Mismatch". Al auditar el servidor web, descubres que se utilizó un certificado firmado con algoritmo débil, sin incluir la CA intermedia en el bundle, y omitiendo la extensión SAN (Subject Alternative Name). Corrige la configuración de la PKI y el certificado del servidor.',
     requirements: [
@@ -373,8 +373,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad Inalámbrica (Wireless AP)',
     title: 'Detección y Mitigación de Rogue AP y Ataques Evil Twin (WIPS)',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad & Dominio 2: Amenazas',
-    sy0701Objective: 'Objetivo 3.2: Configurar parámetros y controles de seguridad para redes inalámbricas empresariales.',
+    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
+    sy0701Objective: 'Objetivo 2.4: Dado un escenario, analizar indicadores de actividad maliciosa. (relacionado: 4.1)',
     scenario:
       'El Sistema de Prevención de Intrusiones Inalámbricas (WIPS) de la sede corporativa ha detectado un Punto de Acceso No Autorizado (Rogue AP / Evil Twin) transmitiendo el mismo SSID corporativo (CORP-STAFF) con una dirección MAC desconocida y señal muy fuerte. Algunos empleados han reportado ventanas de autenticación falsas solicitando sus credenciales de dominio. Debes desplegar las contramedidas inmediatas para mitigar la amenaza.',
     requirements: [
@@ -395,8 +395,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Gestión y Remediación de Vulnerabilidades',
     title: 'Priorización de Vulnerabilidades CVSS v3.1 y Remediación Táctica',
     estimatedMinutes: 5,
-    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
-    sy0701Objective: 'Objetivo 2.3: Analizar reportes de vulnerabilidades y priorizar acciones tácticas de mitigación y parcheo.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.3: Explicar las actividades asociadas con la gestión de vulnerabilidades.',
     scenario:
       'El escáner de vulnerabilidades (Nessus/Qualys) ejecutó un análisis autenticado sobre la infraestructura corporativa descubriendo 4 fallos críticos: Log4j RCE (CVSS 10.0), Apache HTTP Path Traversal (CVSS 7.5), SSLv3 POODLE y Suites Débiles en OpenSSH. Como analista de ciberseguridad, debes analizar cada CVE y asignar la acción de remediación técnica y táctica más efectiva para mitigar el riesgo.',
     requirements: [
@@ -417,8 +417,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Protección de Datos y DLP',
     title: 'Clasificación de Información Sensible y Controles DLP en 3 Estados',
     estimatedMinutes: 4,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad & Dominio 3: Arquitectura',
-    sy0701Objective: 'Objetivo 1.4: Seleccionar e implementar conceptos y soluciones criptográficas y de DLP para proteger datos en tránsito, en reposo y en uso.',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.3: Comparar y contrastar conceptos y estrategias para proteger los datos. (relacionado: 4.5)',
     scenario:
       'Una empresa farmacéutica almacena fórmulas patentadas, registros médicos (HIPAA/PII) y transacciones de clientes. La auditoría exige proteger estos activos en sus tres estados del ciclo de vida: Datos en Reposo (At-Rest), Datos en Tránsito (In-Transit) y Datos en Uso (In-Use). Asigna los controles de seguridad criptográficos y de prevención de fugas (DLP) idóneos.',
     requirements: [
@@ -439,8 +439,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Respuesta a Incidentes (NIST SP 800-61r2)',
     title: 'Secuencia del Ciclo de Vida de Respuesta a Incidentes NIST',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (Security Operations)',
-    sy0701Objective: 'Objetivo 4.4: Aplicar técnicas apropiadas de respuesta a incidentes según el ciclo de vida oficial (NIST SP 800-61 / ISO 27035).',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.8: Explicar las actividades apropiadas de respuesta a incidentes.',
     scenario:
       'Un ataque de Ransomware ha sido detectado en una estación de finanzas intentando cifrar carpetas compartidas de la red. El equipo CSIRT debe ejecutar el plan de respuesta según el estándar NIST SP 800-61r2. Asigna cada una de las 6 acciones tácticas a la fase oficial que le corresponde.',
     requirements: [
@@ -463,8 +463,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad en Contenedores y Kubernetes',
     title: 'Endurecimiento de Contenedores Docker y Pods de Kubernetes',
     estimatedMinutes: 4,
-    domain: 'Dominio 2: Amenazas & Dominio 3: Arquitectura',
-    sy0701Objective: 'Objetivo 2.4: Aplicar técnicas de endurecimiento (hardening) en contenedores, microservicios y plataformas en la nube.',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.1: Comparar y contrastar las implicaciones de seguridad de distintos modelos de arquitectura. (relacionado: 2.5)',
     scenario:
       'El equipo de DevOps desplegó un microservicio en un clúster de Kubernetes usando imágenes con privilegios de root y sin directivas de red, permitiendo que un atacante intente un escape de contenedor (Container Breakout). Aplica los controles del CIS Kubernetes Benchmark para endurecer la especificación del pod.',
     requirements: [
@@ -486,8 +486,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad Física y Ambiental de Instalaciones',
     title: 'Diseño de Seguridad Física y Protección de Centro de Datos',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Physical Security)',
-    sy0701Objective: 'Objetivo 3.4: Explicar la importancia de la seguridad física de las instalaciones y aplicar controles ambientales apropiados.',
+    domain: 'Dominio 1: Conceptos Generales de Seguridad',
+    sy0701Objective: 'Objetivo 1.2: Resumir conceptos fundamentales de seguridad.',
     scenario:
       'Estás a cargo de certificar la seguridad física de un nuevo centro de datos corporativo de alta criticidad (Tier III). Debes seleccionar las defensas físicas en capas para detener ataques vehiculares, prevenir accesos no autorizados a la sala de servidores (tailgating), extinguir incendios sin arruinar el hardware y mitigar espionaje por señales electromagnéticas.',
     requirements: [
@@ -509,8 +509,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Continuidad de Negocio y Recuperación (DRP)',
     title: 'Continuidad de Negocio, Cálculo de RTO/RPO y Resiliencia',
     estimatedMinutes: 5,
-    domain: 'Dominio 5: Gestión y Supervisión de Programas de Seguridad',
-    sy0701Objective: 'Objetivo 5.3: Explicar conceptos de continuidad del negocio, recuperación ante desastres y cálculos de resiliencia operacional.',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.4: Explicar la importancia de la resiliencia y la recuperación en la arquitectura de seguridad. (relacionado: 5.2)',
     scenario:
       'Un banco comercial en línea requiere actualizar su Plan de Recuperación ante Desastres (DRP) para cumplir un Acuerdo de Nivel de Servicio (SLA) de 99.99% de disponibilidad. Debes definir las métricas clave de tiempo y pérdida de datos tolerables (RTO y RPO), seleccionar el tipo de sitio alternativo de contingencia y configurar la arquitectura de respaldos inmutables.',
     requirements: [
@@ -533,7 +533,7 @@ export const PBQ_LIST: PBQItem[] = [
     title: 'Identificación de Vectores de Ingeniería Social y Factores Humanos',
     estimatedMinutes: 4,
     domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
-    sy0701Objective: 'Objetivo 2.1: Comparar y contrastar tipos comunes de amenazas de ingeniería social y principios humanos de influencia.',
+    sy0701Objective: 'Objetivo 2.2: Explicar vectores de amenaza y superficies de ataque comunes. (relacionado: 5.6)',
     scenario:
       'El departamento de Recursos Humanos y el SOC recibieron reportes de 4 incidentes sospechosos ocurridos durante la misma semana. Analiza las evidencias de cada incidente y clasifica: el vector de ataque técnico, el principio psicológico de influencia (Robert Cialdini) utilizado por el atacante y la contramedida de seguridad recomendada.',
     requirements: [
@@ -554,8 +554,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Forense Digital y Cadena de Custodia',
     title: 'Orden Forense de Volatilidad (RFC 3227) y Verificación de Integridad',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (Digital Forensics)',
-    sy0701Objective: 'Objetivo 4.5: Explicar aspectos clave de la informática forense digital y aplicar la cadena de custodia y orden de volatilidad.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.8: Explicar las actividades apropiadas de respuesta a incidentes.',
     scenario:
       'Un servidor de transferencias bancarias ha sido comprometido mediante una inyección de memoria activa. Como perito informático forense asignado, debes recolectar las evidencias digitales asegurando la validez legal ante un tribunal. Ordena los 6 tipos de evidencia desde la más volátil (que se destruiría inmediatamente si el equipo se desconecta) hasta la menos volátil según el estándar RFC 3227, y activa los controles de integridad criptográfica y no repudio.',
     requirements: [
@@ -576,17 +576,14 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Gestión y Evaluación de Riesgos',
     title: 'Análisis Cuantitativo de Riesgo (Fórmulas SLE, ARO, ALE) y Tratamiento',
     estimatedMinutes: 5,
-    domain: 'Dominio 5: Gestión y Supervisión de Programas de Seguridad',
-    sy0701Objective: 'Objetivo 5.2: Explicar elementos clave de la gestión del riesgo de seguridad e interpretar fórmulas de riesgo cuantitativo.',
+    domain: 'Dominio 5: Gestión y Supervisión del Programa de Seguridad',
+    sy0701Objective: 'Objetivo 5.2: Explicar los elementos del proceso de gestión de riesgos.',
     scenario:
-      'La gerencia de riesgos requiere cuantificar el impacto financiero potencial de incidentes en el servidor transaccional valorado en $200,000 USD, con un factor de exposición (EF) del 40% y una tasa anual de ocurrencia (ARO) de 0.5 eventos al año (una vez cada dos años). Calcula los valores matemáticos de SLE y ALE, y asigna la estrategia oficial de tratamiento de riesgo (Mitigar, Transferir, Aceptar, Evitar) para 4 amenazas específicas de la empresa.',
+      'La gerencia de riesgos requiere cuantificar el impacto financiero potencial de incidentes en el servidor transaccional. El panel muestra el valor del activo (AV), el factor de exposición (EF) y la frecuencia de ocurrencia; los valores cambian en cada intento. Calcula SLE y ALE, y asigna la estrategia de tratamiento de riesgo adecuada a 4 amenazas específicas de la empresa.',
     requirements: [
-      'Calcula el SLE (Single Loss Expectancy): multiplica el Valor del Activo ($200,000) por el Factor de Exposición (0.40) para obtener el costo por incidente.',
-      'Calcula el ALE (Annualized Loss Expectancy): multiplica el SLE obtenido por el ARO (0.5) para determinar la pérdida anualizada.',
-      'Amenaza 1 (Caída eléctrica con control de UPS/Generador de costo accesible): asigna "Mitigar" (Mitigate).',
-      'Amenaza 2 (Riesgo financiero de demandas legales de clientes por brecha): asigna "Transferir" (Transfer / Ciberseguro).',
-      'Amenaza 3 (Error estético menor con costo de arreglo muy superior a la pérdida): asigna "Aceptar" (Accept / Tolerancia formal).',
-      'Amenaza 4 (Servicio legado riesgoso sin uso de negocio): asigna "Evitar" (Avoid / Desmantelar servicio).'
+      'Calcula el SLE (Single Loss Expectancy) del incidente.',
+      'Calcula el ALE (Annualized Loss Expectancy) a partir del SLE y la frecuencia anual.',
+      'Asigna a cada una de las 4 amenazas la estrategia de tratamiento más adecuada: Mitigar, Transferir, Aceptar o Evitar.'
     ],
     tacticalTip:
       'CyberKraft Tip: Memoriza las fórmulas doradas: SLE = AV × EF; ALE = SLE × ARO. Si el costo del control anual es menor que el ALE, se Mitiga. Si el riesgo se cubre con póliza, se Transfiere. Si el costo de mitigar supera el daño, se Acepta formalmente. Si el servicio se cancela por riesgoso, se Evita.'
@@ -600,8 +597,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Autenticación y Seguridad de Correo',
     title: 'Defensa de Correo Electrónico: Registros DNS SPF, DKIM y DMARC',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Email Protection)',
-    sy0701Objective: 'Objetivo 3.3: Configurar e interpretar controles de seguridad para la autenticación y protección del correo electrónico.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.5: Dado un escenario, modificar las capacidades empresariales para mejorar la seguridad.',
     scenario:
       'Un atacante está enviando correos fraudulentos a clientes usando la dirección ceo@corp.com para solicitar transferencias financieras (Ataque BEC / Spoofing). Como arquitecto de seguridad, debes configurar los registros DNS públicos de autenticación de correo del dominio para que los servidores destinatarios del mundo rechacen y reporten cualquier correo falsificado.',
     requirements: [
@@ -622,8 +619,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Herramientas y Diagnóstico por Consola CLI',
     title: 'Diagnóstico Táctico de Amenazas por Comandos de Consola (Linux / Windows)',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (Security Tools)',
-    sy0701Objective: 'Objetivo 4.2: Dados un escenario, usar las herramientas de software y comandos de terminal apropiados para evaluar la seguridad de la organización.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.9: Dado un escenario, usar fuentes de datos para apoyar una investigación. (relacionado: 4.4)',
     scenario:
       'Durante una guardia en el SOC, se detecta telemetría anómala en un servidor crítico de producción. Debes interactuar con la consola de comandos de terminal para auditar puertos abiertos y PIDs, capturar tráfico de red en vivo, calcular hashes de integridad de binarios del sistema para detectar troyanos y asegurar permisos octales de archivos sensibles.',
     requirements: [
@@ -644,8 +641,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'IDS/IPS Snort y Reglas YARA',
     title: 'Ingeniería de Detección: Reglas NIPS Snort y Reglas YARA para Malware',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (IDS & Detection Engineering)',
-    sy0701Objective: 'Objetivo 4.3: Configurar e interpretar reglas de detección basadas en firmas y heurísticas para IDS/IPS y análisis de malware.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.5: Dado un escenario, modificar las capacidades empresariales para mejorar la seguridad. (relacionado: 4.4)',
     scenario:
       'Los sensores NIPS del perímetro y los agentes EDR del endpoint requieren nuevas firmas de detección ante una campaña activa de robo de credenciales y explotación SQL. Como analista de detección e ingeniería del SOC, debes construir una regla de Snort para descartar (drop) en línea peticiones HTTP con inyecciones SQL ciegas ("UNION SELECT") y configurar los parámetros de una regla YARA que identifique binarios ejecutables Windows PE maliciosos invocando PowerShell codificado.',
     requirements: [
@@ -666,8 +663,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'DevSecOps y Ciclo de Vida Seguro (SDLC)',
     title: 'Integración Shift-Left de Seguridad en el Pipeline CI/CD',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad (DevSecOps)',
-    sy0701Objective: 'Objetivo 3.1: Explicar conceptos de seguridad en el ciclo de vida de desarrollo de software (SDLC) y pipelines DevSecOps.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.1: Dado un escenario, aplicar técnicas de seguridad comunes a los recursos informáticos. (relacionado: 3.1)',
     scenario:
       'La organización ha adoptado una cultura DevSecOps y necesita implementar el principio "Shift-Left", detectando debilidades de seguridad lo más temprano posible en el pipeline de entrega continua. Posiciona la herramienta y control de seguridad óptimo en cada una de las 4 fases del pipeline: Commit de código, Compilación (Build), Pruebas (Test/Staging) y Despliegue a Producción (Deploy).',
     requirements: [
@@ -688,8 +685,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Ataques Criptográficos y Criptoanálisis',
     title: 'Identificación de Ataques Criptográficos y Selección de Contramedidas',
     estimatedMinutes: 5,
-    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones (Cryptographic Attacks)',
-    sy0701Objective: 'Objetivo 2.2: Comparar y contrastar tipos comunes de ataques criptográficos y seleccionar las contramedidas adecuadas.',
+    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
+    sy0701Objective: 'Objetivo 2.4: Dado un escenario, analizar indicadores de actividad maliciosa. (relacionado: 1.4)',
     scenario:
       'El equipo de seguridad ha recibido cuatro reportes de incidentes criptográficos en diversos sistemas. Analiza los síntomas descritos en cada caso, clasifica la técnica exacta de ataque criptográfico empleada (Rainbow Tables, Birthday Attack / Hash Collision, Replay Attack, Downgrade Attack) y selecciona la contramedida criptográfica matemática adecuada.',
     requirements: [
@@ -710,8 +707,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Federación de Identidades y Single Sign-On',
     title: 'Arquitectura de Autenticación Federada, Tokens y Single Sign-On (SSO)',
     estimatedMinutes: 4,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad (Identity & Access)',
-    sy0701Objective: 'Objetivo 1.3: Explicar soluciones comunes de autenticación, autorización e identidad federada en la nube.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.6: Dado un escenario, implementar y mantener la gestión de identidades y accesos.',
     scenario:
       'La empresa está migrando su infraestructura a un modelo multi-nube híbrido y requiere estandarizar el acceso corporativo sin que los usuarios tengan que recordar múltiples contraseñas. Diseña la arquitectura de identidad seleccionando el protocolo exacto para SSO corporativo web, delegación de permisos en APIs, autenticación en apps móviles y aprovisionamiento automático de cuentas.',
     requirements: [
@@ -732,8 +729,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Gestión y Políticas de Seguridad Móvil (MDM/MAM)',
     title: 'Consola de Directivas de Dispositivos Móviles Empresariales (MDM / MAM / BYOD)',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Mobile Security)',
-    sy0701Objective: 'Objetivo 3.2: Configurar directivas y controles de seguridad para dispositivos móviles (MDM/MAM/BYOD).',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.1: Dado un escenario, aplicar técnicas de seguridad comunes a los recursos informáticos.',
     scenario:
       'El CISO ha autorizado un programa de "Trae tu propio dispositivo" (BYOD) para smartphones de empleados junto con teléfonos corporativos (COPE). Debes configurar la política oficial en la consola de Mobile Device Management (MDM) garantizando la privacidad de los empleados y protegiendo al mismo tiempo la información clasificada de la empresa.',
     requirements: [
@@ -754,8 +751,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Puertos y Protocolos Críticos (Port Mastery)',
     title: 'Auditoría de Puertos en Texto Plano y Migración Criptográfica de Red',
     estimatedMinutes: 5,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Puertos y Protocolos)',
-    sy0701Objective: 'Objetivo 3.3: Explicar conceptos de seguridad de redes y puertos de comunicación bien conocidos y seguros.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.5: Dado un escenario, modificar las capacidades empresariales para mejorar la seguridad. (relacionado: 2.5)',
     scenario:
       'Una auditoría perimetral e interna ha detectado 8 servicios activos ejecutándose en puertos y protocolos de texto plano o desprotegidos. Para cada servicio auditado, diagnostica la vulnerabilidad intrínseca, asigna el puerto seguro oficial exigido por CompTIA, selecciona el protocolo criptográfico sustituto y define la regla de remediación.',
     requirements: [
@@ -780,8 +777,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Reconocimiento y Escaneo de Puertos Nmap',
     title: 'Interpretación de Escaneo Nmap y Hardening Táctico de Puertos Abiertos',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (Nmap Port Reconnaissance)',
-    sy0701Objective: 'Objetivo 4.2: Analizar los resultados de herramientas de escaneo de vulnerabilidades y reconocimiento de puertos de red.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.3: Explicar las actividades asociadas con la gestión de vulnerabilidades. (relacionado: 5.5)',
     scenario:
       'El equipo SOC ha recibido la salida de un escaneo de puertos de Nmap sobre el servidor interno 10.0.5.25. Debes identificar la técnica de escaneo stealth empleada y analizar cuatro puertos abiertos con riesgos críticos (vsftpd 2.3.4 con backdoor en puerto 21, Telnet en puerto 23, SMBv1 vulnerable a EternalBlue en puerto 445 y RDP expuesto en 3389), aplicando la remediación oficial.',
     requirements: [
@@ -803,8 +800,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad en Servicios de Nombres DNS y DNSSEC',
     title: 'Hardening de Infraestructura DNS, Cifrado DoT y Mitigación de Ataques',
     estimatedMinutes: 4,
-    domain: 'Dominio 3: Arquitectura de Seguridad (DNS Security)',
-    sy0701Objective: 'Objetivo 3.3: Implementar protocolos seguros de resolución de nombres y controles de seguridad DNS.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.5: Dado un escenario, modificar las capacidades empresariales para mejorar la seguridad. (relacionado: 3.2)',
     scenario:
       'Tras un intento de envenenamiento de caché (DNS Poisoning) y un intento de transferencia no autorizada de zona completa mediante dig axfr, debes endurecer la infraestructura DNS corporativa configurando registros DNSSEC, cifrado de transporte DoT, restricciones de zona y mitigando la recursión abierta.',
     requirements: [
@@ -825,8 +822,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Arquitectura Zero Trust y Microsegmentación',
     title: 'Implementación de Zero Trust Architecture (ZTA) según NIST SP 800-207',
     estimatedMinutes: 5,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad (Zero Trust Architecture)',
-    sy0701Objective: 'Objetivo 1.4: Explicar la importancia de la Arquitectura Zero Trust (ZTA) y sus principios rectores según NIST SP 800-207.',
+    domain: 'Dominio 1: Conceptos Generales de Seguridad',
+    sy0701Objective: 'Objetivo 1.2: Resumir conceptos fundamentales de seguridad. (relacionado: 3.2)',
     scenario:
       'La empresa abandona el modelo perimetral tradicional (castillo y foso) para adoptar Zero Trust. Configura la arquitectura alineada a NIST SP 800-207 definiendo el Policy Decision Point (PDP) / Policy Engine (PE), el Policy Enforcement Point (PEP), la microsegmentación del tráfico lateral (Este-Oeste) y la evaluación continua adaptativa.',
     requirements: [
@@ -847,8 +844,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Hardening de Servidores Web y Cabeceras HTTP',
     title: 'Blindaje de Aplicaciones Web: Cabeceras de Seguridad y TLS 1.3',
     estimatedMinutes: 4,
-    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones (Web Server Hardening)',
-    sy0701Objective: 'Objetivo 2.4: Implementar configuraciones seguras de servidores web y cabeceras de respuesta HTTP para mitigar ataques a aplicaciones web.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.1: Dado un escenario, aplicar técnicas de seguridad comunes a los recursos informáticos. (relacionado: 2.5)',
     scenario:
       'Un escaneo DAST detectó vulnerabilidades en el portal web corporativo: ausencia de forzado HTTPS, riesgo de inyección de scripts (XSS), susceptibilidad a Clickjacking (UI Redressing) y protocolos TLS obsoletos. Aplica las cabeceras de seguridad HTTP oficiales y asegura la configuración criptográfica del servidor web.',
     requirements: [
@@ -869,8 +866,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Forense Digital, E-Discovery y Cadena de Custodia',
     title: 'Procedimiento de Retención Judicial (Legal Hold), Adquisición Bit-a-Bit y Admisibilidad',
     estimatedMinutes: 5,
-    domain: 'Dominio 4: Operaciones de Seguridad (Digital Forensics)',
-    sy0701Objective: 'Objetivo 4.5: Aplicar técnicas forenses digitales apropiadas y mitigar la contaminación de la evidencia.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.8: Explicar las actividades apropiadas de respuesta a incidentes.',
     scenario:
       'Tras detectarse una exfiltración masiva de secretos comerciales por un empleado desleal, la empresa recibe una notificación de Legal Hold de la fiscalía. Debes ordenar las 6 fases cronológicas obligatorias del procedimiento pericial y responder a dos principios probatorios fundamentales para garantizar la validez judicial bajo la Best Evidence Rule.',
     requirements: [
@@ -895,8 +892,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'PKI, Certificados X.509 y Gestión de Claves',
     title: 'Gestión de Ciclo de Vida PKI, Formatos X.509 (.PFX/.PEM), OCSP Stapling y Key Escrow',
     estimatedMinutes: 5,
-    domain: 'Dominio 3: Arquitectura de Seguridad (PKI Lifecycle & X.509)',
-    sy0701Objective: 'Objetivo 3.4: Explicar la importancia de las soluciones de criptografía y la infraestructura de clave pública (PKI).',
+    domain: 'Dominio 1: Conceptos Generales de Seguridad',
+    sy0701Objective: 'Objetivo 1.4: Explicar la importancia de usar soluciones criptográficas apropiadas.',
     scenario:
       'Como administrador de la PKI corporativa, debes resolver cinco requerimientos arquitectónicos: verificar la revocación de certificados en tiempo real sin sobrecargar a la CA ni filtrar la navegación de los clientes (OCSP Stapling), seleccionar el formato binario que agrupa el certificado y la clave privada protegida con contraseña (.PFX / PKCS#12), identificar el formato ASCII Base64 estándar para servidores Linux (.PEM), proteger múltiples dominios bajo un mismo certificado (extensión SAN) e implementar la recuperación de claves cifradas de empleados sin riesgo de abuso (Key Escrow con M-de-N).',
     requirements: [
@@ -918,8 +915,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad Inalámbrica Empresarial (802.1X / WPA3)',
     title: 'Arquitectura WiFi Corporativa: WPA3-Enterprise, 802.1X EAP-TLS y WIPS',
     estimatedMinutes: 5,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Wireless Hardening)',
-    sy0701Objective: 'Objetivo 3.3: Implementar protocolos y configuraciones de seguridad para redes inalámbricas corporativas.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.1: Dado un escenario, aplicar técnicas de seguridad comunes a los recursos informáticos. (relacionado: 3.2)',
     scenario:
       'La empresa sufrió un ataque de Evil Twin (Gemelo Malvado) donde atacantes clonaron el SSID para robar credenciales. Debes diseñar la arquitectura inalámbrica corporativa definitiva: estándar WPA3-Enterprise modo 192 bits (Suite-B), método 802.1X EAP-TLS con certificados mutuos, puertos estándar del servidor RADIUS (1812/1813), handshake SAE para WPA3-Personal y despliegue de WIPS con supresión RF automática.',
     requirements: [
@@ -941,8 +938,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Protección de Datos en la Nube (Cloud DLP & CASB)',
     title: 'Clasificación de Datos en Cloud Storage, Reglas Regex DLP y CASB Inline',
     estimatedMinutes: 5,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad (Data Protection & Cloud)',
-    sy0701Objective: 'Objetivo 1.2: Clasificar la información y aplicar controles de protección y prevención de fuga de datos en la nube.',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.3: Comparar y contrastar conceptos y estrategias para proteger los datos. (relacionado: 4.5)',
     scenario:
       'Una auditoría reveló cuatro depósitos de almacenamiento cloud (S3 / Blob) con datos corporativos expuestos. Clasifica cada depósito en su nivel de confidencialidad oficial (Público, Interno, Confidencial, Restringido/PII), asigna el filtro regex de inspección DLP adecuado (tarjetas PCI-DSS, SSN de nóminas, secretos API), y configura el broker CASB en modo Inline con claves gestionadas por el cliente (Customer-Managed Keys en Cloud HSM).',
     requirements: [
@@ -965,8 +962,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Ingeniería Social y Vectores de Amenaza Humana',
     title: 'Matriz de Ataques de Ingeniería Social, Disparadores Psicológicos y Defensas',
     estimatedMinutes: 5,
-    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones (Social Engineering)',
-    sy0701Objective: 'Objetivo 2.1: Analizar técnicas de ataque basadas en ingeniería social y factores humanos de persuasión.',
+    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
+    sy0701Objective: 'Objetivo 2.2: Explicar vectores de amenaza y superficies de ataque comunes. (relacionado: 5.6)',
     scenario:
       'El departamento de seguridad analiza 5 ataques dirigidos recientes: un intento de BEC al CFO fingiendo ser el CEO, una llamada de vishing urgente al Helpdesk, memorias USB dejadas en el estacionamiento, un pretexting de cambio de cuenta bancaria de un proveedor y un ataque de Watering Hole en el portal de la asociación del sector. Identifica el disparador psicológico de persuasión y la contramedida primaria para cada vector.',
     requirements: [
@@ -988,8 +985,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad Cloud y Modelo de Responsabilidad Compartida',
     title: 'Matriz de Responsabilidad Compartida en la Nube (IaaS vs PaaS vs SaaS)',
     estimatedMinutes: 5,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Cloud Security)',
-    sy0701Objective: 'Objetivo 3.1: Comparar y contrastar conceptos de seguridad aplicados a entornos en la nube (Shared Responsibility Model).',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.1: Comparar y contrastar las implicaciones de seguridad de distintos modelos de arquitectura.',
     scenario:
       'La organización opera servicios en entornos multi-cloud híbridos (AWS EC2, Azure App Services y Microsoft 365). Debes delimitar con precisión la responsabilidad operativa y de seguridad (Cliente vs Proveedor Cloud / CSP) en cada capa del stack tecnológico para evitar brechas por configuración desatendida.',
     requirements: [
@@ -1012,8 +1009,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Operaciones de Seguridad, SIEM y MITRE ATT&CK',
     title: 'Investigación de Ataques a Active Directory, Telemetría SIEM y MITRE ATT&CK',
     estimatedMinutes: 6,
-    domain: 'Dominio 4: Operaciones de Seguridad (Threat Hunting & SIEM)',
-    sy0701Objective: 'Objetivo 4.3: Analizar e investigar indicadores de compromiso (IoC) y actividades sospechosas mediante telemetría SIEM.',
+    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
+    sy0701Objective: 'Objetivo 2.4: Dado un escenario, analizar indicadores de actividad maliciosa. (relacionado: 4.9)',
     scenario:
       'El equipo del Centro de Operaciones de Seguridad (SOC) ha detectado múltiples alertas de telemetría en los Domain Controllers y endpoints corporativos. Correlaciona cada escenario de ataque con su técnica oficial MITRE ATT&CK, su Event ID forense característico en Windows Security Logs y la mitigación oficial prescrita por CompTIA.',
     requirements: [
@@ -1035,8 +1032,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Gobernanza de Datos, Roles y Sanitización NIST SP 800-88',
     title: 'Gobernanza de Datos, Roles de Custodia, Estados del Dato y Sanitización',
     estimatedMinutes: 6,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad (Data Governance & Lifecycle)',
-    sy0701Objective: 'Objetivo 1.2: Explicar la importancia de la clasificación, gobernanza de datos, privacidad y cumplimiento normativo.',
+    domain: 'Dominio 5: Gestión y Supervisión del Programa de Seguridad',
+    sy0701Objective: 'Objetivo 5.1: Resumir los elementos de una gobernanza de seguridad eficaz. (relacionado: 4.2)',
     scenario:
       'Eres el Chief Information Security Officer (CISO) de una corporación multinacional regulada por GDPR e ISO 27001. Debes estructurar la política corporativa de gobernanza asignando los roles clave (Data Owner, Data Steward, Data Custodian, DPO), estableciendo las medidas técnicas para los tres estados del dato (en tránsito, en reposo y en uso), y definiendo la metodología de sanitización certificada según NIST SP 800-88 Rev 1 para el desmantelamiento de medios de almacenamiento.',
     requirements: [
@@ -1056,8 +1053,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Privacidad y Tecnologías de Mejora de la Privacidad (PETs)',
     title: 'Técnicas de Ofuscación de Datos, PETs y Niveles de Reversibilidad',
     estimatedMinutes: 5,
-    domain: 'Dominio 1: Conceptos Generales de Seguridad (Privacy Enhancing Technologies)',
-    sy0701Objective: 'Objetivo 1.2: Clasificar la información y aplicar conceptos de privacidad y tecnologías de mejora de la privacidad (PETs).',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.3: Comparar y contrastar conceptos y estrategias para proteger los datos.',
     scenario:
       'Un banco y proveedor de servicios sanitarios necesita armonizar sus operaciones con PCI-DSS v4.0, HIPAA y GDPR. Para cada caso de negocio, debes seleccionar la tecnología de preservación de privacidad (PET) idónea (Tokenización, Enmascaramiento Estático o Dinámico, Anonimización o Seudonimización) y especificar su grado de reversibilidad técnica.',
     requirements: [
@@ -1079,8 +1076,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Análisis Forense y Clasificación de Malware (Parte 1)',
     title: 'Triage de Malware: Amenazas a Endpoints, Criptografía y Persistencia en Memoria',
     estimatedMinutes: 6,
-    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones (Malware Triage)',
-    sy0701Objective: 'Objetivo 2.2: Analizar indicadores asociados con ataques de malware y seleccionar la mitigación técnica adecuada.',
+    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
+    sy0701Objective: 'Objetivo 2.4: Dado un escenario, analizar indicadores de actividad maliciosa.',
     scenario:
       'Como analista de respuesta a incidentes del SOC Tier 2, has recibido cinco alertas críticas de estaciones de trabajo y servidores corporativos. A partir de los síntomas clínicos observados y los registros de telemetría forense, identifica la cepa exacta de malware (Ransomware, RAT, Rootkit de Kernel, Spyware/InfoStealer o Malware Sin Archivos / Fileless) y prescribe la acción técnica de remediación obligatoria según los estándares de CompTIA y NIST.',
     requirements: [
@@ -1102,8 +1099,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Análisis Forense y Clasificación de Malware (Parte 2)',
     title: 'Triage de Malware: Amenazas de Red, Código Latente y Evasión Polimórfica',
     estimatedMinutes: 6,
-    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones (Network & Advanced Malware)',
-    sy0701Objective: 'Objetivo 2.2: Comparar y contrastar tipos de malware y aplicar controles de remediación basados en telemetría de red y endpoint.',
+    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
+    sy0701Objective: 'Objetivo 2.4: Dado un escenario, analizar indicadores de actividad maliciosa.',
     scenario:
       'El centro de comando de ciberseguridad monitorea una serie de anomalías de red y fallos imprevistos en la infraestructura. Examina los registros de tráfico, patrones de comunicación C2 y telemetría de procesos para clasificar cada amenaza (Gusano de Red, Botnet Zombi, Bomba Lógica, Cryptojacking o Malware Polimórfico) y ejecutar la estrategia de contención correspondiente.',
     requirements: [
@@ -1125,8 +1122,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Seguridad en Desarrollo de Software (SDLC) & OWASP API Top 10',
     title: 'Auditoría de Seguridad de APIs REST: BOLA, SSRF, JWT Tampering y Rate Limiting',
     estimatedMinutes: 6,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Application & API Security)',
-    sy0701Objective: 'Objetivo 3.4: Aplicar conceptos de seguridad al ciclo de vida del desarrollo de software (SDLC) y arquitectura de APIs seguras.',
+    domain: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones',
+    sy0701Objective: 'Objetivo 2.3: Explicar varios tipos de vulnerabilidades. (relacionado: 4.1)',
     scenario:
       'Como DevSecOps Engineer en una fintech multinacional, debes auditar cinco endpoints REST expuestos al público y microservicios internos que presentan fallos críticos de seguridad. Analiza las peticiones HTTP/cURL, payloads JSON y código de backend para identificar la vulnerabilidad según OWASP API Top 10 y prescribir el control técnico de remediación estricto según los estándares de CompTIA Security+ SY0-701.',
     requirements: [
@@ -1148,8 +1145,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Operaciones de SOC, SIEM & Automatización SOAR',
     title: 'Ingeniería de Detección en SIEM y Playbooks Automatizados en SOAR',
     estimatedMinutes: 6,
-    domain: 'Dominio 4: Operaciones de Seguridad (SIEM Correlation & SOAR Automation)',
-    sy0701Objective: 'Objetivo 4.2: Explicar las características de la automatización y orquestación de la seguridad (SOAR) y la correlación de eventos en el SIEM.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.7: Explicar la importancia de la automatización y orquestación en las operaciones seguras. (relacionado: 4.4)',
     scenario:
       'El Centro de Operaciones de Seguridad (SOC) Tier 2 recibe una avalancha de registros y alertas de múltiples fuentes (Active Directory, EDR, NGFW, Cloud IdP y Proxies). Como SOC Automation Engineer, debes construir reglas de correlación SIEM precisas para detectar amenazas en tiempo real y diseñar playbooks de respuesta automatizada en la plataforma SOAR para contener los incidentes sin intervención humana inmediata, reduciendo el MTTD y MTTR.',
     requirements: [
@@ -1171,8 +1168,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Configuración de Firewall de Próxima Generación (Tier S - Alta Probabilidad)',
     title: 'Filtrado de Tráfico Multi-Interfaz: WAN, DMZ Pública, LAN Interna y Base de Datos PCI-DSS',
     estimatedMinutes: 6,
-    domain: 'Dominio 3: Arquitectura de Seguridad (Security Architecture & Network Security)',
-    sy0701Objective: 'Objetivo 3.2: Aplicar conceptos de seguridad al diseño y segmentación de redes perimetrales e internas.',
+    domain: 'Dominio 3: Arquitectura de Seguridad',
+    sy0701Objective: 'Objetivo 3.2: Dado un escenario, aplicar principios de seguridad para asegurar la infraestructura empresarial. (relacionado: 4.5)',
     scenario:
       'Una entidad bancaria despliega un nuevo Firewall de Próxima Generación (NGFW) que interconecta cuatro zonas de red: WAN (Internet pública), DMZ (172.16.10.0/24), LAN Corporativa (10.0.20.0/24) y la Subred Aislada PCI-DSS (10.0.30.0/24) que contiene la Base de Datos transaccional PostgreSQL. Como Security Engineer, debes configurar la tabla de reglas ACL respetando estrictamente el principio de First-Match y Menor Privilegio para permitir servicios web y de correo en la DMZ, habilitar consultas de la DMZ a la base de datos interna, permitir salida web segura a los empleados y bloquear categóricamente cualquier intento de conexión directa desde el exterior o la DMZ hacia la LAN corporativa y la base de datos.',
     requirements: [
@@ -1196,8 +1193,8 @@ export const PBQ_LIST: PBQItem[] = [
     categoryTitle: 'Auditoría de Puertos y Protocolos Empresariales (Tier S - Alta Probabilidad)',
     title: 'Hardening de Infraestructura y Migración de Protocolos Legados (SOC 2 / ISO 27001)',
     estimatedMinutes: 6,
-    domain: 'Dominio 1 & 3: Conceptos Generales de Seguridad y Arquitectura de Redes',
-    sy0701Objective: 'Objetivo 1.2: Comparar y contrastar protocolos de red seguros e inseguros y aplicar técnicas de remediación.',
+    domain: 'Dominio 4: Operaciones de Seguridad',
+    sy0701Objective: 'Objetivo 4.5: Dado un escenario, modificar las capacidades empresariales para mejorar la seguridad. (relacionado: 5.4)',
     scenario:
       'Una auditoría de cumplimiento regulatorio (SOC 2 Type II y PCI-DSS v4) identificó seis servicios corporativos críticos ejecutando protocolos legados en texto plano o configuraciones de acceso remoto deficientes. Como Lead Security Architect, debes auditar cada servicio, identificar el vector de riesgo exacto según el temario oficial de CompTIA Security+ SY0-701, determinar el puerto y protocolo seguro de reemplazo, y especificar el control técnico de hardening correspondiente.',
     requirements: [
@@ -1284,35 +1281,35 @@ export const INITIAL_NETWORK_SLOTS_PBQ1: NetworkZoneSlot[] = [
   {
     slotId: 'slot-edge',
     zone: 'perimeter',
-    title: 'Filtro Perimetral en Línea (Borde)',
+    title: 'Posición A: Borde Internet ⟶ Red corporativa',
     currentPlacedId: null,
     allowedRoleHint: 'Inspección y mitigación activa de ataques antes de ingresar a la red'
   },
   {
     slotId: 'slot-dmz-front',
     zone: 'dmz_front',
-    title: 'Filtro Capa 7 Web (DMZ Ingress)',
+    title: 'Posición B: Entrada a la DMZ (delante de los servidores web)',
     currentPlacedId: null,
     allowedRoleHint: 'Inspección profunda de peticiones HTTP/HTTPS hacia Web Servers'
   },
   {
     slotId: 'slot-boundary',
     zone: 'boundary',
-    title: 'Firewall de Segmentación (DMZ ⟷ LAN)',
+    title: 'Posición C: Frontera DMZ ⟷ LAN interna',
     currentPlacedId: null,
     allowedRoleHint: 'Aislamiento estricto y control de estado entre DMZ y LAN interna'
   },
   {
     slotId: 'slot-mgmt',
     zone: 'mgmt',
-    title: 'Acceso Administrativo Seguro (Jump Box)',
+    title: 'Posición D: Segmento de administración',
     currentPlacedId: null,
     allowedRoleHint: 'Punto único de acceso endurecido para mantenimiento de sistemas'
   },
   {
     slotId: 'slot-lan-auth',
     zone: 'lan_core',
-    title: 'Autenticación Centralizada (LAN)',
+    title: 'Posición E: Core de la LAN interna',
     currentPlacedId: null,
     allowedRoleHint: 'Servidor interno de autenticación de identidades corporativas'
   }
@@ -1380,35 +1377,35 @@ export const INITIAL_NETWORK_SLOTS_PBQ8: NetworkZoneSlot[] = [
   {
     slotId: 'slot-cloud-edge',
     zone: 'cloud_edge',
-    title: 'Cloud Edge Ingress (Entrada VPC)',
+    title: 'Posición A: Borde de la VPC (Internet ⟶ Cloud)',
     currentPlacedId: null,
     allowedRoleHint: 'Inspección de aplicaciones web y escudo anti-DDoS antes de ingresar a la VPC'
   },
   {
     slotId: 'slot-cloud-transit',
     zone: 'cloud_transit',
-    title: 'Enrutador Híbrido Inter-Conexión',
+    title: 'Posición B: Enlace VPC ⟷ Data Center',
     currentPlacedId: null,
     allowedRoleHint: 'Punto de interconexión central cifrada entre VPC Cloud y Data Center On-Prem'
   },
   {
     slotId: 'slot-cloud-ztna',
     zone: 'cloud_priv',
-    title: 'Control de Acceso de DevOps (Zero Trust)',
+    title: 'Posición C: Acceso de ingenieros DevOps remotos',
     currentPlacedId: null,
     allowedRoleHint: 'Broker de acceso contextual para administradores sin acceso a toda la red'
   },
   {
     slotId: 'slot-onprem-edge',
     zone: 'onprem_edge',
-    title: 'Filtro Perimetral On-Premises (Data Center)',
+    title: 'Posición D: Perímetro del Data Center on-prem',
     currentPlacedId: null,
     allowedRoleHint: 'Next-Gen Firewall para inspeccionar el tráfico procedente del enlace híbrido'
   },
   {
     slotId: 'slot-onprem-idp',
     zone: 'onprem_core',
-    title: 'Proveedor de Identidades Federadas',
+    title: 'Posición E: Servicio de identidad corporativo',
     currentPlacedId: null,
     allowedRoleHint: 'Servicio de autenticación corporativa interna para federación Cloud'
   }
@@ -1427,7 +1424,7 @@ export const INITIAL_FIREWALL_RULES_PBQ2: FirewallRule[] = [
     sourcePort: 'ANY',
     destIp: '192.168.1.10',
     destPort: '22',
-    description: 'Administración SSH remota desde Internet (VULNERABLE)',
+    description: 'Administración SSH remota desde Internet',
     enabled: true
   },
   {
@@ -1475,7 +1472,7 @@ export const INITIAL_FIREWALL_RULES_PBQ2: FirewallRule[] = [
     sourcePort: 'ANY',
     destIp: '192.168.2.10',
     destPort: '80',
-    description: 'Permitir HTTP en texto plano (Inseguro)',
+    description: 'Permitir HTTP en texto plano',
     enabled: true
   }
 ];
@@ -1899,7 +1896,7 @@ export const SIEM_QUESTIONS_PBQ10: SiemQuestionsConfig = {
 export const INITIAL_SERVICES_PBQ4: ServiceItem[] = [
   {
     id: 'svc-telnet',
-    name: 'Telnet Service (Inseguro)',
+    name: 'Telnet Service',
     port: 23,
     protocol: 'TCP',
     currentStatus: 'running',
@@ -1909,7 +1906,7 @@ export const INITIAL_SERVICES_PBQ4: ServiceItem[] = [
   },
   {
     id: 'svc-ftp',
-    name: 'FTP Service (Inseguro)',
+    name: 'FTP Service',
     port: 21,
     protocol: 'TCP',
     currentStatus: 'running',
@@ -1919,7 +1916,7 @@ export const INITIAL_SERVICES_PBQ4: ServiceItem[] = [
   },
   {
     id: 'svc-smbv1',
-    name: 'SMBv1 File Sharing (Obsoleto)',
+    name: 'SMBv1 File Sharing',
     port: 445,
     protocol: 'TCP',
     currentStatus: 'running',
@@ -1979,7 +1976,7 @@ export const INITIAL_SECURITY_POLICIES_PBQ4: SecurityPolicyItem[] = [
     options: [
       { value: 0, label: 'Deshabilitado (0 intentos)' },
       { value: 3, label: '3 intentos fallidos' },
-      { value: 5, label: '5 intentos fallidos (Recomendado)' },
+      { value: 5, label: '5 intentos fallidos' },
       { value: 10, label: '10 intentos fallidos' }
     ],
     description: 'Bloquea la cuenta temporalmente para mitigar ataques de contraseña automatizados por fuerza bruta.'
@@ -2003,7 +2000,7 @@ export const INITIAL_SECURITY_POLICIES = INITIAL_SECURITY_POLICIES_PBQ4;
 export const INITIAL_SERVICES_PBQ11: ServiceItem[] = [
   {
     id: 'svc-llmnr',
-    name: 'LLMNR Name Resolution (Vulnerable)',
+    name: 'LLMNR Name Resolution',
     port: 5355,
     protocol: 'UDP',
     currentStatus: 'running',
@@ -2059,7 +2056,7 @@ export const INITIAL_SECURITY_POLICIES_PBQ11: SecurityPolicyItem[] = [
     currentValue: 'Unrestricted',
     targetValue: 'AllSigned',
     options: [
-      { value: 'Unrestricted', label: 'Unrestricted (Sin restricciones - Inseguro)' },
+      { value: 'Unrestricted', label: 'Unrestricted (Sin restricciones)' },
       { value: 'RemoteSigned', label: 'RemoteSigned (Solo scripts locales)' },
       { value: 'AllSigned', label: 'AllSigned (Obligatorio firma digital válida de CA)' },
       { value: 'Restricted', label: 'Restricted (No permite ningún script)' }
@@ -2477,42 +2474,42 @@ export const INITIAL_FORENSIC_STATE_PBQ22: ForensicVerificationState = {
   evidenceItems: [
     {
       id: 'ev-tapes',
-      name: '6. Cintas Magnéticas de Archivo y Backups Fuera de Línea',
+      name: 'Cintas Magnéticas de Archivo y Backups Fuera de Línea',
       description: 'Copias de seguridad guardadas en caja ignífuga o bóveda desconectada (Media no volátil permanente).',
       currentOrder: 1,
       targetOrder: 6,
     },
     {
       id: 'ev-disk',
-      name: '4. Disco Duro Local / Almacenamiento SSD no Volátil',
+      name: 'Disco Duro Local / Almacenamiento SSD no Volátil',
       description: 'Sistemas de archivos ext4/NTFS, particiones locales, archivos del SO y registros locales.',
       currentOrder: 2,
       targetOrder: 4,
     },
     {
       id: 'ev-cpu',
-      name: '1. Registros de CPU, Memoria Caché del Procesador',
+      name: 'Registros de CPU, Memoria Caché del Procesador',
       description: 'Instrucciones ejecutándose en tiempo real; se pierden en nanosegundos al desconectar energía.',
       currentOrder: 3,
       targetOrder: 1,
     },
     {
       id: 'ev-remote',
-      name: '5. Logs Remotos y Telemetría Centralizada SIEM / Syslog',
+      name: 'Logs Remotos y Telemetría Centralizada SIEM / Syslog',
       description: 'Eventos transmitidos fuera del equipo a un recolector centralizado en la red.',
       currentOrder: 4,
       targetOrder: 5,
     },
     {
       id: 'ev-ram',
-      name: '2. Memoria RAM (Routing Table, Conexiones Activas, ARP)',
+      name: 'Memoria RAM (Routing Table, Conexiones Activas, ARP)',
       description: 'Procesos inyectados en RAM, claves de cifrado en memoria y sockets TCP/UDP abiertos.',
       currentOrder: 5,
       targetOrder: 2,
     },
     {
       id: 'ev-swap',
-      name: '3. Espacio de Intercambio (Swap / Pagefile) y Temporales',
+      name: 'Espacio de Intercambio (Swap / Pagefile) y Temporales',
       description: 'Páginas de memoria volcadas a disco virtual temporal.',
       currentOrder: 6,
       targetOrder: 3,
@@ -3293,6 +3290,7 @@ export const INITIAL_SOAR_AUTOMATION_PBQ48: SoarAutomationState = {
 // PBQ 49: Advanced Stateful Firewall ACLs & DMZ Multi-Tier Filtering
 // --------------------------------------------------------
 export const INITIAL_FIREWALL_RULES_PBQ49: FirewallRule[] = [
+  // Deliberate misconfigurations to find: first-match order, least privilege to the DB, DMZ isolation, wrong service ports.
   {
     id: 'fw49-rule-1',
     ruleNumber: 10,
@@ -3306,23 +3304,35 @@ export const INITIAL_FIREWALL_RULES_PBQ49: FirewallRule[] = [
     enabled: true
   },
   {
-    id: 'fw49-rule-2',
+    id: 'fw49-rule-7',
     ruleNumber: 20,
+    action: 'DENY',
+    protocol: 'ANY',
+    sourceIp: '0.0.0.0/0',
+    sourcePort: 'ANY',
+    destIp: '0.0.0.0/0',
+    destPort: 'ANY',
+    description: 'Denegación Implícita Final (Implicit Deny Any Any)',
+    enabled: true
+  },
+  {
+    id: 'fw49-rule-2',
+    ruleNumber: 30,
     action: 'PERMIT',
     protocol: 'TCP',
     sourceIp: '0.0.0.0/0',
     sourcePort: 'ANY',
     destIp: '172.16.10.20',
-    destPort: '465',
+    destPort: '110',
     description: 'Permitir recepción de correo seguro SMTPS desde WAN hacia Pasarela DMZ',
     enabled: true
   },
   {
     id: 'fw49-rule-3',
-    ruleNumber: 30,
+    ruleNumber: 40,
     action: 'PERMIT',
     protocol: 'TCP',
-    sourceIp: '172.16.10.10',
+    sourceIp: '172.16.10.0/24',
     sourcePort: 'ANY',
     destIp: '10.0.30.50',
     destPort: '5432',
@@ -3331,8 +3341,8 @@ export const INITIAL_FIREWALL_RULES_PBQ49: FirewallRule[] = [
   },
   {
     id: 'fw49-rule-4',
-    ruleNumber: 40,
-    action: 'DENY',
+    ruleNumber: 50,
+    action: 'PERMIT',
     protocol: 'ANY',
     sourceIp: '172.16.10.0/24',
     sourcePort: 'ANY',
@@ -3343,19 +3353,19 @@ export const INITIAL_FIREWALL_RULES_PBQ49: FirewallRule[] = [
   },
   {
     id: 'fw49-rule-5',
-    ruleNumber: 50,
+    ruleNumber: 60,
     action: 'PERMIT',
     protocol: 'TCP',
     sourceIp: '10.0.20.0/24',
     sourcePort: 'ANY',
     destIp: '0.0.0.0/0',
-    destPort: '443',
+    destPort: '80',
     description: 'Salida web HTTPS segura para estaciones de trabajo de la LAN corporativa',
     enabled: true
   },
   {
     id: 'fw49-rule-6',
-    ruleNumber: 60,
+    ruleNumber: 70,
     action: 'DENY',
     protocol: 'ANY',
     sourceIp: '0.0.0.0/0',
@@ -3363,18 +3373,6 @@ export const INITIAL_FIREWALL_RULES_PBQ49: FirewallRule[] = [
     destIp: '10.0.30.0/24',
     destPort: 'ANY',
     description: 'Bloqueo explícito de acceso directo desde WAN hacia Subred de Base de Datos PCI-DSS',
-    enabled: true
-  },
-  {
-    id: 'fw49-rule-7',
-    ruleNumber: 70,
-    action: 'DENY',
-    protocol: 'ANY',
-    sourceIp: '0.0.0.0/0',
-    sourcePort: 'ANY',
-    destIp: '0.0.0.0/0',
-    destPort: 'ANY',
-    description: 'Denegación Implícita Final (Implicit Deny Any Any)',
     enabled: true
   }
 ];

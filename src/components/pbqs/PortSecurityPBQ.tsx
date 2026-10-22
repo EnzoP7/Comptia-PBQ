@@ -278,17 +278,8 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
               >
                 <option value="">-- Selecciona el riesgo o vulnerabilidad del protocolo --</option>
-                <option value="cleartext_credentials">
-                  Transmite credenciales y comandos en texto plano sin cifrar (vulnerable a sniffing/MITM)
-                </option>
-                <option value="unencrypted_web_traffic">
-                  Navegación web y cookies de sesión viajan en claro sin TLS (vulnerable a session hijacking)
-                </option>
                 <option value="unencrypted_directory_queries">
                   Consultas y credenciales de Active Directory viajan sin cifrar por la red
-                </option>
-                <option value="cleartext_ftp_credentials">
-                  Autenticación RFC 959 y transferencia de archivos confidenciales en texto plano
                 </option>
                 <option value="cleartext_community_strings">
                   Usa cadenas de comunidad ('community strings') en texto claro sin autenticación criptográfica
@@ -299,8 +290,17 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
                 <option value="wan_exposed_bruteforce">
                   Expuesto directamente a Internet, susceptible a ataques de fuerza bruta masiva y exploits
                 </option>
+                <option value="cleartext_credentials">
+                  Transmite credenciales y comandos en texto plano sin cifrar (vulnerable a sniffing/MITM)
+                </option>
+                <option value="cleartext_ftp_credentials">
+                  Autenticación RFC 959 y transferencia de archivos confidenciales en texto plano
+                </option>
                 <option value="cleartext_dns_eavesdropping">
                   Consultas en texto claro permiten rastreo de navegación, espionaje y envenenamiento de caché
+                </option>
+                <option value="unencrypted_web_traffic">
+                  Navegación web y cookies de sesión viajan en claro sin TLS (vulnerable a session hijacking)
                 </option>
               </select>
             </div>
@@ -320,16 +320,16 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
                   className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm font-mono text-emerald-400 font-bold focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
                 >
                   <option value="">-- Puerto Seguro --</option>
-                  <option value="22">Puerto 22 (SSH / SFTP)</option>
-                  <option value="443">Puerto 443 (HTTPS / TLS)</option>
                   <option value="636">Puerto 636 (LDAPS)</option>
+                  <option value="443">Puerto 443 (HTTPS / TLS)</option>
                   <option value="161">Puerto 161 (SNMPv3 authPriv)</option>
+                  <option value="22">Puerto 22 (SSH / SFTP)</option>
                   <option value="853">Puerto 853 (DoT - DNS over TLS)</option>
-                  <option value="6514">Puerto 6514 (Syslog-over-TLS)</option>
-                  <option value="3389">Puerto 3389 (RDP tras VPN/NLA)</option>
                   <option value="990">Puerto 990 (FTPS)</option>
-                  <option value="993">Puerto 993 (IMAPS)</option>
                   <option value="995">Puerto 995 (POP3S)</option>
+                  <option value="6514">Puerto 6514 (Syslog-over-TLS)</option>
+                  <option value="993">Puerto 993 (IMAPS)</option>
+                  <option value="3389">Puerto 3389 (RDP tras VPN/NLA)</option>
                 </select>
               </div>
 
@@ -344,14 +344,14 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
                   className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-cyan-300 font-semibold focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
                 >
                   <option value="">-- Protocolo Seguro --</option>
-                  <option value="SSH">SSH (Secure Shell)</option>
-                  <option value="HTTPS">HTTPS (TLS 1.3)</option>
                   <option value="LDAPS">LDAPS (LDAP sobre TLS con Channel Binding)</option>
-                  <option value="SFTP">SFTP (SSH File Transfer Protocol)</option>
                   <option value="SNMPv3">SNMPv3 (authPriv con SHA + AES)</option>
-                  <option value="Syslog-TLS">Syslog-over-TLS (TCP 6514)</option>
-                  <option value="VPN_NLA">VPN con MFA + NLA (Network Level Authentication)</option>
+                  <option value="SFTP">SFTP (SSH File Transfer Protocol)</option>
                   <option value="DoT_DoH">DoT (DNS over TLS) / DoH con DNSSEC</option>
+                  <option value="HTTPS">HTTPS (TLS 1.3)</option>
+                  <option value="VPN_NLA">VPN con MFA + NLA (Network Level Authentication)</option>
+                  <option value="Syslog-TLS">Syslog-over-TLS (TCP 6514)</option>
+                  <option value="SSH">SSH (Secure Shell)</option>
                 </select>
               </div>
             </div>
@@ -367,14 +367,17 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
               >
                 <option value="">-- Selecciona la directiva de remediación exacta --</option>
-                <option value="block_legacy_enforce_ssh">
-                  Bloquear puerto 23 en firewall, desinstalar paquete telnet-server y habilitar OpenSSH en puerto 22
-                </option>
-                <option value="redirect_301_to_https">
-                  Configurar redirección permanente HTTP 301 hacia HTTPS (443) y deshabilitar métodos HTTP inseguros
-                </option>
                 <option value="enforce_ldaps_channel_binding">
                   Exigir LDAPS en puerto 636 y habilitar LDAP Channel Binding y firma obligatoria en Domain Controllers
+                </option>
+                <option value="enforce_tls_syslog_6514">
+                  Reconfigurar rsyslog hacia el SIEM en TCP puerto 6514 exigiendo verificación mutua de certificados TLS
+                </option>
+                <option value="enforce_dot_dnssec">
+                  Habilitar DNS over TLS (DoT) en puerto 853 en servidores reenviadores y activar validación DNSSEC
+                </option>
+                <option value="block_wan_access_require_vpn">
+                  Cerrar puerto 3389 en firewall perimetral WAN; exigir acceso mediante túnel VPN corporativo con MFA y NLA
                 </option>
                 <option value="disable_ftp_enable_sftp">
                   Detener y deshabilitar daemon FTP, cerrar puertos 20/21 y habilitar SFTP mediante subsistema OpenSSH
@@ -382,14 +385,11 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
                 <option value="upgrade_to_snmpv3_authpriv">
                   Reconfigurar agentes a SNMPv3 en modo authPriv con hashing SHA-256 y cifrado AES-256; rechazar v1/v2c
                 </option>
-                <option value="enforce_tls_syslog_6514">
-                  Reconfigurar rsyslog hacia el SIEM en TCP puerto 6514 exigiendo verificación mutua de certificados TLS
+                <option value="redirect_301_to_https">
+                  Configurar redirección permanente HTTP 301 hacia HTTPS (443) y deshabilitar métodos HTTP inseguros
                 </option>
-                <option value="block_wan_access_require_vpn">
-                  Cerrar puerto 3389 en firewall perimetral WAN; exigir acceso mediante túnel VPN corporativo con MFA y NLA
-                </option>
-                <option value="enforce_dot_dnssec">
-                  Habilitar DNS over TLS (DoT) en puerto 853 en servidores reenviadores y activar validación DNSSEC
+                <option value="block_legacy_enforce_ssh">
+                  Bloquear puerto 23 en firewall, desinstalar paquete telnet-server y habilitar OpenSSH en puerto 22
                 </option>
               </select>
             </div>

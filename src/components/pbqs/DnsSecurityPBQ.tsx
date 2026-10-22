@@ -10,6 +10,8 @@ import {
   FileCode
 } from 'lucide-react';
 import { DnsSecurityState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
+import { shuffled } from '../../utils/shuffle';
 
 interface DnsSecurityPBQProps {
   state: DnsSecurityState;
@@ -22,6 +24,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
   onChange,
   onReset,
 }) => {
+  const hints = useHints();
   const updateField = (field: keyof DnsSecurityState, value: string) => {
     onChange({ ...state, [field]: value });
   };
@@ -76,12 +79,12 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'RRSIG', label: 'RRSIG (Resource Record Signature)', desc: 'Contiene la firma digital del conjunto de registros (RRset) firmada con la Zone-Signing Key (ZSK).' },
               { id: 'DNSKEY', label: 'DNSKEY (Public Key Record)', desc: 'Almacena las claves públicas (ZSK y KSK) utilizadas para verificar las firmas.' },
               { id: 'DS', label: 'DS (Delegation Signer)', desc: 'Hash de la KSK ubicado en la zona padre para establecer la cadena de confianza.' },
               { id: 'NSEC', label: 'NSEC / NSEC3', desc: 'Demuestra criptográficamente la no existencia de un nombre de dominio consultado.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('dnssecRecordType', opt.id)}
@@ -92,7 +95,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-cyan-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -114,12 +117,12 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'DoT_853', label: 'DNS over TLS (DoT) en Puerto TCP 853', desc: 'Encapsula DNS en una sesión TLS dedicada en el puerto 853; optimizado para infraestructura y resolvers de red.' },
               { id: 'DoH_443', label: 'DNS over HTTPS (DoH) en Puerto TCP 443', desc: 'Oculta consultas DNS dentro de tráfico web HTTPS en el puerto 443 (usado principalmente por navegadores).' },
               { id: 'DNS_53_Clear', label: 'DNS Tradicional en Puerto UDP/TCP 53', desc: 'Tráfico en texto plano sin cifrar, vulnerable a espionaje en la ruta del ISP.' },
               { id: 'DNS_VPN', label: 'DNS a través de GRE no cifrado', desc: 'Túnel sin encriptación que no protege la confidencialidad de los paquetes.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('dnsEncryptionStandard', opt.id)}
@@ -130,7 +133,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-indigo-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -152,11 +155,11 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'restrict_tcp_53_authorized_secondaries', label: 'Restringir AXFR (TCP 53) solo a IPs de secundarios autorizados', desc: 'Configurar ACL en named.conf / Windows DNS limitando transferencias a IPs conocidas de Nameservers autorizados.' },
               { id: 'allow_any_tcp_53', label: 'Permitir transferencias desde cualquier IP de Internet', desc: 'Permite a cualquier atacante listar todos los servidores y servicios internos.' },
               { id: 'disable_tcp_completely', label: 'Bloquear todo el tráfico TCP en puerto 53', desc: 'Rompe respuestas DNS mayores a 512 bytes y la sincronización legítima entre servidores.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('zoneTransferRestriction', opt.id)}
@@ -167,7 +170,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-amber-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>
@@ -189,11 +192,11 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
           </p>
 
           <div className="space-y-2">
-            {[
+            {shuffled([
               { id: 'disable_open_recursion_internal_only', label: 'Deshabilitar recursión abierta y limitar a subredes internas autorizadas', desc: 'El servidor autoritativo público no resuelve dominios externos; los resolvers internos solo atienden a clientes locales.' },
               { id: 'enable_recursion_all', label: 'Habilitar recursión global abierta a cualquier IP pública', desc: 'Convierte el servidor en un reflector para ataques DDoS masivos de amplificación.' },
               { id: 'rate_limit_only', label: 'Dejar recursión abierta y solo aplicar rate limiting temporal', desc: 'No elimina la vulnerabilidad de base exigida por CompTIA y las mejores prácticas CIS.' },
-            ].map((opt) => (
+            ]).map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => updateField('openRecursionMitigation', opt.id)}
@@ -204,7 +207,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
                 }`}
               >
                 <div className="text-xs font-bold text-rose-300">{opt.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>
+                {hints && <div className="text-[11px] text-slate-400 mt-0.5">{opt.desc}</div>}
               </button>
             ))}
           </div>

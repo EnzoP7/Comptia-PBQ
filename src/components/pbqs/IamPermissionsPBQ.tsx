@@ -297,7 +297,7 @@ export const IamPermissionsPBQ: React.FC<Props> = ({
               >
                 {activeFolder.inheritanceEnabled ? (
                   <>
-                    <Unlock className="w-3.5 h-3.5" /> Herencia ACTIVADA (Vulnerable)
+                    <Unlock className="w-3.5 h-3.5" /> Herencia ACTIVADA
                   </>
                 ) : (
                   <>
