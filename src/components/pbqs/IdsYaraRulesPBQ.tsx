@@ -98,9 +98,9 @@ export const IdsYaraRulesPBQ: React.FC<Props> = ({
                 onChange={(e) => handleChange('snortContentMatch', e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
-                <option value="admin">admin (Palabra común en formularios legítimos)</option>
-                <option value="UNION SELECT">UNION SELECT (Firma inequívoca de SQL Injection clásica)</option>
-                <option value="GET /">GET / (Genérico: causaría falsos positivos masivos)</option>
+                <option value="admin">admin</option>
+                <option value="UNION SELECT">UNION SELECT</option>
+                <option value="GET /">GET /</option>
               </select>
             </div>
 
@@ -148,9 +148,9 @@ export const IdsYaraRulesPBQ: React.FC<Props> = ({
                 onChange={(e) => handleChange('yaraMagicHeader', e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
-                <option value="0x5A4D">0x5A4D (&quot;MZ&quot; - Encabezado ejecutable estándar Windows Portable Executable PE / .exe)</option>
-                <option value="0x2550">0x2550 (&quot;%P&quot; - Archivos de formato PDF)</option>
-                <option value="0x0000">0x0000 (Sin comprobación de encabezado)</option>
+                <option value="0x5A4D">0x5A4D</option>
+                <option value="0x2550">0x2550</option>
+                <option value="0x0000">0x0000</option>
               </select>
             </div>
 
@@ -163,9 +163,9 @@ export const IdsYaraRulesPBQ: React.FC<Props> = ({
                 onChange={(e) => handleChange('yaraStringMatch', e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
-                <option value="notepad.exe">notepad.exe (Proceso inocuo del sistema)</option>
-                <option value="cmd.exe /c powershell -enc">cmd.exe /c powershell -enc (Invocación sospechosa de reverse shell ofuscada)</option>
-                <option value="Hello World">Hello World (Texto genérico)</option>
+                <option value="notepad.exe">notepad.exe</option>
+                <option value="cmd.exe /c powershell -enc">cmd.exe /c powershell -enc</option>
+                <option value="Hello World">Hello World</option>
               </select>
             </div>
           </div>

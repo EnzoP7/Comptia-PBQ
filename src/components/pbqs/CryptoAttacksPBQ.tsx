@@ -144,7 +144,7 @@ export const CryptoAttacksPBQ: React.FC<Props> = ({
                   >
                     <option value="">-- Seleccionar Contramedida --</option>
                     <option value="session_nonces_timestamp">Implementar Nonces de un solo uso, Timestamps y Kerberos</option>
-                    <option value="rot13">Codificar texto plano con ROT13</option>
+                    <option value="rot13">Cifrar el canal con AES-256 reutilizando los mismos tokens de sesión</option>
                     <option value="hsts_disable_legacy">Forzar HSTS (Strict Transport Security) y deshabilitar SSLv3/TLS 1.0</option>
                     <option value="salting_key_stretching">Salting criptográfico aleatorio con Key Stretching (bcrypt / Argon2)</option>
                     <option value="sha256_larger_space">Migrar a SHA-256 / SHA-512 con mayor espacio de salida (256-bit+)</option>

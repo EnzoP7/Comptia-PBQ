@@ -135,7 +135,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
               <option value="Self-Signed (Autofirmado por el servidor)">
-                Autofirmado local (Generado con openssl req sin CA raíz confiable)
+                Autofirmado local (generado con openssl req)
               </option>
               <option value="Public CA (CA Raíz de Confianza Pública)">
                 Emitido por CA Raíz de Confianza Pública (DigiCert / Let's Encrypt / Sectigo)
@@ -168,13 +168,13 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 SHA-256 with RSA 2048 o 4096
               </option>
               <option value="ECDSA with P-256">
-                ECDSA con Curva Elíptica P-256 (Criptografía moderna de alto rendimiento)
+                ECDSA con curva P-256
               </option>
               <option value="SHA-1 with RSA 1024">
-                SHA-1 with RSA 1024 (Vulnerable a colisiones criptográficas - PROHIBIDO)
+                SHA-1 with RSA 1024
               </option>
               <option value="MD5 with RSA 512">
-                MD5 with RSA 512 (Completamente roto)
+                MD5 with RSA 2048
               </option>
             </select>
           </div>
@@ -223,13 +223,13 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
               <option value="OCSP Stapling (RFC 6066 - Grapado en el handshake)">
-                OCSP Stapling RFC 6066 (El servidor envía la prueba de revocación en el handshake - Privado y Rápido)
+                OCSP Stapling RFC 6066 (el servidor adjunta la respuesta OCSP en el handshake)
               </option>
               <option value="CRL (Descarga periódica lenta)">
-                CRL - Listas de Revocación de Certificados (Archivos grandes, latencia alta)
+                CRL - Listas de Revocación de Certificados
               </option>
               <option value="OCSP Directo (Online Certificate Status Protocol)">
-                OCSP en línea tradicional (Expone la IP del cliente al proveedor de la CA)
+                OCSP en línea tradicional (consulta del cliente a la CA)
               </option>
             </select>
           </div>

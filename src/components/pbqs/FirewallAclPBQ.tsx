@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { sound } from '../../utils/audio';
 import { useHints } from '../../context/HintsContext';
+import { simulatePacket } from '../../utils/firewallSim';
 
 interface Props {
   rules: FirewallRule[];
@@ -133,54 +134,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
     } = {};
 
     packetTests.forEach((test) => {
-      let matched: FirewallRule | null = null;
-      let decidedAction: RuleAction = 'DENY'; // Default implicit deny
-
-      for (const rule of rules) {
-        if (!rule.enabled) continue;
-
-        // Protocol check
-        const protoMatches =
-          rule.protocol === 'ANY' || rule.protocol === test.protocol;
-
-        const checkIpMatch = (ruleIp: string, targetIp: string) => {
-          const r = ruleIp.trim().toUpperCase();
-          const t = targetIp.trim();
-          if (r === '0.0.0.0/0' || r === 'ANY' || r === '*') return true;
-          if (ruleIp.trim() === t) return true;
-          if (ruleIp.includes('/24')) {
-            const prefix = ruleIp.trim().split('.').slice(0, 3).join('.');
-            return t.startsWith(prefix + '.');
-          }
-          if (ruleIp.includes('/16')) {
-            const prefix = ruleIp.trim().split('.').slice(0, 2).join('.');
-            return t.startsWith(prefix + '.');
-          }
-          return false;
-        };
-
-        // Source IP check
-        const srcMatches = checkIpMatch(rule.sourceIp, test.sourceIp);
-
-        // Dest IP check
-        const dstMatches = checkIpMatch(rule.destIp, test.destIp);
-
-        // Dest Port check
-        const portMatches =
-          rule.destPort.trim().toUpperCase() === 'ANY' ||
-          rule.destPort.trim() === test.destPort.trim();
-
-        if (protoMatches && srcMatches && dstMatches && portMatches) {
-          matched = rule;
-          decidedAction = rule.action;
-          break; // First match principle!
-        }
-      }
-
-      results[test.id] = {
-        matchedRule: matched,
-        action: decidedAction,
-      };
+      results[test.id] = simulatePacket(rules, test);
     });
 
     setPacketResults(results);

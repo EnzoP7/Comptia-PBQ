@@ -18,6 +18,9 @@ function hash(str: string): number {
   return h >>> 0;
 }
 
+const isPlaceholder = (item: any) => item && 'value' in item && (item.value === '' || item.value === 'unselected');
+
+/** Placeholder entries (value '' or 'unselected') always stay first. */
 export function shuffled<T>(items: T[], keyOf: (item: T) => string = (item: any) => String(item.id ?? item.value)): T[] {
-  return [...items].sort((a, b) => hash(keyOf(a)) - hash(keyOf(b)));
+  return [...items].sort((a, b) => Number(isPlaceholder(b)) - Number(isPlaceholder(a)) || hash(keyOf(a)) - hash(keyOf(b)));
 }

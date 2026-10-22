@@ -12,6 +12,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { PrivacyPetsState } from '../../types/pbq';
+import { shuffled } from '../../utils/shuffle';
 
 interface PrivacyPetsPBQProps {
   state: PrivacyPetsState;
@@ -43,11 +44,11 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
 
   const techniqueOptions = [
     { value: '', label: '-- Seleccionar Tecnología de Privacidad (PET) --' },
-    { value: 'tokenization', label: 'Tokenización (Tokenization - Vault Seguro de Tokens)' },
-    { value: 'dynamic_masking', label: 'Enmascaramiento Dinámico (Dynamic Data Masking - Al vuelo)' },
-    { value: 'static_masking', label: 'Enmascaramiento Estático (Static Data Masking - Permanente)' },
-    { value: 'anonymization', label: 'Anonimización (Anonymization - Irreversible sin tabla de mapeo)' },
-    { value: 'pseudonymization', label: 'Seudonimización (Pseudonymization - Con clave de mapeo cifrada)' },
+    { value: 'tokenization', label: 'Tokenización' },
+    { value: 'dynamic_masking', label: 'Enmascaramiento Dinámico' },
+    { value: 'static_masking', label: 'Enmascaramiento Estático' },
+    { value: 'anonymization', label: 'Anonimización' },
+    { value: 'pseudonymization', label: 'Seudonimización' },
   ];
 
   const reversibilityOptions = [
@@ -114,7 +115,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'selectedTechnique', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-violet-500 font-sans"
                 >
-                  {techniqueOptions.map((opt) => (
+                  {shuffled(techniqueOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
@@ -132,7 +133,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'reversibility', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500 font-sans"
                 >
-                  {reversibilityOptions.map((opt) => (
+                  {shuffled(reversibilityOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>

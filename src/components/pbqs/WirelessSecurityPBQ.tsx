@@ -70,10 +70,10 @@ export const WirelessSecurityPBQ: React.FC<WirelessSecurityPBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Estándar WPA --</option>
             <option value="wpa2_psk_legacy">
-              WPA2-PSK con Clave Precompartida (Vulnerable a ataques de captura 4-way handshake)
+              WPA2-Personal (PSK) con AES-CCMP
             </option>
             <option value="wep_open">
-              WEP Open con clave RC4 estática
+              WPA2-Enterprise (802.1X) con AES-CCMP
             </option>
             <option value="wpa3_enterprise_192bit">
               WPA3-Enterprise modo 192 bits (Suite-B: CNSA con AES-256 GCM y SHA-384)
@@ -98,13 +98,13 @@ export const WirelessSecurityPBQ: React.FC<WirelessSecurityPBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Método EAP --</option>
             <option value="eap_md5_deprecated">
-              EAP-MD5 (Solo hash MD5 de un sentido, sin túnel TLS ni autenticación mutua)
+              EAP-MD5 
             </option>
             <option value="eap_tls_mutual_certificates">
-              EAP-TLS (Certificados digitales X.509 mutuos en servidor y cliente - Máxima seguridad)
+              EAP-TLS (certificados X.509 en servidor y cliente)
             </option>
             <option value="peap_mschapv2">
-              PEAPv0 / EAP-MSCHAPv2 (Solo certificado en servidor, cliente usa usuario/contraseña)
+              PEAPv0 / EAP-MSCHAPv2 (túnel TLS con certificado de servidor; cliente con usuario/contraseña)
             </option>
           </select>
         </div>
@@ -126,7 +126,7 @@ export const WirelessSecurityPBQ: React.FC<WirelessSecurityPBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Puertos RADIUS --</option>
             <option value="tacacs_tcp_49">
-              TCP 49 (Puerto de TACACS+, protocolo propietario distinto de RADIUS)
+              TCP 49 
             </option>
             <option value="radius_legacy_1645_1646">
               UDP 1645 y UDP 1646
@@ -154,13 +154,13 @@ export const WirelessSecurityPBQ: React.FC<WirelessSecurityPBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Handshake --</option>
             <option value="wps_pin_attack">
-              WPS PIN (Vulnerable a ataque de fuerza bruta Reaver en pocas horas)
+              WPS PIN
             </option>
             <option value="sae_dragonfly">
-              SAE (Simultaneous Authentication of Equals / Dragonfly - Resistente a fuerza bruta offline)
+              SAE (Simultaneous Authentication of Equals / Dragonfly)
             </option>
             <option value="four_way_handshake_psk">
-              4-Way Handshake clásico WPA2 (Vulnerable a ataques de diccionario offline capturando el EAPOL)
+              4-Way Handshake WPA2 con PSK
             </option>
           </select>
         </div>
@@ -185,10 +185,10 @@ export const WirelessSecurityPBQ: React.FC<WirelessSecurityPBQProps> = ({
         >
           <option value="unselected">-- Seleccionar Sistema de Prevención Inalámbrico --</option>
           <option value="hide_ssid_only">
-            Ocultar el SSID (SSID Cloaking) para que los usuarios no vean la red (No previene escaneo por analizadores)
+            Ocultar el SSID (SSID cloaking)
           </option>
           <option value="mac_filtering_only">
-            Filtrado de direcciones MAC en el router (Fácilmente evadible falsificando la MAC con spoofing)
+            Filtrado de direcciones MAC en los AP
           </option>
           <option value="wips_rf_monitoring_auto_suppress">
             WIPS (Wireless Intrusion Prevention System) con monitoreo continuo de radiofrecuencia y supresión automática por desautenticación

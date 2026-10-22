@@ -74,8 +74,8 @@ export const IdentityFederationPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="">-- Seleccionar Protocolo --</option>
-            <option value="kerberos_local">Kerberos puro de dominio local (Solo funciona dentro de la LAN privada)</option>
-            <option value="ldap_clear">LDAP simple puerto 389 en texto plano</option>
+            <option value="kerberos_local">Kerberos (tickets del dominio Active Directory)</option>
+            <option value="ldap_clear">LDAPS (LDAP sobre TLS, puerto 636)</option>
             <option value="saml_20">SAML 2.0 (Security Assertion Markup Language basado en XML para Web SSO)</option>
             <option value="radius">RADIUS (Autenticación de acceso a redes y VPNs)</option>
           </select>
@@ -96,10 +96,10 @@ export const IdentityFederationPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="">-- Seleccionar Protocolo --</option>
-            <option value="shared_db_password">Clave de base de datos compartida en el código fuente</option>
+            <option value="shared_db_password">API keys estáticas por aplicación</option>
             <option value="oauth_20">OAuth 2.0 (Framework de Autorización basado en Scopes y Access Tokens)</option>
-            <option value="basic_auth">HTTP Basic Authentication (Credenciales base64 en cada llamada)</option>
-            <option value="ftp_auth">Autenticación FTP anónima</option>
+            <option value="basic_auth">HTTP Basic Authentication sobre TLS</option>
+            <option value="ftp_auth">Kerberos con delegación restringida</option>
           </select>
         </div>
 
@@ -118,9 +118,9 @@ export const IdentityFederationPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="">-- Seleccionar Protocolo --</option>
-            <option value="ntlm_v1">NTLMv1 legado con cifrado DES</option>
+            <option value="ntlm_v1">NTLMv2 (desafío-respuesta)</option>
             <option value="tacacs_plus">TACACS+ (Protocolo de gestión de routers y switches Cisco)</option>
-            <option value="cookie_unencrypted">Cookies de sesión en texto claro sin HttpOnly</option>
+            <option value="cookie_unencrypted">OAuth 2.0 solo con access token (sin capa de identidad)</option>
             <option value="oidc_jwt">OpenID Connect (OIDC - Capa de identidad con ID Token firmado JWT)</option>
           </select>
         </div>
@@ -140,10 +140,10 @@ export const IdentityFederationPBQ: React.FC<Props> = ({
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="">-- Seleccionar Protocolo --</option>
-            <option value="keep_accounts_active">Mantener las cuentas activas indefinidamente</option>
+            <option value="keep_accounts_active">Script nocturno de sincronización LDAP personalizado</option>
             <option value="scim_standard">SCIM (System for Cross-domain Identity Management - RFC 7643/7644)</option>
-            <option value="email_helpdesk">Enviar un ticket por correo electrónico para borrado manual</option>
-            <option value="manual_csv_upload">Exportar e importar archivos CSV manualmente cada viernes</option>
+            <option value="email_helpdesk">JIT provisioning con la aserción SAML del primer login</option>
+            <option value="manual_csv_upload">Exportación CSV programada semanalmente</option>
           </select>
         </div>
       </div>

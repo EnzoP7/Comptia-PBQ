@@ -72,8 +72,8 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('targetRto', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="rto_under_2_hours">Menos de 2 Horas (Requerido para cumplir SLA transaccional 99.99%)</option>
-            <option value="rto_7_days">7 Días (Aceptable para empresas sin servicios web críticos)</option>
+            <option value="rto_under_2_hours">Menos de 2 horas</option>
+            <option value="rto_7_days">7 días</option>
             <option value="rto_24_hours">24 Horas</option>
           </select>
         </div>
@@ -92,9 +92,9 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('targetRpo', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="rpo_24_hours">24 Horas (Pérdida de un día completo de transacciones)</option>
-            <option value="rpo_1_week">1 Semana (Copia semanal básica)</option>
-            <option value="rpo_15_minutes">15 Minutos (Replicación continua / síncrona de base de datos)</option>
+            <option value="rpo_24_hours">24 horas (backup nocturno)</option>
+            <option value="rpo_1_week">1 semana (backup completo semanal)</option>
+            <option value="rpo_15_minutes">15 minutos (replicación de base de datos)</option>
           </select>
         </div>
 
@@ -112,9 +112,9 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('recoverySiteType', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="hot_site_mirrored">Hot Site / Mirrored Active-Active (Equipos duplicados con datos replicados en tiempo real)</option>
-            <option value="warm_site">Warm Site (Equipos instalados pero requiere restauración manual de respaldos)</option>
-            <option value="cold_site">Cold Site (Espacio físico sin equipos configurados ni datos cargados)</option>
+            <option value="hot_site_mirrored">Hot Site / Mirrored Active-Active (infraestructura duplicada y datos replicados)</option>
+            <option value="warm_site">Warm Site (hardware instalado; los datos se restauran desde backup)</option>
+            <option value="cold_site">Cold Site (instalaciones con energía y conectividad, sin equipos)</option>
           </select>
         </div>
 
@@ -132,9 +132,9 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('backupRule', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="nas_same_subnet">Respaldo exclusivo a un NAS en la misma subred local</option>
-            <option value="single_usb">Copia manual en un único disco duro USB conectado al servidor</option>
-            <option value="rule_3_2_1">Regla 3-2-1: 3 Copias de datos, en 2 medios distintos, con 1 copia fuera de sitio (Off-site)</option>
+            <option value="nas_same_subnet">Snapshots diarios en el mismo SAN de producción</option>
+            <option value="single_usb">Backup diario a cinta guardada en la misma sala de servidores</option>
+            <option value="rule_3_2_1">Regla 3-2-1</option>
           </select>
         </div>
 
@@ -152,9 +152,9 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('immutabilityControl', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="shared_smb_folder">Carpeta compartida SMB con permisos de escritura abiertos</option>
-            <option value="no_lock">Sin bloqueo de retención (Los respaldos pueden ser borrados en cualquier momento)</option>
-            <option value="worm_immutable_lock">WORM (Write Once, Read Many) / Almacenamiento Inmutable con Bloqueo de Retención y Air-Gap</option>
+            <option value="shared_smb_folder">Replicación síncrona a un segundo data center, sin copias offline</option>
+            <option value="no_lock">Backups cifrados con AES-256 sin bloqueo de retención</option>
+            <option value="worm_immutable_lock">WORM (Write Once, Read Many) / almacenamiento inmutable con bloqueo de retención</option>
           </select>
         </div>
       </div>

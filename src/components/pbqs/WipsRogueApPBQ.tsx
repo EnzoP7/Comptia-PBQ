@@ -120,7 +120,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             <option value="Rogue AP / Evil Twin (Gemelo Malicioso Activo)">
               Rogue AP / Evil Twin (Gemelo Malicioso que suplanta red corporativa)
             </option>
-            <option value="Unclassified / Ignore">No clasificado / Ignorar evento</option>
+            <option value="Unclassified / Ignore">AP vecino (Neighbor) — no requiere acción</option>
           </select>
         </div>
 
@@ -202,7 +202,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             <option value="802.1X EAP-TLS (Certificados Mutuos Cliente y Servidor)">
               802.1X EAP-TLS (Autenticación mutua con certificados digitales en ambos extremos)
             </option>
-            <option value="WPA2-PSK (Clave compartida)">WPA2-Personal PSK (Vulnerable a Evil Twin y captura de handshake)</option>
+            <option value="WPA2-PSK (Clave compartida)">WPA2-Personal (PSK)</option>
             <option value="PEAP-MSCHAPv2 (Sin validación de CA)">PEAP-MSCHAPv2 sin validación (El cliente entrega hash NTLMv2 al Rogue AP)</option>
           </select>
         </div>

@@ -13,6 +13,7 @@ import {
   Layers
 } from 'lucide-react';
 import { ApiSecurityState } from '../../types/pbq';
+import { shuffled } from '../../utils/shuffle';
 
 interface Props {
   state: ApiSecurityState;
@@ -59,7 +60,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
     { value: 'api_gateway_rate_limiting_waf_captcha', label: 'Configurar Rate Limiting (Token Bucket) en API Gateway, reglas WAF y CAPTCHA adaptativo' },
     // Distractors
     { value: 'client_side_javascript_validation', label: 'Implementar validación de parámetros en el frontend de JavaScript en el navegador' },
-    { value: 'increase_cloud_vm_ram', label: 'Aumentar memoria RAM y núcleos de CPU en la máquina virtual' }
+    { value: 'increase_cloud_vm_ram', label: 'Forzar TLS 1.3 en todos los endpoints de la API' }
   ];
 
   return (
@@ -128,7 +129,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
                   onChange={(e) => handleChange(sc.id, 'identifiedVulnerability', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-rose-500 font-sans"
                 >
-                  {vulnOptions.map((opt) => (
+                  {shuffled(vulnOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
@@ -146,7 +147,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
                   onChange={(e) => handleChange(sc.id, 'secureRemediation', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-emerald-500 font-sans"
                 >
-                  {remediationOptions.map((opt) => (
+                  {shuffled(remediationOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>

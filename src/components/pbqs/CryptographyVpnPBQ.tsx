@@ -105,7 +105,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('ikeVersion', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
-                <option value="IKEv1">IKEv1 (Protocolo legado, susceptible a DoS, más intercambios)</option>
+                <option value="IKEv1">IKEv1 (Main Mode)</option>
                 <option value="IKEv2">IKEv2 (Moderno, soporta EAP, menor sobrecarga, anti-DoS)</option>
               </select>
             </div>
@@ -128,8 +128,8 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
               >
                 <option value="Group 19 (ECDH 256-bit)">Group 19 (Curvas Elípticas ECDH 256-bit - Alta Eficiencia)</option>
                 <option value="Group 14 (2048-bit)">Group 14 (MODP 2048-bit - Estándar NIST)</option>
-                <option value="Group 2 (1024-bit)">Group 2 (1024-bit - Débil / Obsoleto)</option>
-                <option value="Group 5 (1536-bit)">Group 5 (1536-bit - Legado insuficiente)</option>
+                <option value="Group 2 (1024-bit)">Group 2 (1024-bit MODP)</option>
+                <option value="Group 5 (1536-bit)">Group 5 (1536-bit MODP)</option>
               </select>
             </div>
 
@@ -146,8 +146,8 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('ikeEncryption', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
-                <option value="3DES">3DES (Triple DES - Vulnerabilidad Sweet32, bloque de 64-bit)</option>
-                <option value="DES">DES (56-bit - Vulnerable a fuerza bruta en minutos)</option>
+                <option value="3DES">3DES (Triple DES)</option>
+                <option value="DES">DES (56-bit)</option>
                 <option value="AES-256">AES-256 CBC</option>
                 <option value="AES-128">AES-128 CBC</option>
               </select>
@@ -169,7 +169,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
                 <option value="SHA-384">SHA-384 (Familia SHA-2 - Suite B de alta seguridad)</option>
-                <option value="SHA-1">SHA-1 (Ataques de colisión prácticos SHAttered - OBSOLETO)</option>
+                <option value="SHA-1">SHA-1 (160-bit)</option>
                 <option value="SHA-256">SHA-256 (Familia SHA-2 - Estándar seguro)</option>
                 <option value="MD5">MD5 (Colisiones criptográficas demostradas - PROHIBIDO)</option>
               </select>
@@ -224,7 +224,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 <option value="AES-GCM-256">AES-GCM-256 (Cifrado Autenticado AEAD - Alto rendimiento hardware)</option>
                 <option value="DES">DES (56 bits)</option>
                 <option value="AES-CBC-256">AES-CBC-256 (Requiere HMAC separado)</option>
-                <option value="3DES">3DES (Vulnerable a colisiones en 64-bit)</option>
+                <option value="3DES">3DES</option>
               </select>
             </div>
 
@@ -293,8 +293,8 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
                 <option value="TLS 1.0">TLS 1.0 / 1.1 (Deprecado por RFC 8996 y PCI-DSS)</option>
-                <option value="SSL 3.0">SSL 3.0 (Vulnerable a POODLE - DESACTIVADO)</option>
-                <option value="TLS 1.2">TLS 1.2 (Aceptable legado pero con ciphers débiles posibles)</option>
+                <option value="SSL 3.0">SSL 3.0</option>
+                <option value="TLS 1.2">TLS 1.2 (suites CBC y AEAD habilitadas)</option>
                 <option value="TLS 1.3">TLS 1.3 (1-RTT handshake, suites modernas únicamente)</option>
               </select>
             </div>

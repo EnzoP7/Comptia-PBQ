@@ -76,10 +76,10 @@ export const PkiLifecyclePBQ: React.FC<PkiLifecyclePBQProps> = ({
               OCSP Stapling (RFC 6066: el servidor web consulta a la CA, cachea la respuesta y la envía al cliente)
             </option>
             <option value="direct_ocsp_client">
-              OCSP Directo del Cliente (El navegador del cliente contacta a la CA en cada visita, filtrando su navegación)
+              OCSP Directo del Cliente (el navegador consulta a la CA el estado del certificado)
             </option>
             <option value="crl_offline">
-              CRL tradicional (Certificate Revocation List: lista estática grande que el cliente debe descargar entera)
+              CRL tradicional (Certificate Revocation List publicada periódicamente por la CA)
             </option>
           </select>
         </div>
@@ -106,7 +106,7 @@ export const PkiLifecyclePBQ: React.FC<PkiLifecyclePBQProps> = ({
               .DER (Formato binario X.509 de certificado único sin clave privada)
             </option>
             <option value="p7b_pkcs7_public_only">
-              .P7B / PKCS#7 (Formato Base64 que contiene la cadena de certificados pero NUNCA la clave privada)
+              .P7B / PKCS#7 (contenedor Base64 de la cadena de certificados)
             </option>
             <option value="pfx_pkcs12_password">
               .PFX / .P12 (PKCS#12: formato binario protegido con password que almacena certificado y clave privada)
@@ -133,13 +133,13 @@ export const PkiLifecyclePBQ: React.FC<PkiLifecyclePBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Formato ASCII --</option>
             <option value="der_raw_binary">
-              .DER (Codificación binaria ASN.1 no legible en texto plano)
+              .DER (codificación binaria ASN.1)
             </option>
             <option value="pem_base64_ascii">
               .PEM / .CRT (Base64 ASCII codificado delimitado por "-----BEGIN CERTIFICATE-----")
             </option>
             <option value="pkcs10_csr">
-              .CSR (Certificate Signing Request: solicitud de firma, no un certificado emitido)
+              .CSR (Certificate Signing Request, PKCS#10)
             </option>
           </select>
         </div>
@@ -163,10 +163,10 @@ export const PkiLifecyclePBQ: React.FC<PkiLifecyclePBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Extensión X.509 --</option>
             <option value="common_name_only">
-              CN tradicional (Common Name: limitado a un único FQDN heredado en desuso por navegadores modernos)
+              CN tradicional (campo Common Name del sujeto)
             </option>
             <option value="wildcard_cert">
-              Wildcard *.dominio.com (Solo cubre subdominios de un mismo nivel en un único dominio base)
+              Wildcard *.dominio.com (cubre los subdominios de un nivel)
             </option>
             <option value="san_multi_domain">
               SAN (Subject Alternative Name: lista explícita de múltiples dominios y direcciones IP en el certificado)
@@ -197,10 +197,10 @@ export const PkiLifecyclePBQ: React.FC<PkiLifecyclePBQProps> = ({
             Key Escrow respaldado por un Agente de Recuperación con esquema de secreto dividido M-de-N (se requieren M custodios de un total de N)
           </option>
           <option value="never_recover">
-            Prohibir cualquier recuperación (Si la clave se pierde, los datos se consideran irrecuperables por diseño)
+            Sin recuperación: regenerar el par de claves y volver a emitir el certificado
           </option>
           <option value="single_admin_password">
-            Guardar todas las claves privadas en un bloc de notas protegido con contraseña por el Administrador de Dominio
+            Exportar cada clave privada en un .PFX con contraseña custodiado por el administrador de dominio
           </option>
         </select>
       </div>

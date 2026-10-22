@@ -12,6 +12,7 @@ import {
   Layers
 } from 'lucide-react';
 import { SoarAutomationState } from '../../types/pbq';
+import { shuffled } from '../../utils/shuffle';
 
 interface Props {
   state: SoarAutomationState;
@@ -45,8 +46,8 @@ export const SoarAutomationPBQ: React.FC<Props> = ({ state, onChange, onReset })
     { value: 'ssh_failed_auth_threshold_burst', label: 'Ráfaga de >50 intentos fallidos de autenticación SSH en menos de 60 segundos' },
     { value: 'unauthorized_domain_admin_escalation_offhours', label: 'Event ID 4728: Adición de cuenta a grupo Domain Admins fuera de horario laboral' },
     // Distractors
-    { value: 'ntp_clock_drift', label: 'Desincronización de reloj NTP superior a 5 segundos' },
-    { value: 'dhcp_lease_renewal', label: 'Renovación de concesión de dirección IP por protocolo DHCP' }
+    { value: 'ntp_clock_drift', label: 'Más de 5 inicios de sesión fallidos de un usuario en 24 horas' },
+    { value: 'dhcp_lease_renewal', label: 'Detección antivirus del archivo de prueba EICAR' }
   ];
 
   const actionOptions = [
@@ -58,7 +59,7 @@ export const SoarAutomationPBQ: React.FC<Props> = ({ state, onChange, onReset })
     { value: 'remove_member_disable_account_page_oncall', label: 'Eliminar usuario de Domain Admins, deshabilitar cuenta y alertar al analista de guardia' },
     // Distractors
     { value: 'log_and_close_ticket', label: 'Registrar la incidencia como falsa alarma y cerrar ticket automáticamente' },
-    { value: 'reboot_domain_controller', label: 'Reiniciar inmediatamente el controlador de dominio primario' }
+    { value: 'reboot_domain_controller', label: 'Enviar un correo al usuario pidiéndole que cambie su contraseña' }
   ];
 
   return (
@@ -127,7 +128,7 @@ export const SoarAutomationPBQ: React.FC<Props> = ({ state, onChange, onReset })
                   onChange={(e) => handleChange(sc.id, 'correlationTrigger', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500 font-sans"
                 >
-                  {triggerOptions.map((opt) => (
+                  {shuffled(triggerOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
@@ -145,7 +146,7 @@ export const SoarAutomationPBQ: React.FC<Props> = ({ state, onChange, onReset })
                   onChange={(e) => handleChange(sc.id, 'automatedSoarAction', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-500 font-sans"
                 >
-                  {actionOptions.map((opt) => (
+                  {shuffled(actionOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>

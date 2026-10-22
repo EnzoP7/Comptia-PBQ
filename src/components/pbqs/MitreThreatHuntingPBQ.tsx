@@ -13,6 +13,7 @@ import {
   Radio
 } from 'lucide-react';
 import { MitreThreatHuntingState } from '../../types/pbq';
+import { shuffled } from '../../utils/shuffle';
 
 interface MitreThreatHuntingPBQProps {
   state: MitreThreatHuntingState;
@@ -120,7 +121,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'mitreCode', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-rose-500"
                 >
-                  {mitreCodeOptions.map((opt) => (
+                  {shuffled(mitreCodeOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
@@ -138,7 +139,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'telemetrySource', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500"
                 >
-                  {telemetryOptions.map((opt) => (
+                  {shuffled(telemetryOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>
@@ -156,7 +157,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'remediationControl', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-emerald-500"
                 >
-                  {remediationOptions.map((opt) => (
+                  {shuffled(remediationOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>

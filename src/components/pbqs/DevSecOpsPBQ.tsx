@@ -89,10 +89,10 @@ export const DevSecOpsPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Control --</option>
-              <option value="manual_code_review_annual">Revisión manual anual de código</option>
-              <option value="dast_running">DAST en servidor web productivo</option>
+              <option value="manual_code_review_annual">Auditoría manual de código trimestral</option>
+              <option value="dast_running">DAST (OWASP ZAP) contra el entorno de staging</option>
               <option value="secret_scanning_hooks">Pre-commit Hooks & Secret Scanning (TruffleHog / GitGuardian)</option>
-              <option value="firewall_perimeter">Reglas de Firewall perimetral</option>
+              <option value="firewall_perimeter">Firma de imágenes de contenedor (Cosign)</option>
             </select>
           </div>
         </div>
@@ -124,9 +124,9 @@ export const DevSecOpsPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Control --</option>
-              <option value="pentest_external">Pruebas de intrusión físicas externas</option>
-              <option value="biometric_access">Autenticación biométrica de desarrolladores</option>
-              <option value="antivirus_endpoint">Antivirus tradicional en la estación</option>
+              <option value="pentest_external">Pentest externo anual</option>
+              <option value="biometric_access">WAF delante del entorno de producción</option>
+              <option value="antivirus_endpoint">DAST contra la aplicación ya desplegada</option>
               <option value="sast_sca_analysis">SAST (SonarQube) & SCA / SBOM (Snyk / Dependabot)</option>
             </select>
           </div>
@@ -159,10 +159,10 @@ export const DevSecOpsPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Control --</option>
-              <option value="email_notification">Envío de correo al cliente final</option>
-              <option value="disable_waf">Apagar el WAF durante las pruebas</option>
+              <option value="email_notification">Firma de imágenes de contenedor (Cosign)</option>
+              <option value="disable_waf">Revisión manual del changelog del release</option>
               <option value="dast_runtime_scan">DAST (Dynamic Analysis - OWASP ZAP) & IAST interactivo</option>
-              <option value="git_commit">Git Commit simple sin pruebas</option>
+              <option value="git_commit">Pre-commit hooks de secret scanning</option>
             </select>
           </div>
         </div>
@@ -194,10 +194,10 @@ export const DevSecOpsPBQ: React.FC<Props> = ({
               className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar Control --</option>
-              <option value="unverified_docker_hub">Descargar imágenes públicas no verificadas</option>
+              <option value="unverified_docker_hub">Imagen base de Docker Hub fijada por tag (sin verificar firma)</option>
               <option value="image_signing_rasp">Firma Criptográfica de Imágenes (Cosign) & RASP en Producción</option>
-              <option value="root_deploy">Desplegar con privilegios sudo root irrestrictos</option>
-              <option value="clear_logs">Limpiar logs de auditoría para liberar disco</option>
+              <option value="root_deploy">Despliegue con una cuenta de servicio cluster-admin</option>
+              <option value="clear_logs">SAST del repositorio antes de publicar</option>
             </select>
           </div>
         </div>

@@ -1436,7 +1436,7 @@ export const INITIAL_FIREWALL_RULES_PBQ2: FirewallRule[] = [
     sourcePort: 'ANY',
     destIp: '0.0.0.0/0',
     destPort: 'ANY',
-    description: 'Bloqueo general prematuro (ORDEN ERRÓNEO)',
+    description: 'Bloqueo general',
     enabled: true
   },
   {
@@ -1546,7 +1546,7 @@ export const INITIAL_FIREWALL_RULES_PBQ9: FirewallRule[] = [
     sourcePort: 'ANY',
     destIp: '0.0.0.0/0',
     destPort: '53',
-    description: 'DNS saliente sin restricción (VULNERABLE A TUNNELING)',
+    description: 'DNS saliente de estaciones de trabajo',
     enabled: true
   },
   {
@@ -1558,7 +1558,7 @@ export const INITIAL_FIREWALL_RULES_PBQ9: FirewallRule[] = [
     sourcePort: 'ANY',
     destIp: '0.0.0.0/0',
     destPort: '4444',
-    description: 'Puerto arbitrario abierto (PUERTO DE REVERSE SHELL)',
+    description: 'Puerto solicitado por proveedor de soporte remoto',
     enabled: true
   },
   {
@@ -1570,7 +1570,7 @@ export const INITIAL_FIREWALL_RULES_PBQ9: FirewallRule[] = [
     sourcePort: 'ANY',
     destIp: '0.0.0.0/0',
     destPort: '6667',
-    description: 'Tráfico saliente IRC (CANAL CLÁSICO C2 BOTNET)',
+    description: 'Chat técnico del equipo de desarrollo',
     enabled: true
   },
   {
@@ -1807,17 +1807,17 @@ export const SIEM_LOGS_PBQ10: SiemLogEntry[] = [
 export const SIEM_QUESTIONS_PBQ3: SiemQuestionsConfig = {
   q1Label: '1. Dirección IP del "Paciente Cero" Interno (Primer Host Comprometido):',
   q1Options: [
-    { value: '198.51.100.42', label: '198.51.100.42 (IP del Atacante Externo)' },
+    { value: '198.51.100.42', label: '198.51.100.42 (IP externa)' },
     { value: '192.168.1.105', label: '192.168.1.105 (Servidor Web Interno Apache)' },
     { value: '192.168.1.200', label: '192.168.1.200 (Servidor de Base de Datos y Backups)' },
     { value: '192.168.1.110', label: '192.168.1.110 (Controlador de Dominio)' }
   ],
   q2Label: '2. Timestamp Exacto de la Explotación Inicial (Subida de Web Shell):',
   q2Options: [
-    { value: '2026-10-18 14:18:02', label: '2026-10-18 14:18:02 (Conexión TCP inicial)' },
-    { value: '2026-10-18 14:20:11', label: '2026-10-18 14:20:11 (Sondeo SQL injection en item.php)' },
-    { value: '2026-10-18 14:22:15', label: '2026-10-18 14:22:15 (POST Exitoso y Carga de Web Shell cmd.php)' },
-    { value: '2026-10-18 14:31:02', label: '2026-10-18 14:31:02 (Event 4624 Logon Exitoso en 192.168.1.200)' }
+    { value: '2026-10-18 14:18:02', label: '2026-10-18 14:18:02' },
+    { value: '2026-10-18 14:20:11', label: '2026-10-18 14:20:11' },
+    { value: '2026-10-18 14:22:15', label: '2026-10-18 14:22:15' },
+    { value: '2026-10-18 14:31:02', label: '2026-10-18 14:31:02' }
   ],
   q3Label: '3. Cadena de Ataque Reconstruida (Attack Vector Sequence):',
   q3Options: [
@@ -1884,9 +1884,9 @@ export const SIEM_QUESTIONS_PBQ10: SiemQuestionsConfig = {
   q4Label: '4. Acción Táctica de Contención y Remediación en Directorio Activo:',
   q4Options: [
     { value: 'isolate_and_reset_svc_aes', label: 'Aislar estación 10.0.1.25, rotar clave de cuenta MSSQL_Svc exigiendo AES-256 e investigar procesos en RAM' },
-    { value: 'reboot_domain_controller', label: 'Reiniciar inmediatamente todos los controladores de dominio' },
-    { value: 'delete_active_directory', label: 'Eliminar el bosque de Active Directory y crear uno nuevo' },
-    { value: 'unplug_internet', label: 'Desconectar la fibra óptica de toda la empresa' }
+    { value: 'reboot_domain_controller', label: 'Deshabilitar la cuenta MSSQL_Svc y reiniciar el servidor SQL' },
+    { value: 'delete_active_directory', label: 'Resetear dos veces la contraseña de la cuenta KRBTGT' },
+    { value: 'unplug_internet', label: 'Bloquear el dominio DGA en el firewall perimetral y cerrar el incidente' }
   ]
 };
 
@@ -2242,9 +2242,9 @@ export const INITIAL_FINDINGS_PBQ15: VulnerabilityFinding[] = [
     selectedRemediation: '',
     remediationOptions: [
       { value: 'patch_log4j_waf', label: 'Actualizar biblioteca a log4j 2.17.1+ y aplicar regla virtual en WAF contra patrones ${jndi:' },
-      { value: 'ignore_low_risk', label: 'Ignorar por estar detrás de la DMZ sin conexión a Internet' },
-      { value: 'reboot_daily', label: 'Programar reinicio diario del servidor de aplicaciones' },
-      { value: 'change_ssh_key', label: 'Rotar la clave privada SSH del administrador del servidor' }
+      { value: 'ignore_low_risk', label: 'Aceptar el riesgo y reevaluar en el próximo escaneo trimestral' },
+      { value: 'reboot_daily', label: 'Reiniciar el servicio Java y reforzar el monitoreo de logs' },
+      { value: 'change_ssh_key', label: 'Bloquear solo las IP que originaron los intentos de explotación' }
     ]
   },
   {
@@ -2258,9 +2258,9 @@ export const INITIAL_FINDINGS_PBQ15: VulnerabilityFinding[] = [
     selectedRemediation: '',
     remediationOptions: [
       { value: 'upgrade_apache_deny', label: 'Actualizar Apache HTTP a versión parcheada y configurar "Require all denied" en <Directory />' },
-      { value: 'delete_index_html', label: 'Eliminar el archivo index.html del servidor web' },
-      { value: 'turn_off_ssl', label: 'Desactivar SSL/TLS para evitar procesamiento complejo' },
-      { value: 'increase_ram', label: 'Aumentar la memoria RAM asignada a la máquina virtual' }
+      { value: 'delete_index_html', label: 'Aplicar una regla WAF contra secuencias ../ y posponer la actualización de Apache' },
+      { value: 'turn_off_ssl', label: 'Deshabilitar el listado de directorios (Options -Indexes)' },
+      { value: 'increase_ram', label: 'Ejecutar Apache con un usuario sin privilegios' }
     ]
   },
   {
@@ -2274,9 +2274,9 @@ export const INITIAL_FINDINGS_PBQ15: VulnerabilityFinding[] = [
     selectedRemediation: '',
     remediationOptions: [
       { value: 'disable_sslv3_tls10', label: 'Deshabilitar completamente SSLv2/SSLv3 y TLS 1.0, forzando exclusivamente TLS 1.2 o TLS 1.3' },
-      { value: 'reinstall_windows', label: 'Reinstalar el sistema operativo desde cero' },
-      { value: 'use_http_plain', label: 'Cambiar a HTTP puerto 80 para evitar el error de SSL' },
-      { value: 'shorten_passwords', label: 'Reducir la longitud de las contraseñas de los usuarios' }
+      { value: 'reinstall_windows', label: 'Renovar el certificado con una clave RSA de 4096 bits' },
+      { value: 'use_http_plain', label: 'Habilitar HSTS manteniendo los protocolos actuales' },
+      { value: 'shorten_passwords', label: 'Deshabilitar solo SSLv3 y mantener TLS 1.0 por compatibilidad' }
     ]
   },
   {
@@ -2290,8 +2290,8 @@ export const INITIAL_FINDINGS_PBQ15: VulnerabilityFinding[] = [
     selectedRemediation: '',
     remediationOptions: [
       { value: 'disable_weak_ciphers_upgrade', label: 'Editar sshd_config deshabilitando ciphers CBC/3DES y forzando ChaCha20-Poly1305 / AES-GCM' },
-      { value: 'allow_telnet', label: 'Habilitar Telnet en el puerto 23 como alternativa' },
-      { value: 'clear_authorized_keys', label: 'Borrar todas las llaves autorizadas en ~/.ssh/' },
+      { value: 'allow_telnet', label: 'Deshabilitar el login por contraseña y exigir claves SSH' },
+      { value: 'clear_authorized_keys', label: 'Regenerar las host keys del servidor SSH' },
       { value: 'change_port_only', label: 'Cambiar únicamente el puerto SSH a 2222 sin tocar los algoritmos' }
     ]
   }
@@ -2310,9 +2310,9 @@ export const INITIAL_DLP_ITEMS_PBQ16: DlpPolicyItem[] = [
     selectedControl: '',
     controlOptions: [
       { value: 'aes_256_tde_kms', label: 'Cifrado Transparente de Base de Datos (TDE) AES-256 con claves gestionadas en Cloud KMS / HSM' },
-      { value: 'md5_hash_only', label: 'Calcular hash MD5 de la tabla una vez al día' },
-      { value: 'public_bucket', label: 'Guardar copia de seguridad en bucket S3 con acceso público' },
-      { value: 'zip_password', label: 'Comprimir la base de datos en archivo .zip con contraseña simple de 4 dígitos' }
+      { value: 'md5_hash_only', label: 'Hash SHA-256 de cada registro para verificar integridad' },
+      { value: 'public_bucket', label: 'Cifrar solo los backups en un bucket privado (BD de producción sin cifrar)' },
+      { value: 'zip_password', label: 'Permisos de base de datos por rol (RBAC) sin cifrado' }
     ]
   },
   {
@@ -2324,9 +2324,9 @@ export const INITIAL_DLP_ITEMS_PBQ16: DlpPolicyItem[] = [
     selectedControl: '',
     controlOptions: [
       { value: 'tls_13_mtls_pfs', label: 'TLS 1.3 con Autenticación Mutua (mTLS), certificados X.509 y Perfect Forward Secrecy (PFS)' },
-      { value: 'telnet_clear', label: 'Envío por socket TCP directo en texto plano' },
-      { value: 'rot13_encode', label: 'Ofuscación de cadenas mediante codificación ROT13 o Base64' },
-      { value: 'ssl_20_legacy', label: 'Compatibilidad con SSL 2.0 para dispositivos antiguos' }
+      { value: 'telnet_clear', label: 'Firma HMAC de cada mensaje sin cifrar el canal' },
+      { value: 'rot13_encode', label: 'Codificación Base64 del payload JSON' },
+      { value: 'ssl_20_legacy', label: 'TLS 1.0 por compatibilidad con clientes antiguos' }
     ]
   },
   {
@@ -2338,9 +2338,9 @@ export const INITIAL_DLP_ITEMS_PBQ16: DlpPolicyItem[] = [
     selectedControl: '',
     controlOptions: [
       { value: 'endpoint_dlp_usb_clip', label: 'Agente Endpoint DLP con bloqueo de USB masivo, restricción de portapapeles y anti-screenshot' },
-      { value: 'post_it_notes', label: 'Permitir anotar datos sensibles en notas adhesivas' },
-      { value: 'shared_generic_login', label: 'Cuenta genérica compartida sin auditoría individual' },
-      { value: 'disable_antivirus', label: 'Desactivar protección en tiempo real para acelerar el equipo' }
+      { value: 'post_it_notes', label: 'Política de escritorio limpio y capacitación de usuarios' },
+      { value: 'shared_generic_login', label: 'Cifrado de disco completo (BitLocker) en la estación' },
+      { value: 'disable_antivirus', label: 'Antivirus con firmas actualizadas' }
     ]
   },
   {
@@ -2352,9 +2352,9 @@ export const INITIAL_DLP_ITEMS_PBQ16: DlpPolicyItem[] = [
     selectedControl: '',
     controlOptions: [
       { value: 'casb_api_watermark', label: 'CASB (Cloud Access Security Broker) en modo API con escaneo DLP continuo y marcas de agua digitales' },
-      { value: 'anonymous_sharing', label: 'Habilitar enlaces de compartir para cualquier persona con el link sin contraseña' },
-      { value: 'disable_logging', label: 'Apagar los registros de auditoría de descargas para ahorrar espacio' },
-      { value: 'ftp_anonymous', label: 'Subir los archivos a un servidor FTP público' }
+      { value: 'anonymous_sharing', label: 'Permisos IAM restrictivos en los buckets, sin inspección de contenido' },
+      { value: 'disable_logging', label: 'Cifrado SSE por defecto del proveedor cloud' },
+      { value: 'ftp_anonymous', label: 'Security groups que limitan las IP de origen' }
     ]
   }
 ];

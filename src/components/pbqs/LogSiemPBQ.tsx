@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SiemAnswers, SiemLogEntry, SiemQuestionsConfig } from '../../types/pbq';
+import { shuffled } from '../../utils/shuffle';
 import { SIEM_LOGS_PBQ3, SIEM_QUESTIONS_PBQ3 } from '../../data/pbqsData';
 import {
   Search,
@@ -223,7 +224,7 @@ export const LogSiemPBQ: React.FC<Props> = ({
               className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar opción --</option>
-              {questionsConfig.q1Options.map((opt) => (
+              {shuffled(questionsConfig.q1Options).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -242,7 +243,7 @@ export const LogSiemPBQ: React.FC<Props> = ({
               className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
               <option value="">-- Seleccionar opción --</option>
-              {questionsConfig.q2Options.map((opt) => (
+              {shuffled(questionsConfig.q2Options).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -280,7 +281,7 @@ export const LogSiemPBQ: React.FC<Props> = ({
               className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500"
             >
               <option value="">-- Seleccionar opción --</option>
-              {questionsConfig.q4Options.map((opt) => (
+              {shuffled(questionsConfig.q4Options).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>

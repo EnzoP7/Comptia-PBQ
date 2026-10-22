@@ -76,9 +76,9 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('baseImage', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="node_slim">node:18-slim (Imagen estándar con librerías de sistema)</option>
-            <option value="distroless_minimal">gcr.io/distroless/static:nonroot (Minimalista, sin shell ni package manager)</option>
-            <option value="ubuntu_full">ubuntu:latest (Imagen completa con curl, bash, python y apt)</option>
+            <option value="node_slim">node:18-slim (imagen oficial reducida)</option>
+            <option value="distroless_minimal">gcr.io/distroless/static:nonroot</option>
+            <option value="ubuntu_full">ubuntu:24.04 (imagen oficial completa)</option>
           </select>
         </div>
 
@@ -99,8 +99,8 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('runAsUser', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="root_uid_0">root (UID 0 - Privilegios completos de superusuario)</option>
-            <option value="non_root_uid_10001">nonroot (UID 10001 - Usuario sin privilegios en el host)</option>
+            <option value="root_uid_0">root (UID 0)</option>
+            <option value="non_root_uid_10001">nonroot (UID 10001)</option>
           </select>
         </div>
 
@@ -121,9 +121,9 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('secretsManagement', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="configmap_unencrypted">ConfigMap plano sin cifrado en etcd</option>
+            <option value="configmap_unencrypted">Kubernetes Secret estándar (base64 en etcd)</option>
             <option value="vault_csi_kms">HashiCorp Vault / AWS Secrets Manager inyectado en memoria vía CSI Driver</option>
-            <option value="env_vars_plain">ENV DB_PASS=Secret123 en Dockerfile (Texto claro en imagen)</option>
+            <option value="env_vars_plain">ENV DB_PASS definido en el Dockerfile durante el build</option>
           </select>
         </div>
 
@@ -144,8 +144,8 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('networkPolicy', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="allow_all_flat">Default Allow-All (Comunicación irrestricta entre todos los namespaces)</option>
-            <option value="default_deny_ingress_egress">Default-Deny Ingress & Egress con lista blanca explícita por etiquetas (Zero Trust)</option>
+            <option value="allow_all_flat">Sin NetworkPolicy (comportamiento por defecto de Kubernetes)</option>
+            <option value="default_deny_ingress_egress">Default-deny de ingress y egress con reglas explícitas por etiquetas</option>
           </select>
         </div>
 
@@ -166,8 +166,8 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('rootFilesystem', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="read_write">readOnlyRootFilesystem: false (Lectura y Escritura permitidas)</option>
-            <option value="readonly_true">readOnlyRootFilesystem: true (Solo Lectura, con volúmenes temporales emptyDir en memoria)</option>
+            <option value="read_write">readOnlyRootFilesystem: false</option>
+            <option value="readonly_true">readOnlyRootFilesystem: true + volumen emptyDir para /tmp</option>
           </select>
         </div>
 
@@ -188,8 +188,8 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('cpuMemoryLimits', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
-            <option value="no_limits">Sin límites de CPU/RAM configurados (Consumo ilimitado)</option>
-            <option value="enforce_limits">Configurar limits & requests explícitos (500m CPU, 512Mi RAM) para evitar Noisy Neighbors</option>
+            <option value="no_limits">Solo requests de CPU/RAM, sin limits</option>
+            <option value="enforce_limits">requests y limits explícitos (500m CPU, 512Mi RAM)</option>
           </select>
         </div>
       </div>

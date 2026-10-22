@@ -182,7 +182,7 @@ export const DigitalForensicsPBQ: React.FC<Props> = ({
               >
                 <option value="md5">MD5 (128 bits)</option>
                 <option value="crc32">CRC32 (Checksum sin propiedades criptográficas)</option>
-                <option value="sha1">SHA-1 (Vulnerable a colisiones criptográficas)</option>
+                <option value="sha1">SHA-1 (160 bits)</option>
                 <option value="sha256">SHA-256 (256 bits)</option>
               </select>
             </div>

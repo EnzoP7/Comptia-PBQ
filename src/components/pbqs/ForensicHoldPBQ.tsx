@@ -12,6 +12,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { ForensicHoldState } from '../../types/pbq';
+import { shuffled } from '../../utils/shuffle';
 
 interface ForensicHoldPBQProps {
   state: ForensicHoldState;
@@ -29,7 +30,7 @@ const PHASE_OPTIONS = [
   { value: 'secure_vault_storage', label: 'Custodia de Evidencia Primaria en Caja Fuerte Ignífuga con Doble Custodio' },
   // Distractor options
   { value: 'reboot_safe_mode', label: 'Reiniciar equipo en Modo Seguro para limpiar temporales' },
-  { value: 'copy_paste_explorer', label: 'Copiar y pegar carpetas sensibles a una memoria USB (Distractor No Válido)' }
+  { value: 'copy_paste_explorer', label: 'Copiar las carpetas sensibles a una memoria USB con el Explorador' }
 ];
 
 export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
@@ -89,7 +90,7 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               onChange={(e) => handlePhaseChange('phase1', e.target.value)}
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
-              {PHASE_OPTIONS.map((opt) => (
+              {shuffled(PHASE_OPTIONS).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -112,7 +113,7 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               onChange={(e) => handlePhaseChange('phase2', e.target.value)}
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
-              {PHASE_OPTIONS.map((opt) => (
+              {shuffled(PHASE_OPTIONS).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -135,7 +136,7 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               onChange={(e) => handlePhaseChange('phase3', e.target.value)}
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
-              {PHASE_OPTIONS.map((opt) => (
+              {shuffled(PHASE_OPTIONS).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -158,7 +159,7 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               onChange={(e) => handlePhaseChange('phase4', e.target.value)}
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
-              {PHASE_OPTIONS.map((opt) => (
+              {shuffled(PHASE_OPTIONS).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -181,7 +182,7 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               onChange={(e) => handlePhaseChange('phase5', e.target.value)}
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
-              {PHASE_OPTIONS.map((opt) => (
+              {shuffled(PHASE_OPTIONS).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -204,7 +205,7 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
               onChange={(e) => handlePhaseChange('phase6', e.target.value)}
               className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
             >
-              {PHASE_OPTIONS.map((opt) => (
+              {shuffled(PHASE_OPTIONS).map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -233,13 +234,13 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
             >
               <option value="unselected">-- Seleccionar Orden de Volatilidad --</option>
               <option value="backup_cloud_first">
-                Iniciar copia de seguridad en la nube de todas las carpetas antes de la intervención
+                Ejecutar un antivirus completo para identificar el malware antes de adquirir evidencia
               </option>
               <option value="ram_before_disk">
                 Volcar la Memoria RAM volátil (DumpIt/WinPmem) ANTES de apagar o extraer el Disco Duro
               </option>
               <option value="disk_before_ram">
-                Desenchufar el cable de corriente y clonar primero el Disco Duro para evitar escritura
+                Desenchufar el equipo y clonar primero el disco para evitar escrituras
               </option>
             </select>
           </div>
@@ -255,13 +256,13 @@ export const ForensicHoldPBQ: React.FC<ForensicHoldPBQProps> = ({
             >
               <option value="unselected">-- Seleccionar Estándar Judicial --</option>
               <option value="exclusionary_rule">
-                Exclusionary Rule (Descarte automático de toda evidencia digital no firmada por un notario)
+                Exclusionary Rule (exclusión de evidencia obtenida ilegalmente)
               </option>
               <option value="parol_evidence_rule">
-                Parol Evidence Rule (Testimonio verbal del administrador sobre lo que vio en pantalla)
+                Hearsay Rule (testimonio de oídas)
               </option>
               <option value="best_evidence_rule">
-                Best Evidence Rule (Regla de la Mejor Evidencia: duplicado bit-a-bit con hash coincidente)
+                Best Evidence Rule (Regla de la Mejor Evidencia)
               </option>
             </select>
           </div>

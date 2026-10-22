@@ -8,6 +8,7 @@ import * as D from './data/pbqsData';
 import * as E from './utils/evaluator';
 import { MATRIX_PBQS } from './data/matrixPbqs';
 import { evaluateMatrix } from './utils/matrixEvaluator';
+import { withTrafficTests } from './utils/firewallSim';
 import { LINUX_PERMS_ITEM, INITIAL_LINUX_PERMS_PBQ60, evaluateLinuxPermissionsPBQ60 } from './data/linuxPermissionsPbq';
 import { EvaluationResult, MatrixAnswers, PBQItem, RiskManagementState, SiemAnswers } from './types/pbq';
 
@@ -133,7 +134,7 @@ const HAND_BUILT: Record<string, PBQDefinition> = {
   },
   'pbq-2': {
     initial: () => D.INITIAL_FIREWALL_RULES_PBQ2,
-    evaluate: E.evaluateFirewallAcl,
+    evaluate: (s) => withTrafficTests(E.evaluateFirewallAcl(s), s, D.FIREWALL_PACKET_TESTS_PBQ2),
     render: (s, onChange) => (
       <FirewallAclPBQ
         rules={s}
@@ -180,7 +181,7 @@ const HAND_BUILT: Record<string, PBQDefinition> = {
   },
   'pbq-9': {
     initial: () => D.INITIAL_FIREWALL_RULES_PBQ9,
-    evaluate: E.evaluateFirewallAclPBQ9,
+    evaluate: (s) => withTrafficTests(E.evaluateFirewallAclPBQ9(s), s, D.FIREWALL_PACKET_TESTS_PBQ9),
     render: (s, onChange) => (
       <FirewallAclPBQ
         rules={s}
@@ -287,7 +288,7 @@ const HAND_BUILT: Record<string, PBQDefinition> = {
   'pbq-48': simple(D.INITIAL_SOAR_AUTOMATION_PBQ48, E.evaluateSoarAutomationPBQ48, SoarAutomationPBQ),
   'pbq-49': {
     initial: () => D.INITIAL_FIREWALL_RULES_PBQ49,
-    evaluate: E.evaluateFirewallAclPBQ49,
+    evaluate: (s) => withTrafficTests(E.evaluateFirewallAclPBQ49(s), s, D.FIREWALL_PACKET_TESTS_PBQ49),
     render: (s, onChange) => (
       <FirewallAclPBQ
         rules={s}

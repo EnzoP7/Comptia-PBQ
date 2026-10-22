@@ -1,5 +1,6 @@
 import React from 'react';
 import { DlpPolicyItem } from '../../types/pbq';
+import { shuffled } from '../../utils/shuffle';
 import {
   ShieldCheck,
   Lock,
@@ -121,7 +122,7 @@ export const DlpDataProtectionPBQ: React.FC<Props> = ({
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
                   Control DLP / Criptográfico Recomendado:
                 </label>
-                {item.controlOptions.map((opt) => {
+                {shuffled(item.controlOptions).map((opt) => {
                   const isSelected = item.selectedControl === opt.value;
                   return (
                     <button

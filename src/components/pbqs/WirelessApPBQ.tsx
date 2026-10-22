@@ -60,7 +60,7 @@ export const WirelessApPBQ: React.FC<WirelessApPBQProps> = ({
             onChange={(e) => handleChange('securityMode', e.target.value)}
             className="w-full text-xs bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
           >
-            <option value="WPA2-PSK (Pre-Shared Key)">WPA2-PSK (Pre-Shared Key - Débil / Compartido)</option>
+            <option value="WPA2-PSK (Pre-Shared Key)">WPA2-PSK (Pre-Shared Key)</option>
             <option value="Open (Sin Seguridad)">Open (Sin Seguridad / Abierta)</option>
             <option value="WPA3-Enterprise (802.1X RADIUS)">WPA3-Enterprise (802.1X con RADIUS Server)</option>
             <option value="WPA3-Personal (SAE Dragonfly)">WPA3-Personal (SAE Dragonfly para hogar)</option>

@@ -94,11 +94,11 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('requireMfa', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="sms_otp">MFA basado en SMS / Llamada telefónica (Vulnerable a SIM Swapping)</option>
+            <option value="sms_otp">MFA por SMS / llamada telefónica (OTP)</option>
             <option value="fido2_phishing_resistant">
               MFA Resistente a Phishing (FIDO2 WebAuthn / Llave de Seguridad FIPS)
             </option>
-            <option value="totp_app">MFA con Aplicación Autenticadora TOTP estándar (Vulnerable a AiTM)</option>
+            <option value="totp_app">MFA con app autenticadora TOTP</option>
             <option value="disabled">MFA Deshabilitado (Solo contraseña estática)</option>
           </select>
         </div>
@@ -196,7 +196,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('riskBasedAuth', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
-            <option value="ignore_risk">Ignorar alertas automáticas de riesgo de inicio de sesión</option>
+            <option value="ignore_risk">Registrar el riesgo de inicio de sesión para revisión semanal del SOC</option>
             <option value="block_high_risk_signin">
               Bloquear acceso automáticamente cuando el nivel de riesgo de la sesión sea ALTO
             </option>
