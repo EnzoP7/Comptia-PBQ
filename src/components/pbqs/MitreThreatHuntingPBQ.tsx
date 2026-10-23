@@ -45,7 +45,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
 
   const mitreCodeOptions = [
     { value: '', label: 'Seleccionar Técnica MITRE...' },
-    { value: 'T1058', label: 'T1058: Kerberoasting (Ticket Granting Service Requests)' },
+    { value: 'T1558.003', label: 'T1558.003: Kerberoasting (Ticket Granting Service Requests)' },
     { value: 'T1003', label: 'T1003: OS Credential Dumping (LSASS Memory Mimikatz)' },
     { value: 'T1557.001', label: 'T1557.001: Adversary-in-the-Middle (LLMNR / NBT-NS Poisoning)' },
     { value: 'T1558.001', label: 'T1558.001: Golden Ticket (KRBTGT Kerberos Forgery)' },

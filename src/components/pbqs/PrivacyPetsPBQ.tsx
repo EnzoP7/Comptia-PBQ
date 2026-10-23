@@ -145,7 +145,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
         ))}
       </div>
 
-      {/* CyberKraft Exam Tip Banner */}
+      {/* Exam tip banner */}
       <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-800/40 flex items-start gap-3">
         <Sparkles className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
         <div className="space-y-1">

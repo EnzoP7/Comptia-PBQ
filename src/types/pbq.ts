@@ -499,6 +499,8 @@ export interface ItemExplanation {
   definition: string; // Qué es este componente o concepto según CompTIA SY0-701
   whyCorrectOrRole: string; // Por qué es la respuesta correcta en este escenario
   distractorWarning?: string; // Trampa común o por qué sería incorrecto ubicarlo en otro lugar
+  /** Breakdown item ids (PartialCreditItem.id) this concept explains. */
+  criteria?: string[];
 }
 
 export interface PBQExplanationData {
@@ -586,7 +588,7 @@ export interface CloudSharedResponsibilityState {
 export interface MitreThreatHuntingItem {
   id: string;
   techniqueName: string;
-  mitreCode: string; // 'T1003' | 'T1058' | 'T1558.001' | 'T1557.001' | 'T1059.001'
+  mitreCode: string; // 'T1003' | 'T1558.003' | 'T1558.001' | 'T1557.001' | 'T1059.001'
   telemetrySource: string; // 'event_4769_rc4' | 'event_4624_type9_lsass' | 'event_4768_forged_tgt' | 'event_4625_responder' | 'event_4104_scriptblock'
   remediationControl: string; // 'credential_guard_lsa' | 'gmsa_aes256' | 'krbtgt_double_reset' | 'disable_llmnr_smb_signing' | 'clm_wdac_applocker'
 }

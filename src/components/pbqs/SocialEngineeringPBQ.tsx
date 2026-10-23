@@ -169,7 +169,7 @@ export const SocialEngineeringPBQ: React.FC<Props> = ({
                     className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
                   >
                     <option value="">-- Seleccionar Principio --</option>
-                    <option value="trust_consensus">Confianza / Consenso (Trust / Social Proof)</option>
+                    <option value="trust_consensus">Confianza (Trust)</option>
                     <option value="urgency">Urgencia (Urgency - Actuar de inmediato)</option>
                     <option value="scarcity_curiosity">Escasez / Curiosidad (Scarcity / Curiosity)</option>
                     <option value="authority">Autoridad / Intimidación (Authority / Fear)</option>

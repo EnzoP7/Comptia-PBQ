@@ -5,6 +5,8 @@ const truncate = (text: string, max = 70) => (text.length > max ? `${text.slice(
 /** Partial credit per cell: every correctly classified cell is worth the same. */
 export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers): EvaluationResult {
   const breakdown: PartialCreditItem[] = [];
+  const cellCount = config.sections.reduce((acc, s) => acc + s.rows.length * s.columns.length, 0) || 1;
+  const perCell = 100 / cellCount;
   let correctCells = 0;
   let totalCells = 0;
 
@@ -17,8 +19,9 @@ export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers):
         if (answers[row.id]?.[col.id] === row.answers[col.id]) {
           rowCorrect++;
         } else {
-          const label = col.options.find((o) => o.value === row.answers[col.id])?.label ?? row.answers[col.id];
-          missed.push(`${col.label}: ${label}`);
+          const labelOf = (v: string | undefined) => col.options.find((o) => o.value === v)?.label ?? v;
+          const chosen = answers[row.id]?.[col.id];
+          missed.push(`${col.label}: elegiste "${chosen ? labelOf(chosen) : 'sin respuesta'}" — correcto: "${labelOf(row.answers[col.id])}"`);
         }
       }
       correctCells += rowCorrect;
@@ -26,11 +29,11 @@ export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers):
         id: row.id,
         label: `${section.title} #${idx + 1}: ${truncate(row.prompt)}`,
         achieved: missed.length === 0,
-        points: rowCorrect,
-        maxPoints: section.columns.length,
+        points: rowCorrect * perCell,
+        maxPoints: section.columns.length * perCell,
         explanation: missed.length === 0
           ? `Correcto. ${row.explanation}`
-          : `Respuesta correcta → ${missed.join(' | ')}. ${row.explanation}`,
+          : `${missed.join(' · ')}. ${row.explanation}`,
       });
     });
   }

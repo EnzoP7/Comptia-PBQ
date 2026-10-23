@@ -113,34 +113,34 @@ export const SecurityCliPBQ: React.FC<Props> = ({
                   <option value="">-- Seleccionar Comando CLI --</option>
                   {sc.id === 'cli-ports' && (
                     <>
-                      <option value="ping_localhost">ping 127.0.0.1</option>
+                      <option value="ping_localhost">ps aux</option>
                       <option value="netstat_tulpn">netstat -tulpn (o ss -tulpn en Linux moderno)</option>
-                      <option value="ipconfig">ipconfig /all</option>
-                      <option value="traceroute">traceroute 8.8.8.8</option>
+                      <option value="ipconfig">ifconfig -a</option>
+                      <option value="traceroute">netstat -rn</option>
                     </>
                   )}
                   {sc.id === 'cli-sniff' && (
                     <>
                       <option value="tcpdump_eth0">tcpdump -i eth0 -nn -s0</option>
-                      <option value="curl_google">curl -v http://google.com</option>
-                      <option value="cat_network">cat /etc/network/interfaces</option>
-                      <option value="nslookup">nslookup localhost</option>
+                      <option value="curl_google">nmap -sS 10.0.0.0/24</option>
+                      <option value="cat_network">netstat -an</option>
+                      <option value="nslookup">dig +trace corp.com</option>
                     </>
                   )}
                   {sc.id === 'cli-hash' && (
                     <>
                       <option value="ls_la">ls -la /bin/login</option>
                       <option value="sha256sum">sha256sum /bin/login (o Get-FileHash -Algorithm SHA256)</option>
-                      <option value="chmod_777">chmod 777 /bin/login</option>
-                      <option value="grep_root">grep root /etc/passwd</option>
+                      <option value="chmod_777">strings /bin/login | less</option>
+                      <option value="grep_root">file /bin/login</option>
                     </>
                   )}
                   {sc.id === 'cli-permissions' && (
                     <>
-                      <option value="chmod_777">chmod 777 /etc/shadow</option>
+                      <option value="chmod_777">chmod 644 /etc/shadow</option>
                       <option value="chmod_600_root">chmod 600 /etc/shadow && chown root:root /etc/shadow</option>
-                      <option value="rm_shadow">rm -rf /etc/shadow</option>
-                      <option value="touch_shadow">touch /etc/shadow</option>
+                      <option value="rm_shadow">chmod 700 /etc/shadow</option>
+                      <option value="touch_shadow">chown root:root /etc/shadow</option>
                     </>
                   )}
                 </select>

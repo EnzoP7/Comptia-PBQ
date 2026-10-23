@@ -20,7 +20,7 @@ interface Props {
   pbqTacticalTip?: string;
 }
 
-export const CyberKraftModal: React.FC<Props> = ({
+export const StrategyGuideModal: React.FC<Props> = ({
   isOpen,
   onClose,
   pbqTitle,
@@ -39,7 +39,7 @@ export const CyberKraftModal: React.FC<Props> = ({
             </div>
             <div>
               <h3 className="text-base font-bold text-white tracking-tight">
-                CyberKraft Test Strategy Guide (Metodología Táctica CompTIA)
+                Guía de estrategia para PBQs
               </h3>
               <p className="text-xs text-slate-400">
                 Estrategias comprobadas para abordar y maximizar puntos en PBQs del SY0-701
@@ -84,7 +84,7 @@ export const CyberKraftModal: React.FC<Props> = ({
             </p>
             <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
               <div className="font-semibold text-amber-300">
-                Estrategia CyberKraft:
+                Estrategia:
               </div>
               <p className="text-slate-300">
                 Si no tienes clara la solución de una PBQ en menos de <strong>3 minutos</strong>, márcala de inmediato con <em>"Flag for Review"</em> y salta directo a las preguntas de opción múltiple (MCQs). Resuelve todas las preguntas teóricas primero y vuelve a las PBQs al final con el tiempo restante.

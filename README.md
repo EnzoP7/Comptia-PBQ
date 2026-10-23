@@ -9,6 +9,10 @@ npm run lint     # chequeo de tipos
 npm run build
 ```
 
+## Publicación
+
+El workflow `.github/workflows/deploy.yml` compila y publica la app en GitHub Pages en cada push a `main`. Requiere activar una vez **Settings → Pages → Source: GitHub Actions** en el repositorio.
+
 ## Modos
 
 - **Práctica libre**: todas las PBQs, calificación inmediata con explicación por ítem. Las **pistas** (medidores de cumplimiento, explicación de cada opción, simulador de paquetes, tip táctico) vienen **apagadas** por defecto: se activan desde el botón "Pistas" del header.
@@ -26,6 +30,8 @@ El progreso (respuestas, notas, marcas e historial de intentos) se guarda en `lo
 | `src/data/linuxPermissionsPbq.ts` | PBQ 60: permisos Linux (rwx, octal, chown, umask, SUID/SGID/sticky). |
 | `src/data/sy0701Objectives.ts` | Objetivos y pesos oficiales del SY0-701. |
 | `src/utils/evaluator.ts` | Evaluadores con crédito parcial de las PBQs 1–50. |
+| `src/data/studyGuide.ts` | Guía de estudio por PBQ: conceptos enlazados a cada criterio corregido. |
+| `src/data/pbqExplanationsExtra.ts` | Glosarios de estudio escritos para las PBQs que no tenían. |
 
 ## Añadir una PBQ de clasificación
 

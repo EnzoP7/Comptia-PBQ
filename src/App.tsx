@@ -17,13 +17,14 @@ import { HintsContext } from './context/HintsContext';
 
 import { Header } from './components/Header';
 import { PBQNav } from './components/PBQNav';
-import { CyberKraftModal } from './components/CyberKraftModal';
+import { StrategyGuideModal } from './components/StrategyGuideModal';
 import { ScoreBreakdownModal } from './components/ScoreBreakdownModal';
 import { ExamSummaryModal } from './components/ExamSummaryModal';
 import { ExamSetupModal } from './components/ExamSetupModal';
 import { KeyboardShortcutsModal } from './components/KeyboardShortcutsModal';
 import { CompTIACheatSheetModal } from './components/CompTIACheatSheetModal';
 import { SimulatorErrorBoundary } from './components/SimulatorErrorBoundary';
+import { WelcomeModal } from './components/WelcomeModal';
 
 import { ArrowLeft, ArrowRight, FileCheck, BookOpen, Target, Award, ListChecks, FileText, Lightbulb, Flag } from 'lucide-react';
 
@@ -48,6 +49,7 @@ interface PersistedState {
   fontSize: FontSize;
   hintsEnabled: boolean;
   seed: number;
+  seenWelcome: boolean;
 }
 
 const ALL_IDS = ALL_PBQS.map((p) => p.id);
@@ -90,11 +92,12 @@ export default function App() {
   const [practiceTimerActive, setPracticeTimerActive] = useState(true);
   const [now, setNow] = useState(() => Date.now());
 
-  const [isCyberKraftOpen, setIsCyberKraftOpen] = useState(false);
+  const [isStrategyOpen, setIsStrategyOpen] = useState(false);
   const [isBreakdownOpen, setIsBreakdownOpen] = useState(false);
   const [isExamSummaryOpen, setIsExamSummaryOpen] = useState(false);
   const [isExamSetupOpen, setIsExamSetupOpen] = useState(false);
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState(!saved.seenWelcome);
   const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
 
   // Option order must be decided before any simulator renders.
@@ -130,8 +133,9 @@ export default function App() {
       fontSize,
       hintsEnabled,
       seed,
+      seenWelcome: !isWelcomeOpen || !!saved.seenWelcome,
     });
-  }, [answers, evaluations, flaggedIds, history, mode, examSession, currentPbqId, fontSize, hintsEnabled, seed]);
+  }, [answers, evaluations, flaggedIds, history, mode, examSession, currentPbqId, fontSize, hintsEnabled, seed, isWelcomeOpen]);
 
   // Per-PBQ stopwatch in practice mode, to train the ~5-6 min budget per PBQ.
   useEffect(() => {
@@ -262,16 +266,17 @@ export default function App() {
     const isCmdOrCtrl = e.ctrlKey || e.metaKey;
     const target = e.target as HTMLElement | null;
     const isInput = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable;
-    const anyModalOpen = isBreakdownOpen || isCyberKraftOpen || isExamSummaryOpen || isShortcutsModalOpen || isCheatSheetOpen || isExamSetupOpen;
+    const anyModalOpen = isBreakdownOpen || isStrategyOpen || isExamSummaryOpen || isShortcutsModalOpen || isCheatSheetOpen || isExamSetupOpen || isWelcomeOpen;
 
     if (e.key === 'Escape' && anyModalOpen) {
       e.preventDefault();
       setIsBreakdownOpen(false);
-      setIsCyberKraftOpen(false);
+      setIsStrategyOpen(false);
       setIsExamSummaryOpen(false);
       setIsShortcutsModalOpen(false);
       setIsCheatSheetOpen(false);
       setIsExamSetupOpen(false);
+      setIsWelcomeOpen(false);
       return;
     }
     if (isCmdOrCtrl && e.key === 'Enter') {
@@ -333,7 +338,7 @@ export default function App() {
           canPauseTimer={!examInProgress}
           isFlagged={flaggedIds.has(currentPBQ.id)}
           onToggleFlag={handleToggleFlag}
-          onOpenCyberKraft={mode === 'practice' ? () => setIsCyberKraftOpen(true) : undefined}
+          onOpenStrategy={mode === 'practice' ? () => setIsStrategyOpen(true) : undefined}
           onOpenExamSummary={() => !examInProgress && setIsExamSummaryOpen(true)}
           onOpenCheatSheet={mode === 'practice' ? () => setIsCheatSheetOpen(true) : undefined}
           isMuted={isMuted}
@@ -502,7 +507,7 @@ export default function App() {
                 <div className="pt-3 border-t border-slate-800">
                   {hints || tipRevealed ? (
                     <button
-                      onClick={() => setIsCyberKraftOpen(true)}
+                      onClick={() => setIsStrategyOpen(true)}
                       className="w-full p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-800/80 text-left hover:bg-cyan-950/60 transition-colors group"
                     >
                       <div className="flex items-center justify-between text-cyan-300 text-xs font-bold mb-1.5">
@@ -629,14 +634,27 @@ export default function App() {
           </section>
         </main>
 
-        <CyberKraftModal
-          isOpen={isCyberKraftOpen && mode === 'practice'}
-          onClose={() => setIsCyberKraftOpen(false)}
+        <footer className="border-t border-slate-800 bg-slate-950 px-4 sm:px-6 py-4 pb-24 sm:pb-4">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11px] text-slate-500">
+            <p>
+              Proyecto independiente de estudio, sin afiliación con CompTIA. CompTIA y Security+ son marcas registradas de CompTIA, Inc. Las
+              preguntas son originales.
+            </p>
+            <button onClick={() => setIsWelcomeOpen(true)} className="text-slate-300 hover:text-white underline underline-offset-2 shrink-0">
+              ¿Cómo funciona?
+            </button>
+          </div>
+        </footer>
+
+        <StrategyGuideModal
+          isOpen={isStrategyOpen && mode === 'practice'}
+          onClose={() => setIsStrategyOpen(false)}
           pbqTitle={`PBQ ${currentPBQ.number}: ${currentPBQ.title}`}
           pbqTacticalTip={currentPBQ.tacticalTip}
         />
 
         <ScoreBreakdownModal
+          key={currentPBQ.id}
           result={currentEvalResult}
           isOpen={isBreakdownOpen && !!currentEvalResult}
           onClose={() => setIsBreakdownOpen(false)}
@@ -652,7 +670,11 @@ export default function App() {
           pbqs={visiblePbqs}
           scores={evaluations}
           flaggedIds={flaggedIds}
-          onReviewPBQ={(idx) => setCurrentPbqId(visiblePbqs[idx].id)}
+          onReviewPBQ={(idx) => {
+            const id = visiblePbqs[idx].id;
+            setCurrentPbqId(id);
+            if (evaluations[id]) setIsBreakdownOpen(true);
+          }}
           onRestartExam={
             inExamView
               ? () => {
@@ -676,6 +698,16 @@ export default function App() {
         <CompTIACheatSheetModal isOpen={isCheatSheetOpen && mode === 'practice'} onClose={() => setIsCheatSheetOpen(false)} />
 
         <KeyboardShortcutsModal isOpen={isShortcutsModalOpen} onClose={() => setIsShortcutsModalOpen(false)} />
+
+        <WelcomeModal
+          isOpen={isWelcomeOpen}
+          onClose={() => setIsWelcomeOpen(false)}
+          onStartExam={() => {
+            setIsWelcomeOpen(false);
+            setIsExamSetupOpen(true);
+          }}
+          totalPbqs={ALL_PBQS.length}
+        />
       </div>
     </HintsContext.Provider>
   );

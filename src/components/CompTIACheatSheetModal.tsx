@@ -37,7 +37,7 @@ export const CompTIACheatSheetModal: React.FC<Props> = ({ isOpen, onClose }) => 
     { port: 68, proto: 'UDP', name: 'DHCP Client', secure: 'DHCP Snooping', risk: 'Intercambio de broadcast inicial' },
     { port: 69, proto: 'UDP', name: 'TFTP', secure: 'SFTP (22) / HTTPS (443)', risk: 'Sin autenticación ni cifrado' },
     { port: 80, proto: 'TCP', name: 'HTTP', secure: 'HTTPS (443 - TLS 1.3)', risk: 'Crítico - Tráfico web no cifrado' },
-    { port: 88, proto: 'TCP/UDP', name: 'Kerberos KDC', secure: 'Cifrado AES-256 forzado', risk: 'Kerberoasting (T1058), Golden/Silver Tickets' },
+    { port: 88, proto: 'TCP/UDP', name: 'Kerberos KDC', secure: 'Cifrado AES-256 forzado', risk: 'Kerberoasting (T1558.003), Golden/Silver Tickets' },
     { port: 110, proto: 'TCP', name: 'POP3', secure: 'POP3S (995 con SSL/TLS)', risk: 'Descarga correos con credenciales en texto plano' },
     { port: 123, proto: 'UDP', name: 'NTP', secure: 'NTPsec', risk: 'Vulnerable a ataques de amplificación DDoS y desincronización' },
     { port: 137, proto: 'UDP', name: 'NetBIOS Name Service', secure: 'DNS Corporativo', risk: 'Vulnerable a envenenamiento con Responder' },

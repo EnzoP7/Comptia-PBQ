@@ -84,15 +84,15 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Una empresa de e-commerce requiere reestructurar su topología perimetral. Necesitan exponer públicamente un servidor web accesible vía HTTPS con mitigación de ataques web (Capa 7) e inspección profunda de paquetes, mientras garantizan que su Base de Datos de pagos permanezca estrictamente aislada en la red interna (LAN). La administración de servidores internos solo debe realizarse mediante un punto de salto seguro.',
     requirements: [
-      'Coloque el WAF (Web Application Firewall) en la posición adecuada para filtrar tráfico HTTP/HTTPS antes de llegar a los servidores web en la DMZ.',
-      'Ubique un IPS en línea (Inline IPS) en el borde para mitigar ataques y anomalías de red en tiempo real.',
-      'Separe la zona DMZ de la red interna (LAN) mediante un Firewall Stateful con políticas estrictas.',
-      'Posicione la Base de Datos transaccional en la red interna (LAN) segura sin exposición directa a Internet.',
-      'Ubique el Bastion Host en el perímetro de administración adecuado para acceso remoto seguro (SSH/RDP).',
-      'Sitúe el Servidor RADIUS en la red interna para autenticar usuarios corporativos.'
+      'Coloca cada control de la bandeja en la posición del diagrama que satisface cada necesidad. No todos los controles se usan.',
+      'Protege los servidores web de la DMZ contra ataques de capa 7 (SQLi, XSS) antes de que el tráfico los alcance.',
+      'Detén en tiempo real los ataques de red en el punto de entrada desde Internet.',
+      'Impide que un servidor comprometido de la DMZ alcance libremente la LAN interna.',
+      'Ofrece un único punto de acceso endurecido y auditado para la administración remota (SSH/RDP).',
+      'Centraliza la autenticación de los usuarios corporativos sin exponer ese servicio a Internet.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Recuerde la diferencia clave entre WAF (Capa 7 para HTTP/HTTPS contra SQLi/XSS) e IPS de Red (Capa 3/4/7 general). El WAF debe inspeccionar el tráfico inmediatamente antes del Web Server o en la DMZ. La base de datos NUNCA debe estar en la DMZ.'
+      'Recuerde la diferencia clave entre WAF (Capa 7 para HTTP/HTTPS contra SQLi/XSS) e IPS de Red (Capa 3/4/7 general). El WAF debe inspeccionar el tráfico inmediatamente antes del Web Server o en la DMZ. La base de datos NUNCA debe estar en la DMZ.'
   },
   // PBQ 2
   {
@@ -107,13 +107,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un administrador junior configuró el firewall perimetral corporativo dejando brechas de seguridad críticas y reglas en conflicto. La gerencia de Ciberseguridad le ha ordenado auditar y corregir la tabla de reglas: debe bloquear protocolos inseguros no cifrados, permitir administración remota SSH (Puerto 22) ÚNICAMENTE desde la subred interna autorizada de Admins (10.1.0.0/24), habilitar tráfico seguro hacia la DMZ para HTTPS (443) y DNS (53), y asegurar que la regla implícita de denegación funcione correctamente al final.',
     requirements: [
-      'Restrinja el acceso SSH (puerto 22): actualmente está abierto a 0.0.0.0/0 (Internet), lo cual es una vulnerabilidad crítica. Debe limitarse exclusivamente a 10.1.0.0/24.',
-      'Corrija el orden de las reglas: cualquier regla de denegación general "Deny Any" colocada al inicio bloqueará el tráfico legítimo posterior antes de ser evaluado (Top-Down execution).',
-      'Bloquee tráfico inseguro en texto plano (Telnet puerto 23 o HTTP puerto 80 no redirigido).',
-      'Asegure la regla Implícita de Denegación (Implicit Deny Any Any) en la última posición (Regla final).'
+      'La administración SSH (TCP 22) del servidor 192.168.1.10 solo debe ser posible desde la subred de administradores 10.1.0.0/24.',
+      'El servidor web 192.168.2.10 debe aceptar HTTPS desde Internet; no debe permitirse tráfico web sin cifrar.',
+      'El servidor DNS 192.168.2.53 debe responder consultas UDP 53 desde Internet.',
+      'Todo el tráfico que no esté autorizado explícitamente debe ser denegado.',
+      'Comprueba que cada flujo de prueba del panel obtenga el resultado esperado.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Los firewalls evalúan las reglas secuencialmente de arriba hacia abajo (First-Match principle). Si coloca una regla "DENY ALL" antes de una regla "PERMIT", el tráfico permitido nunca llegará a procesarse. Busque siempre la trampa de 0.0.0.0/0 en puertos administrativos.'
+      'Los firewalls evalúan las reglas secuencialmente de arriba hacia abajo (First-Match principle). Si coloca una regla "DENY ALL" antes de una regla "PERMIT", el tráfico permitido nunca llegará a procesarse. Busque siempre la trampa de 0.0.0.0/0 en puertos administrativos.'
   },
   // PBQ 3
   {
@@ -134,7 +135,7 @@ export const PBQ_LIST: PBQItem[] = [
       'Determine la acción táctica prioritaria de contención recomendada según el ciclo de vida de respuesta a incidentes (NIST SP 800-61 / CompTIA).'
     ],
     tacticalTip:
-      'CyberKraft Tip: En las PBQs de SIEM, busque patrones en los logs: primero escaneo/inyección (Apache HTTP 200 con cargas sospechosas en URLs), luego ejecución de comandos o descarga de payloads (Syslog/EDR), seguido de intentos repetidos de autenticación (Event ID 4625) y posterior éxito (4624), culminando en barrido de puertos internos como SMB (puerto 445).'
+      'En las PBQs de SIEM, busque patrones en los logs: primero escaneo/inyección (Apache HTTP 200 con cargas sospechosas en URLs), luego ejecución de comandos o descarga de payloads (Syslog/EDR), seguido de intentos repetidos de autenticación (Event ID 4625) y posterior éxito (4624), culminando en barrido de puertos internos como SMB (puerto 445).'
   },
   // PBQ 4
   {
@@ -149,15 +150,15 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Se ha implementado una nueva máquina virtual con funciones de servidor web crítico en producción. Antes de pasar a producción, el equipo de Auditoría requiere que se apliquen las líneas base de endurecimiento (CIS Benchmarks) según los estándares CompTIA Security+.',
     requirements: [
-      'Deshabilite todos los protocolos y servicios obsoletos o inseguros que transmitan credenciales en texto plano (Telnet puerto 23, FTP puerto 21, y SMBv1 susceptible a EternalBlue).',
-      'Habilite y verifique los protocolos seguros equivalentes (SSH / SFTP puerto 22, HTTPS puerto 443).',
-      'Active el Control de Cuentas de Usuario (UAC - User Account Control) en nivel seguro.',
-      'Configure la directiva de contraseñas: longitud mínima forzada a 14 caracteres.',
-      'Active la directiva de bloqueo de cuentas tras 5 intentos fallidos para mitigar ataques de fuerza bruta.',
-      'Exija Autenticación a Nivel de Red (NLA) para sesiones de Escritorio Remoto (RDP).'
+      'Deshabilita los servicios que transmiten credenciales en texto claro o tienen vulnerabilidades críticas conocidas.',
+      'Mantén habilitados los servicios seguros que el servidor necesita para administración remota y publicación web.',
+      'Activa el Control de Cuentas de Usuario (UAC) en nivel seguro.',
+      'Línea base de contraseñas: longitud mínima de 14 caracteres.',
+      'Línea base de bloqueo: bloquear la cuenta tras 5 intentos fallidos.',
+      'Las sesiones de Escritorio Remoto deben autenticarse antes de establecer la sesión gráfica.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA siempre evalúa el reemplazo de protocolos inseguros por seguros: Telnet (23) -> SSH (22); FTP (21) -> SFTP (22) o FTPS (990); HTTP (80) -> HTTPS (443); SMBv1 -> SMBv3. Recuerde que el estándar moderno de longitud de contraseña en SY0-701 es de mínimo 14 caracteres (NIST SP 800-63B).'
+      'CompTIA siempre evalúa el reemplazo de protocolos inseguros por seguros: Telnet (23) -> SSH (22); FTP (21) -> SFTP (22) o FTPS (990); HTTP (80) -> HTTPS (443); SMBv1 -> SMBv3. Recuerde que el estándar moderno de longitud de contraseña en SY0-701 es de mínimo 14 caracteres (NIST SP 800-63B).'
   },
   // PBQ 5
   {
@@ -172,13 +173,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Una auditoría interna descubrió anomalías en los permisos del servidor de archivos corporativo: un auditor sénior del departamento de Finanzas no puede modificar las planillas de auditoría en la carpeta de Finanzas, mientras que un practicante de IT (Intern) tiene asignado Control Total accidental sobre la carpeta confidencial de Nómina y Recursos Humanos (HR). Además, la herencia de permisos está provocando propagación indebida.',
     requirements: [
-      'Ajuste la asignación de grupos para que el practicante de IT pertenezca únicamente al grupo IT_Helpdesk y se elimine del grupo HR_Admins.',
-      'Deshabilite la herencia en la carpeta "/CorpShares/HR/Payroll_Confidential/" y revoque los accesos de "Domain Users" y "Everyone".',
-      'Otorgue al grupo "Finance_Auditors" permiso de Modificar (Modify) en "/CorpShares/Finance/Reports/", respetando el mínimo privilegio (sin otorgar Full Control).',
-      'Verifique que la regla de Denegación Explícita o falta de permisos no esté bloqueando injustamente a usuarios legítimos.'
+      'El practicante de IT solo debe conservar los accesos necesarios para soporte técnico.',
+      'La auditora Valeria debe obtener acceso a los informes financieros mediante la pertenencia al grupo correspondiente.',
+      'Solo RRHH debe acceder a /CorpShares/HR/Payroll_Confidential/; hoy hereda permisos de la carpeta padre que alcanzan a todos los empleados.',
+      'Los auditores deben poder leer y actualizar los informes de /CorpShares/Finance/Reports/, sin poder cambiar permisos ni tomar posesión.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Recuerde el principio de Least Privilege (Mínimo Privilegio): si un usuario solo necesita leer y actualizar un archivo, otorgue "Modify / Read & Write", NUNCA "Full Control" (ya que Full Control permite tomar posesión y cambiar permisos). Recuerde también que una Denegación Explícita (Explicit Deny) siempre tiene precedencia sobre un Permiso Permitido.'
+      'Recuerde el principio de Least Privilege (Mínimo Privilegio): si un usuario solo necesita leer y actualizar un archivo, otorgue "Modify / Read & Write", NUNCA "Full Control" (ya que Full Control permite tomar posesión y cambiar permisos). Recuerde también que una Denegación Explícita (Explicit Deny) siempre tiene precedencia sobre un Permiso Permitido.'
   },
   // PBQ 6
   {
@@ -193,14 +194,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'La empresa necesita interconectar la Oficina Central con una Sucursal remota mediante un túnel VPN IPSec Sitio a Sitio (Site-to-Site) a través de Internet. El túnel debe cumplir con los estándares criptográficos vigentes de NIST y CompTIA SY0-701, eliminando algoritmos obsoletos o con colisiones conocidas. Adicionalmente, se debe seleccionar el estándar adecuado para cifrar la base de datos interna en reposo (At-Rest) y el protocolo de capa de transporte para el portal web.',
     requirements: [
-      'En Fase 1 (IKE SA): Seleccione IKEv2 sobre IKEv1, grupo Diffie-Hellman seguro (Group 14 o superior / ECDH) y evite MD5/SHA-1 en favor de SHA-256/384.',
-      'En Fase 2 (IPSec SA): Seleccione ESP (Encapsulating Security Payload) para garantizar confidencialidad e integridad del payload, con suite de cifrado autenticado AES-GCM-256.',
-      'Habilite Perfect Forward Secrecy (PFS) para prevenir que el compromiso de una clave futura comprometa sesiones anteriores.',
-      'Para Datos en Reposo (Database At-Rest): elija AES-256 sobre algoritmos obsoletos como DES, 3DES o RC4.',
-      'Para el portal web de administración: configure TLS 1.3 eliminando SSLv3, TLS 1.0 y TLS 1.1.'
+      'Fase 1 (IKE SA): usa la versión de IKE más robusta, un grupo Diffie-Hellman de al menos 2048 bits (o curva elíptica) y un hash sin colisiones conocidas.',
+      'Fase 2 (IPsec SA): el túnel debe ofrecer confidencialidad e integridad del payload con cifrado autenticado.',
+      'El compromiso futuro de una clave de larga duración no debe permitir descifrar sesiones pasadas.',
+      'La base de datos en reposo debe cifrarse con un algoritmo simétrico actual de 256 bits.',
+      'El portal web de administración solo debe aceptar la versión más moderna de TLS.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En CompTIA SY0-701, DES, 3DES, RC4, MD5 y SHA-1 se consideran estrictamente OBSOLETOS / VULNERABLES. Siempre prefiera AES-256 (especialmente modo GCM para cifrado autenticado AEAD), familia SHA-2 (SHA-256 / SHA-512), IKEv2 y TLS 1.3.'
+      'En CompTIA SY0-701, DES, 3DES, RC4, MD5 y SHA-1 se consideran estrictamente OBSOLETOS / VULNERABLES. Siempre prefiera AES-256 (especialmente modo GCM para cifrado autenticado AEAD), familia SHA-2 (SHA-256 / SHA-512), IKEv2 y TLS 1.3.'
   },
   // PBQ 7
   {
@@ -215,15 +216,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Usted es el ingeniero de seguridad encargado de configurar un punto de acceso (AP) inalámbrico empresarial que servirá a la red corporativa interna. Debe implementar el estándar más seguro disponible (WPA3 Enterprise con autenticación centralizada 802.1X), mitigar ataques de fuerza bruta y ataques de desautenticación, y evitar que dispositivos clientes infectados ataquen a otros clientes en la misma celda Wi-Fi.',
     requirements: [
-      'Seleccione el modo de seguridad WPA3-Enterprise (802.1X / EAP) en lugar de claves precompartidas (PSK).',
-      'Configure el Servidor RADIUS corporativo: IP 10.0.10.25, Puerto estándar de Autenticación 1812 y la clave compartida (Secret Key).',
-      'Seleccione el cifrado robusto de grado militar AES-GCMP-256.',
-      'Habilite el Aislamiento de Clientes (Client Isolation) para impedir comunicación directa entre dispositivos inalámbricos.',
-      'Desactive por completo WPS (Wi-Fi Protected Setup) por su vulnerabilidad inherente.',
-      'Fuerce la activación de Tramas de Gestión Protegidas (802.11w PMF) para mitigar ataques de Deauthentication (desconexión forzada).'
+      'Cada empleado debe autenticarse con sus credenciales individuales contra el servidor RADIUS, no con una clave compartida.',
+      'Servidor RADIUS corporativo: IP 10.0.10.25, puerto estándar de autenticación y secreto compartido.',
+      'Usa el cifrado más robusto disponible para el modo de seguridad elegido.',
+      'Los dispositivos inalámbricos no deben poder comunicarse directamente entre sí.',
+      'Elimina el emparejamiento por PIN vulnerable a fuerza bruta y protege a los clientes contra la desautenticación forzada.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Para empresas, WPA3-Enterprise utiliza 802.1X con RADIUS (puerto 1812 para Auth, 1813 para Acct). WPA3 hace obligatorio PMF (Protected Management Frames - 802.11w) para evitar que los atacantes envíen paquetes de desautenticación falsificados. WPS debe estar siempre OFF.'
+      'Para empresas, WPA3-Enterprise utiliza 802.1X con RADIUS (puerto 1812 para Auth, 1813 para Acct). WPA3 hace obligatorio PMF (Protected Management Frames - 802.11w) para evitar que los atacantes envíen paquetes de desautenticación falsificados. WPS debe estar siempre OFF.'
   },
 
   // ========================================================
@@ -243,14 +243,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Una institución bancaria está migrando microservicios transaccionales hacia una Nube Pública (AWS/Azure VPC) mientras conserva su base de datos principal on-premises en su centro de datos privado. Debes diseñar la arquitectura híbrida aplicando principios Zero Trust: inspección perimetral con Cloud WAF en la entrada de la VPC, broker de acceso ZTNA para DevOps, enrutamiento seguro mediante Transit Gateway y Firewall Next-Gen protegiendo el núcleo local.',
     requirements: [
-      'Ubica el Cloud WAF en la entrada pública de la VPC para mitigar ataques de Capa 7 antes de los balanceadores de carga.',
-      'Coloca el Transit Gateway como el concentrador central de interconexión cifrada entre la VPC y el centro de datos local.',
-      'Sitúa el Broker de Acceso Zero Trust (ZTNA) para acceso granular de administradores a servidores de desarrollo.',
-      'Posiciona el Firewall de Nueva Generación (NGFW) en el borde del centro de datos local para inspeccionar el túnel híbrido.',
-      'Asegura la federación de identidades colocando el ADFS / IDP en la red interna on-premises protegida.'
+      'Filtra ataques de capa 7 y DDoS antes de que el tráfico de Internet llegue a los balanceadores de la VPC.',
+      'Centraliza la interconexión cifrada entre las VPC y el data center on-premises.',
+      'Los ingenieros de DevOps deben acceder solo a los servidores autorizados, con verificación continua y sin acceso a toda la red.',
+      'Inspecciona el tráfico del enlace híbrido al entrar al data center.',
+      'El servicio de identidad federada debe residir en la zona interna protegida.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En arquitecturas Cloud Híbridas de CompTIA SY0-701, Transit Gateway centraliza el tráfico este-oeste y norte-sur hacia múltiples VPCs y sedes. ZTNA sustituye a las VPNs tradicionales proporcionando acceso mínimo a aplicaciones específicas sin conceder acceso a toda la red.'
+      'En arquitecturas Cloud Híbridas de CompTIA SY0-701, Transit Gateway centraliza el tráfico este-oeste y norte-sur hacia múltiples VPCs y sedes. ZTNA sustituye a las VPNs tradicionales proporcionando acceso mínimo a aplicaciones específicas sin conceder acceso a toda la red.'
   },
 
   // PBQ 9: Egress Filtering & Exfiltration Defense
@@ -266,13 +266,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El equipo de Threat Hunting detectó que un host infectado (10.2.0.88) intentó exfiltrar información confidencial mediante DNS Tunneling hacia un servidor DNS externo no autorizado (198.51.100.200) y abrir una reverse shell por el puerto 4444. Debes auditar las reglas de salida (Egress Filtering) en el Firewall perimetral: bloquear puertos maliciosos conocidos, forzar que todas las consultas DNS (UDP 53) salgan EXCLUSIVAMENTE hacia los servidores DNS internos autorizados (10.0.0.53 y 10.0.0.54) y bloquear tráfico de canales C2 IRC (6667).',
     requirements: [
-      'Restringe las consultas DNS UDP 53 salientes: deben permitirse únicamente con destino a los DNS autorizados (10.0.0.53 y 10.0.0.54) y bloquear cualquier intento de consulta a IPs de Internet.',
-      'Bloquea puertos de alto riesgo frecuentemente asociados a shells inversas y Command & Control (C2): Puerto 4444 y Puerto 6667 (IRC).',
-      'Permite la navegación web legítima saliente cifrada HTTPS (Puerto 443).',
-      'Garantiza la regla implícita de denegación (Deny All Egress) en la última línea.'
+      'Las consultas DNS salientes solo deben dirigirse a los resolvers corporativos 10.0.0.53 y 10.0.0.54.',
+      'Los usuarios deben poder navegar por HTTPS; ningún otro puerto saliente hacia Internet debe quedar abierto.',
+      'Todo el tráfico saliente que no esté autorizado explícitamente debe ser denegado.',
+      'Comprueba que cada flujo de prueba del panel obtenga el resultado esperado.'
     ],
     tacticalTip:
-      'CyberKraft Tip: El filtrado Egress (salida) es tan vital como el Ingress en SY0-701. Nunca permitas DNS UDP 53 abierto hacia 0.0.0.0/0, pues es el vector número uno de DNS Tunneling y exfiltración encubierta. Solo los DNS corporativos deben consultar a la raíz.'
+      'El filtrado Egress (salida) es tan vital como el Ingress en SY0-701. Nunca permitas DNS UDP 53 abierto hacia 0.0.0.0/0, pues es el vector número uno de DNS Tunneling y exfiltración encubierta. Solo los DNS corporativos deben consultar a la raíz.'
   },
 
   // PBQ 10: SIEM - Phishing, C2 Beaconing & Kerberoasting
@@ -288,13 +288,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Se ha disparado una alarma de criticidad alta en el SIEM. Un empleado del departamento de finanzas recibió un correo malicioso. Registros de Gateway de Correo, Proxy corporativo y Active Directory (Event ID 4769) muestran una intrusión con balizamiento periódico (C2 Beaconing) y una petición anómala de ticket de servicio Kerberos con cifrado débil RC4. Investiga el incidente y toma las medidas de respuesta correspondientes.',
     requirements: [
-      'Determina la causa de fallo en el correo en el Gateway (SPF/DKIM/DMARC Spoofing con DMARC=fail).',
-      'Identifica el dominio C2 DGA y el intervalo regular de beaconing del malware en el Proxy.',
-      'Reconoce la técnica de ataque a Active Directory registrada en el Event ID 4769 (Kerberoasting solicitando TGS con cifrado RC4).',
-      'Selecciona la acción inmediata de contención y remediación de credenciales según estándares de CompTIA.'
+      'Determina qué revelan los registros del gateway de correo sobre el mensaje inicial.',
+      'Identifica el patrón de tráfico del malware en los registros del proxy.',
+      'Identifica la técnica contra Active Directory que muestran los eventos del controlador de dominio.',
+      'Selecciona la acción inmediata de contención y remediación.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En CompTIA SY0-701, el Event ID 4769 de Windows Security con Ticket Options sospechosos y cifrado 0x17 (RC4-HMAC) es la firma definitiva de un ataque Kerberoasting (extracción de tickets TGS para crackear contraseñas de cuentas de servicio offline).'
+      'En CompTIA SY0-701, el Event ID 4769 de Windows Security con Ticket Options sospechosos y cifrado 0x17 (RC4-HMAC) es la firma definitiva de un ataque Kerberoasting (extracción de tickets TGS para crackear contraseñas de cuentas de servicio offline).'
   },
 
   // PBQ 11: Workstation Hardening & Credential Guard
@@ -310,14 +310,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Tras un ejercicio de Red Team donde los atacantes lograron envenenar resoluciones de nombres en la red local y extraer hashes de memoria LSASS, se te solicita implementar la línea base de endurecimiento de estaciones de trabajo Windows 11 corporativas para mitigar ataques de tipo Responder y robo de credenciales en memoria.',
     requirements: [
-      'Deshabilita LLMNR (Link-Local Multicast Name Resolution) y NetBIOS sobre TCP/IP para neutralizar ataques de envenenamiento NBT-NS/LLMNR (Responder).',
-      'Habilita Windows Defender Credential Guard con Virtualization-Based Security (VBS) para proteger el proceso LSASS contra Mimikatz.',
-      'Configura la directiva de ejecución de scripts de PowerShell en "AllSigned" o "Restricted" para bloquear scripts descargados sin firma.',
-      'Bloquea la ejecución de macros de Microsoft Office descargadas de Internet (Mark of the Web - MOTW).',
-      'Verifica la activación de Arranque Seguro (Secure Boot UEFI) y cifrado BitLocker con TPM 2.0.'
+      'Neutraliza los protocolos de resolución de nombres por broadcast que permiten capturar hashes NTLM en la red local.',
+      'Protege las credenciales almacenadas en memoria (LSASS) contra herramientas de volcado.',
+      'Impide la ejecución de scripts de PowerShell que no estén firmados digitalmente.',
+      'Bloquea la ejecución de macros en documentos de Office descargados de Internet.',
+      'Asegura la integridad del proceso de arranque y el cifrado del disco.'
     ],
     tacticalTip:
-      'CyberKraft Tip: LLMNR y NetBIOS son protocolos de broadcast antiguos que transmiten hashes NTLMv2 a la red local cuando falla el DNS. Deshabilitarlos es una de las preguntas de hardening más recurrentes en SY0-701.'
+      'LLMNR y NetBIOS son protocolos de broadcast antiguos que transmiten hashes NTLMv2 a la red local cuando falla el DNS. Deshabilitarlos es una de las preguntas de hardening más recurrentes en SY0-701.'
   },
 
   // PBQ 12: Conditional Access & Zero Trust IAM
@@ -333,13 +333,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un proveedor de salud en la nube requiere configurar políticas de Acceso Condicional (Conditional Access) y Zero Trust para empleados que acceden a historiales médicos (EHR). Se debe garantizar cumplimiento HIPAA: forzar MFA resistente a phishing (FIDO2), bloquear accesos desde ubicaciones geográficas de alto riesgo, exigir dispositivos conformes (MDM Compliant) y aplicar acceso Just-In-Time (JIT/PIM) para administradores globales.',
     requirements: [
-      'Aplica la directiva de Autenticación Multifactor (MFA) obligatoria basada en estándares resistentes a phishing (FIDO2 / WebAuthn) para todos los accesos fuera de la red corporativa.',
-      'Configura Geobloqueo (Named Locations) para denegar el acceso desde países fuera del perímetro operativo autorizado.',
-      'Exige que el dispositivo del usuario esté registrado y cumpla las directivas de seguridad (MDM / Compliant Device) para abrir aplicaciones con PII/EHR.',
-      'Elimina el acceso permanente de Administrador Global implementando Privileged Identity Management (PIM / Just-In-Time access).'
+      'Exige MFA resistente al phishing para todos los accesos desde fuera de la red corporativa.',
+      'Deniega el acceso desde países fuera del perímetro operativo autorizado.',
+      'Solo los dispositivos gestionados que cumplan las directivas de seguridad pueden abrir aplicaciones con PII o historias clínicas.',
+      'Elimina los privilegios permanentes de Administrador Global.',
+      'Bloquea automáticamente los inicios de sesión con riesgo de identidad alto.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En Zero Trust, la identidad y el contexto del dispositivo son los nuevos perímetros. "Never Trust, Always Verify". El MFA tradicional por SMS es vulnerable a SIM Swapping; CompTIA promueve MFA resistente a phishing como FIDO2 / hardware security keys.'
+      'En Zero Trust, la identidad y el contexto del dispositivo son los nuevos perímetros. "Never Trust, Always Verify". El MFA tradicional por SMS es vulnerable a SIM Swapping; CompTIA promueve MFA resistente a phishing como FIDO2 / hardware security keys.'
   },
 
   // PBQ 13: PKI Certificate Chain Diagnostics & Web TLS
@@ -355,14 +356,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Los clientes que ingresan al portal bancario seguro están recibiendo alertas críticas del navegador: "SEC_ERROR_UNKNOWN_ISSUER" y "Certificate Name Mismatch". Al auditar el servidor web, descubres que se utilizó un certificado firmado con algoritmo débil, sin incluir la CA intermedia en el bundle, y omitiendo la extensión SAN (Subject Alternative Name). Corrige la configuración de la PKI y el certificado del servidor.',
     requirements: [
-      'Sustituye el algoritmo de firma obsoleto SHA-1 por SHA-256 (SHA-256withRSA o ECDSA).',
-      'Incluye la Autoridad de Certificación Intermedia (Intermediate CA) en el bundle del certificado del servidor para completar la cadena de confianza hacia la Root CA.',
-      'Agrega los dominios correspondientes en la extensión Subject Alternative Name (SAN: DNS:portal.corp.com, DNS:www.portal.corp.com).',
-      'Configura OCSP Stapling (RFC 6066) para validación de revocación rápida y privada sin saturar la CA.',
-      'Asegura que el certificado sea emitido por una CA Raíz de Confianza Pública en lugar de un certificado autofirmado para servicios de cara al cliente.'
+      'Los clientes externos ven advertencias de seguridad: el certificado debe ser confiable para cualquier navegador.',
+      'El algoritmo de firma debe ser aceptado por los navegadores modernos.',
+      'Algunos clientes reportan "emisor desconocido": completa la cadena de confianza.',
+      'El certificado debe ser válido para portal.corp.com y www.portal.corp.com.',
+      'La comprobación de revocación debe ser rápida y no exponer la navegación de los clientes a la CA.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Un error clásico de examen: un certificado válido emitido por una CA intermedia causará error de navegador si el servidor web no envía el Intermediate Certificate Bundle. El navegador necesita la cadena completa hasta el Trust Store local.'
+      'Un error clásico de examen: un certificado válido emitido por una CA intermedia causará error de navegador si el servidor web no envía el Intermediate Certificate Bundle. El navegador necesita la cadena completa hasta el Trust Store local.'
   },
 
   // PBQ 14: Wireless WIPS & Rogue AP / Evil Twin Mitigation
@@ -378,13 +379,12 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El Sistema de Prevención de Intrusiones Inalámbricas (WIPS) de la sede corporativa ha detectado un Punto de Acceso No Autorizado (Rogue AP / Evil Twin) transmitiendo el mismo SSID corporativo (CORP-STAFF) con una dirección MAC desconocida y señal muy fuerte. Algunos empleados han reportado ventanas de autenticación falsas solicitando sus credenciales de dominio. Debes desplegar las contramedidas inmediatas para mitigar la amenaza.',
     requirements: [
-      'Clasifica la amenaza detectada por el WIPS como "Rogue AP / Evil Twin Attack" para iniciar contención.',
-      'Activa la contención inalámbrica automática en el WIPS (Wireless Containment enviando tramas de desautenticación dirigidas al Rogue BSSID).',
-      'Identifica y ejecuta el bloqueo del puerto del switch Ethernet físico (Port Security / Shutdown) al que está conectado el Rogue AP.',
-      'Fuerza en las directivas de red inalámbrica corporativa el protocolo EAP-TLS (autenticación mutua por certificados) para evitar que los clientes se asocien a APs sin certificado válido de la CA corporativa.'
+      'Clasifica la amenaza que detectó el WIPS.',
+      'Neutraliza el AP no autorizado tanto en el aire como en su conexión cableada.',
+      'Evita que los clientes corporativos entreguen credenciales a un AP que no pueda demostrar su identidad.'
     ],
     tacticalTip:
-      'CyberKraft Tip: La diferencia entre Rogue AP y Evil Twin: un Rogue AP es cualquier AP no autorizado conectado a la red; un Evil Twin es un Rogue AP que clona específicamente el SSID y configuración de una red legítima para engañar a usuarios y robar credenciales. EAP-TLS con validación estricta de certificado del servidor previene que los clientes caigan en el engaño.'
+      'La diferencia entre Rogue AP y Evil Twin: un Rogue AP es cualquier AP no autorizado conectado a la red; un Evil Twin es un Rogue AP que clona específicamente el SSID y configuración de una red legítima para engañar a usuarios y robar credenciales. EAP-TLS con validación estricta de certificado del servidor previene que los clientes caigan en el engaño.'
   },
 
   // PBQ 15: Vulnerability Management & CVSS Remediation
@@ -400,13 +400,11 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El escáner de vulnerabilidades (Nessus/Qualys) ejecutó un análisis autenticado sobre la infraestructura corporativa descubriendo 4 fallos críticos: Log4j RCE (CVSS 10.0), Apache HTTP Path Traversal (CVSS 7.5), SSLv3 POODLE y Suites Débiles en OpenSSH. Como analista de ciberseguridad, debes analizar cada CVE y asignar la acción de remediación técnica y táctica más efectiva para mitigar el riesgo.',
     requirements: [
-      'Para Log4j (CVE-2021-44228 - CVSS 10.0): actualiza la biblioteca a la versión parcheada 2.17.1+ y aplica una regla de WAF virtual parcheando patrones ${jndi:ldap/rmi}.',
-      'Para Apache Path Traversal (CVE-2021-41773): actualiza el servidor web y fuerza la directiva "Require all denied" en el directorio raíz.',
-      'Para SSLv3 POODLE (CVE-2014-3566): deshabilita permanentemente SSLv2/SSLv3 y TLS 1.0, forzando TLS 1.2 o TLS 1.3.',
-      'Para OpenSSH Ciphers: restringe sshd_config deshabilitando algoritmos CBC y 3DES, requiriendo exclusivamente cifradores autenticados AEAD.'
+      'Revisa los cuatro hallazgos del escáner, su puntuación CVSS y el servicio afectado.',
+      'Para cada hallazgo selecciona la remediación que corrige la causa raíz. Una medida temporal no sustituye al parche.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En CompTIA SY0-701, un CVSS Score de 9.0 a 10.0 es CRITICAL y siempre debe ser mitigado en primer lugar. Las mitigaciones temporales como Virtual Patching en WAF se aplican mientras se despliega el parche definitivo en producción.'
+      'En CompTIA SY0-701, un CVSS Score de 9.0 a 10.0 es CRITICAL y siempre debe ser mitigado en primer lugar. Las mitigaciones temporales como Virtual Patching en WAF se aplican mientras se despliega el parche definitivo en producción.'
   },
 
   // PBQ 16: DLP & Data Protection in 3 States
@@ -422,13 +420,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Una empresa farmacéutica almacena fórmulas patentadas, registros médicos (HIPAA/PII) y transacciones de clientes. La auditoría exige proteger estos activos en sus tres estados del ciclo de vida: Datos en Reposo (At-Rest), Datos en Tránsito (In-Transit) y Datos en Uso (In-Use). Asigna los controles de seguridad criptográficos y de prevención de fugas (DLP) idóneos.',
     requirements: [
-      'Protege los Datos en Reposo (Base de Datos): implementa cifrado transparente AES-256 (TDE / BitLocker) con gestión de claves en KMS / HSM.',
-      'Protege los Datos en Tránsito (APIs y canales de red): fuerza TLS 1.3 con autenticación mutua mTLS y secreto perfecto hacia adelante (PFS).',
-      'Protege los Datos en Uso (Estaciones de trabajo): despliega agente Endpoint DLP para bloquear copiado de PII a memorias USB, portapapeles y capturas de pantalla.',
-      'Protege los repositorios Cloud / SaaS: activa CASB en modo API con escaneo continuo y marcas de agua digitales.'
+      'Protege la base de datos que almacena PII (datos en reposo).',
+      'Protege la API transaccional entre servicios (datos en tránsito), autenticando ambos extremos.',
+      'Evita que los empleados extraigan PII desde sus estaciones de trabajo (datos en uso).',
+      'Detecta y controla la PII compartida en el almacenamiento SaaS.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Recuerda los 3 estados fundamentales del dato en SY0-701: At-Rest (almacenado en disco/BD -> Cifrado AES/BitLocker), In-Transit (viajando por la red -> TLS 1.3/IPSec), In-Use (cargado en RAM/pantalla -> Endpoint DLP, enmascaramiento, Confidential Computing).'
+      'Recuerda los 3 estados fundamentales del dato en SY0-701: At-Rest (almacenado en disco/BD -> Cifrado AES/BitLocker), In-Transit (viajando por la red -> TLS 1.3/IPSec), In-Use (cargado en RAM/pantalla -> Endpoint DLP, enmascaramiento, Confidential Computing).'
   },
 
   // PBQ 17: Incident Response Playbook Lifecycle
@@ -444,15 +442,11 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un ataque de Ransomware ha sido detectado en una estación de finanzas intentando cifrar carpetas compartidas de la red. El equipo CSIRT debe ejecutar el plan de respuesta según el estándar NIST SP 800-61r2. Asigna cada una de las 6 acciones tácticas a la fase oficial que le corresponde.',
     requirements: [
-      'Fase 1 - Preparación: Actualizar playbooks de respuesta, capacitar analistas y verificar copias de seguridad desconectadas (Air-Gap).',
-      'Fase 2 - Detección y Análisis: Correlacionar alertas en el SIEM, analizar hashes de malware y determinar el alcance y vectores del ataque.',
-      'Fase 3 - Contención: Aislar de inmediato el equipo infectado de la red (quarantine VLAN / deshabilitar puerto switch) para evitar propagación.',
-      'Fase 4 - Erradicación: Eliminar binarios maliciosos, tareas programadas persistentes y formatear/reinstalar sistemas comprometidos.',
-      'Fase 5 - Recuperación: Restaurar datos desde copias de seguridad limpias verificadas, reconectar sistemas y realizar monitoreo reforzado.',
-      'Fase 6 - Lecciones Aprendidas: Redactar el informe post-incidente, identificar brechas en los controles y actualizar directivas.'
+      'Asigna cada acción del playbook a la fase del ciclo de vida de respuesta a incidentes en la que se ejecuta.',
+      'Algunas acciones ocurren antes del incidente y otras después de resolverlo.'
     ],
     tacticalTip:
-      'CyberKraft Tip: El orden estricto de NIST SP 800-61r2 que DEBES memorizar para Security+ es: 1. Preparation -> 2. Detection & Analysis -> 3. Containment -> 4. Eradication -> 5. Recovery -> 6. Lessons Learned (Post-Incident). Nunca saltes a la Erradicación sin antes Contener.'
+      'El orden estricto de NIST SP 800-61r2 que DEBES memorizar para Security+ es: 1. Preparation -> 2. Detection & Analysis -> 3. Containment -> 4. Eradication -> 5. Recovery -> 6. Lessons Learned (Post-Incident). Nunca saltes a la Erradicación sin antes Contener.'
   },
 
   // PBQ 18: Container & Pod Security
@@ -468,14 +462,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El equipo de DevOps desplegó un microservicio en un clúster de Kubernetes usando imágenes con privilegios de root y sin directivas de red, permitiendo que un atacante intente un escape de contenedor (Container Breakout). Aplica los controles del CIS Kubernetes Benchmark para endurecer la especificación del pod.',
     requirements: [
-      'Sustituye la imagen base voluminosa por una imagen minimalista Distroless sin shell ni gestores de paquetes.',
-      'Configura SecurityContext para forzar la ejecución con un usuario no-root (UID 10001).',
-      'Inyecta secretos mediante HashiCorp Vault / KMS CSI Driver en lugar de variables de entorno en texto plano.',
-      'Aplica una política de red (NetworkPolicy) de Denegación por Defecto (Default-Deny) para aislar el pod en la red.',
-      'Monta el sistema de archivos raíz como Solo Lectura (readOnlyRootFilesystem: true).'
+      'Reduce la superficie de ataque de la imagen base.',
+      'El proceso del contenedor no debe ejecutarse con privilegios de superusuario.',
+      'Las credenciales de la base de datos no deben quedar en la imagen ni en variables de entorno.',
+      'Un pod comprometido no debe poder comunicarse con otros pods salvo los autorizados.',
+      'Un atacante no debe poder modificar binarios dentro del contenedor.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En seguridad de contenedores de SY0-701: 1. Distroless reduce la superficie de ataque; 2. Run as non-root previene elevación a root del nodo físico; 3. readOnlyRootFilesystem evita que el malware escriba herramientas en disco; 4. Default-deny network policies contienen el movimiento lateral.'
+      'En seguridad de contenedores de SY0-701: 1. Distroless reduce la superficie de ataque; 2. Run as non-root previene elevación a root del nodo físico; 3. readOnlyRootFilesystem evita que el malware escriba herramientas en disco; 4. Default-deny network policies contienen el movimiento lateral.'
   },
 
   // PBQ 19: Physical Security & Datacenter Design
@@ -491,14 +485,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Estás a cargo de certificar la seguridad física de un nuevo centro de datos corporativo de alta criticidad (Tier III). Debes seleccionar las defensas físicas en capas para detener ataques vehiculares, prevenir accesos no autorizados a la sala de servidores (tailgating), extinguir incendios sin arruinar el hardware y mitigar espionaje por señales electromagnéticas.',
     requirements: [
-      'Barrera Perimetral: Instala bolardos de acero con certificación anti-impacto (Crash-rated K12) para detener embestidas vehiculares.',
-      'Control de Acceso a Racks: Implementa un Mantrap (esclusa de seguridad de dos puertas) con biometría de doble factor y sensor de peso para erradicar el Tailgating.',
-      'Supresión de Incendios: Selecciona un sistema de gas limpio no conductor (FM-200 o Novec 1230) en lugar de rociadores de agua.',
-      'Gestión Térmica: Aplica confinamiento de Pasillos Fríos y Pasillos Calientes (Hot/Cold Aisle) para evitar sobrecalentamiento.',
-      'Apantallamiento TEMPEST: Instala una Jaula de Faraday blindada y conectada a tierra para bloquear emanaciones de radiofrecuencia.'
+      'Detén vehículos que intenten embestir el edificio.',
+      'Impide que una persona no autorizada entre detrás de un empleado (tailgating) a la sala de servidores.',
+      'Extingue un incendio sin dañar los equipos energizados.',
+      'Evita el sobrecalentamiento optimizando el flujo de aire de los racks.',
+      'Impide la interceptación de emanaciones electromagnéticas de la sala.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En preguntas de seguridad física de CompTIA: Rociadores de agua jamás van en salas de cómputo en funcionamiento (usa gas limpio FM-200/Novec); el Mantrap (Access Control Vestibule) con peso es la respuesta infalible contra Tailgating/Piggybacking; los bolardos K12 detienen camiones.'
+      'En preguntas de seguridad física de CompTIA: Rociadores de agua jamás van en salas de cómputo en funcionamiento (usa gas limpio FM-200/Novec); el Mantrap (Access Control Vestibule) con peso es la respuesta infalible contra Tailgating/Piggybacking; los bolardos K12 detienen camiones.'
   },
 
   // PBQ 20: Disaster Recovery & Continuity
@@ -514,14 +508,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un banco comercial en línea requiere actualizar su Plan de Recuperación ante Desastres (DRP) para cumplir un Acuerdo de Nivel de Servicio (SLA) de 99.99% de disponibilidad. Debes definir las métricas clave de tiempo y pérdida de datos tolerables (RTO y RPO), seleccionar el tipo de sitio alternativo de contingencia y configurar la arquitectura de respaldos inmutables.',
     requirements: [
-      'Establece el Recovery Time Objective (RTO) en menos de 2 horas para cumplir la meta de disponibilidad anual.',
-      'Fija el Recovery Point Objective (RPO) en máximo 15 minutos mediante replicación síncrona continua de base de datos.',
-      'Elige un Hot Site (sitio espejo activo) con hardware idéntico y conmutación automática por error (failover).',
-      'Aplica la regla de copias de seguridad 3-2-1: 3 copias de datos en 2 medios distintos con 1 copia fuera de sitio (Offsite).',
-      'Activa almacenamiento inmutable WORM (Write Once, Read Many) y bloqueo de retención para que el ransomware no pueda destruir las copias.'
+      'El SLA admite como máximo 2 horas de indisponibilidad del servicio transaccional por incidente.',
+      'El negocio no tolera perder más de 15 minutos de transacciones.',
+      'El sitio alternativo debe permitir cumplir ese tiempo de recuperación.',
+      'Las copias deben sobrevivir a la pérdida total del sitio principal y a la falla de un medio de almacenamiento.',
+      'Un ransomware con credenciales de administrador no debe poder borrar ni cifrar las copias.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Diferencia fundamental de examen: RTO (Recovery Time Objective) es el tiempo MÁXIMO que el sistema puede estar caído. RPO (Recovery Point Objective) es la cantidad MÁXIMA de datos perdidos medida en tiempo. Hot Site = minutos/inmediato; Warm Site = horas; Cold Site = días.'
+      'Diferencia fundamental de examen: RTO (Recovery Time Objective) es el tiempo MÁXIMO que el sistema puede estar caído. RPO (Recovery Point Objective) es la cantidad MÁXIMA de datos perdidos medida en tiempo. Hot Site = minutos/inmediato; Warm Site = horas; Cold Site = días.'
   },
 
   // PBQ 21: Social Engineering & Human Factors
@@ -537,13 +531,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El departamento de Recursos Humanos y el SOC recibieron reportes de 4 incidentes sospechosos ocurridos durante la misma semana. Analiza las evidencias de cada incidente y clasifica: el vector de ataque técnico, el principio psicológico de influencia (Robert Cialdini) utilizado por el atacante y la contramedida de seguridad recomendada.',
     requirements: [
-      'Caso 1 (SMS urgente de cargo no reconocido en tarjeta): Clasifica como Smishing, principio de Urgencia y educación en concienciación.',
-      'Caso 2 (Llamada telefónica suplantando al CEO pidiendo gift cards urgentes): Clasifica como Vishing, principio de Autoridad e intimidación, y validación fuera de banda.',
-      'Caso 3 (Correo a Finanzas pidiendo cambio de cuenta bancaria de proveedor de confianza): Clasifica como Whaling / BEC, principio de Confianza/Consenso y procedimiento de doble autorización.',
-      'Caso 4 (Memorias USB dejadas en el estacionamiento con etiqueta "Bonos"): Clasifica como Baiting, principio de Curiosidad/Escasez y desactivación de AutoRun con bloqueo de USB.'
+      'Para cada caso identifica el tipo de ataque, el principio de influencia explotado y la mitigación más eficaz.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Asocia los canales con sus términos: SMS -> Smishing; Voz/Teléfono -> Vishing; Correos a altos cargos -> Whaling / BEC; Obsequios físicos/USBs en el suelo -> Baiting. Los principios de Cialdini en SY0-701: Autoridad (intimidación por cargo), Urgencia (tiempo límite falso), Curiosidad/Escasez (ofertas/secretos).'
+      'Asocia los canales con sus términos: SMS -> Smishing; Voz/Teléfono -> Vishing; Correos a altos cargos -> Whaling / BEC; Obsequios físicos/USBs en el suelo -> Baiting. Los principios de Cialdini en SY0-701: Autoridad (intimidación por cargo), Urgencia (tiempo límite falso), Curiosidad/Escasez (ofertas/secretos).'
   },
 
   // PBQ 22: Digital Forensics & Order of Volatility
@@ -559,13 +550,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un servidor de transferencias bancarias ha sido comprometido mediante una inyección de memoria activa. Como perito informático forense asignado, debes recolectar las evidencias digitales asegurando la validez legal ante un tribunal. Ordena los 6 tipos de evidencia desde la más volátil (que se destruiría inmediatamente si el equipo se desconecta) hasta la menos volátil según el estándar RFC 3227, y activa los controles de integridad criptográfica y no repudio.',
     requirements: [
-      'Ordena secuencialmente los 6 elementos del Orden de Volatilidad RFC 3227: Registros CPU/Caché -> Memoria RAM -> Espacio Swap / Archivo de paginación -> Disco duro / Almacenamiento local -> Registros remotos / SIEM -> Cintas de respaldo de archivo.',
-      'Activa el uso obligatorio del Bloqueador de Escritura Físico (Hardware Write Blocker) antes de clonar el disco.',
-      'Selecciona el algoritmo de hash criptográfico seguro (SHA-256) para certificar la integridad de la imagen bit a bit.',
-      'Firma y completa formalmente el Registro de Cadena de Custodia para asegurar la admisibilidad jurídica.'
+      'Ordena las fuentes de evidencia según el orden de volatilidad (RFC 3227), de la más volátil a la menos volátil.',
+      'La adquisición del disco no debe modificar la evidencia original.',
+      'Certifica la integridad de la imagen con un algoritmo de hash sin colisiones conocidas.',
+      'Asegura la admisibilidad legal documentando quién manipuló la evidencia y cuándo.'
     ],
     tacticalTip:
-      'CyberKraft Tip: El Orden de Volatilidad RFC 3227 es una de las preguntas fijas en CompTIA Security+: 1. Registros CPU/Caché -> 2. RAM (conexiones y procesos activos) -> 3. Swap/Pagefile -> 4. Disco duro local -> 5. Logs remotos -> 6. Cintas/Medios ópticos. Un Write-Blocker es obligatorio para no modificar atime/mtime.'
+      'El Orden de Volatilidad RFC 3227 es una de las preguntas fijas en CompTIA Security+: 1. Registros CPU/Caché -> 2. RAM (conexiones y procesos activos) -> 3. Swap/Pagefile -> 4. Disco duro local -> 5. Logs remotos -> 6. Cintas/Medios ópticos. Un Write-Blocker es obligatorio para no modificar atime/mtime.'
   },
 
   // PBQ 23: Quantitative Risk Assessment
@@ -586,7 +577,7 @@ export const PBQ_LIST: PBQItem[] = [
       'Asigna a cada una de las 4 amenazas la estrategia de tratamiento más adecuada: Mitigar, Transferir, Aceptar o Evitar.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Memoriza las fórmulas doradas: SLE = AV × EF; ALE = SLE × ARO. Si el costo del control anual es menor que el ALE, se Mitiga. Si el riesgo se cubre con póliza, se Transfiere. Si el costo de mitigar supera el daño, se Acepta formalmente. Si el servicio se cancela por riesgoso, se Evita.'
+      'Memoriza las fórmulas doradas: SLE = AV × EF; ALE = SLE × ARO. Si el costo del control anual es menor que el ALE, se Mitiga. Si el riesgo se cubre con póliza, se Transfiere. Si el costo de mitigar supera el daño, se Acepta formalmente. Si el servicio se cancela por riesgoso, se Evita.'
   },
 
   // PBQ 24: Email Security SPF, DKIM, DMARC
@@ -602,13 +593,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un atacante está enviando correos fraudulentos a clientes usando la dirección ceo@corp.com para solicitar transferencias financieras (Ataque BEC / Spoofing). Como arquitecto de seguridad, debes configurar los registros DNS públicos de autenticación de correo del dominio para que los servidores destinatarios del mundo rechacen y reporten cualquier correo falsificado.',
     requirements: [
-      'Configura el registro SPF con el calificador estricto HardFail (-all) para que servidores de terceros no autorizados sean denegados de inmediato.',
-      'Establece el tamaño de clave pública asimétrica RSA para DKIM en 2048 bits para prevenir factorización de firmas.',
-      'Aplica la directiva DMARC estricta p=reject en lugar de p=none o p=quarantine.',
-      'Configura el parámetro rua=mailto:dmarc-reports@corp.com con porcentaje pct=100 para recibir informes forenses XML de todos los envíos falsificados.'
+      'Los servidores no autorizados que envíen correo en nombre de corp.com deben ser rechazados, no solo marcados.',
+      'Publica en DNS lo necesario para que los receptores verifiquen las firmas de los mensajes.',
+      'Los mensajes que fallen la autenticación deben rechazarse y la empresa debe recibir informes agregados.',
+      'Los clientes de correo deben enviar al servidor por el puerto de submission cifrado.',
+      'Los correos de la dirección deben ir cifrados y firmados de extremo a extremo.'
     ],
     tacticalTip:
-      'CyberKraft Tip: SPF valida la IP de origen (-all = Hard Fail estricto; ~all = Soft Fail flexible); DKIM valida la integridad del contenido mediante firma asimétrica de cabeceras; DMARC vincula ambos e instruye la acción (p=reject es la máxima protección contra BEC y Phishing).'
+      'SPF valida la IP de origen (-all = Hard Fail estricto; ~all = Soft Fail flexible); DKIM valida la integridad del contenido mediante firma asimétrica de cabeceras; DMARC vincula ambos e instruye la acción (p=reject es la máxima protección contra BEC y Phishing).'
   },
 
   // PBQ 25: Security CLI & Terminal Diagnostics
@@ -624,13 +616,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Durante una guardia en el SOC, se detecta telemetría anómala en un servidor crítico de producción. Debes interactuar con la consola de comandos de terminal para auditar puertos abiertos y PIDs, capturar tráfico de red en vivo, calcular hashes de integridad de binarios del sistema para detectar troyanos y asegurar permisos octales de archivos sensibles.',
     requirements: [
-      'Identificar puertos a la escucha y PIDs asociados en Linux: selecciona "netstat -tulpn" (o ss -tulpn).',
-      'Capturar paquetes en vivo sin resolución de nombres en la interfaz eth0: selecciona "tcpdump -i eth0 -nn -s0".',
-      'Verificar si un binario del sistema fue modificado por un rootkit: selecciona "sha256sum /bin/login".',
-      'Restringir permisos de acceso al archivo crítico de hashes de usuarios: selecciona "chmod 600 /etc/shadow && chown root:root /etc/shadow".'
+      'Para cada síntoma selecciona el comando que obtiene la evidencia o aplica la corrección necesaria.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA siempre evalúa flags de comandos: netstat -t (TCP), -u (UDP), -l (Listening), -p (PID/Program), -n (Numeric IPs). tcpdump -nn (evita resolver DNS y nombres de puertos para no perder paquetes). chmod 600 = solo el propietario root puede leer y escribir.'
+      'CompTIA siempre evalúa flags de comandos: netstat -t (TCP), -u (UDP), -l (Listening), -p (PID/Program), -n (Numeric IPs). tcpdump -nn (evita resolver DNS y nombres de puertos para no perder paquetes). chmod 600 = solo el propietario root puede leer y escribir.'
   },
 
   // PBQ 26: IDS/IPS Snort & YARA Rule Engineering
@@ -646,13 +635,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Los sensores NIPS del perímetro y los agentes EDR del endpoint requieren nuevas firmas de detección ante una campaña activa de robo de credenciales y explotación SQL. Como analista de detección e ingeniería del SOC, debes construir una regla de Snort para descartar (drop) en línea peticiones HTTP con inyecciones SQL ciegas ("UNION SELECT") y configurar los parámetros de una regla YARA que identifique binarios ejecutables Windows PE maliciosos invocando PowerShell codificado.',
     requirements: [
-      'Establece la acción del sensor Snort en "drop" para bloqueo activo en línea en el NIPS.',
-      'Aplica el patrón de contenido malicioso "UNION SELECT" con el modificador "nocase" para evitar evasión con mayúsculas/minúsculas alternas.',
-      'Configura la condición mágica del encabezado binario en YARA con "0x5A4D" (firma MZ de ejecutables Windows PE).',
-      'Asigna la cadena sospechosa "cmd.exe /c powershell -enc" en la sección de strings de la regla YARA.'
+      'El sensor está en línea y debe detener el ataque, no solo registrarlo.',
+      'La regla debe detectar la inyección SQL observada aunque el atacante alterne mayúsculas y minúsculas.',
+      'La regla YARA solo debe aplicarse a ejecutables de Windows.',
+      'La regla YARA debe detectar la cadena de ejecución ofuscada observada en el incidente.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Snort tiene acciones alert (solo avisa), log (guarda) y drop (bloquea activamente en línea). El modificador "nocase" es fundamental contra atacantes que mezclan UniOn SeLeCt. En YARA, todo binario Windows comienza con los bytes 0x5A4D ("MZ" en ASCII de Mark Zbikowski).'
+      'Snort tiene acciones alert (solo avisa), log (guarda) y drop (bloquea activamente en línea). El modificador "nocase" es fundamental contra atacantes que mezclan UniOn SeLeCt. En YARA, todo binario Windows comienza con los bytes 0x5A4D ("MZ" en ASCII de Mark Zbikowski).'
   },
 
   // PBQ 27: DevSecOps CI/CD Pipeline
@@ -668,13 +657,11 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'La organización ha adoptado una cultura DevSecOps y necesita implementar el principio "Shift-Left", detectando debilidades de seguridad lo más temprano posible en el pipeline de entrega continua. Posiciona la herramienta y control de seguridad óptimo en cada una de las 4 fases del pipeline: Commit de código, Compilación (Build), Pruebas (Test/Staging) y Despliegue a Producción (Deploy).',
     requirements: [
-      'Fase Commit (Local del desarrollador): Pre-commit hook & Secret Scanning (TruffleHog / GitGuardian) para evitar subir tokens/claves a Git.',
-      'Fase Build (Compilación e integración): SAST (SonarQube) y análisis de dependencias SCA / SBOM (Snyk/Dependabot).',
-      'Fase Test (Entorno de pruebas/Staging): DAST (OWASP ZAP) simulando ataques en tiempo de ejecución.',
-      'Fase Deploy (Lanzamiento a producción): Verificación de firma criptográfica de contenedores (Cosign) y agente RASP.'
+      'Para cada etapa del pipeline (commit, build, test, deploy) selecciona el control de seguridad que corresponde a esa etapa.',
+      'Objetivos: que no lleguen secretos al repositorio, detectar vulnerabilidades en el código y las dependencias, probar la aplicación en ejecución y desplegar solo artefactos confiables.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Shift-Left significa mover las pruebas hacia la izquierda en la línea de tiempo. SAST analiza código estático sin ejecutarlo (fase Build); DAST analiza la aplicación viva desde el exterior como atacante (fase Test); Secret Scanning intercepta credenciales antes de ser empujadas al repositorio.'
+      'Shift-Left significa mover las pruebas hacia la izquierda en la línea de tiempo. SAST analiza código estático sin ejecutarlo (fase Build); DAST analiza la aplicación viva desde el exterior como atacante (fase Test); Secret Scanning intercepta credenciales antes de ser empujadas al repositorio.'
   },
 
   // PBQ 28: Cryptographic Attacks & Countermeasures
@@ -690,13 +677,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El equipo de seguridad ha recibido cuatro reportes de incidentes criptográficos en diversos sistemas. Analiza los síntomas descritos en cada caso, clasifica la técnica exacta de ataque criptográfico empleada (Rainbow Tables, Birthday Attack / Hash Collision, Replay Attack, Downgrade Attack) y selecciona la contramedida criptográfica matemática adecuada.',
     requirements: [
-      'Caso 1 (Hashes de contraseñas rotos en segundos contra base de datos de hashes precomputados): Clasifica como Rainbow Tables y mitiga con Salting criptográfico aleatorio y Key Stretching (Argon2 / bcrypt).',
-      'Caso 2 (Atacante falsifica certificado SSL generando un archivo malicioso con el mismo digest SHA-1): Clasifica como Birthday Attack / Hash Collision y mitiga migrando a SHA-256.',
-      'Caso 3 (Atacante captura paquete de autenticación válido y lo retransmite para ganar acceso): Clasifica como Replay Attack y mitiga con Nonces únicos de sesión y Timestamps con expiración.',
-      'Caso 4 (Atacante interrumpe negociación TLS forzando al cliente a usar SSLv3 vulnerable): Clasifica como Downgrade Attack y mitiga exigiendo encabezado HSTS y deshabilitando suites legadas.'
+      'Para cada caso identifica el ataque criptográfico y la contramedida que lo neutraliza.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Rainbow Tables = hashes precalculados (solución: Salting). Paradoja del cumpleaños = encontrar dos entradas distintas que arrojen el mismo hash (solución: función hash con mayor espacio de estados como SHA-256). Replay = reenviar tráfico válido (solución: Nonces, Timestamps). Downgrade = forzar versión obsoleta como POODLE (solución: HSTS).'
+      'Rainbow Tables = hashes precalculados (solución: Salting). Paradoja del cumpleaños = encontrar dos entradas distintas que arrojen el mismo hash (solución: función hash con mayor espacio de estados como SHA-256). Replay = reenviar tráfico válido (solución: Nonces, Timestamps). Downgrade = forzar versión obsoleta como POODLE (solución: HSTS).'
   },
 
   // PBQ 29: Federated Identity, SSO & Tokens
@@ -712,13 +696,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'La empresa está migrando su infraestructura a un modelo multi-nube híbrido y requiere estandarizar el acceso corporativo sin que los usuarios tengan que recordar múltiples contraseñas. Diseña la arquitectura de identidad seleccionando el protocolo exacto para SSO corporativo web, delegación de permisos en APIs, autenticación en apps móviles y aprovisionamiento automático de cuentas.',
     requirements: [
-      'Single Sign-On Web Corporativo entre IdP corporativo y aplicaciones SaaS (Salesforce/Workday): SAML 2.0 (XML Assertions).',
-      'Autorización y delegación de acceso granular a APIs de terceros sin compartir credenciales: OAuth 2.0 (Access Tokens Bearer).',
-      'Capa de autenticación e identidad moderna para apps móviles y SPAs con tokens firmados: OpenID Connect / OIDC (JWT ID Tokens).',
-      'Aprovisionamiento y desaprovisionamiento automatizado del ciclo de vida de usuarios entre Active Directory y la nube: SCIM (System for Cross-domain Identity Management).'
+      'SSO web entre el IdP corporativo y aplicaciones SaaS (Salesforce, Workday).',
+      'Delegar a una aplicación de terceros acceso limitado a una API sin compartir la contraseña del usuario.',
+      'Autenticar usuarios en apps móviles y SPA obteniendo un token de identidad firmado.',
+      'Crear y eliminar automáticamente cuentas en la nube cuando cambian en Active Directory.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA siempre evalúa la diferencia: SAML 2.0 = SSO web empresarial con XML. OAuth 2.0 = Autorización de APIs (Access Tokens con scopes). OpenID Connect (OIDC) = Autenticación construida sobre OAuth (ID Token JWT). SCIM = Sincronización y aprovisionamiento de cuentas de usuario entre IdP y aplicaciones.'
+      'CompTIA siempre evalúa la diferencia: SAML 2.0 = SSO web empresarial con XML. OAuth 2.0 = Autorización de APIs (Access Tokens con scopes). OpenID Connect (OIDC) = Autenticación construida sobre OAuth (ID Token JWT). SCIM = Sincronización y aprovisionamiento de cuentas de usuario entre IdP y aplicaciones.'
   },
 
   // PBQ 30: Mobile Security & MDM/MAM Policies
@@ -734,13 +718,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El CISO ha autorizado un programa de "Trae tu propio dispositivo" (BYOD) para smartphones de empleados junto con teléfonos corporativos (COPE). Debes configurar la política oficial en la consola de Mobile Device Management (MDM) garantizando la privacidad de los empleados y protegiendo al mismo tiempo la información clasificada de la empresa.',
     requirements: [
-      'Política de borrado ante pérdida de smartphone personal (BYOD): Enterprise Selective Wipe (borra solo correos y datos corporativos, preservando fotos personales).',
-      'Protección de datos entre aplicaciones de negocio y personales: MAM (Mobile Application Management) con contenedorización y sandboxing cifrado.',
-      'Detección de dispositivos alterados con Jailbreak (iOS) o Root (Android): Detección automática y bloqueo de acceso con cuarentena inmediata.',
-      'Acceso físico a salas de servidores y laboratorios de investigación: Geofencing perimetral que deshabilite automáticamente cámaras y micrófonos del teléfono.'
+      'Ante la pérdida de un smartphone personal (BYOD), elimina los datos corporativos sin afectar los personales.',
+      'Evita que los datos corporativos se copien a aplicaciones personales.',
+      'Responde automáticamente a dispositivos con jailbreak o root.',
+      'Impide grabar audio o video dentro de las salas de servidores y laboratorios.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En BYOD, el borrado de fábrica (Full Device Wipe) viola la privacidad y genera demandas legales: la respuesta correcta siempre es "Enterprise Selective Wipe". MAM aísla y cifra únicamente las apps corporativas impidiendo copiar/pegar hacia apps no seguras.'
+      'En BYOD, el borrado de fábrica (Full Device Wipe) viola la privacidad y genera demandas legales: la respuesta correcta siempre es "Enterprise Selective Wipe". MAM aísla y cifra únicamente las apps corporativas impidiendo copiar/pegar hacia apps no seguras.'
   },
 
   // PBQ 31: Port Security & Protocol Hardening (CompTIA Port Mastery)
@@ -756,17 +740,11 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Una auditoría perimetral e interna ha detectado 8 servicios activos ejecutándose en puertos y protocolos de texto plano o desprotegidos. Para cada servicio auditado, diagnostica la vulnerabilidad intrínseca, asigna el puerto seguro oficial exigido por CompTIA, selecciona el protocolo criptográfico sustituto y define la regla de remediación.',
     requirements: [
-      'Telnet (Puerto 23) -> Migrar a SSH en puerto 22 con bloqueo perimetral del puerto 23.',
-      'HTTP (Puerto 80) -> Migrar a HTTPS en puerto 443 con TLS 1.3 y redirección permanente 301.',
-      'LDAP (Puerto 389) -> Migrar a LDAPS en puerto 636 con Channel Binding y certificados TLS mutuos.',
-      'FTP (Puertos 20/21) -> Reemplazar por SFTP en puerto 22 (basado en SSH) o FTPS (989/990).',
-      'SNMP (Puerto 161) -> Actualizar agentes a SNMPv3 en modo authPriv con autenticación SHA y cifrado AES.',
-      'Syslog (Puerto 514 UDP) -> Configurar Syslog-over-TLS sobre TCP en puerto 6514 con certificados mutuos.',
-      'RDP (Puerto 3389 expuesto a WAN) -> Bloquear acceso perimetral directo y canalizar tras VPN con MFA y NLA.',
-      'DNS (Puerto 53 UDP) -> Implementar DoT en puerto 853 (o DoH en 443) con validación DNSSEC estricta.'
+      'Para cada servicio heredado identifica por qué es inseguro, el protocolo y puerto seguro de reemplazo y la acción de remediación.',
+      'Considera la exposición: algunos servicios no deben quedar accesibles desde Internet aunque se cifren.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Memorizar estos pares es fundamental en CompTIA: 23(Telnet)->22(SSH), 80(HTTP)->443(HTTPS), 389(LDAP)->636(LDAPS), 21(FTP)->22(SFTP)/990(FTPS), 161(SNMPv1/v2)->161(SNMPv3 authPriv), 514(Syslog UDP)->6514(Syslog TLS TCP), 53(DNS)->853(DoT).'
+      'Memorizar estos pares es fundamental en CompTIA: 23(Telnet)->22(SSH), 80(HTTP)->443(HTTPS), 389(LDAP)->636(LDAPS), 21(FTP)->22(SFTP)/990(FTPS), 161(SNMPv1/v2)->161(SNMPv3 authPriv), 514(Syslog UDP)->6514(Syslog TLS TCP), 53(DNS)->853(DoT).'
   },
 
   // PBQ 32: Nmap Port Scanning & Reconnaissance Analysis
@@ -782,14 +760,11 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El equipo SOC ha recibido la salida de un escaneo de puertos de Nmap sobre el servidor interno 10.0.5.25. Debes identificar la técnica de escaneo stealth empleada y analizar cuatro puertos abiertos con riesgos críticos (vsftpd 2.3.4 con backdoor en puerto 21, Telnet en puerto 23, SMBv1 vulnerable a EternalBlue en puerto 445 y RDP expuesto en 3389), aplicando la remediación oficial.',
     requirements: [
-      'Identificar la flag de escaneo SYN Stealth Scan (Half-open) con "-sS".',
-      'Puerto 21 (vsftpd 2.3.4): Identificar backdoor malicioso CVE-2011-2523 y reemplazar por SFTP (puerto 22).',
-      'Puerto 23 (Telnet): Identificar protocolo en claro sin cifrado y exigir SSH en puerto 22.',
-      'Puerto 445 (SMBv1): Identificar vulnerabilidad crítica EternalBlue (MS17-010) y migrar a SMBv3 con firma y cifrado.',
-      'Puerto 3389 (RDP): Identificar exposición perimetral directa y restringir tras Bastion Host / VPN con MFA y NLA.'
+      'Identifica la técnica de escaneo a partir de la descripción del tráfico.',
+      'Para cada puerto abierto identifica el riesgo y la remediación adecuada.'
     ],
     tacticalTip:
-      'CyberKraft Tip: El escaneo SYN Stealth (-sS) no completa el handshake TCP de 3 vías: envía SYN y si recibe SYN-ACK responde inmediatamente con RST. vsftpd 2.3.4 es la puerta trasera más famosa evaluada en CompTIA. SMBv1 causó la epidemia WannaCry y siempre debe deshabilitarse en favor de SMBv3.'
+      'El escaneo SYN Stealth (-sS) no completa el handshake TCP de 3 vías: envía SYN y si recibe SYN-ACK responde inmediatamente con RST. vsftpd 2.3.4 es la puerta trasera más famosa evaluada en CompTIA. SMBv1 causó la epidemia WannaCry y siempre debe deshabilitarse en favor de SMBv3.'
   },
 
   // PBQ 33: DNS Security, DoT/DoH & DNSSEC Hardening
@@ -805,13 +780,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Tras un intento de envenenamiento de caché (DNS Poisoning) y un intento de transferencia no autorizada de zona completa mediante dig axfr, debes endurecer la infraestructura DNS corporativa configurando registros DNSSEC, cifrado de transporte DoT, restricciones de zona y mitigando la recursión abierta.',
     requirements: [
-      'Registro criptográfico DNSSEC: Selecciona RRSIG (Resource Record Signature) para verificar la autenticidad de los RRsets.',
-      'Cifrado de consultas en la red: Selecciona DNS over TLS (DoT) sobre el puerto dedicado TCP 853.',
-      'Transferencia de zona (AXFR): Restringe el puerto TCP 53 únicamente a las direcciones IP de servidores DNS secundarios autorizados.',
-      'Recursión de resolución: Deshabilita la recursión abierta a Internet para evitar amplificación en ataques DDoS reflectores.'
+      'Los resolvers deben poder verificar la autenticidad e integridad de las respuestas de la zona.',
+      'Cifra las consultas DNS de los clientes con un protocolo dedicado.',
+      'Solo los servidores secundarios autorizados deben poder copiar la zona completa.',
+      'El servidor no debe poder usarse como amplificador en ataques DDoS reflejados.'
     ],
     tacticalTip:
-      'CyberKraft Tip: DNSSEC firma registros con RRSIG y claves en DNSKEY; previene DNS Cache Poisoning pero NO cifra el tráfico. Para cifrar consultas se usa DoT (puerto TCP 853) o DoH (puerto TCP 443). Las transferencias de zona usan TCP 53 (a diferencia de consultas normales que usan UDP 53) y deben restringirse con ACLs.'
+      'DNSSEC firma registros con RRSIG y claves en DNSKEY; previene DNS Cache Poisoning pero NO cifra el tráfico. Para cifrar consultas se usa DoT (puerto TCP 853) o DoH (puerto TCP 443). Las transferencias de zona usan TCP 53 (a diferencia de consultas normales que usan UDP 53) y deben restringirse con ACLs.'
   },
 
   // PBQ 34: Zero Trust Architecture (ZTA) & Microsegmentation (NIST SP 800-207)
@@ -827,13 +802,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'La empresa abandona el modelo perimetral tradicional (castillo y foso) para adoptar Zero Trust. Configura la arquitectura alineada a NIST SP 800-207 definiendo el Policy Decision Point (PDP) / Policy Engine (PE), el Policy Enforcement Point (PEP), la microsegmentación del tráfico lateral (Este-Oeste) y la evaluación continua adaptativa.',
     requirements: [
-      'Cerebro de decisión: Policy Decision Point (PDP) / Policy Engine (PE) evaluando señales de riesgo en tiempo real.',
-      'Punto de aplicación física: Policy Enforcement Point (PEP) situado en el microperímetro del recurso.',
-      'Movimiento lateral Este-Oeste: Microsegmentación de software aislando cargas de trabajo con mínimo privilegio.',
-      'Principio fundamental ZTA: Validación continua adaptativa de contexto durante toda la sesión (Never Trust, Always Verify).'
+      'Define el componente que decide el acceso y cómo toma la decisión.',
+      'Define dónde se aplica la decisión de acceso.',
+      'Impide el movimiento lateral si un servidor de la DMZ es comprometido.',
+      'Define cómo se mantiene la confianza durante una sesión activa.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En NIST SP 800-207: El PDP (Policy Decision Point) decide si se otorga acceso; el PEP (Policy Enforcement Point) aplica la decisión interceptando la conexión. La Microsegmentación detiene el movimiento lateral Este-Oeste entre servidores.'
+      'En NIST SP 800-207: El PDP (Policy Decision Point) decide si se otorga acceso; el PEP (Policy Enforcement Point) aplica la decisión interceptando la conexión. La Microsegmentación detiene el movimiento lateral Este-Oeste entre servidores.'
   },
 
   // PBQ 35: Web Server Hardening & HTTP Security Headers
@@ -849,13 +824,13 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un escaneo DAST detectó vulnerabilidades en el portal web corporativo: ausencia de forzado HTTPS, riesgo de inyección de scripts (XSS), susceptibilidad a Clickjacking (UI Redressing) y protocolos TLS obsoletos. Aplica las cabeceras de seguridad HTTP oficiales y asegura la configuración criptográfica del servidor web.',
     requirements: [
-      'Prevención de degradación SSL/TLS: Strict-Transport-Security con max-age=31536000, includeSubDomains y preload.',
-      'Mitigación contra Cross-Site Scripting (XSS): Content-Security-Policy restringiendo default-src a "self" y scripts con nonces.',
-      'Mitigación contra Clickjacking / UI Redressing: X-Frame-Options: DENY (o CSP frame-ancestors "none").',
-      'Configuración criptográfica de red: Configurar exclusivamente TLS 1.3 con intercambio de claves ECDHE (Perfect Forward Secrecy).'
+      'Los navegadores deben usar siempre HTTPS para el dominio y todos sus subdominios, incluso en la primera visita.',
+      'Mitiga la ejecución de scripts inyectados (XSS).',
+      'Impide que el sitio se cargue dentro de frames de otros dominios (clickjacking).',
+      'El servidor solo debe negociar la versión más moderna de TLS, con secreto perfecto hacia adelante.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA evalúa frecuentemente estas cabeceras: HSTS previene SSL Stripping (forzando HTTPS). CSP previene XSS al restringir de dónde se cargan scripts. X-Frame-Options: DENY previene Clickjacking (impedir que la página sea embebida en un iframe). TLS 1.3 garantiza Perfect Forward Secrecy.'
+      'CompTIA evalúa frecuentemente estas cabeceras: HSTS previene SSL Stripping (forzando HTTPS). CSP previene XSS al restringir de dónde se cargan scripts. X-Frame-Options: DENY previene Clickjacking (impedir que la página sea embebida en un iframe). TLS 1.3 garantiza Perfect Forward Secrecy.'
   },
 
   // PBQ 36: Forensic Legal Hold & Evidence Chain of Custody
@@ -871,17 +846,12 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Tras detectarse una exfiltración masiva de secretos comerciales por un empleado desleal, la empresa recibe una notificación de Legal Hold de la fiscalía. Debes ordenar las 6 fases cronológicas obligatorias del procedimiento pericial y responder a dos principios probatorios fundamentales para garantizar la validez judicial bajo la Best Evidence Rule.',
     requirements: [
-      'Paso 1: Notificación formal de Legal Hold para congelar cualquier purga o sobreescritura de datos.',
-      'Paso 2: Registro inmediato en formulario de Cadena de Custodia (Chain of Custody Log).',
-      'Paso 3: Adquisición Bit-a-Bit utilizando un Hardware Write Blocker para no alterar metadatos MACB.',
-      'Paso 4: Cálculo y verificación del hash criptográfico SHA-256 para demostrar integridad matemática.',
-      'Paso 5: Ejecución del análisis forense exclusivamente en una copia de trabajo aislada (Sandbox).',
-      'Paso 6: Custodia del soporte original en caja fuerte ignífuga bajo doble autenticación.',
-      'Orden de Volatilidad: Adquirir la memoria RAM volátil ANTES de apagar o extraer el disco duro.',
-      'Admisibilidad: Cumplir con la Best Evidence Rule (copia bit-stream idéntica verificada con hash).'
+      'Ordena las seis acciones del procedimiento forense, desde que el área legal ordena preservar la evidencia hasta su custodia final.',
+      'Indica qué evidencia se adquiere primero en un equipo encendido.',
+      'Indica qué principio legal hace admisible la copia de la evidencia.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En informática forense CompTIA, NUNCA se analiza el disco original (se analiza la copia forense de trabajo). El Legal Hold detiene la destrucción de datos. El Write Blocker previene alteraciones accidentales. La memoria RAM se volca antes de apagar el equipo (RFC 3227).'
+      'En informática forense CompTIA, NUNCA se analiza el disco original (se analiza la copia forense de trabajo). El Legal Hold detiene la destrucción de datos. El Write Blocker previene alteraciones accidentales. La memoria RAM se volca antes de apagar el equipo (RFC 3227).'
   },
 
   // PBQ 37: PKI Lifecycle, OCSP Stapling, X.509 Formats & Key Escrow
@@ -897,14 +867,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Como administrador de la PKI corporativa, debes resolver cinco requerimientos arquitectónicos: verificar la revocación de certificados en tiempo real sin sobrecargar a la CA ni filtrar la navegación de los clientes (OCSP Stapling), seleccionar el formato binario que agrupa el certificado y la clave privada protegida con contraseña (.PFX / PKCS#12), identificar el formato ASCII Base64 estándar para servidores Linux (.PEM), proteger múltiples dominios bajo un mismo certificado (extensión SAN) e implementar la recuperación de claves cifradas de empleados sin riesgo de abuso (Key Escrow con M-de-N).',
     requirements: [
-      'Revocación: Configurar OCSP Stapling (RFC 6066) para que el servidor web adjunte la respuesta sellada de la CA en el handshake TLS.',
-      'Formato con clave privada: Seleccionar .PFX / .P12 (PKCS#12) con contraseña para exportación/importación segura.',
-      'Formato Linux / Apache: Seleccionar .PEM (Base64 ASCII delimitado por -----BEGIN CERTIFICATE-----).',
-      'Multidominio: Configurar la extensión SAN (Subject Alternative Name) para listar múltiples FQDNs.',
-      'Recuperación de claves: Implementar Key Escrow con esquema M-de-N (Split Knowledge) para control dual.'
+      'Los clientes deben poder comprobar la revocación sin consultar directamente a la CA.',
+      'Exporta el certificado junto con su clave privada, protegida por contraseña, para un servidor IIS.',
+      'Instala el certificado en Apache, que requiere un formato de texto.',
+      'Un único certificado debe cubrir varios dominios distintos (no solo subdominios).',
+      'Las claves de cifrado deben poder recuperarse sin que una sola persona tenga control total.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA evalúa minuciosamente los formatos PKI: .PFX/.P12 es binario y contiene la clave privada con password; .P7B contiene certificados pero NUNCA la clave privada; .PEM es Base64 ASCII; .DER es binario puro. OCSP Stapling ahorra latencia al cliente y protege su privacidad. Key Escrow permite recuperar datos con control dual (M de N custodios).'
+      'CompTIA evalúa minuciosamente los formatos PKI: .PFX/.P12 es binario y contiene la clave privada con password; .P7B contiene certificados pero NUNCA la clave privada; .PEM es Base64 ASCII; .DER es binario puro. OCSP Stapling ahorra latencia al cliente y protege su privacidad. Key Escrow permite recuperar datos con control dual (M de N custodios).'
   },
 
   // PBQ 38: Wireless WPA3-Enterprise, 802.1X & WIPS
@@ -920,14 +890,14 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'La empresa sufrió un ataque de Evil Twin (Gemelo Malvado) donde atacantes clonaron el SSID para robar credenciales. Debes diseñar la arquitectura inalámbrica corporativa definitiva: estándar WPA3-Enterprise modo 192 bits (Suite-B), método 802.1X EAP-TLS con certificados mutuos, puertos estándar del servidor RADIUS (1812/1813), handshake SAE para WPA3-Personal y despliegue de WIPS con supresión RF automática.',
     requirements: [
-      'Estándar WiFi: WPA3-Enterprise 192 bits (Suite-B CNSA con AES-256 GCM).',
-      'Autenticación 802.1X: EAP-TLS exigiendo certificados digitales mutuos (servidor RADIUS y cliente).',
-      'Servidor AAA: Configurar puertos oficiales IANA UDP 1812 (Autenticación) y UDP 1813 (Accounting).',
-      'Handshake Anti-Fuerza Bruta: En WPA3-Personal, implementar SAE (Simultaneous Authentication of Equals / Dragonfly).',
-      'Defensa Anti-Rogue AP: Sistema WIPS con monitoreo RF continuo y supresión activa de Gemelos Malvados.'
+      'Red corporativa con el máximo nivel de seguridad criptográfica disponible.',
+      'Tanto el servidor como cada cliente deben autenticarse con certificados.',
+      'Configura los puertos estándar actuales del servidor AAA.',
+      'La red de invitados con clave compartida debe resistir ataques de diccionario offline.',
+      'Detecta y neutraliza automáticamente APs falsos que imiten el SSID corporativo.'
     ],
     tacticalTip:
-      'CyberKraft Tip: EAP-TLS es la respuesta correcta cuando CompTIA exige certificados mutuos y máxima seguridad. PEAP solo usa certificado en el servidor. WPA3 reemplaza el vulnerable 4-way handshake de WPA2 por SAE (Dragonfly), erradicando el crackeo offline. RADIUS utiliza puertos UDP 1812/1813.'
+      'EAP-TLS es la respuesta correcta cuando CompTIA exige certificados mutuos y máxima seguridad. PEAP solo usa certificado en el servidor. WPA3 reemplaza el vulnerable 4-way handshake de WPA2 por SAE (Dragonfly), erradicando el crackeo offline. RADIUS utiliza puertos UDP 1812/1813.'
   },
 
   // PBQ 39: Cloud Storage DLP & CASB Data Classification
@@ -943,15 +913,12 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Una auditoría reveló cuatro depósitos de almacenamiento cloud (S3 / Blob) con datos corporativos expuestos. Clasifica cada depósito en su nivel de confidencialidad oficial (Público, Interno, Confidencial, Restringido/PII), asigna el filtro regex de inspección DLP adecuado (tarjetas PCI-DSS, SSN de nóminas, secretos API), y configura el broker CASB en modo Inline con claves gestionadas por el cliente (Customer-Managed Keys en Cloud HSM).',
     requirements: [
-      'Depósito 1 (Web Assets): Clasificación Pública sin necesidad de inspección DLP.',
-      'Depósito 2 (Pasarela de Pago): Clasificación Restringido/PII con DLP para números de tarjeta (PAN) PCI-DSS.',
-      'Depósito 3 (Nóminas RRHH): Clasificación Confidencial con DLP para Número de Seguro Social (SSN).',
-      'Depósito 4 (DevOps API): Clasificación Confidencial con DLP para tokens y claves privadas de API.',
-      'Broker CASB: Modo Reverse Proxy Inline para prevención activa de fugas en tiempo real.',
-      'Gestión de Claves: Customer-Managed Keys (CMK / BYOK) alojadas en módulo HSM FIPS 140-2 Nivel 3.'
+      'Clasifica cada depósito según su contenido y asigna el patrón DLP que detecta sus datos sensibles.',
+      'Bloquea en tiempo real la subida de datos sensibles a servicios no autorizados.',
+      'La empresa debe controlar sus propias claves de cifrado en un módulo de hardware.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En DLP: los números de tarjeta caen bajo PCI-DSS; los números de seguridad social bajo PII; y las claves bajo Secretos. Para bloquear fugas ANTES de que el archivo toque el almacenamiento cloud, se requiere CASB Inline (Proxy); el modo API es reactivo/asíncrono.'
+      'En DLP: los números de tarjeta caen bajo PCI-DSS; los números de seguridad social bajo PII; y las claves bajo Secretos. Para bloquear fugas ANTES de que el archivo toque el almacenamiento cloud, se requiere CASB Inline (Proxy); el modo API es reactivo/asíncrono.'
   },
 
   // PBQ 40: Social Engineering Attacks, Psychological Triggers & Defenses
@@ -967,14 +934,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El departamento de seguridad analiza 5 ataques dirigidos recientes: un intento de BEC al CFO fingiendo ser el CEO, una llamada de vishing urgente al Helpdesk, memorias USB dejadas en el estacionamiento, un pretexting de cambio de cuenta bancaria de un proveedor y un ataque de Watering Hole en el portal de la asociación del sector. Identifica el disparador psicológico de persuasión y la contramedida primaria para cada vector.',
     requirements: [
-      'Caso 1 (Spear Phishing / BEC): Disparador Autoridad -> Defensa: DMARC + Verificación fuera de banda (Out-of-band call).',
-      'Caso 2 (Vishing a Helpdesk): Disparador Urgencia -> Defensa: Procedimiento de devolución de llamada verificada.',
-      'Caso 3 (USB Baiting): Disparador Escasez/Curiosidad -> Defensa: Deshabilitar almacenamiento USB masivo por GPO.',
-      'Caso 4 (Pretexting Proveedor): Disparador Familiaridad -> Defensa: Formación y concienciación continua en seguridad.',
-      'Caso 5 (Watering Hole): Disparador Consenso/Prueba Social -> Defensa: Concienciación + Aislamiento web y EDR.'
+      'Para cada caso identifica el disparador psicológico explotado y la defensa principal.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA se basa en los principios de Robert Cialdini: El CEO usa Autoridad; "paga antes de las 5pm o nos cortan el servicio" usa Urgencia; "solo para los primeros 5 empleados" usa Escasez; suplantar al colega amigo usa Familiaridad; "todas las demás empresas lo usan" usa Consenso. Para USB Baiting, la defensa técnica infalible es bloquear USBs mediante GPO.'
+      'CompTIA se basa en los principios de Robert Cialdini: El CEO usa Autoridad; "paga antes de las 5pm o nos cortan el servicio" usa Urgencia; "solo para los primeros 5 empleados" usa Escasez; suplantar al colega amigo usa Familiaridad; "todas las demás empresas lo usan" usa Consenso. Para USB Baiting, la defensa técnica infalible es bloquear USBs mediante GPO.'
   },
 
   // PBQ 41: Cloud Shared Responsibility Model (IaaS, PaaS, SaaS)
@@ -990,15 +953,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'La organización opera servicios en entornos multi-cloud híbridos (AWS EC2, Azure App Services y Microsoft 365). Debes delimitar con precisión la responsabilidad operativa y de seguridad (Cliente vs Proveedor Cloud / CSP) en cada capa del stack tecnológico para evitar brechas por configuración desatendida.',
     requirements: [
-      'Seguridad Física del Data Center: 100% responsabilidad del CSP en IaaS, PaaS y SaaS.',
-      'Hipervisor y Red Física Subyacente: 100% responsabilidad del CSP en IaaS, PaaS y SaaS.',
-      'Parches del Sistema Operativo de Instancias: Responsabilidad del Cliente en IaaS; del CSP en PaaS y SaaS.',
-      'Configuración de Red / Security Groups: Responsabilidad del Cliente en IaaS y PaaS; del CSP en SaaS.',
-      'Código de Aplicación y APIs: Responsabilidad del Cliente en IaaS y PaaS; del CSP en SaaS.',
-      'Datos, Control de Acceso IAM y Gestión de Cuentas: Responsabilidad 100% incondicional del Cliente en los tres modelos.'
+      'Para cada capa indica quién es responsable en IaaS, PaaS y SaaS: el cliente, el proveedor (CSP) o ambos.'
     ],
     tacticalTip:
-      'CyberKraft Tip: ¡Pregunta clásica de examen! En la nube pública: la seguridad física de las instalaciones NUNCA es del cliente (siempre del CSP). Y los DATOS junto con la gestión de IDENTIDADES (IAM) NUNCA son del CSP (siempre del cliente, incluso en SaaS como M365 o Salesforce).'
+      '¡Pregunta clásica de examen! En la nube pública: la seguridad física de las instalaciones NUNCA es del cliente (siempre del CSP). Y los DATOS junto con la gestión de IDENTIDADES (IAM) NUNCA son del CSP (siempre del cliente, incluso en SaaS como M365 o Salesforce).'
   },
 
   // PBQ 42: MITRE ATT&CK Threat Hunting, Windows Events & Active Directory
@@ -1014,14 +972,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El equipo del Centro de Operaciones de Seguridad (SOC) ha detectado múltiples alertas de telemetría en los Domain Controllers y endpoints corporativos. Correlaciona cada escenario de ataque con su técnica oficial MITRE ATT&CK, su Event ID forense característico en Windows Security Logs y la mitigación oficial prescrita por CompTIA.',
     requirements: [
-      'Caso 1 (Kerberoasting): MITRE T1058 -> Telemetría Event ID 4769 con cifrado RC4 -> Mitigación: gMSA forzando AES-256.',
-      'Caso 2 (Mimikatz / LSASS Dumping): MITRE T1003 -> Telemetría Event ID 4624 Tipo 9 / Acceso a lsass.exe -> Mitigación: Windows Defender Credential Guard.',
-      'Caso 3 (Responder / LLMNR Poisoning): MITRE T1557.001 -> Telemetría Event ID 4625 y tráfico UDP 5355 -> Mitigación: Deshabilitar LLMNR/NetBIOS por GPO y SMB Signing.',
-      'Caso 4 (Golden Ticket): MITRE T1558.001 -> Telemetría Event ID 4768 con TGT de 10 años sin logon previo -> Mitigación: Resetear contraseña KRBTGT dos veces.',
-      'Caso 5 (PowerShell Fileless): MITRE T1059.001 -> Telemetría Event ID 4104 ScriptBlock con comandos Base64 -> Mitigación: Constrained Language Mode y WDAC/AppLocker.'
+      'Para cada caso identifica la técnica MITRE ATT&CK, la telemetría que la evidencia y la mitigación.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA evalúa con frecuencia los Event IDs de Active Directory: 4769 es solicitud de ticket de servicio (Kerberoasting); 4768 es TGT request (Golden Ticket); 4624 es Logon exitoso (Tipo 9 = NewCredentials); 4625 es Logon fallido; 4104 es PowerShell Script Block Logging. Credential Guard aísla LSASS en un contenedor virtualizado (VBS).'
+      'CompTIA evalúa con frecuencia los Event IDs de Active Directory: 4769 es solicitud de ticket de servicio (Kerberoasting); 4768 es TGT request (Golden Ticket); 4624 es Logon exitoso (Tipo 9 = NewCredentials); 4625 es Logon fallido; 4104 es PowerShell Script Block Logging. Credential Guard aísla LSASS en un contenedor virtualizado (VBS).'
   },
 
   // PBQ 43: Data Governance, Roles, Lifecycle & Sanitization (NIST SP 800-88)
@@ -1037,12 +991,12 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Eres el Chief Information Security Officer (CISO) de una corporación multinacional regulada por GDPR e ISO 27001. Debes estructurar la política corporativa de gobernanza asignando los roles clave (Data Owner, Data Steward, Data Custodian, DPO), estableciendo las medidas técnicas para los tres estados del dato (en tránsito, en reposo y en uso), y definiendo la metodología de sanitización certificada según NIST SP 800-88 Rev 1 para el desmantelamiento de medios de almacenamiento.',
     requirements: [
-      'Roles: Asigna el Data Owner (propietario del negocio que clasifica y autoriza accesos), Data Steward (gestión de calidad y etiquetado), Data Custodian (administración técnica de backups y cifrado) y Data Privacy Officer (cumplimiento regulatorio GDPR).',
-      'Estados del Dato: Protege los datos En Tránsito con TLS 1.3 / IPsec, En Reposo con AES-256 BitLocker / TDE, y En Uso mediante Computación Confidencial (Enclaves de CPU / TEE).',
-      'Sanitización NIST SP 800-88: Configura Clearing (reescritura lógica de sectores para reutilización interna), Purging (Degaussing / desmagnetización para HDD magnéticos), Destrucción Física (trituración mecánica Shredding para fin de vida de SSD/NVMe) y Crypto-shredding (destrucción de claves KMS para entornos Cloud).'
+      'Asigna el rol de gobernanza que corresponde a cada responsabilidad.',
+      'Selecciona la protección adecuada para cada estado del dato.',
+      'Selecciona el método de sanitización adecuado para cada situación (NIST SP 800-88).'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA evalúa con rigor los roles de datos: el Data Owner es un ejecutivo de negocio responsable legal y de clasificación; el Data Custodian es TI que implementa los controles técnicos; el Data Steward asegura la precisión y metadata. En NIST SP 800-88: Clear permite reutilización interna; Purge impide recuperación forense de laboratorio; Destroy es fin de ciclo de vida con certificado. En Cloud, cuando no tocas el hardware, sanitizas con Crypto-shredding (destruyendo la clave DEK/KEK).'
+      'CompTIA evalúa con rigor los roles de datos: el Data Owner es un ejecutivo de negocio responsable legal y de clasificación; el Data Custodian es TI que implementa los controles técnicos; el Data Steward asegura la precisión y metadata. En NIST SP 800-88: Clear permite reutilización interna; Purge impide recuperación forense de laboratorio; Destroy es fin de ciclo de vida con certificado. En Cloud, cuando no tocas el hardware, sanitizas con Crypto-shredding (destruyendo la clave DEK/KEK).'
   },
 
   // PBQ 44: Privacy Enhancing Technologies (PETs) & Data Obfuscation
@@ -1058,14 +1012,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Un banco y proveedor de servicios sanitarios necesita armonizar sus operaciones con PCI-DSS v4.0, HIPAA y GDPR. Para cada caso de negocio, debes seleccionar la tecnología de preservación de privacidad (PET) idónea (Tokenización, Enmascaramiento Estático o Dinámico, Anonimización o Seudonimización) y especificar su grado de reversibilidad técnica.',
     requirements: [
-      'Caso 1 (PCI-DSS): Implementa Tokenización (Tokenization) con bóveda centralizada para aislar números de tarjeta PAN del alcance auditor.',
-      'Caso 2 (Dev/QA): Aplica Enmascaramiento Estático (Static Data Masking) irreversible en la copia de base de datos antes de transferirla a desarrollo.',
-      'Caso 3 (Call Center): Configura Enmascaramiento Dinámico (Dynamic Data Masking) en la capa de presentación para mostrar solo los últimos 4 dígitos en pantalla.',
-      'Caso 4 (Epidemiología): Aplica Anonimización (Anonymization) irreversible sin tabla de mapeo para liberar los datos del marco de GDPR (Recital 26).',
-      'Caso 5 (Ensayos Clínicos): Selecciona Seudonimización (Pseudonymization) conservando la clave de mapeo cifrada y aislada para re-identificación en emergencias médicas.'
+      'Para cada caso selecciona la técnica de privacidad y su nivel de reversibilidad.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA SY0-701 enfatiza la diferencia entre Anonimización (irreversible por diseño, sin posibilidad matemática de volver a asociar al individuo, exento de GDPR) y Seudonimización (reversible mediante una clave o tabla de correspondencia guardada por separado, sigue sujeto a GDPR). Para tarjetas de crédito (PCI-DSS), Tokenization es la respuesta estándar de examen porque saca los sistemas del "cardholder data environment" (CDE).'
+      'CompTIA SY0-701 enfatiza la diferencia entre Anonimización (irreversible por diseño, sin posibilidad matemática de volver a asociar al individuo, exento de GDPR) y Seudonimización (reversible mediante una clave o tabla de correspondencia guardada por separado, sigue sujeto a GDPR). Para tarjetas de crédito (PCI-DSS), Tokenization es la respuesta estándar de examen porque saca los sistemas del "cardholder data environment" (CDE).'
   },
 
   // PBQ 45: Comprehensive Malware Triage - Parte 1 (Endpoints & Criptografía)
@@ -1081,14 +1031,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Como analista de respuesta a incidentes del SOC Tier 2, has recibido cinco alertas críticas de estaciones de trabajo y servidores corporativos. A partir de los síntomas clínicos observados y los registros de telemetría forense, identifica la cepa exacta de malware (Ransomware, RAT, Rootkit de Kernel, Spyware/InfoStealer o Malware Sin Archivos / Fileless) y prescribe la acción técnica de remediación obligatoria según los estándares de CompTIA y NIST.',
     requirements: [
-      'Caso 1: Identifica Ransomware (cifrado masivo `.locked` y borrado de VSS con `vssadmin`) -> Remediación: Aislar de red y restaurar desde backups inmutables/offline 3-2-1.',
-      'Caso 2: Identifica Remote Access Trojan - RAT (utilidad gratuita con socket TCP inverso y control de periféricos) -> Remediación: Aislar host, matar proceso en memoria, eliminar persistencia en registro y rotar credenciales.',
-      'Caso 3: Identifica Rootkit de Modo Kernel / UEFI (invisibilidad ante `ps`/`netstat` y evasión de antivirus en usuario) -> Remediación: Reinstalación limpia desde cero (Clean Reimaging), flasheo seguro de firmware y UEFI Secure Boot.',
-      'Caso 4: Identifica Spyware / InfoStealer & Keylogger (robo pasivo de pulsaciones y cookies de navegador hacia C2) -> Remediación: Erradicación con EDR, invalidación de tokens de sesión, rotación de contraseñas y MFA resistente FIDO2.',
-      'Caso 5: Identifica Malware Sin Archivos / Fileless (ejecución Living-off-the-Land en RAM mediante PowerShell Base64) -> Remediación: Reiniciar equipo para vaciar RAM, activar Constrained Language Mode y WDAC/AppLocker.'
+      'Para cada caso identifica el tipo de malware a partir de los indicadores y la telemetría, y selecciona la remediación.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En CompTIA Security+, si los procesos se ocultan del Administrador de Tareas a nivel de llamadas al sistema (hooking de SSDT), SIEMPRE es un Rootkit de Kernel y la única solución aceptable es Clean Reimaging. Si hay scripts PowerShell codificados sin ejecutables en disco, es Fileless (LotL) y se remedia con Constrained Language Mode y AppLocker.'
+      'En CompTIA Security+, si los procesos se ocultan del Administrador de Tareas a nivel de llamadas al sistema (hooking de SSDT), SIEMPRE es un Rootkit de Kernel y la única solución aceptable es Clean Reimaging. Si hay scripts PowerShell codificados sin ejecutables en disco, es Fileless (LotL) y se remedia con Constrained Language Mode y AppLocker.'
   },
 
   // PBQ 46: Comprehensive Malware Triage - Parte 2 (Amenazas de Red, Lógica y Evasión Avanzada)
@@ -1104,14 +1050,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El centro de comando de ciberseguridad monitorea una serie de anomalías de red y fallos imprevistos en la infraestructura. Examina los registros de tráfico, patrones de comunicación C2 y telemetría de procesos para clasificar cada amenaza (Gusano de Red, Botnet Zombi, Bomba Lógica, Cryptojacking o Malware Polimórfico) y ejecutar la estrategia de contención correspondiente.',
     requirements: [
-      'Caso 1: Identifica Gusano de Red / Worm (propagación lateral autónoma por puerto TCP 445 SMB sin interacción humana) -> Remediación: Aislar VLAN, deshabilitar SMBv1 por GPO, parchear el SO y microsegmentar.',
-      'Caso 2: Identifica Botnet / Agente Zombi C2 (balizas periódicas sincronizadas a dominios DGA para ataque DDoS coordinado) -> Remediación: Implementar DNS Sinkhole para capturar DGA, bloquear C2 en NGFW y limpiar bots con EDR.',
-      'Caso 3: Identifica Bomba Lógica / Logic Bomb (código latente condicional activado por despido de empleado) -> Remediación: Restaurar datos desde copias inmutables, auditar tareas programadas, revisión por pares y offboarding estricto.',
-      'Caso 4: Identifica Cryptojacking / Cryptominer (CPU al 100% permanente y tráfico Stratum puerto 3333 a pools de minería) -> Remediación: Finalizar procesos maliciosos de minería, bloquear puertos de pools en firewall y auditar accesos.',
-      'Caso 5: Identifica Malware Polimórfico / Metamórfico (mutación continua de rutinas y hashes que evaden antivirus tradicional) -> Remediación: Implementar EDR con análisis heurístico de comportamiento, IA y detonación en Sandbox.'
+      'Para cada caso identifica el tipo de malware a partir de los indicadores y la telemetría, y selecciona la remediación.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA evalúa la diferencia crítica entre Worm y Virus: el Worm se propaga solo a través de la red sin necesidad de que un usuario ejecute un archivo. Una Botnet utiliza "beaconing" (comunicación periódica constante) hacia un servidor C2. Y el Malware Polimórfico altera su hash en cada infección, haciendo inútiles las firmas tradicionales; la respuesta correcta siempre involucra detección heurística/comportamental basada en EDR o Sandbox.'
+      'CompTIA evalúa la diferencia crítica entre Worm y Virus: el Worm se propaga solo a través de la red sin necesidad de que un usuario ejecute un archivo. Una Botnet utiliza "beaconing" (comunicación periódica constante) hacia un servidor C2. Y el Malware Polimórfico altera su hash en cada infección, haciendo inútiles las firmas tradicionales; la respuesta correcta siempre involucra detección heurística/comportamental basada en EDR o Sandbox.'
   },
 
   // PBQ 47: Secure Software Development & OWASP API Top 10
@@ -1127,14 +1069,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Como DevSecOps Engineer en una fintech multinacional, debes auditar cinco endpoints REST expuestos al público y microservicios internos que presentan fallos críticos de seguridad. Analiza las peticiones HTTP/cURL, payloads JSON y código de backend para identificar la vulnerabilidad según OWASP API Top 10 y prescribir el control técnico de remediación estricto según los estándares de CompTIA Security+ SY0-701.',
     requirements: [
-      'Caso 1: Identifica BOLA / IDOR (Broken Object Level Authorization) en endpoint de perfil /api/v1/users/502 -> Remediación: Validar propiedad del objeto contra la sesión autenticada con RBAC en el backend.',
-      'Caso 2: Identifica SSRF (Server-Side Request Forgery) contra metadatos de nube 169.254.169.254 -> Remediación: Lista blanca de URLs, bloquear 169.254.0.0/16 y forzar IMDSv2 con tokens de sesión.',
-      'Caso 3: Identifica Falsificación de Tokens JWT con "alg: none" aceptado -> Remediación: Rechazar tokens con "alg: none", forzar RS256/ES256 y validar firma contra JWKS público.',
-      'Caso 4: Identifica Inyección SQL en parámetros de endpoint REST -> Remediación: Uso obligatorio de Consultas Preparadas (Prepared Statements) u ORM parametrizado.',
-      'Caso 5: Identifica Falta de Limitación de Recursos y Rate Limiting (Credential Stuffing masivo) -> Remediación: Configurar Rate Limiting (Token Bucket) en API Gateway, reglas WAF y CAPTCHA adaptativo.'
+      'Para cada endpoint identifica la vulnerabilidad del OWASP API Top 10 y su remediación.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En CompTIA Security+, BOLA (Broken Object Level Authorization / IDOR) ocurre cuando un usuario autenticado puede acceder a los registros de otro cambiando un parámetro en la URL (/users/100 -> /users/101). SSRF contra 169.254.169.254 extrae credenciales temporales del IAM en AWS/GCP y se mitiga forzando IMDSv2 y listas blancas. Para JWT, NUNCA se debe aceptar el algoritmo "none" y la inyección SQL siempre se remedia con Prepared Statements.'
+      'En CompTIA Security+, BOLA (Broken Object Level Authorization / IDOR) ocurre cuando un usuario autenticado puede acceder a los registros de otro cambiando un parámetro en la URL (/users/100 -> /users/101). SSRF contra 169.254.169.254 extrae credenciales temporales del IAM en AWS/GCP y se mitiga forzando IMDSv2 y listas blancas. Para JWT, NUNCA se debe aceptar el algoritmo "none" y la inyección SQL siempre se remedia con Prepared Statements.'
   },
 
   // PBQ 48: SIEM Correlation Rules & SOAR Playbook Automation
@@ -1150,14 +1088,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'El Centro de Operaciones de Seguridad (SOC) Tier 2 recibe una avalancha de registros y alertas de múltiples fuentes (Active Directory, EDR, NGFW, Cloud IdP y Proxies). Como SOC Automation Engineer, debes construir reglas de correlación SIEM precisas para detectar amenazas en tiempo real y diseñar playbooks de respuesta automatizada en la plataforma SOAR para contener los incidentes sin intervención humana inmediata, reduciendo el MTTD y MTTR.',
     requirements: [
-      'Caso 1: Identifica Viaje Imposible (Impossible Travel Anomaly) en IdP Cloud (inicios de sesión distantes en <10 min) -> Acción SOAR: Revocar tokens de sesión en IdP, forzar cambio de contraseña y exigir desafío MFA FIDO2.',
-      'Caso 2: Identifica Pico Masivo de I/O de Archivos y Borrado de Copias de Sombra (Ransomware activo) -> Acción SOAR: Aislar host de red mediante agente EDR y bloquear IP de baliza C2 en NGFW perimetral.',
-      'Caso 3: Identifica Proceso Hijo PowerShell invocado por Office con socket de red WAN (Phishing / Reverse Shell) -> Acción SOAR: Terminar árbol de procesos, aislar host y purgar el correo de todos los buzones por API.',
-      'Caso 4: Identifica Ráfaga de Fuerza Bruta SSH (>50 fallos en 60s en puerto 22) -> Acción SOAR: Insertar regla de denegación temporal (IP Ban) en la lista dinámica del NGFW perimetral.',
-      'Caso 5: Identifica Adición No Autorizada al Grupo Domain Admins fuera de horario comercial (Event ID 4728) -> Acción SOAR: Eliminar usuario de Domain Admins, deshabilitar cuenta y alertar al analista de guardia.'
+      'Para cada incidente selecciona la regla de correlación del SIEM que lo detecta y la acción automatizada del playbook SOAR.'
     ],
     tacticalTip:
-      'CyberKraft Tip: Para CompTIA Security+, la clave de SOAR es la velocidad de contención orquestada (Playbooks/Runbooks) conectando herramientas dispares (SIEM -> EDR -> Firewall -> IAM). Cuando detectes "Impossible Travel", la respuesta siempre es revocar tokens de sesión y forzar MFA. Con Ransomware, aísla de inmediato el host en el EDR para cortar la propagación lateral. Con fuerza bruta perimetral, inyecta reglas de bloqueo temporal dinámico en el firewall.'
+      'Para CompTIA Security+, la clave de SOAR es la velocidad de contención orquestada (Playbooks/Runbooks) conectando herramientas dispares (SIEM -> EDR -> Firewall -> IAM). Cuando detectes "Impossible Travel", la respuesta siempre es revocar tokens de sesión y forzar MFA. Con Ransomware, aísla de inmediato el host en el EDR para cortar la propagación lateral. Con fuerza bruta perimetral, inyecta reglas de bloqueo temporal dinámico en el firewall.'
   },
 
   // PBQ 49: Advanced Stateful Firewall ACLs & DMZ Multi-Tier Filtering (Tier S - Alta Probabilidad)
@@ -1182,7 +1116,7 @@ export const PBQ_LIST: PBQItem[] = [
       'Regla 7: Asegurar la Denegación Implícita (Implicit Deny Any Any) al final absoluto de la tabla de reglas.'
     ],
     tacticalTip:
-      'CyberKraft Tip: En CompTIA Security+, las PBQs de Firewall son de las más probables (Tier S ~95%). Recuerda tres reglas de oro: 1) First-Match: una regla DENY ALL al principio romperá todo el tráfico legítimo. 2) Menor privilegio: la base de datos (puerto 5432 o 3306) NUNCA debe aceptar conexiones de WAN ni de toda la DMZ, sino solo de la IP exacta del servidor de aplicaciones (172.16.10.10). 3) Aislamiento DMZ-LAN: la DMZ existe para ser comprometida sin que el atacante pueda saltar a las computadoras de los empleados en la LAN.'
+      'En CompTIA Security+, las PBQs de Firewall son de las más probables (Tier S ~95%). Recuerda tres reglas de oro: 1) First-Match: una regla DENY ALL al principio romperá todo el tráfico legítimo. 2) Menor privilegio: la base de datos (puerto 5432 o 3306) NUNCA debe aceptar conexiones de WAN ni de toda la DMZ, sino solo de la IP exacta del servidor de aplicaciones (172.16.10.10). 3) Aislamiento DMZ-LAN: la DMZ existe para ser comprometida sin que el atacante pueda saltar a las computadoras de los empleados en la LAN.'
   },
 
   // PBQ 50: Endpoint & Network Port Hardening + Protocol Migration Audit (Tier S - Alta Probabilidad)
@@ -1198,15 +1132,10 @@ export const PBQ_LIST: PBQItem[] = [
     scenario:
       'Una auditoría de cumplimiento regulatorio (SOC 2 Type II y PCI-DSS v4) identificó seis servicios corporativos críticos ejecutando protocolos legados en texto plano o configuraciones de acceso remoto deficientes. Como Lead Security Architect, debes auditar cada servicio, identificar el vector de riesgo exacto según el temario oficial de CompTIA Security+ SY0-701, determinar el puerto y protocolo seguro de reemplazo, y especificar el control técnico de hardening correspondiente.',
     requirements: [
-      'Servicio 1: Routers y Switches Cisco de Core (Telnet TCP 23 & HTTP 80) -> Migrar a SSH TCP 22 y HTTPS TCP 443 con clave asimétrica y deshabilitar VTY telnet.',
-      'Servicio 2: Directorio Activo y Autenticación Central (LDAP TCP 389) -> Migrar a LDAPS TCP 636 con TLS 1.3 y LDAP Channel Binding token signing.',
-      'Servicio 3: Servidor de Finanzas y Nóminas Bancarias (FTP TCP 20/21 & TFTP UDP 69) -> Migrar a SFTP TCP 22 con autenticación por par de claves y cifrado AES-256.',
-      'Servicio 4: Servidores de Resolución DNS Corporativos (DNS UDP 53 sin firmar) -> Implementar DNSSEC con registros RRSIG/DNSKEY y DoT (DNS over TLS) en TCP 853.',
-      'Servicio 5: Monitoreo y Telemetría de Infraestructura (SNMPv1/v2c UDP 161 en claro) -> Migrar a SNMPv3 modo authPriv (SHA-256 y AES) en UDP 161.',
-      'Servicio 6: Administración de Servidores y Escritorios Remotos (VNC TCP 5900 y RDP 3389 expuesto) -> Deshabilitar VNC 5900, forzar RDP con NLA sobre TLS 3389 vía Bastion Host con MFA.'
+      'Para cada servicio identifica por qué es inseguro, el protocolo y puerto seguro de reemplazo y la acción de remediación.'
     ],
     tacticalTip:
-      'CyberKraft Tip: CompTIA evalúa la correspondencia directa de protocolos en casi todos los exámenes: Telnet(23)->SSH(22), HTTP(80)->HTTPS(443), LDAP(389)->LDAPS(636), FTP(20/21)->SFTP(22) o FTPS(989/990), SNMPv1/v2(161)->SNMPv3(161 authPriv), y DNS(53)->DNSSEC/DoT(853). Recuerda que SNMPv3 es el ÚNICO que cifra las transferencias usando el modelo USM (User-based Security Model) con autenticación SHA y privacidad AES.'
+      'CompTIA evalúa la correspondencia directa de protocolos en casi todos los exámenes: Telnet(23)->SSH(22), HTTP(80)->HTTPS(443), LDAP(389)->LDAPS(636), FTP(20/21)->SFTP(22) o FTPS(989/990), SNMPv1/v2(161)->SNMPv3(161 authPriv), y DNS(53)->DNSSEC/DoT(853). Recuerda que SNMPv3 es el ÚNICO que cifra las transferencias usando el modelo USM (User-based Security Model) con autenticación SHA y privacidad AES.'
   }
 ];
 

@@ -248,7 +248,7 @@ export const ExamSummaryModal: React.FC<Props> = ({
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
                 <Filter className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Pantalla de Revisión de Reactivos (Pearson VUE Review Deck)</span>
+                <span>Revisión de PBQs</span>
               </h4>
 
               {/* Filter Pills */}

@@ -1200,7 +1200,7 @@ export const PBQ_EXPLANATIONS: Record<string, PBQExplanationData> = {
     ],
     itemsGlossary: [
       {
-        name: 'T1058: Kerberoasting & Event ID 4769 (RC4)',
+        name: 'T1558.003: Kerberoasting & Event ID 4769 (RC4)',
         badge: 'Ataque a Tickets Kerberos',
         definition:
           'Técnica en la que un usuario autenticado solicita tickets de servicio Kerberos (TGS) para Service Principal Names (SPNs) y los crackea offline por fuerza bruta.',
@@ -1797,38 +1797,3 @@ export const PBQ_EXPLANATIONS: Record<string, PBQExplanationData> = {
     ]
   }
 };
-
-/**
- * Helper to obtain the rich CompTIA explanation, rationale and item glossary for any PBQ.
- * If not explicitly registered, returns a structured syllabus breakdown based on the PBQ metadata.
- */
-export function getPBQExplanation(pbqId: string, pbqItem?: any): PBQExplanationData {
-  if (PBQ_EXPLANATIONS[pbqId]) {
-    return PBQ_EXPLANATIONS[pbqId];
-  }
-
-  // Robust fallback generating a syllabus-grounded explanation
-  const title = pbqItem?.title || `Escenario PBQ ${pbqId}`;
-  const scenario = pbqItem?.scenario || 'Escenario práctico de validación de competencias para CompTIA Security+ SY0-701.';
-  const reqs = pbqItem?.requirements || [];
-  const tip = pbqItem?.tacticalTip || 'Aplica los principios de defensa en profundidad y mínimo privilegio.';
-
-  return {
-    pbqId,
-    overviewRationale: `Para resolver con éxito este escenario (${title}), es crucial analizar la postura de seguridad global según el syllabus de CompTIA Security+ SY0-701. ${scenario}`,
-    keyTakeaways: [
-      tip,
-      'Verificar siempre los requerimientos de menor privilegio (Least Privilege) y defensa en profundidad.',
-      'Comprender la diferencia entre controles técnicos, administrativos y físicos para cada fase del escenario.',
-      'Identificar y descartar los distractores que introducen configuraciones inseguras o protocolos legados en texto plano.'
-    ],
-    itemsGlossary: reqs.map((req: string, idx: number) => ({
-      name: `Requisito / Opción ${idx + 1}`,
-      badge: 'Criterio SY0-701',
-      definition: req,
-      whyCorrectOrRole: `Este elemento implementa directamente la directiva oficial evaluada por CompTIA: ${req}`,
-      distractorWarning: 'Seleccionar una opción alternativa o permisiva violaría los principios de hardening y cumplimiento normativo.'
-    }))
-  };
-}
-

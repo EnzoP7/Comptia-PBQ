@@ -55,6 +55,37 @@ import {
 } from '../types/pbq';
 
 // ==========================================
+// Shared helper: multi-field case grading with per-field partial credit
+// ==========================================
+interface CaseField {
+  name: string;
+  selected: string | undefined;
+  expected: string;
+  labels: Record<string, string>;
+}
+
+function gradeCase(id: string, label: string, maxPoints: number, fields: CaseField[], why: string): PartialCreditItem {
+  const correct = fields.filter((f) => f.selected === f.expected).length;
+  const points = Math.round((maxPoints * correct) / fields.length * 10) / 10;
+  const detail = fields
+    .map((f) => {
+      const chosen = f.selected ? f.labels[f.selected] ?? f.selected : 'sin respuesta';
+      return f.selected === f.expected
+        ? `✔ ${f.name}: ${f.labels[f.expected]}`
+        : `✘ ${f.name}: elegiste "${chosen}" — correcto: "${f.labels[f.expected]}"`;
+    })
+    .join(' · ');
+  return {
+    id,
+    label,
+    achieved: correct === fields.length,
+    points,
+    maxPoints,
+    explanation: `${detail}. ${why}`,
+  };
+}
+
+// ==========================================
 // PBQ 1: Perímetro Tradicional
 // ==========================================
 export function evaluateNetworkDiagram(slots: NetworkZoneSlot[]): EvaluationResult {
@@ -1431,55 +1462,46 @@ export function evaluateDlpDataProtectionPBQ16(items: DlpPolicyItem[]): Evaluati
 // PBQ 17: Incident Response (NIST SP 800-61r2)
 // ==========================================
 export function evaluateIncidentResponsePBQ17(actions: IncidentResponseActionItem[]): EvaluationResult {
-  const breakdown: PartialCreditItem[] = [];
-
-  const phaseMap: Record<string, string> = {
-    'act-backup-playbook': '1_preparation',
-    'act-correlate-siem': '2_detection',
-    'act-isolate-vlan': '3_containment',
-    'act-wipe-malware': '4_eradication',
-    'act-restore-backup': '5_recovery',
-    'act-post-mortem': '6_lessons_learned'
+  const PHASE_NAMES: Record<string, string> = {
+    '1_preparation': 'Preparación',
+    '2_detection': 'Detección y análisis',
+    '3_containment': 'Contención',
+    '4_eradication': 'Erradicación',
+    '5_recovery': 'Recuperación',
+    '6_lessons_learned': 'Lecciones aprendidas',
   };
-
-  const labelsMap: Record<string, string> = {
-    'act-backup-playbook': 'Fase 1: Preparación (Playbooks & Entrenamientos)',
-    'act-correlate-siem': 'Fase 2: Detección y Análisis (Correlación SIEM & Triage)',
-    'act-isolate-vlan': 'Fase 3: Contención (Aislamiento de Red & Quarentena)',
-    'act-wipe-malware': 'Fase 4: Erradicación (Eliminación de Malware & Limpieza)',
-    'act-restore-backup': 'Fase 5: Recuperación (Restauración de Copias & Pruebas)',
-    'act-post-mortem': 'Fase 6: Lecciones Aprendidas (Reunión Post-Mortem & Informe)'
+  const EXPECTED: Record<string, [string, string, string]> = {
+    'act-backup-playbook': ['1_preparation', 'Actualizar playbooks, capacitar y validar backups', 'Todo lo que se hace ANTES de un incidente para estar listos (playbooks, entrenamiento, herramientas, backups verificados) es preparación.'],
+    'act-correlate-siem': ['2_detection', 'Correlacionar alertas y determinar el vector inicial', 'Confirmar que hay un incidente, determinar su alcance y el vector inicial es detección y análisis. CompTIA lista "detección" y "análisis" como pasos separados; aquí van juntos como en NIST SP 800-61.'],
+    'act-isolate-vlan': ['3_containment', 'Aislar el host y deshabilitar cuentas comprometidas', 'Limitar la propagación sin eliminar todavía la amenaza (aislar, cuarentena, deshabilitar cuentas) es contención. Siempre va antes de la erradicación.'],
+    'act-wipe-malware': ['4_eradication', 'Eliminar persistencia, revocar credenciales y reinstalar', 'Eliminar la causa raíz (malware, persistencia, credenciales filtradas) es erradicación. Reinstalar desde una imagen limpia también es erradicación, no recuperación.'],
+    'act-restore-backup': ['5_recovery', 'Restaurar desde backups limpios y monitorear', 'Devolver los sistemas a producción de forma controlada y vigilarlos es recuperación.'],
+    'act-post-mortem': ['6_lessons_learned', 'Reunión post-incidente y actualización de directivas', 'Documentar la línea de tiempo y mejorar controles después del incidente son las lecciones aprendidas (post-incident activity).'],
   };
-
-  let pointsPerItem = Math.floor(100 / actions.length); // ~16 or 17
-
-  actions.forEach((act) => {
-    const expected = phaseMap[act.id];
-    const isCorrect = act.assignedPhase === expected;
-    breakdown.push({
+  const breakdown: PartialCreditItem[] = actions.map((act) => {
+    const [expected, label, why] = EXPECTED[act.id];
+    const ok = act.assignedPhase === expected;
+    const chosen = act.assignedPhase ? PHASE_NAMES[act.assignedPhase] ?? act.assignedPhase : 'sin asignar';
+    return {
       id: act.id,
-      label: labelsMap[act.id] || act.id,
-      achieved: isCorrect,
-      points: isCorrect ? 16 : 0,
-      maxPoints: 16,
-      explanation: isCorrect
-        ? `Correcto: Esta acción corresponde exactamente a la fase de ${expected.replace(/^[0-9]_/, '').toUpperCase()} según NIST SP 800-61r2.`
-        : `Incorrecto: Se esperaba la fase de ${expected?.replace(/^[0-9]_/, '').toUpperCase()}. Revisa el orden secuencial de NIST.`
-    });
+      label: `${label} → ${PHASE_NAMES[expected]}`,
+      achieved: ok,
+      points: ok ? 100 / 6 : 0,
+      maxPoints: 100 / 6,
+      explanation: ok ? `Correcto. ${why}` : `Asignaste "${chosen}"; corresponde a "${PHASE_NAMES[expected]}". ${why}`,
+    };
   });
-
-  const totalScore = Math.min(100, breakdown.reduce((acc, curr) => acc + curr.points, 0) + (breakdown.filter(b => b.achieved).length === 6 ? 4 : 0));
-
+  const allOk = breakdown.every((b) => b.achieved);
+  const totalScore = Math.round(breakdown.reduce((acc, b) => acc + b.points, 0));
   return {
     totalScore,
     passed: totalScore >= 75,
     partialCreditBreakdown: breakdown,
-    detailedFeedback:
-      totalScore === 100
-        ? '¡Ciclo de vida de respuesta a incidentes NIST dominado al 100%! La secuencia y asignación de acciones es tácticamente perfecta.'
-        : `Puntuación obtenida: ${totalScore}/100. Recuerda el orden: Preparación -> Detección -> Contención -> Erradicación -> Recuperación -> Lecciones Aprendidas.`,
-    sy0701Objective: 'Objetivo 4.4: Aplicar técnicas apropiadas de respuesta a incidentes según el ciclo de vida oficial (NIST SP 800-61 / ISO 27035).',
-    domainName: 'Dominio 4: Operaciones de Seguridad'
+    detailedFeedback: allOk
+      ? 'Ciclo de vida de respuesta a incidentes dominado.'
+      : `Puntuación: ${totalScore}/100. Orden CompTIA: preparación → detección → análisis → contención → erradicación → recuperación → lecciones aprendidas.`,
+    sy0701Objective: '',
+    domainName: '',
   };
 }
 
@@ -1730,84 +1752,56 @@ export function evaluateDisasterRecoveryPBQ20(state: DisasterRecoveryState): Eva
 // PBQ 21: Social Engineering & Human Factors
 // ==========================================
 export function evaluateSocialEngineeringPBQ21(cases: SocialEngineeringCase[]): EvaluationResult {
-  const breakdown: PartialCreditItem[] = [];
-
-  const c1 = cases.find((c) => c.id === 'case-smishing');
-  const c1Correct =
-    c1?.selectedAttackType === 'smishing' &&
-    c1?.selectedInfluencePrinciple === 'urgency' &&
-    c1?.selectedMitigation === 'security_awareness_smishing';
-  breakdown.push({
-    id: 'case-1-smishing',
-    label: 'Caso 1: Alerta SMS Falsa de Banco (Smishing + Urgencia)',
-    achieved: c1Correct,
-    points: c1Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c1Correct
-      ? 'Correcto: Se identificó Smishing (SMS phishing) con principio de urgencia y concientización para no pulsar enlaces móviles.'
-      : 'Incorrecto: Mensajes SMS maliciosos corresponden a Smishing y explotan el principio de Urgencia.'
+  const ATTACK: Record<string, string> = {
+    whaling_bec: 'Whaling / BEC',
+    smishing: 'Smishing',
+    spear_phishing: 'Spear phishing',
+    vishing: 'Vishing',
+    baiting_usb: 'Baiting / USB drop',
+  };
+  const PRINCIPLE: Record<string, string> = {
+    trust_consensus: 'Confianza',
+    urgency: 'Urgencia',
+    scarcity_curiosity: 'Escasez / curiosidad',
+    authority: 'Autoridad / intimidación',
+  };
+  const MITIGATION: Record<string, string> = {
+    verify_out_of_band: 'Verificación fuera de banda',
+    disable_autorun_usb_blocking: 'Bloqueo de USB / AutoRun por GPO',
+    dual_authorization_wire: 'Doble autorización de transferencias',
+    security_awareness_smishing: 'Concienciación y simulaciones de smishing',
+  };
+  const keys: Array<[string, string, string, string, string, string]> = [
+    ['case-smishing', 'case-1-smishing', 'Caso 1: SMS urgente de bloqueo bancario', 'smishing', 'urgency', 'security_awareness_smishing'],
+    ['case-vishing', 'case-2-vishing', 'Caso 2: llamada del "director ejecutivo" pidiendo tarjetas', 'vishing', 'authority', 'verify_out_of_band'],
+    ['case-whaling', 'case-3-whaling', 'Caso 3: correo al CFO para cambiar la cuenta del proveedor', 'whaling_bec', 'trust_consensus', 'dual_authorization_wire'],
+    ['case-baiting', 'case-4-baiting', 'Caso 4: memorias USB abandonadas en el estacionamiento', 'baiting_usb', 'scarcity_curiosity', 'disable_autorun_usb_blocking'],
+  ];
+  const WHY: Record<string, string> = {
+    'case-smishing': 'El canal es SMS (smishing) y la presión de "su cuenta será bloqueada hoy" explota la urgencia. Como el usuario recibe el SMS en su teléfono personal, el control más eficaz es la concienciación: no abrir enlaces y entrar a la app oficial.',
+    'case-vishing': 'El canal es la voz (vishing). Hacerse pasar por un superior explota la autoridad/intimidación. La defensa es colgar y verificar llamando al número oficial registrado (fuera de banda), nunca al que da quien llama.',
+    'case-whaling': 'Un correo dirigido a un alto ejecutivo (CFO) para desviar un pago es whaling/BEC. Se apoya en la confianza en un proveedor conocido. Ningún filtro técnico detecta un correo bien escrito desde una cuenta comprometida: el control es procedimental (doble autorización y verificación de cambios de cuenta).',
+    'case-baiting': 'Dejar dispositivos atractivos para que alguien los conecte es baiting; explota la curiosidad y la escasez ("bonos"). El control técnico es bloquear el almacenamiento USB masivo y AutoRun por GPO.',
+  };
+  const breakdown = keys.map(([caseId, id, label, atk, pri, mit]) => {
+    const c = cases.find((x) => x.id === caseId);
+    return gradeCase(id, label, 25, [
+      { name: 'Ataque', selected: c?.selectedAttackType, expected: atk, labels: ATTACK },
+      { name: 'Principio', selected: c?.selectedInfluencePrinciple, expected: pri, labels: PRINCIPLE },
+      { name: 'Mitigación', selected: c?.selectedMitigation, expected: mit, labels: MITIGATION },
+    ], WHY[caseId]);
   });
-
-  const c2 = cases.find((c) => c.id === 'case-vishing');
-  const c2Correct =
-    c2?.selectedAttackType === 'vishing' &&
-    c2?.selectedInfluencePrinciple === 'authority' &&
-    c2?.selectedMitigation === 'verify_out_of_band';
-  breakdown.push({
-    id: 'case-2-vishing',
-    label: 'Caso 2: Llamada del "CEO" para Tarjetas de Regalo (Vishing + Autoridad)',
-    achieved: c2Correct,
-    points: c2Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c2Correct
-      ? 'Correcto: Es un ataque de Vishing que explota el principio de Autoridad; la mitigación es verificación fuera de banda al teléfono oficial.'
-      : 'Incorrecto: Una llamada telefónica fingiendo ser un superior es Vishing bajo el principio de Autoridad.'
-  });
-
-  const c3 = cases.find((c) => c.id === 'case-whaling');
-  const c3Correct =
-    c3?.selectedAttackType === 'whaling_bec' &&
-    c3?.selectedInfluencePrinciple === 'trust_consensus' &&
-    c3?.selectedMitigation === 'dual_authorization_wire';
-  breakdown.push({
-    id: 'case-3-whaling',
-    label: 'Caso 3: Fraude de Cuenta Proveedor a Finanzas (Whaling / BEC + Confianza)',
-    achieved: c3Correct,
-    points: c3Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c3Correct
-      ? 'Correcto: Ataque dirigido Business Email Compromise (BEC / Whaling) mitigado con doble autorización para cambios de cuentas bancarias.'
-      : 'Incorrecto: El fraude por suplantación de proveedores en transferencias es Business Email Compromise (BEC).'
-  });
-
-  const c4 = cases.find((c) => c.id === 'case-baiting');
-  const c4Correct =
-    c4?.selectedAttackType === 'baiting_usb' &&
-    c4?.selectedInfluencePrinciple === 'scarcity_curiosity' &&
-    c4?.selectedMitigation === 'disable_autorun_usb_blocking';
-  breakdown.push({
-    id: 'case-4-baiting',
-    label: 'Caso 4: USB en Estacionamiento "Bonos" (Baiting + Curiosidad)',
-    achieved: c4Correct,
-    points: c4Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c4Correct
-      ? 'Correcto: Se catalogó como Baiting (señuelo físico) explotando la curiosidad, mitigado mediante bloqueo por GPO de puertos USB y AutoRun.'
-      : 'Incorrecto: Dejar dispositivos USB con etiquetas atractivas es Baiting y se neutraliza deshabilitando AutoRun y bloqueando USBs.'
-  });
-
-  const totalScore = breakdown.reduce((acc, curr) => acc + curr.points, 0);
-
+  const totalScore = Math.round(breakdown.reduce((acc, b) => acc + b.points, 0));
   return {
     totalScore,
     passed: totalScore >= 75,
     partialCreditBreakdown: breakdown,
     detailedFeedback:
       totalScore === 100
-        ? '¡Análisis de ingeniería social impecable! Has correlacionado el vector técnico con el factor psicológico humano de influencia de CompTIA SY0-701.'
-        : `Puntuación obtenida: ${totalScore}/100. Recuerda: SMS=Smishing, Voz=Vishing, Alta dirección=Whaling/BEC, USB en suelo=Baiting.`,
-    sy0701Objective: 'Objetivo 2.1: Comparar y contrastar tipos comunes de amenazas de ingeniería social y principios humanos de influencia.',
-    domainName: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones'
+        ? 'Análisis de ingeniería social impecable: correlacionaste canal, principio de influencia y control.'
+        : `Puntuación: ${totalScore}/100. Identifica primero el CANAL (SMS = smishing, voz = vishing, ejecutivo = whaling, objeto físico = baiting) y después la emoción que explota el atacante.`,
+    sy0701Objective: '',
+    domainName: '',
   };
 }
 
@@ -1934,27 +1928,25 @@ export function evaluateRiskManagementPBQ23(state: RiskManagementState): Evaluat
       : `Incorrecto: Ingresaste ${usd(state.calculatedAleInput || 0)}. El valor exacto es ${usd(expectedAle)} (${usd(expectedSle)} × ${state.aroValue}). Si el evento ocurre una vez cada N años, ARO = 1/N.`
   });
 
-  const treat1Correct = state.treatmentThreat1 === 'mitigate';
-  const treat2Correct = state.treatmentThreat2 === 'transfer';
-  const treat3Correct = state.treatmentThreat3 === 'accept';
-  const treat4Correct = state.treatmentThreat4 === 'avoid';
-
-  const treatmentCorrectCount =
-    (treat1Correct ? 1 : 0) +
-    (treat2Correct ? 1 : 0) +
-    (treat3Correct ? 1 : 0) +
-    (treat4Correct ? 1 : 0);
-
-  breakdown.push({
-    id: 'risk-treatments',
-    label: `Estrategias de Tratamiento de Riesgo (${treatmentCorrectCount}/4 correctas)`,
-    achieved: treatmentCorrectCount >= 3,
-    points: treatmentCorrectCount * 12.5,
-    maxPoints: 50,
-    explanation:
-      treatmentCorrectCount === 4
-        ? 'Correcto: 1. Energía = Mitigar (UPS/Generador); 2. Demandas = Transferir (Seguro); 3. Error menor = Aceptar (Tolerancia); 4. FTP inseguro = Evitar (Apagar servicio).'
-        : `Incorrecto: Tuviste ${treatmentCorrectCount} de 4 estrategias correctas. Revisa cuándo se debe mitigar, transferir, aceptar o evitar.`
+  const TREATMENT: Record<string, string> = { mitigate: 'Mitigar', transfer: 'Transferir', accept: 'Aceptar', avoid: 'Evitar' };
+  const threats: Array<[string, string | undefined, string, string]> = [
+    ['Amenaza 1: caída eléctrica del data center', state.treatmentThreat1, 'mitigate', 'Existe un control de costo razonable (UPS/generador) que reduce la probabilidad o el impacto: se mitiga.'],
+    ['Amenaza 2: demandas de clientes tras una brecha', state.treatmentThreat2, 'transfer', 'El impacto financiero se traslada a un tercero mediante un ciberseguro: se transfiere. Ojo: se transfiere el costo, no la responsabilidad.'],
+    ['Amenaza 3: error estético menor', state.treatmentThreat3, 'accept', 'Corregirlo cuesta más que la pérdida esperada: se acepta formalmente (queda documentado en el registro de riesgos).'],
+    ['Amenaza 4: servicio legado riesgoso sin uso de negocio', state.treatmentThreat4, 'avoid', 'Si la actividad no aporta valor, se elimina la actividad que genera el riesgo: se evita (desmantelar el servicio).'],
+  ];
+  threats.forEach(([label, selected, expected, why], i) => {
+    const ok = selected === expected;
+    breakdown.push({
+      id: `risk-treatment-${i + 1}`,
+      label: `${label} → ${TREATMENT[expected]}`,
+      achieved: ok,
+      points: ok ? 12.5 : 0,
+      maxPoints: 12.5,
+      explanation: ok
+        ? `Correcto. ${why}`
+        : `Elegiste "${selected ? TREATMENT[selected] ?? selected : 'sin respuesta'}"; corresponde "${TREATMENT[expected]}". ${why}`,
+    });
   });
 
   const totalScore = Math.round(breakdown.reduce((acc, curr) => acc + curr.points, 0));
@@ -2057,49 +2049,52 @@ export function evaluateEmailSecurityPBQ24(state: EmailSecurityState): Evaluatio
 // PBQ 25: Security CLI & Terminal Diagnostics
 // ==========================================
 export function evaluateSecurityCliPBQ25(scenarios: SecurityCliScenario[]): EvaluationResult {
-  const breakdown: PartialCreditItem[] = [];
-
-  const answersMap: Record<string, string> = {
-    'cli-ports': 'netstat_tulpn',
-    'cli-sniff': 'tcpdump_eth0',
-    'cli-hash': 'sha256sum',
-    'cli-permissions': 'chmod_600_root',
+  const LABELS: Record<string, string> = {
+    ping_localhost: 'ps aux',
+    netstat_tulpn: 'netstat -tulpn / ss -tulpn',
+    ipconfig: 'ifconfig -a',
+    traceroute: 'netstat -rn',
+    tcpdump_eth0: 'tcpdump -i eth0 -nn -s0',
+    curl_google: 'nmap -sS 10.0.0.0/24',
+    cat_network: 'netstat -an',
+    nslookup: 'dig +trace corp.com',
+    ls_la: 'ls -la /bin/login',
+    sha256sum: 'sha256sum /bin/login',
+    grep_root: 'file /bin/login',
+    chmod_600_root: 'chmod 600 /etc/shadow && chown root:root /etc/shadow',
+    rm_shadow: 'chmod 700 /etc/shadow',
+    touch_shadow: 'chown root:root /etc/shadow',
   };
-
-  const labelsMap: Record<string, string> = {
-    'cli-ports': 'Identificación de Puertos y Procesos Escuchando (netstat -tulpn / ss)',
-    'cli-sniff': 'Captura y Análisis de Paquetes en Vivo (tcpdump -i eth0 -nn -s0)',
-    'cli-hash': 'Verificación de Integridad de Binarios del Sistema (sha256sum)',
-    'cli-permissions': 'Endurecimiento de Permisos Críticos en Archivos (chmod 600 /etc/shadow)',
+  const EXPECTED: Record<string, [string, string, string]> = {
+    'cli-ports': ['netstat_tulpn', 'Puertos a la escucha y proceso asociado', '-t TCP, -u UDP, -l solo puertos en escucha, -p muestra el PID/programa, -n sin resolver nombres. ps aux lista procesos pero no sus puertos; netstat -rn muestra la tabla de rutas.'],
+    'cli-sniff': ['tcpdump_eth0', 'Captura de paquetes en vivo', 'tcpdump captura tráfico en la interfaz (-i eth0); -nn evita resolver nombres y puertos, -s0 captura el paquete completo. nmap escanea hosts, no captura tráfico; netstat -an muestra conexiones, no su contenido.'],
+    'cli-hash': ['sha256sum', 'Verificar si un binario fue modificado', 'Comparar el hash SHA-256 del binario con el de una fuente confiable detecta cualquier modificación. La fecha de ls -la o la salida de file pueden falsificarse fácilmente (timestomping).'],
+    'cli-permissions': ['chmod_600_root', 'Proteger el archivo de hashes de contraseñas', '/etc/shadow debe ser legible solo por root: 600 (rw-------) y dueño root. 644 lo hace legible para todos; 700 agrega ejecución innecesaria; cambiar solo el dueño no corrige los permisos.'],
   };
-
-  scenarios.forEach((sc) => {
-    const expected = answersMap[sc.id];
-    const isCorrect = sc.selectedCommand === expected;
-    breakdown.push({
+  const breakdown: PartialCreditItem[] = scenarios.map((sc) => {
+    const [expected, label, why] = EXPECTED[sc.id];
+    const ok = sc.selectedCommand === expected;
+    const chosen = sc.selectedCommand ? LABELS[sc.selectedCommand] ?? sc.selectedCommand : 'sin respuesta';
+    return {
       id: sc.id,
-      label: labelsMap[sc.id] || sc.investigationGoal,
-      achieved: isCorrect,
-      points: isCorrect ? 25 : 0,
+      label: `${label}: ${LABELS[expected]}`,
+      achieved: ok,
+      points: ok ? 25 : 0,
       maxPoints: 25,
-      explanation: isCorrect
-        ? 'Correcto: Se seleccionó el comando exacto con los flags apropiados de auditoría de seguridad.'
-        : `Incorrecto: Se esperaba el comando ${expected}. Revisa la utilidad de netstat, tcpdump, sha256sum y permisos chmod/chown.`
-    });
+      explanation: ok ? `Correcto. ${why}` : `Elegiste "${chosen}"; lo correcto es "${LABELS[expected]}". ${why}`,
+    };
   });
-
-  const totalScore = breakdown.reduce((acc, curr) => acc + curr.points, 0);
-
+  const totalScore = breakdown.reduce((acc, b) => acc + b.points, 0);
   return {
     totalScore,
     passed: totalScore >= 75,
     partialCreditBreakdown: breakdown,
     detailedFeedback:
       totalScore === 100
-        ? '¡Habilidades de consola y terminal de seguridad perfectas! Has utilizado netstat, tcpdump, sha256sum y chmod/chown con precisión técnica de examen.'
-        : `Puntuación obtenida: ${totalScore}/100. Asegura identificar los flags de netstat (-tulpn) y la sintaxis de tcpdump y chmod 600.`,
-    sy0701Objective: 'Objetivo 4.2: Dados un escenario, usar las herramientas de software y comandos de terminal apropiados para evaluar la seguridad de la organización.',
-    domainName: 'Dominio 4: Operaciones de Seguridad'
+        ? 'Herramientas de línea de comandos dominadas.'
+        : `Puntuación: ${totalScore}/100. Asocia cada herramienta a la pregunta que responde: ¿qué escucha? (netstat/ss), ¿qué viaja? (tcpdump), ¿fue alterado? (hash), ¿quién puede leerlo? (chmod/chown).`,
+    sy0701Objective: '',
+    domainName: '',
   };
 }
 
@@ -2245,80 +2240,48 @@ export function evaluateDevSecOpsPBQ27(state: DevSecOpsState): EvaluationResult 
 // PBQ 28: Cryptographic Attacks & Countermeasures
 // ==========================================
 export function evaluateCryptoAttacksPBQ28(cases: CryptoAttackCase[]): EvaluationResult {
-  const breakdown: PartialCreditItem[] = [];
-
-  const c1 = cases.find((c) => c.id === 'atk-rainbow');
-  const c1Correct =
-    c1?.selectedAttackType === 'rainbow_table' &&
-    c1?.selectedCountermeasure === 'salting_key_stretching';
-  breakdown.push({
-    id: 'c1-rainbow',
-    label: 'Caso 1: Craqueo por Tablas Precomputadas (Rainbow Tables + Salting)',
-    achieved: c1Correct,
-    points: c1Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c1Correct
-      ? 'Correcto: Se identificó Rainbow Tables y se mitigó con Salting aleatorio único y algoritmos lentos de Key Stretching (bcrypt / Argon2).'
-      : 'Incorrecto: Las tablas precomputadas de hashes son Rainbow Tables y se inutilizan añadiendo Salt a cada contraseña.'
+  const ATTACK: Record<string, string> = {
+    birthday_collision: 'Birthday attack / colisión de hash',
+    side_channel: 'Side-channel',
+    downgrade_attack: 'Downgrade',
+    replay_attack: 'Replay',
+    rainbow_table: 'Rainbow table',
+  };
+  const COUNTER: Record<string, string> = {
+    session_nonces_timestamp: 'Nonces de un solo uso y timestamps',
+    rot13: 'Cifrar el canal reutilizando los mismos tokens',
+    hsts_disable_legacy: 'HSTS y deshabilitar SSLv3/TLS 1.0',
+    salting_key_stretching: 'Salting + key stretching',
+    sha256_larger_space: 'Migrar a SHA-256/512',
+  };
+  const keys: Array<[string, string, string, string, string, string]> = [
+    ['atk-rainbow', 'c1-rainbow', 'Caso 1: hashes de contraseñas crackeados al instante', 'rainbow_table', 'salting_key_stretching',
+      'Romper hashes en segundos comparándolos con valores precalculados es un ataque de rainbow table. Un salt aleatorio por usuario hace inútiles las tablas precalculadas y el key stretching (bcrypt/Argon2) encarece cada intento.'],
+    ['atk-birthday', 'c2-birthday', 'Caso 2: certificado duplicado con el mismo digest SHA-1', 'birthday_collision', 'sha256_larger_space',
+      'Dos contenidos distintos con el mismo hash son una colisión (birthday attack): la paradoja del cumpleaños reduce el esfuerzo a 2^(n/2). Se mitiga con un hash de mayor salida y sin colisiones prácticas (SHA-256 o superior).'],
+    ['atk-replay', 'c3-replay', 'Caso 3: reutilización de paquetes de autenticación capturados', 'replay_attack', 'session_nonces_timestamp',
+      'Reenviar una autenticación válida capturada es un replay. Cifrar el canal no basta si el mismo token sigue siendo válido; hacen falta nonces de un solo uso y timestamps con expiración (como Kerberos).'],
+    ['atk-downgrade', 'c4-downgrade', 'Caso 4: negociación forzada a un protocolo legado', 'downgrade_attack', 'hsts_disable_legacy',
+      'Forzar al cliente a una versión vulnerable (por ejemplo SSLv3 → POODLE) es un downgrade. Se elimina deshabilitando los protocolos legados en el servidor y exigiendo HTTPS con HSTS.'],
+  ];
+  const breakdown = keys.map(([caseId, id, label, atk, ctr, why]) => {
+    const c = cases.find((x) => x.id === caseId);
+    return gradeCase(id, label, 25, [
+      { name: 'Ataque', selected: c?.selectedAttackType, expected: atk, labels: ATTACK },
+      { name: 'Contramedida', selected: c?.selectedCountermeasure, expected: ctr, labels: COUNTER },
+    ], why);
   });
-
-  const c2 = cases.find((c) => c.id === 'atk-birthday');
-  const c2Correct =
-    c2?.selectedAttackType === 'birthday_collision' &&
-    c2?.selectedCountermeasure === 'sha256_larger_space';
-  breakdown.push({
-    id: 'c2-birthday',
-    label: 'Caso 2: Colisión de Dos Mensajes Distintos (Birthday Attack + SHA-256)',
-    achieved: c2Correct,
-    points: c2Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c2Correct
-      ? 'Correcto: La paradoja del cumpleaños explota colisiones de hash (h(m1) == h(m2)) en SHA-1; la solución es migrar a SHA-256 (espacio 2^256).'
-      : 'Incorrecto: Generar el mismo hash con dos textos distintos es un Birthday/Collision Attack y se mitiga usando familias SHA-256/512.'
-  });
-
-  const c3 = cases.find((c) => c.id === 'atk-replay');
-  const c3Correct =
-    c3?.selectedAttackType === 'replay_attack' &&
-    c3?.selectedCountermeasure === 'session_nonces_timestamp';
-  breakdown.push({
-    id: 'c3-replay',
-    label: 'Caso 3: Retransmisión de Tokens de Sesión (Replay Attack + Nonces)',
-    achieved: c3Correct,
-    points: c3Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c3Correct
-      ? 'Correcto: El atacante reenvía una trama capturada; se neutraliza con Nonces de un solo uso, Timestamps y tickets con expiración (Kerberos).'
-      : 'Incorrecto: La retransmisión de paquetes válidos es un Replay Attack y se mitiga con Nonces y marcas de tiempo.'
-  });
-
-  const c4 = cases.find((c) => c.id === 'atk-downgrade');
-  const c4Correct =
-    c4?.selectedAttackType === 'downgrade_attack' &&
-    c4?.selectedCountermeasure === 'hsts_disable_legacy';
-  breakdown.push({
-    id: 'c4-downgrade',
-    label: 'Caso 4: Forzado de Negociación Débil (Downgrade Attack + HSTS)',
-    achieved: c4Correct,
-    points: c4Correct ? 25 : 0,
-    maxPoints: 25,
-    explanation: c4Correct
-      ? 'Correcto: Forzar la negociación a suites obsoletas (POODLE / SSLv3) es un Downgrade Attack; se mitiga con HSTS y deshabilitando protocolos legados.'
-      : 'Incorrecto: Degradar la conexión a versiones vulnerables es un Downgrade Attack y se frena exigiendo HSTS y apagando SSLv3/TLS 1.0.'
-  });
-
-  const totalScore = breakdown.reduce((acc, curr) => acc + curr.points, 0);
-
+  const totalScore = Math.round(breakdown.reduce((acc, b) => acc + b.points, 0));
   return {
     totalScore,
     passed: totalScore >= 75,
     partialCreditBreakdown: breakdown,
     detailedFeedback:
       totalScore === 100
-        ? '¡Criptoanálisis y mitigaciones dominados al 100%! Has identificado correctamente Rainbow Tables, Birthday Collision, Replay y Downgrade attacks.'
-        : `Puntuación obtenida: ${totalScore}/100. Recuerda asociar Salting a Rainbow Tables, SHA-256 a Colisiones y Nonces a Replay attacks.`,
-    sy0701Objective: 'Objetivo 1.4 / 2.2: Comparar y contrastar tipos comunes de ataques criptográficos y seleccionar las contramedidas adecuadas.',
-    domainName: 'Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones'
+        ? 'Ataques criptográficos y contramedidas dominados.'
+        : `Puntuación: ${totalScore}/100. Asocia: rainbow table → salt; colisión → hash más fuerte; replay → nonce/timestamp; downgrade → deshabilitar legados + HSTS.`,
+    sy0701Objective: '',
+    domainName: '',
   };
 }
 
@@ -3379,7 +3342,7 @@ export function evaluateMitreThreatHuntingPBQ42(state: MitreThreatHuntingState):
 
   const expectedCases: Record<string, { code: string; telemetry: string; remediation: string; title: string; rationale: string }> = {
     'case-kerberoasting': {
-      code: 'T1058',
+      code: 'T1558.003',
       telemetry: 'event_4769_rc4',
       remediation: 'gmsa_aes256',
       title: 'Ataque Kerberoasting (Ticket Granting Service Request)',
@@ -3841,31 +3804,31 @@ export function evaluateApiSecurityPBQ47(state: ApiSecurityState): EvaluationRes
   const breakdown: PartialCreditItem[] = [];
 
   const expectedCases: Record<string, { vuln: string; rem: string; title: string; rationale: string }> = {
-    'api-bola': {
+    'api-bola-user-profile': {
       vuln: 'bola_idor',
       rem: 'contextual_rbac_object_ownership',
       title: 'Caso 1: Broken Object Level Authorization (BOLA / IDOR) en Endpoint de Facturación',
       rationale: 'Modificar el identificador de usuario en la URI para acceder a registros ajenos es BOLA (OWASP API1). Se remedia validando la propiedad del objeto contra la sesión autenticada con RBAC en el backend.'
     },
-    'api-ssrf': {
+    'api-ssrf-metadata': {
       vuln: 'ssrf_cloud_metadata',
       rem: 'url_whitelist_disable_metadata_v1',
       title: 'Caso 2: Server-Side Request Forgery (SSRF) contra Metadatos Cloud (169.254.169.254)',
       rationale: 'Forzar al servidor a consultar la IP de enlace local 169.254.169.254 para robar credenciales IAM temporales es SSRF (OWASP API7). Requiere listas blancas de URLs, bloquear link-local y forzar IMDSv2 con tokens de sesión.'
     },
-    'api-jwt': {
+    'api-jwt-alg-none': {
       vuln: 'jwt_alg_none_tampering',
       rem: 'enforce_asymmetric_jwt_verify_reject_none',
       title: 'Caso 3: Manipulación de Token JWT por Aceptación de Algoritmo "none" (Broken Authentication)',
       rationale: 'Permitir tokens JWT con alg: "none" sin firma criptográfica permite escalamiento arbitrario de privilegios. Se remedia rechazando tokens "none", forzando RS256/ES256 y validando firmas contra JWKS público.'
     },
-    'api-sqli': {
+    'api-sqli-rest': {
       vuln: 'sqli_api_unparameterized',
       rem: 'prepared_statements_orm_parameterized',
       title: 'Caso 4: Inyección SQL en Parámetros de Filtro de API REST (Falta de Sanitización)',
       rationale: 'Concatenar cadenas SQL en endpoints REST permite extracción no autorizada de tablas. La remediación obligatoria son consultas parametrizadas (Prepared Statements) u ORMs seguros.'
     },
-    'api-rate-limit': {
+    'api-rate-limiting-stuffing': {
       vuln: 'lack_of_rate_limiting_stuffing',
       rem: 'api_gateway_rate_limiting_waf_captcha',
       title: 'Caso 5: Falta de Limitación de Recursos y Rate Limiting (Credential Stuffing Masivo)',
