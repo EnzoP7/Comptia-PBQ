@@ -168,7 +168,7 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-bold text-white">{finding.serviceBanner}</div>
-                    <div className="text-xs text-rose-400 font-mono mt-0.5">{finding.discoveredRisk}</div>
+                    {hints && <div className="text-xs text-rose-400 font-mono mt-0.5">{finding.discoveredRisk}</div>}
                   </div>
                 </div>
               </div>

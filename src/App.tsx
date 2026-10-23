@@ -26,7 +26,7 @@ import { CompTIACheatSheetModal } from './components/CompTIACheatSheetModal';
 import { SimulatorErrorBoundary } from './components/SimulatorErrorBoundary';
 import { WelcomeModal } from './components/WelcomeModal';
 
-import { ArrowLeft, ArrowRight, FileCheck, BookOpen, Target, Award, ListChecks, FileText, Lightbulb, Flag } from 'lucide-react';
+import { ArrowLeft, ArrowRight, FileCheck, Target, Award, ListChecks, FileText, Lightbulb, Flag, ChevronDown, ChevronUp } from 'lucide-react';
 
 type Mode = 'practice' | 'exam';
 type FontSize = 'normal' | 'large' | 'xlarge';
@@ -86,7 +86,7 @@ export default function App() {
   const [seed, setSeed] = useState<number>(saved.seed ?? newSeed());
 
   const [isMuted, setIsMuted] = useState(false);
-  const [readingMode, setReadingMode] = useState<'scenario' | 'checklist'>('scenario');
+  const [briefCollapsed, setBriefCollapsed] = useState(false);
   const [tipRevealed, setTipRevealed] = useState(false);
   const [practiceElapsed, setPracticeElapsed] = useState(0);
   const [practiceTimerActive, setPracticeTimerActive] = useState(true);
@@ -323,7 +323,6 @@ export default function App() {
   const best = bestScore(history, currentPBQ.id);
   const attemptCount = history[currentPBQ.id]?.length ?? 0;
   const isLast = currentIndex === visiblePbqs.length - 1;
-  const isWide = !!PBQ_REGISTRY[currentPBQ.id].wide;
   const textSize = (xl: string, lg: string, normal: string) => (fontSize === 'xlarge' ? xl : fontSize === 'large' ? lg : normal);
 
   return (
@@ -381,180 +380,137 @@ export default function App() {
           </div>
         )}
 
-        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* LEFT COLUMN: scenario and instructions */}
-          <section className={`${isWide ? "lg:col-span-12 space-y-4" : "lg:col-span-5 space-y-4"}`}>
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-xl">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-5">
+          {/* Question brief: full width on top, so the simulator below gets the whole screen */}
+          <section className="rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl overflow-hidden">
+            <div className="p-4 sm:p-5 flex flex-wrap items-start justify-between gap-3">
+              <div className="min-w-0 space-y-1.5">
+                <div className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
                   PBQ {inExamView ? currentIndex + 1 : currentPBQ.number} de {visiblePbqs.length} • {currentPBQ.categoryTitle}
-                </span>
-                <span className="text-xs text-slate-400 font-mono bg-slate-800 px-2 py-0.5 rounded-md shrink-0">
-                  {currentPBQ.estimatedMinutes} min aprox
-                </span>
-              </div>
-
-              <h1 className="text-xl font-bold text-white tracking-tight leading-snug">{currentPBQ.title}</h1>
-
-              <div className="text-xs text-slate-400 font-mono space-y-1 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
-                <div className="font-semibold text-slate-300">{currentPBQ.domain}</div>
-                <div className="text-slate-400 text-[11px]">{currentPBQ.sy0701Objective}</div>
-              </div>
-
-              {!examInProgress && attemptCount > 0 && (
-                <div className="text-[11px] font-mono text-slate-500">
-                  Intentos: <span className="text-slate-300">{attemptCount}</span> · Mejor nota:{' '}
-                  <span className={best !== null && best >= 75 ? 'text-emerald-400' : 'text-amber-400'}>{best}%</span>
                 </div>
-              )}
-            </div>
-
-            {/* Reading mode and font size */}
-            <div className="flex flex-wrap items-center justify-between gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
-              <div className="flex items-center gap-1">
-                {(
-                  [
-                    ['scenario', 'Escenario Completo', <FileText key="i" className="w-3.5 h-3.5" />],
-                    ['checklist', `Paso a Paso (${currentPBQ.requirements.length})`, <ListChecks key="i" className="w-3.5 h-3.5 text-cyan-400" />],
-                  ] as const
-                ).map(([value, label, icon]) => (
-                  <button
-                    key={value}
-                    onClick={() => {
-                      sound.playClick();
-                      setReadingMode(value);
-                    }}
-                    className={`py-1.5 px-3 rounded-lg font-medium flex items-center gap-1.5 transition-colors ${
-                      readingMode === value ? 'bg-slate-800 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    {icon}
-                    <span>{label}</span>
-                  </button>
-                ))}
+                <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">{currentPBQ.title}</h1>
+                <div className="text-[11px] text-slate-400 font-mono">
+                  <span className="text-slate-300">{currentPBQ.domain}</span> · {currentPBQ.sy0701Objective}
+                </div>
               </div>
 
-              <div className="flex items-center gap-1 pr-1 bg-slate-950/60 p-1 rounded-xl border border-slate-800">
-                <span className="text-[11px] text-slate-400 font-medium px-1 hidden sm:inline">Letra:</span>
-                {(
-                  [
-                    ['normal', 'A', 'Normal (14px)'],
-                    ['large', 'A+', 'Grande (16px)'],
-                    ['xlarge', 'A++', 'Extra Grande (18px)'],
-                  ] as const
-                ).map(([value, label, title]) => (
+              <div className="flex flex-wrap items-center gap-2 text-xs">
+                <span className="text-slate-400 font-mono bg-slate-800 px-2 py-1 rounded-md">{currentPBQ.estimatedMinutes} min aprox</span>
+                {!examInProgress && attemptCount > 0 && (
+                  <span className="font-mono text-slate-400 bg-slate-950 border border-slate-800 px-2 py-1 rounded-md">
+                    Intentos {attemptCount} · Mejor{' '}
+                    <span className={best !== null && best >= 75 ? 'text-emerald-400' : 'text-amber-400'}>{best}%</span>
+                  </span>
+                )}
+                {currentEvalResult && (
                   <button
-                    key={value}
-                    onClick={() => {
-                      sound.playClick();
-                      setFontSize(value);
-                    }}
-                    className={`px-2 py-1 rounded-lg text-xs font-semibold transition-colors ${
-                      fontSize === value ? 'bg-cyan-950 text-cyan-300 border border-cyan-800 shadow-sm' : 'text-slate-400 hover:text-white'
+                    onClick={() => setIsBreakdownOpen(true)}
+                    className={`font-mono font-bold px-2.5 py-1 rounded-md border ${
+                      currentEvalResult.totalScore >= 75 ? 'bg-emerald-950/40 border-emerald-800 text-emerald-300' : 'bg-amber-950/40 border-amber-800 text-amber-300'
                     }`}
-                    title={title}
+                    title="Ver corrección"
                   >
-                    {label}
+                    {currentEvalResult.totalScore}% · Ver desglose
                   </button>
-                ))}
+                )}
+                <div className="flex items-center gap-0.5 bg-slate-950/60 p-0.5 rounded-lg border border-slate-800" aria-label="Tamaño de letra">
+                  {(
+                    [
+                      ['normal', 'A', 'Normal'],
+                      ['large', 'A+', 'Grande'],
+                      ['xlarge', 'A++', 'Extra grande'],
+                    ] as const
+                  ).map(([value, label, title]) => (
+                    <button
+                      key={value}
+                      onClick={() => {
+                        sound.playClick();
+                        setFontSize(value);
+                      }}
+                      className={`px-2 py-0.5 rounded-md font-semibold ${fontSize === value ? 'bg-cyan-950 text-cyan-300' : 'text-slate-400 hover:text-white'}`}
+                      title={title}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => {
+                    sound.playClick();
+                    setBriefCollapsed((c) => !c);
+                  }}
+                  aria-expanded={!briefCollapsed}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold"
+                >
+                  {briefCollapsed ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+                  {briefCollapsed ? 'Ver enunciado' : 'Contraer enunciado'}
+                </button>
               </div>
             </div>
 
-            <div className="p-5 sm:p-6 rounded-2xl bg-slate-900/95 border border-slate-800 space-y-4 shadow-xl">
-              {readingMode === 'scenario' && (
-                <div>
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2 mb-2.5">
-                    <FileText className="w-4 h-4 text-cyan-400" />
-                    <span>Escenario</span>
+            {!briefCollapsed && (
+              <div className="grid lg:grid-cols-5 border-t border-slate-800">
+                <div className="lg:col-span-3 p-4 sm:p-5 space-y-2.5">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    <FileText className="w-4 h-4" /> Escenario
                   </h2>
-                  <div
-                    className={`rounded-2xl p-5 bg-slate-950 border border-slate-800/90 text-slate-100 select-text shadow-inner ${textSize(
-                      'text-lg sm:text-[18px] leading-8',
-                      'text-base sm:text-[16px] leading-7',
-                      'text-sm sm:text-[14px] leading-6'
+                  <p
+                    className={`text-slate-100 select-text ${textSize(
+                      'text-lg leading-8',
+                      'text-base leading-7',
+                      'text-sm leading-6'
                     )}`}
                   >
                     {currentPBQ.scenario}
-                  </div>
+                  </p>
                 </div>
-              )}
 
-              <div className={readingMode === 'scenario' ? 'pt-3 border-t border-slate-800 space-y-3' : 'space-y-3'}>
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                  <ListChecks className="w-4 h-4 text-cyan-400" />
-                  Instrucciones y requerimientos:
-                </div>
-                <ul className="space-y-2">
-                  {currentPBQ.requirements.map((req, i) => (
-                    <li
-                      key={i}
-                      className={`flex items-start gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 text-slate-200 ${textSize(
-                        'text-base leading-relaxed',
-                        'text-sm leading-relaxed',
-                        'text-xs leading-normal'
-                      )}`}
-                    >
-                      <span className="w-5 h-5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 text-xs font-mono font-bold flex items-center justify-center shrink-0 mt-0.5">
-                        {i + 1}
-                      </span>
-                      <span className="leading-snug">{req}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Tactical tip: a hint, so it is hidden in exams and opt-in when hints are off */}
-              {mode === 'practice' && (
-                <div className="pt-3 border-t border-slate-800">
-                  {hints || tipRevealed ? (
-                    <button
-                      onClick={() => setIsStrategyOpen(true)}
-                      className="w-full p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-800/80 text-left hover:bg-cyan-950/60 transition-colors group"
-                    >
-                      <div className="flex items-center justify-between text-cyan-300 text-xs font-bold mb-1.5">
-                        <span className="flex items-center gap-1.5">
-                          <Target className="w-4 h-4 text-cyan-400" />
-                          Tip táctico para esta PBQ
+                <div className="lg:col-span-2 p-4 sm:p-5 space-y-3 border-t lg:border-t-0 lg:border-l border-slate-800 bg-slate-950/40">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                    <ListChecks className="w-4 h-4 text-cyan-400" /> Requerimientos
+                  </h2>
+                  <ol className="space-y-2">
+                    {currentPBQ.requirements.map((req, i) => (
+                      <li
+                        key={i}
+                        className={`flex items-start gap-2.5 text-slate-200 ${textSize('text-base leading-relaxed', 'text-sm leading-relaxed', 'text-xs leading-normal')}`}
+                      >
+                        <span className="w-5 h-5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 text-[11px] font-mono font-bold flex items-center justify-center shrink-0 mt-0.5">
+                          {i + 1}
                         </span>
-                        <BookOpen className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <p className="text-cyan-100 text-xs sm:text-[13px] leading-relaxed">{currentPBQ.tacticalTip}</p>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => setTipRevealed(true)}
-                      className="w-full p-3 rounded-xl bg-slate-950 border border-dashed border-slate-700 text-xs text-slate-400 hover:text-white hover:border-slate-500 flex items-center gap-2"
-                    >
-                      <Lightbulb className="w-4 h-4 text-amber-400" />
-                      Mostrar tip táctico (intenta resolverla antes sin ayuda)
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+                        <span>{req}</span>
+                      </li>
+                    ))}
+                  </ol>
 
-            {currentEvalResult && (
-              <div
-                className={`p-4 rounded-2xl border flex items-center justify-between gap-3 ${
-                  currentEvalResult.totalScore >= 75 ? 'bg-emerald-950/30 border-emerald-800' : 'bg-amber-950/30 border-amber-800'
-                }`}
-              >
-                <div>
-                  <div className="text-[11px] font-semibold text-slate-400">Última calificación</div>
-                  <div className="text-xl font-black text-white font-mono tabular-nums">{currentEvalResult.totalScore}%</div>
+                  {/* Tactical tip: a hint, so it is hidden in exams and opt-in when hints are off */}
+                  {mode === 'practice' &&
+                    (hints || tipRevealed ? (
+                      <button
+                        onClick={() => setIsStrategyOpen(true)}
+                        className="w-full p-3 rounded-xl bg-cyan-950/40 border border-cyan-800/80 text-left hover:bg-cyan-950/60 transition-colors"
+                      >
+                        <div className="flex items-center gap-1.5 text-cyan-300 text-xs font-bold mb-1">
+                          <Target className="w-4 h-4 text-cyan-400" /> Tip táctico
+                        </div>
+                        <p className="text-cyan-100 text-xs leading-relaxed">{currentPBQ.tacticalTip}</p>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setTipRevealed(true)}
+                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-dashed border-slate-700 text-xs text-slate-400 hover:text-white hover:border-slate-500 flex items-center gap-2"
+                      >
+                        <Lightbulb className="w-4 h-4 text-amber-400" />
+                        Mostrar tip táctico (intenta resolverla antes sin ayuda)
+                      </button>
+                    ))}
                 </div>
-                <button
-                  onClick={() => setIsBreakdownOpen(true)}
-                  className="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-slate-500 transition-colors"
-                >
-                  Ver Desglose
-                </button>
               </div>
             )}
           </section>
 
-          {/* RIGHT COLUMN: interactive simulator */}
-          <section className={`${isWide ? "lg:col-span-12" : "lg:col-span-7"} space-y-6`}>
+          {/* Interactive simulator, full width */}
+          <section className="space-y-6">
             <div className="min-h-[520px]">
               <SimulatorErrorBoundary resetKey={currentPBQ.id} onReset={handleResetCurrentPBQ}>
                 {PBQ_REGISTRY[currentPBQ.id].render(

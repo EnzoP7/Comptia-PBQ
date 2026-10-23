@@ -1,5 +1,6 @@
 import React from 'react';
 import { CryptoConfigState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
 import { INITIAL_CRYPTO_STATE } from '../../data/pbqsData';
 import {
   Lock,
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }) => {
+  const hints = useHints();
   const handleFieldChange = (field: keyof CryptoConfigState, value: any) => {
     sound.playClick();
     onChange({
@@ -32,6 +34,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
   };
 
   const getSecurityTierBadge = (isGood: boolean, isLegacy = false) => {
+    if (!hints) return null;
     if (isGood) {
       return (
         <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-semibold flex items-center gap-1 font-mono">
@@ -170,7 +173,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
               >
                 <option value="SHA-384">SHA-384 (Familia SHA-2 - Suite B de alta seguridad)</option>
                 <option value="SHA-1">SHA-1 (160-bit)</option>
-                <option value="SHA-256">SHA-256 (Familia SHA-2 - Estándar seguro)</option>
+                <option value="SHA-256">SHA-256 (Familia SHA-2)</option>
                 <option value="MD5">MD5 (Colisiones criptográficas demostradas - PROHIBIDO)</option>
               </select>
             </div>

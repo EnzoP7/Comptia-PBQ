@@ -78,13 +78,13 @@ export const EmailSecurityPBQ: React.FC<EmailSecurityPBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Sintaxis de Registro SPF --</option>
             <option value="spf_soft_fail_tilde_all">
-              v=spf1 ip4:198.51.100.25 include:_spf.google.com ~all (Soft Fail: Aceptar y marcar en spam)
+              v=spf1 ip4:198.51.100.25 include:_spf.google.com ~all
             </option>
             <option value="spf_plus_all_insecure">
-              v=spf1 +all (Permite a cualquier servidor de Internet enviar correos a tu nombre)
+              v=spf1 +all
             </option>
             <option value="spf_hard_fail_dash_all">
-              v=spf1 ip4:198.51.100.25 include:_spf.google.com -all (Hard Fail: Rechazo estricto inmediato de no autorizados)
+              v=spf1 ip4:198.51.100.25 include:_spf.google.com -all
             </option>
           </select>
         </div>
@@ -109,13 +109,13 @@ export const EmailSecurityPBQ: React.FC<EmailSecurityPBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Configuración DKIM --</option>
             <option value="dkim_private_key_leak">
-              v=DKIM1; k=rsa; private_key=MIIEvgIBADANBgk... (Publicar clave privada en DNS)
+              v=DKIM1; k=rsa; private_key=MIIEvgIBADANBgk...
             </option>
             <option value="dkim_rsa_sha256_public_key">
-              v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA... (Publicar Clave Pública RSA para verificar firmas)
+              v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
             </option>
             <option value="dkim_md5_deprecated">
-              v=DKIM1; k=rsa-md5; p=MIGfMA0GCSq... (Firma con hash MD5)
+              v=DKIM1; k=rsa-md5; p=MIGfMA0GCSq...
             </option>
           </select>
         </div>
@@ -140,13 +140,13 @@ export const EmailSecurityPBQ: React.FC<EmailSecurityPBQProps> = ({
           >
             <option value="unselected">-- Seleccionar Política DMARC --</option>
             <option value="dmarc_reject_aggregate_rua">
-              v=DMARC1; p=reject; rua=mailto:dmarc-reports@empresa.com; pct=100 (Rechazo total 100% y reporte XML)
+              v=DMARC1; p=reject; rua=mailto:dmarc-reports@empresa.com; pct=100
             </option>
             <option value="dmarc_none_monitoring_only">
-              v=DMARC1; p=none (Solo monitoreo: permite el paso de correos falsificados sin bloquear)
+              v=DMARC1; p=none
             </option>
             <option value="dmarc_quarantine">
-              v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@empresa.com (Mover a cuarentena/spam)
+              v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@empresa.com
             </option>
           </select>
         </div>
@@ -174,10 +174,10 @@ export const EmailSecurityPBQ: React.FC<EmailSecurityPBQProps> = ({
                 Puerto 587 con STARTTLS y autenticación obligatoria de cliente
               </option>
               <option value="pop3_port_110">
-                Puerto 110 POP3 en texto plano (Protocolo de recepción, no de envío)
+                Puerto 110 POP3 en texto plano
               </option>
               <option value="plain_smtp_port_25">
-                Puerto 25 SMTP tradicional sin cifrado (Vulnerable a sniffing en texto claro)
+                Puerto 25 SMTP tradicional sin cifrado
               </option>
             </select>
           </div>
@@ -193,13 +193,13 @@ export const EmailSecurityPBQ: React.FC<EmailSecurityPBQProps> = ({
             >
               <option value="unselected">-- Seleccionar Estándar de Cifrado E2E --</option>
               <option value="tls_only">
-                Confiar únicamente en TLS de servidor a servidor (No proporciona no-repudio ni cifrado E2E)
+                Confiar únicamente en TLS de servidor a servidor
               </option>
               <option value="smime_x509_certificates">
                 S/MIME con certificados digitales X.509 de usuario emitidos por la CA corporativa
               </option>
               <option value="plain_base64">
-                Codificación Base64 en el cuerpo del correo (Ofuscación sin seguridad criptográfica)
+                Codificación Base64 en el cuerpo del correo
               </option>
             </select>
           </div>

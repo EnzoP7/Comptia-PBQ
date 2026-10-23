@@ -4,6 +4,7 @@ import {
   FolderPermissionNode,
   FolderAclEntry,
 } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
 import {
   Users,
   FolderTree,
@@ -35,6 +36,7 @@ export const IamPermissionsPBQ: React.FC<Props> = ({
   onFoldersChange,
   onReset,
 }) => {
+  const hints = useHints();
   const [selectedFolderIdx, setSelectedFolderIdx] = useState<number>(0);
   const activeFolder = folderNodes[selectedFolderIdx];
 
@@ -206,7 +208,7 @@ export const IamPermissionsPBQ: React.FC<Props> = ({
                       {['IT_Helpdesk', 'HR_Confidential_Admins', 'Finance_Team', 'Finance_Auditors'].map(
                         (grp) => {
                           const isAssigned = user.assignedGroups.includes(grp);
-                          const isTrapGroup = isIntern && grp === 'HR_Confidential_Admins';
+                          const isTrapGroup = hints && isIntern && grp === 'HR_Confidential_Admins';
 
                           return (
                             <button
@@ -323,7 +325,7 @@ export const IamPermissionsPBQ: React.FC<Props> = ({
               </thead>
               <tbody className="divide-y divide-slate-800 font-mono">
                 {activeFolder.currentAcl.map((entry) => {
-                  const isEveryone = entry.principalName.includes('Domain Users');
+                  const isEveryone = hints && entry.principalName.includes('Domain Users');
 
                   return (
                     <tr

@@ -1,5 +1,6 @@
 import React from 'react';
 import { WipsRogueApConfigState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
 import {
   Radio,
   Wifi,
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) => {
+  const hints = useHints();
   const handleFieldChange = (field: keyof WipsRogueApConfigState, value: any) => {
     sound.playClick();
     onChange({
@@ -101,7 +103,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             <label className="text-xs font-semibold text-slate-300">
               1. Clasificación Táctica de la Amenaza en el WIPS:
             </label>
-            {isEvilTwinClassified ? (
+            {!hints ? null : isEvilTwinClassified ? (
               <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1 font-bold">
                 <CheckCircle2 className="w-3 h-3" /> Correcto
               </span>
@@ -130,7 +132,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             <label className="text-xs font-semibold text-slate-300">
               2. Acción en el Puerto del Switch Ethernet (Gi1/0/24):
             </label>
-            {isPortShutdown ? (
+            {!hints ? null : isPortShutdown ? (
               <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1 font-bold">
                 <CheckCircle2 className="w-3 h-3" /> Puerto Aislado
               </span>
@@ -184,7 +186,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             <label className="text-xs font-semibold text-slate-300">
               4. Protocolo de Autenticación de Clientes Corporativos:
             </label>
-            {isEapTls ? (
+            {!hints ? null : isEapTls ? (
               <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1 font-bold">
                 <CheckCircle2 className="w-3 h-3" /> EAP-TLS Seguro
               </span>

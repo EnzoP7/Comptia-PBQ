@@ -12,6 +12,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { PrivacyPetsState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
 import { shuffled } from '../../utils/shuffle';
 
 interface PrivacyPetsPBQProps {
@@ -25,6 +26,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
   onChange,
   onReset,
 }) => {
+  const hints = useHints();
   const handleChange = (
     scenarioId: string,
     field: 'selectedTechnique' | 'reversibility',
@@ -146,7 +148,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
       </div>
 
       {/* Exam tip banner */}
-      <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-800/40 flex items-start gap-3">
+      {hints && <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-800/40 flex items-start gap-3">
         <Sparkles className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
         <div className="space-y-1">
           <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider block">
@@ -159,7 +161,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
             <strong className="text-white">Dynamic Masking:</strong> Solo transforma la visualización para el operador (ej. asteriscos en la pantalla del Call Center), los datos en la base de datos no se alteran.
           </p>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

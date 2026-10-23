@@ -165,9 +165,7 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                         </span>
                       )}
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-tight">
-                      {svc.description}
-                    </p>
+                    {hints && <p className="text-[11px] text-slate-400 leading-tight">{svc.description}</p>}
                   </div>
 
                   <button
@@ -223,9 +221,7 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                     )}
                   </div>
 
-                  <p className="text-[11px] text-slate-400 leading-tight">
-                    {policy.description}
-                  </p>
+                  {hints && <p className="text-[11px] text-slate-400 leading-tight">{policy.description}</p>}
 
                   {/* Slider Type */}
                   {policy.type === 'number_slider' && (

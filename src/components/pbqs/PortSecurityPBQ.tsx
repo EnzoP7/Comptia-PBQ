@@ -13,6 +13,7 @@ import {
   Radio
 } from 'lucide-react';
 import { PortAuditItem } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
 
 interface PortSecurityPBQProps {
   items: PortAuditItem[];
@@ -25,9 +26,10 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
   onChange,
   onReset,
 }) => {
+  const hints = useHints();
   const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
   const [filterQuery, setFilterQuery] = useState<string>('');
-  const [showCheatSheet, setShowCheatSheet] = useState<boolean>(true);
+  const [showCheatSheet, setShowCheatSheet] = useState<boolean>(false);
 
   const activeItem = items[activeItemIndex] || items[0];
 
@@ -102,13 +104,13 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
           </div>
 
           <div className="flex items-center gap-2 self-start md:self-center">
-            <button
+            {hints && <button
               onClick={() => setShowCheatSheet(!showCheatSheet)}
               className="flex items-center gap-1.5 px-3 py-2 bg-indigo-950/60 hover:bg-indigo-900/80 border border-indigo-700/60 rounded-lg text-indigo-300 text-xs font-semibold transition"
             >
               <BookOpen className="w-4 h-4" />
-              {showCheatSheet ? 'Ocultar Chuleta de Puertos' : 'Ver Matriz Oficial CompTIA'}
-            </button>
+              {showCheatSheet ? 'Ocultar tabla de puertos' : 'Ver tabla de puertos'}
+            </button>}
             <button
               onClick={onReset}
               className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-slate-300 text-xs font-semibold transition"
@@ -120,7 +122,7 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
         </div>
 
         {/* Tactical Cheat Sheet Toggleable Panel */}
-        {showCheatSheet && (
+        {hints && showCheatSheet && (
           <div className="mt-4 pt-4 border-t border-slate-800">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2 text-xs font-bold text-indigo-300">
@@ -336,7 +338,7 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
                   <Radio className="w-3.5 h-3.5 text-cyan-400" />
-                  3. Protocolo Seguro Recomendado
+                  3. Protocolo seguro
                 </label>
                 <select
                   value={activeItem.selectedSecureProtocol}

@@ -341,7 +341,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
               {COLUMNS.map((c) => <span key={c.field}>{c.label}</span>)}
               <span className="text-right">Estado</span>
             </div>
-            <ol className="divide-y divide-slate-800/80">
+            <ol aria-label="Reglas del firewall" className="divide-y divide-slate-800/80">
               {rules.map((rule, idx) => (
                 <li key={rule.id} className={`p-3 space-y-2 ${!rule.enabled ? 'opacity-45' : ''}`}>
                   <div className="grid grid-cols-2 md:grid-cols-[3.5rem_repeat(5,minmax(0,1fr))_6.5rem] gap-2 items-center">

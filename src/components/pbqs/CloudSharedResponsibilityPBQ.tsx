@@ -12,6 +12,7 @@ import {
   Building
 } from 'lucide-react';
 import { CloudParty, CloudSharedResponsibilityState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
 
 interface CloudSharedResponsibilityPBQProps {
   state: CloudSharedResponsibilityState;
@@ -24,6 +25,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
   onChange,
   onReset,
 }) => {
+  const hints = useHints();
   const handleAssign = (layerId: string, model: 'iaas' | 'paas' | 'saas', party: CloudParty) => {
     const updated = state.layers.map((layer) => {
       if (layer.layerId === layerId) {
@@ -230,7 +232,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
       </div>
 
       {/* Exam tip box */}
-      <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-800/40 flex items-start gap-3">
+      {hints && <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-800/40 flex items-start gap-3">
         <Lock className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
         <div className="space-y-1">
           <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider block">
@@ -240,7 +242,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
             Sin importar si contratas IaaS, PaaS o SaaS, la propiedad de los <strong className="text-white">Datos</strong>, su clasificación, el cifrado de datos sensibles y las directivas de <strong className="text-white">Gestión de Acceso e Identidades (IAM)</strong> permanecen siempre como responsabilidad incondicional del <span className="text-amber-300 font-semibold">Cliente</span>. En contraste, la <strong className="text-white">Seguridad Física de las Instalaciones</strong> es siempre 100% responsabilidad del <span className="text-cyan-300 font-semibold">CSP</span>.
           </p>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

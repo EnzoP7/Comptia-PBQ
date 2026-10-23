@@ -1,5 +1,6 @@
 import React from 'react';
 import { PkiCertConfigState } from '../../types/pbq';
+import { useHints } from '../../context/HintsContext';
 import {
   FileKey,
   ShieldCheck,
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }) => {
+  const hints = useHints();
   const handleFieldChange = (field: keyof PkiCertConfigState, value: any) => {
     sound.playClick();
     onChange({
@@ -100,7 +102,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               Simulador de Handshake TLS del Navegador Cliente
             </div>
             <div className="text-xs font-bold font-mono">
-              {browserStatusMessage}
+              {hints ? browserStatusMessage : 'Valida tu configuración para ver el resultado.'}
             </div>
           </div>
         </div>
@@ -119,7 +121,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               <label className="text-xs font-semibold text-slate-300">
                 1. Autoridad Emisora del Certificado (Issuer):
               </label>
-              {isPublicCa ? (
+              {!hints ? null : isPublicCa ? (
                 <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Confiable
                 </span>
@@ -149,7 +151,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               <label className="text-xs font-semibold text-slate-300">
                 2. Algoritmo de Firma Criptográfica del Certificado:
               </label>
-              {isSha256 ? (
+              {!hints ? null : isSha256 ? (
                 <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Seguro
                 </span>
@@ -209,7 +211,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               <label className="text-xs font-semibold text-slate-300">
                 4. Método de Verificación de Estado de Revocación:
               </label>
-              {isOcspStapled ? (
+              {!hints ? null : isOcspStapled ? (
                 <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Óptimo
                 </span>
@@ -240,7 +242,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               <label className="text-xs font-semibold text-slate-300">
                 5. Extensión Subject Alternative Name (SAN):
               </label>
-              {isSanConfigured ? (
+              {!hints ? null : isSanConfigured ? (
                 <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> Válido para portal.corp.com
                 </span>
@@ -271,7 +273,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               </button>
             </div>
             <span className="text-[11px] text-slate-500">
-              Los navegadores modernos ignoran el atributo Common Name (CN) y exigen que los FQDNs figuren en la extensión SAN.
+              {hints && "Los navegadores modernos ignoran el atributo Common Name (CN) y exigen que los FQDNs figuren en la extensión SAN."}
             </span>
           </div>
         </div>

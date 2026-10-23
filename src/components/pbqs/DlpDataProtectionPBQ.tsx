@@ -120,7 +120,7 @@ export const DlpDataProtectionPBQ: React.FC<Props> = ({
               {/* Options */}
               <div className="space-y-1.5 pt-2 border-t border-slate-800">
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                  Control DLP / Criptográfico Recomendado:
+                  Control a aplicar:
                 </label>
                 {shuffled(item.controlOptions).map((opt) => {
                   const isSelected = item.selectedControl === opt.value;

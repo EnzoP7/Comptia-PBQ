@@ -348,12 +348,8 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
                 <div className="text-xs font-semibold text-slate-200 mb-1">
                   {control.name}
                 </div>
-                <div className="text-[11px] text-slate-400 line-clamp-2">
-                  {control.description}
-                </div>
-                <div className="mt-2 text-[10px] text-slate-500 font-mono">
-                  {control.layer}
-                </div>
+                {hints && <div className="text-[11px] text-slate-400 line-clamp-2">{control.description}</div>}
+                {hints && <div className="mt-2 text-[10px] text-slate-500 font-mono">{control.layer}</div>}
               </button>
             );
           })}
@@ -414,9 +410,7 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
               <div className="text-xs font-semibold text-white truncate">
                 {placedControl.name}
               </div>
-              <div className="text-[10px] text-slate-400 font-mono">
-                {placedControl.layer}
-              </div>
+              {hints && <div className="text-[10px] text-slate-400 font-mono">{placedControl.layer}</div>}
             </div>
           </div>
         ) : (

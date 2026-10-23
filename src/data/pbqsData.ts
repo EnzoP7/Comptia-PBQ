@@ -1730,7 +1730,7 @@ export const SIEM_LOGS_PBQ10: SiemLogEntry[] = [
     level: 'ALERT',
     sourceIp: '10.0.1.25',
     destIp: '10.0.0.10',
-    eventSummary: 'Event ID 4769: Petición anómala de Ticket de Servicio Kerberos (TGS) con cifrado débil RC4 (Kerberoasting)',
+    eventSummary: 'Event ID 4769: Solicitud de ticket de servicio Kerberos (TGS) para MSSQL_Svc, tipo de cifrado 0x17',
     rawPayload: 'EventID=4769 ServiceName=MSSQL_Svc/sqlcluster.corp.local ClientAddress=::ffff:10.0.1.25 TicketOptions=0x40810000 TicketEncryptionType=0x17 (RC4-HMAC)'
   },
   {

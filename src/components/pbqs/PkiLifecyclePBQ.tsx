@@ -48,7 +48,7 @@ export const PkiLifecyclePBQ: React.FC<PkiLifecyclePBQProps> = ({
           </button>
         </div>
         <p className="text-xs text-slate-300 leading-relaxed">
-          Como administrador de la infraestructura de clave pública (PKI) corporativa, debes resolver requerimientos críticos: optimizar la validación de revocación eliminando la latencia del cliente (<span className="text-cyan-300 font-semibold">OCSP Stapling</span>), seleccionar los formatos de archivo exactos (<span className="text-amber-300 font-mono">.PFX/PKCS#12</span> para exportar con clave privada y <span className="text-amber-300 font-mono">.PEM</span> para servidores Linux), soportar múltiples subdominios con extensiones <span className="text-emerald-300 font-semibold">SAN</span> y configurar la custodia de claves (<span className="text-indigo-300 font-semibold">Key Escrow con control M-de-N</span>).
+          Como administrador de la infraestructura de clave pública (PKI) corporativa, debes resolver cinco requerimientos del proyecto: revocación, formatos de certificado, nombres múltiples y recuperación de claves.
         </p>
       </div>
 
