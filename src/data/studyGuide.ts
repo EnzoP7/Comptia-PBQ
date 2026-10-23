@@ -7,6 +7,7 @@ import { ItemExplanation, PBQExplanationData, PBQItem } from '../types/pbq';
 import { PBQ_EXPLANATIONS } from './pbqExplanations';
 import { PBQ_EXPLANATIONS_EXTRA } from './pbqExplanationsExtra';
 import { MATRIX_PBQS } from './matrixPbqs';
+import { TERMINAL_PBQS } from './terminalPbqs';
 
 /** Criteria linked to each item of the original glossaries, by item index. */
 const CRITERIA_BY_INDEX: Record<string, string[][]> = {
@@ -113,6 +114,8 @@ function matrixGuide(pbqId: string): PBQExplanationData | null {
 export function getStudyGuide(pbq: PBQItem): PBQExplanationData {
   if (PBQ_EXPLANATIONS_EXTRA[pbq.id]) return PBQ_EXPLANATIONS_EXTRA[pbq.id];
   if (pbq.id === 'pbq-60') return LINUX_GUIDE;
+  const terminal = TERMINAL_PBQS.find((t) => t.item.id === pbq.id);
+  if (terminal) return terminal.guide;
   const matrix = matrixGuide(pbq.id);
   if (matrix) return matrix;
   const base = PBQ_EXPLANATIONS[pbq.id];

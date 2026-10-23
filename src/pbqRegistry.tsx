@@ -57,6 +57,9 @@ import { ApiSecurityPBQ } from './components/pbqs/ApiSecurityPBQ';
 import { SoarAutomationPBQ } from './components/pbqs/SoarAutomationPBQ';
 import { MatrixClassificationPBQ } from './components/pbqs/MatrixClassificationPBQ';
 import { LinuxPermissionsPBQ } from './components/pbqs/LinuxPermissionsPBQ';
+import { TerminalPBQ } from './components/pbqs/TerminalPBQ';
+import { TERMINAL_PBQS } from './data/terminalPbqs';
+import { TerminalState } from './terminal/types';
 
 export interface PBQDefinition<S = any> {
   initial: () => S;
@@ -320,9 +323,23 @@ const MATRIX_DEFS: Record<string, PBQDefinition<MatrixAnswers>> = Object.fromEnt
   ])
 );
 
-export const PBQ_REGISTRY: Record<string, PBQDefinition> = { ...HAND_BUILT, ...MATRIX_DEFS };
+const TERMINAL_DEFS: Record<string, PBQDefinition<TerminalState>> = Object.fromEntries(
+  TERMINAL_PBQS.map((t) => [
+    t.item.id,
+    {
+      initial: t.initial,
+      evaluate: t.evaluate,
+      isPristine: (s: TerminalState) => s.history.length === 0 && !Object.values(s.answers).some((v) => v.trim()),
+      render: (s: TerminalState, onChange: (s: TerminalState) => void, onReset: () => void) => (
+        <TerminalPBQ state={s} onChange={onChange} onReset={onReset} questions={t.questions} hintCommands={t.hintCommands} />
+      ),
+    },
+  ])
+);
 
-export const ALL_PBQS: PBQItem[] = [...D.PBQ_LIST, ...MATRIX_PBQS.map((m) => m.item), LINUX_PERMS_ITEM].sort((a, b) => a.number - b.number);
+export const PBQ_REGISTRY: Record<string, PBQDefinition> = { ...HAND_BUILT, ...MATRIX_DEFS, ...TERMINAL_DEFS };
+
+export const ALL_PBQS: PBQItem[] = [...D.PBQ_LIST, ...MATRIX_PBQS.map((m) => m.item), LINUX_PERMS_ITEM, ...TERMINAL_PBQS.map((t) => t.item)].sort((a, b) => a.number - b.number);
 
 export function initialAnswersFor(ids: string[]): Record<string, any> {
   return Object.fromEntries(ids.map((id) => [id, PBQ_REGISTRY[id].initial()]));

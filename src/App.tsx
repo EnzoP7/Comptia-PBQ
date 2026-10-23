@@ -305,6 +305,7 @@ export default function App() {
       return;
     }
     if (e.altKey && e.key.toLowerCase() === 'r') {
+      if (isInput) return;
       e.preventDefault();
       handleResetCurrentPBQ();
       return;

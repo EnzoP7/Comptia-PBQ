@@ -65,7 +65,7 @@ export const Header: React.FC<Props> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-800">
+    <header className="relative sm:sticky sm:top-0 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-800">
       {/* 3-Zone Top Bar Contract */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between gap-3 lg:gap-8">
         {/* Zone 1: Brand Wordmark */}

@@ -9,7 +9,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 <a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practicar%20ahora-online-06b6d4?style=for-the-badge" alt="Practicar ahora" /></a>
 
-![PBQs](https://img.shields.io/badge/PBQs-61-0891b2?style=flat-square)
+![PBQs](https://img.shields.io/badge/PBQs-64-0891b2?style=flat-square)
 ![Dominios](https://img.shields.io/badge/dominios-5%2F5-10b981?style=flat-square)
 ![Examen](https://img.shields.io/badge/examen-SY0--701-6366f1?style=flat-square)
 ![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol-f59e0b?style=flat-square)
@@ -23,7 +23,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 Las **PBQs (Performance-Based Questions)** son las preguntas prácticas del examen Security+: en lugar de elegir una respuesta, tienes que **hacer** algo. Por ejemplo: ordenar las reglas de un firewall, ubicar controles en un diagrama de red, analizar logs de un SIEM, asignar permisos o clasificar ataques. Suelen aparecer al principio del examen, consumen mucho tiempo y son donde más puntos se pierden por falta de práctica.
 
-Este simulador reúne **61 PBQs originales** que cubren los cinco dominios del SY0-701, con la misma mecánica que vas a encontrar en el examen.
+Este simulador reúne **64 PBQs originales** que cubren los cinco dominios del SY0-701, con la misma mecánica que vas a encontrar en el examen.
 
 <p align="center"><img src="docs/images/app-practice.png" alt="Vista de práctica: tabla de reglas de firewall" width="90%" /></p>
 
@@ -60,9 +60,12 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 🗺️ **Diagramas de red** | Ubicar WAF, IPS, bastion host, RADIUS, ZTNA, transit gateway. |
 | 📜 **Análisis de logs / SIEM** | Paciente cero, línea de tiempo, Kerberoasting, beaconing C2, MITRE ATT&CK. |
 | ⚙️ **Configuración** | Wi-Fi WPA3-Enterprise, VPN IPsec, PKI y certificados, SPF/DKIM/DMARC, cabeceras HTTP, contenedores, MDM. |
-| 🐧 **Línea de comandos** | Permisos Linux (`chmod`, `chown`, `umask`, SUID/SGID/sticky), `netstat`, `tcpdump`, hashes, Nmap, Snort/YARA. |
+| 💻 **Terminal Linux interactiva** | Una consola simulada donde escribes comandos: investiga `auth.log`, `ps aux`, `ss -tunap`, `crontab`; bloquea con `iptables`/`ufw`; corrige permisos y SUID con `find`/`chmod`; verifica integridad con `sha256sum`; analiza logs con `grep | sort | uniq -c`. Se corrige por el estado final del servidor. |
+| 🐧 **Línea de comandos (selección)** | Permisos Linux (`chmod`, `chown`, `umask`, SUID/SGID/sticky), `netstat`, `tcpdump`, hashes, Nmap, Snort/YARA. |
 | 🧩 **Clasificación (arrastrar y soltar)** | Categorías y tipos de controles, ataques a aplicaciones desde logs, actores de amenaza, acuerdos con terceros, pentesting, riesgo y BIA. |
 | 🔢 **Orden y cálculo** | Orden de volatilidad, ciclo de respuesta a incidentes, SLE/ALE con valores distintos en cada intento. |
+
+<p align="center"><img src="docs/images/app-terminal.png" alt="PBQ con terminal Linux interactiva" width="90%" /></p>
 
 <p align="center"><img src="docs/images/app-linux.png" alt="PBQ de permisos Linux con bits rwx y especiales" width="90%" /></p>
 
@@ -85,7 +88,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 </details>
 
 <details>
-<summary><b>Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones</b> — 22% del examen · 12 PBQs</summary>
+<summary><b>Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones</b> — 22% del examen · 13 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -101,6 +104,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 47 | Auditoría de Seguridad de APIs REST: BOLA, SSRF, JWT Tampering y Rate Limiting | 2.3 |
 | 55 | Identificación de Ataques a Aplicaciones desde Logs y Payloads | 2.3 |
 | 56 | Perfilado de Actores de Amenaza, Motivaciones y Tecnologías de Engaño | 2.1 |
+| 63 | Terminal Linux: Auditoría de Hardening, SUID e Integridad de Binarios | 2.5 |
 
 </details>
 
@@ -122,7 +126,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 </details>
 
 <details>
-<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 26 PBQs</summary>
+<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 28 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -152,6 +156,8 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 50 | Hardening de Infraestructura y Migración de Protocolos Legados (SOC 2 / ISO 27001) | 4.5 |
 | 57 | Modelos de Control de Acceso, Factores de Autenticación y PAM | 4.6 |
 | 60 | Permisos Linux: rwx, Notación Octal, chown, umask y Bits SUID/SGID/Sticky | 4.6 |
+| 62 | Terminal Linux: Respuesta a Incidente en un Servidor Web Comprometido | 4.8 |
+| 64 | Terminal Linux: Análisis de Logs Web con Tuberías y Bloqueo de Atacantes | 4.9 |
 
 </details>
 
@@ -217,6 +223,8 @@ Cada push a `main` se publica automáticamente en GitHub Pages (`.github/workflo
 | `src/data/pbqsData.ts` | Catálogo de las PBQs 1–50 y sus datos iniciales. |
 | `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59 y 61. |
 | `src/data/linuxPermissionsPbq.ts` | PBQ 60: permisos Linux. |
+| `src/data/terminalPbqs.ts` | PBQs 62–64: escenarios de terminal Linux y su corrección por estado del servidor. |
+| `src/terminal/engine.ts` | Intérprete de comandos simulado (sistema de archivos, procesos, red, firewall, cron, servicios). |
 | `src/data/sy0701Objectives.ts` | Objetivos y pesos oficiales del SY0-701. |
 | `src/data/studyGuide.ts` | Guía de estudio: conceptos enlazados a cada criterio corregido. |
 | `src/utils/evaluator.ts` | Evaluadores con crédito parcial de las PBQs 1–50. |
