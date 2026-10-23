@@ -24,6 +24,7 @@ import {
   NetworkZoneSlot,
   FirewallRule,
   FirewallPacketTest,
+  FirewallTokenBank,
   SiemLogEntry,
   SiemQuestionsConfig,
   ServiceItem,
@@ -1459,6 +1460,12 @@ export const FIREWALL_PACKET_TESTS_PBQ2: FirewallPacketTest[] = [
   }
 ];
 
+// Drag-and-drop values: answers plus plausible distractors, in the exact format graders expect.
+export const FIREWALL_TOKENS_PBQ2: FirewallTokenBank = {
+  addresses: ['0.0.0.0/0', '10.1.0.0/24', '10.1.0.15', '10.0.0.0/8', '192.168.1.10', '192.168.1.0/24', '192.168.2.10', '192.168.2.53', '192.168.2.0/24'],
+  ports: ['22', '23', '53', '80', '443', '3389', 'ANY'],
+};
+
 export const INITIAL_FIREWALL_RULES = INITIAL_FIREWALL_RULES_PBQ2;
 export const FIREWALL_PACKET_TESTS = FIREWALL_PACKET_TESTS_PBQ2;
 
@@ -1568,6 +1575,11 @@ export const FIREWALL_PACKET_TESTS_PBQ9: FirewallPacketTest[] = [
     description: 'Tráfico web saliente HTTPS estándar debe permitirse a los usuarios'
   }
 ];
+
+export const FIREWALL_TOKENS_PBQ9: FirewallTokenBank = {
+  addresses: ['0.0.0.0/0', '10.2.0.0/24', '10.0.0.53', '10.0.0.54', '10.0.0.52/30', '10.0.0.0/24', '198.51.100.200', '203.0.113.99'],
+  ports: ['53', '80', '443', '853', '4444', '6667', '8080', 'ANY'],
+};
 
 // --------------------------------------------------------
 // PBQ 3: SIEM Logs (SQLi & Web Shell)
@@ -3305,6 +3317,11 @@ export const INITIAL_FIREWALL_RULES_PBQ49: FirewallRule[] = [
     enabled: true
   }
 ];
+
+export const FIREWALL_TOKENS_PBQ49: FirewallTokenBank = {
+  addresses: ['0.0.0.0/0', '172.16.10.10', '172.16.10.20', '172.16.10.0/24', '10.0.20.0/24', '10.0.30.50', '10.0.30.0/24', '10.0.0.0/8'],
+  ports: ['25', '80', '110', '443', '465', '3306', '5432', 'ANY'],
+};
 
 export const FIREWALL_PACKET_TESTS_PBQ49: FirewallPacketTest[] = [
   {

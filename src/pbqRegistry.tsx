@@ -64,6 +64,8 @@ export interface PBQDefinition<S = any> {
   render: (state: S, onChange: (state: S) => void, onReset: () => void) => React.ReactNode;
   /** For PBQs whose initial state is randomized: true while the candidate has not answered yet. */
   isPristine?: (state: S) => boolean;
+  /** Full-width layout: the simulator needs more room than the side column. */
+  wide?: boolean;
 }
 
 const emptySiem = (): SiemAnswers => ({
@@ -134,12 +136,14 @@ const HAND_BUILT: Record<string, PBQDefinition> = {
   },
   'pbq-2': {
     initial: () => D.INITIAL_FIREWALL_RULES_PBQ2,
+    wide: true,
     evaluate: (s) => withTrafficTests(E.evaluateFirewallAcl(s), s, D.FIREWALL_PACKET_TESTS_PBQ2),
     render: (s, onChange) => (
       <FirewallAclPBQ
         rules={s}
         onRulesChange={onChange}
         packetTests={D.FIREWALL_PACKET_TESTS_PBQ2}
+        tokens={D.FIREWALL_TOKENS_PBQ2}
         initialRules={D.INITIAL_FIREWALL_RULES_PBQ2}
         helperText="Audita el orden y parámetros de la tabla ACL. Recuerda que la evaluación es First-Match (de arriba hacia abajo)."
       />
@@ -181,12 +185,14 @@ const HAND_BUILT: Record<string, PBQDefinition> = {
   },
   'pbq-9': {
     initial: () => D.INITIAL_FIREWALL_RULES_PBQ9,
+    wide: true,
     evaluate: (s) => withTrafficTests(E.evaluateFirewallAclPBQ9(s), s, D.FIREWALL_PACKET_TESTS_PBQ9),
     render: (s, onChange) => (
       <FirewallAclPBQ
         rules={s}
         onRulesChange={onChange}
         packetTests={D.FIREWALL_PACKET_TESTS_PBQ9}
+        tokens={D.FIREWALL_TOKENS_PBQ9}
         initialRules={D.INITIAL_FIREWALL_RULES_PBQ9}
         helperText="Configura directivas de filtrado de salida (Egress Filtering) para bloquear exfiltración por túneles DNS y reverse shells C2."
       />
@@ -288,12 +294,14 @@ const HAND_BUILT: Record<string, PBQDefinition> = {
   'pbq-48': simple(D.INITIAL_SOAR_AUTOMATION_PBQ48, E.evaluateSoarAutomationPBQ48, SoarAutomationPBQ),
   'pbq-49': {
     initial: () => D.INITIAL_FIREWALL_RULES_PBQ49,
+    wide: true,
     evaluate: (s) => withTrafficTests(E.evaluateFirewallAclPBQ49(s), s, D.FIREWALL_PACKET_TESTS_PBQ49),
     render: (s, onChange) => (
       <FirewallAclPBQ
         rules={s}
         onRulesChange={onChange}
         packetTests={D.FIREWALL_PACKET_TESTS_PBQ49}
+        tokens={D.FIREWALL_TOKENS_PBQ49}
         initialRules={D.INITIAL_FIREWALL_RULES_PBQ49}
         helperText="NGFW Multi-Zona: Aplica First-Match (de arriba hacia abajo), Least Privilege para la Base de Datos PCI-DSS y Aislamiento total de la DMZ."
       />

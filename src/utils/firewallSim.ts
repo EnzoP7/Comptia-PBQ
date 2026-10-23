@@ -4,7 +4,7 @@
  */
 import { EvaluationResult, FirewallPacketTest, FirewallRule, PartialCreditItem, RuleAction } from '../types/pbq';
 
-const isAny = (value: string) => ['ANY', '*', '0.0.0.0/0', ''].includes(value.trim().toUpperCase());
+const isAny = (value: string) => ['ANY', '*', '0.0.0.0/0'].includes(value.trim().toUpperCase());
 
 function ipToInt(ip: string): number | null {
   const parts = ip.trim().split('.');
@@ -48,7 +48,8 @@ export interface PacketDecision {
 
 export function simulatePacket(rules: FirewallRule[], test: FirewallPacketTest): PacketDecision {
   for (const rule of rules) {
-    if (!rule.enabled) continue;
+    // Disabled or incomplete rules (an empty drop slot) never match.
+    if (!rule.enabled || !rule.sourceIp.trim() || !rule.destIp.trim() || !rule.destPort.trim()) continue;
     const protoOk = rule.protocol === 'ANY' || rule.protocol === test.protocol;
     if (protoOk && ipMatches(rule.sourceIp, test.sourceIp) && ipMatches(rule.destIp, test.destIp) && portMatches(rule.destPort, test.destPort)) {
       return { matchedRule: rule, action: rule.action };

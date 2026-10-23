@@ -134,6 +134,12 @@ export interface FirewallPacketTest {
   description: string;
 }
 
+/** Values offered as draggable tokens in the firewall rule editor. */
+export interface FirewallTokenBank {
+  addresses: string[];
+  ports: string[];
+}
+
 // Category 3 & 10: SIEM Log Types
 export interface SiemLogEntry {
   id: string;

@@ -1,29 +1,7 @@
-import React, { useState } from 'react';
-import {
-  FirewallRule,
-  RuleAction,
-  RuleProtocol,
-  FirewallPacketTest,
-} from '../../types/pbq';
-import {
-  INITIAL_FIREWALL_RULES,
-  FIREWALL_PACKET_TESTS,
-} from '../../data/pbqsData';
-import {
-  Plus,
-  Trash2,
-  ArrowUp,
-  ArrowDown,
-  RotateCcw,
-  Play,
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
-  HelpCircle,
-  BookOpen,
-  ShieldAlert,
-  Layers,
-} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { FirewallRule, RuleAction, RuleProtocol, FirewallPacketTest, FirewallTokenBank } from '../../types/pbq';
+import { INITIAL_FIREWALL_RULES, FIREWALL_PACKET_TESTS, FIREWALL_TOKENS_PBQ2 } from '../../data/pbqsData';
+import { Plus, Trash2, ArrowUp, ArrowDown, RotateCcw, Play, CheckCircle2, XCircle, BookOpen, Layers, GripVertical, MousePointerClick } from 'lucide-react';
 import { sound } from '../../utils/audio';
 import { useHints } from '../../context/HintsContext';
 import { simulatePacket } from '../../utils/firewallSim';
@@ -33,160 +11,186 @@ interface Props {
   onRulesChange: (newRules: FirewallRule[]) => void;
   packetTests?: FirewallPacketTest[];
   initialRules?: FirewallRule[];
+  tokens?: FirewallTokenBank;
   helperText?: string;
 }
+
+type TokenKind = 'action' | 'protocol' | 'address' | 'port';
+interface Token {
+  kind: TokenKind;
+  value: string;
+}
+type SlotField = 'action' | 'protocol' | 'sourceIp' | 'destIp' | 'destPort';
+
+const FIELD_KIND: Record<SlotField, TokenKind> = {
+  action: 'action',
+  protocol: 'protocol',
+  sourceIp: 'address',
+  destIp: 'address',
+  destPort: 'port',
+};
+
+const COLUMNS: Array<{ field: SlotField; label: string }> = [
+  { field: 'action', label: 'Acción' },
+  { field: 'protocol', label: 'Protocolo' },
+  { field: 'sourceIp', label: 'Origen' },
+  { field: 'destIp', label: 'Destino' },
+  { field: 'destPort', label: 'Puerto destino' },
+];
+
+const ACTIONS: RuleAction[] = ['PERMIT', 'DENY'];
+const PROTOCOLS: RuleProtocol[] = ['TCP', 'UDP', 'ICMP', 'ANY'];
+
+const tokenClass = (kind: TokenKind, value: string) => {
+  if (kind === 'action') return value === 'PERMIT' ? 'bg-emerald-950 text-emerald-300 border-emerald-700' : 'bg-rose-950 text-rose-300 border-rose-700';
+  if (kind === 'protocol') return 'bg-indigo-950 text-indigo-200 border-indigo-700';
+  if (kind === 'port') return 'bg-amber-950/70 text-amber-200 border-amber-700';
+  return 'bg-slate-800 text-cyan-200 border-slate-600';
+};
 
 export const FirewallAclPBQ: React.FC<Props> = ({
   rules,
   onRulesChange,
   packetTests = FIREWALL_PACKET_TESTS,
   initialRules = INITIAL_FIREWALL_RULES,
-  helperText = 'Audita el orden y parámetros de la tabla ACL. Recuerda que la evaluación es First-Match (de arriba hacia abajo).',
+  tokens = FIREWALL_TOKENS_PBQ2,
+  helperText = 'Las reglas se evalúan de arriba hacia abajo y se aplica la primera que coincide.',
 }) => {
   const hints = useHints();
-  const [packetResults, setPacketResults] = useState<{
-    [testId: string]: { matchedRule: FirewallRule | null; action: RuleAction };
-  } | null>(null);
-
+  const [packetResults, setPacketResults] = useState<{ [testId: string]: { matchedRule: FirewallRule | null; action: RuleAction } } | null>(null);
   const [activeTab, setActiveTab] = useState<'rules' | 'simulator'>('rules');
-  const [showReference, setShowReference] = useState<boolean>(false);
+  const [showReference, setShowReference] = useState(false);
+  // Tap-to-place for touch screens; dragging for mouse. Both share the "active" token.
+  const [selected, setSelected] = useState<Token | null>(null);
+  const [dragging, setDragging] = useState<Token | null>(null);
+  const active = dragging ?? selected;
 
-  const handleActionChange = (id: string, action: RuleAction) => {
-    sound.playToggle();
-    onRulesChange(
-      rules.map((r) => (r.id === id ? { ...r, action } : r))
-    );
-  };
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setSelected(null);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
-  const handleProtocolChange = (id: string, protocol: RuleProtocol) => {
+  const groups: Array<{ kind: TokenKind; title: string; values: string[] }> = [
+    { kind: 'action', title: 'Acción', values: ACTIONS },
+    { kind: 'protocol', title: 'Protocolo', values: PROTOCOLS },
+    { kind: 'address', title: 'Direcciones IP / subredes', values: tokens.addresses },
+    { kind: 'port', title: 'Puertos', values: tokens.ports },
+  ];
+
+  const update = (id: string, patch: Partial<FirewallRule>) => onRulesChange(rules.map((r) => (r.id === id ? { ...r, ...patch } : r)));
+
+  const place = (ruleId: string, field: SlotField, token: Token) => {
+    if (FIELD_KIND[field] !== token.kind) return;
     sound.playClick();
-    onRulesChange(
-      rules.map((r) => (r.id === id ? { ...r, protocol } : r))
-    );
+    update(ruleId, { [field]: token.value } as Partial<FirewallRule>);
   };
 
-  const handleInputChange = (id: string, field: keyof FirewallRule, value: any) => {
-    onRulesChange(
-      rules.map((r) => (r.id === id ? { ...r, [field]: value } : r))
-    );
-  };
-
-  const handleToggleEnabled = (id: string) => {
-    sound.playToggle();
-    onRulesChange(
-      rules.map((r) => (r.id === id ? { ...r, enabled: !r.enabled } : r))
-    );
-  };
-
-  const handleMoveUp = (index: number) => {
-    if (index === 0) return;
+  const move = (index: number, delta: number) => {
+    const target = index + delta;
+    if (target < 0 || target >= rules.length) return;
     sound.playClick();
-    const newRules = [...rules];
-    const temp = newRules[index];
-    newRules[index] = newRules[index - 1];
-    newRules[index - 1] = temp;
-    onRulesChange(newRules);
-  };
-
-  const handleMoveDown = (index: number) => {
-    if (index === rules.length - 1) return;
-    sound.playClick();
-    const newRules = [...rules];
-    const temp = newRules[index];
-    newRules[index] = newRules[index + 1];
-    newRules[index + 1] = temp;
-    onRulesChange(newRules);
-  };
-
-  const handleDeleteRule = (id: string) => {
-    sound.playToggle();
-    onRulesChange(rules.filter((r) => r.id !== id));
+    const next = [...rules];
+    [next[index], next[target]] = [next[target], next[index]];
+    onRulesChange(next);
   };
 
   const handleAddRule = () => {
     sound.playClick();
-    const newRule: FirewallRule = {
-      id: `rule-${Date.now()}`,
-      ruleNumber: (rules.length + 1) * 10,
-      action: 'PERMIT',
-      protocol: 'TCP',
-      sourceIp: '10.1.0.0/24',
-      sourcePort: 'ANY',
-      destIp: '192.168.2.10',
-      destPort: '443',
-      description: 'Nueva regla personalizada',
-      enabled: true,
-    };
-    onRulesChange([...rules, newRule]);
+    onRulesChange([
+      ...rules,
+      {
+        id: `rule-${Date.now()}`,
+        ruleNumber: (rules.length + 1) * 10,
+        action: 'PERMIT',
+        protocol: 'TCP',
+        sourceIp: '',
+        sourcePort: 'ANY',
+        destIp: '',
+        destPort: '',
+        description: 'Nueva regla',
+        enabled: true,
+      },
+    ]);
   };
 
   const handleReset = () => {
     sound.playToggle();
     onRulesChange(initialRules);
     setPacketResults(null);
+    setSelected(null);
   };
 
-  // Run live simulation of packets through current rulebase
   const runTrafficSimulation = () => {
     sound.playSuccess();
-    const results: {
-      [testId: string]: { matchedRule: FirewallRule | null; action: RuleAction };
-    } = {};
-
+    const results: { [testId: string]: { matchedRule: FirewallRule | null; action: RuleAction } } = {};
     packetTests.forEach((test) => {
       results[test.id] = simulatePacket(rules, test);
     });
-
     setPacketResults(results);
     setActiveTab('simulator');
   };
 
+  const renderSlot = (rule: FirewallRule, field: SlotField) => {
+    const value = String(rule[field] ?? '');
+    const accepts = active?.kind === FIELD_KIND[field];
+    return (
+      <div
+        role="button"
+        tabIndex={0}
+        aria-label={`${COLUMNS.find((c) => c.field === field)!.label}: ${value || 'vacío'}`}
+        onDragOver={(e) => accepts && e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          if (dragging) place(rule.id, field, dragging);
+          setDragging(null);
+        }}
+        onClick={() => {
+          if (selected && accepts) place(rule.id, field, selected);
+          else if (field === 'action') update(rule.id, { action: rule.action === 'PERMIT' ? 'DENY' : 'PERMIT' });
+        }}
+        onKeyDown={(e) => {
+          if ((e.key === 'Enter' || e.key === ' ') && selected && accepts) {
+            e.preventDefault();
+            place(rule.id, field, selected);
+          }
+        }}
+        className={`min-h-[44px] w-full rounded-lg border px-2.5 py-2 flex items-center font-mono text-sm font-semibold transition-all cursor-pointer select-none ${
+          accepts ? 'ring-2 ring-cyan-400/70 border-cyan-500 border-dashed bg-cyan-950/30' : ''
+        } ${value ? tokenClass(FIELD_KIND[field], value) : 'border-dashed border-slate-600 text-slate-500 bg-slate-950'}`}
+      >
+        <span className="truncate">{value || 'Soltar aquí'}</span>
+      </div>
+    );
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-sm">
+    <div className="space-y-5">
+      {/* Action bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-slate-900/80 border border-slate-800">
         <div className="flex items-center gap-3">
           <Layers className="w-4 h-4 text-cyan-400 shrink-0" />
-          <span className="text-slate-300 text-xs md:text-sm">
-            {helperText}
-          </span>
+          <span className="text-slate-300 text-sm">{helperText}</span>
         </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleAddRule}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg transition-colors shrink-0"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            Agregar Regla
+        <div className="flex flex-wrap items-center gap-2">
+          <button onClick={handleAddRule} className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg">
+            <Plus className="w-4 h-4" /> Agregar regla
           </button>
-          {hints && (<button
-            onClick={runTrafficSimulation}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950/80 border border-emerald-700/80 hover:bg-emerald-900 rounded-lg transition-colors shrink-0"
-          >
-            <Play className="w-3.5 h-3.5" />
-            Simular Paquetes
-          </button>)}
-          {hints && (<button
-            onClick={() => {
-              sound.playClick();
-              setShowReference(!showReference);
-            }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors shrink-0 ${
-              showReference
-                ? 'bg-amber-600 text-white shadow-md'
-                : 'bg-slate-800 text-amber-300 hover:bg-slate-700'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Guía Puertos CompTIA</span>
-          </button>)}
-          <button
-            onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors shrink-0"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            Restablecer
+          {hints && (
+            <button onClick={runTrafficSimulation} className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-emerald-300 bg-emerald-950/80 border border-emerald-700/80 hover:bg-emerald-900 rounded-lg">
+              <Play className="w-4 h-4" /> Simular paquetes
+            </button>
+          )}
+          {hints && (
+            <button
+              onClick={() => { sound.playClick(); setShowReference(!showReference); }}
+              className={`flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg ${showReference ? 'bg-amber-600 text-white' : 'bg-slate-800 text-amber-300 hover:bg-slate-700'}`}
+            >
+              <BookOpen className="w-4 h-4" /> Guía de puertos
+            </button>
+          )}
+          <button onClick={handleReset} className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-lg">
+            <RotateCcw className="w-4 h-4" /> Restablecer
           </button>
         </div>
       </div>
@@ -268,250 +272,120 @@ export const FirewallAclPBQ: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Segmented View Switcher */}
+      {/* Tabs */}
       <div className="flex items-center gap-2 p-1 bg-slate-900/90 rounded-xl border border-slate-800 w-fit">
-        <button
-          onClick={() => setActiveTab('rules')}
-          className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
-            activeTab === 'rules'
-              ? 'bg-cyan-600 text-white shadow-sm'
-              : 'text-slate-400 hover:text-white'
-          }`}
-        >
-          Tabla de Reglas Firewall ({rules.length})
+        <button onClick={() => setActiveTab('rules')} className={`px-4 py-2 text-xs font-semibold rounded-lg ${activeTab === 'rules' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+          Reglas del firewall ({rules.length})
         </button>
-        <button
-          onClick={() => setActiveTab('simulator')}
-          className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5 ${
-            activeTab === 'simulator'
-              ? 'bg-cyan-600 text-white shadow-sm'
-              : 'text-slate-400 hover:text-white'
-          }`}
-        >
-          <Play className="w-3 h-3" />
-          Probador de Tráfico (Simulator)
-          {packetResults && (
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          )}
+        <button onClick={() => setActiveTab('simulator')} className={`px-4 py-2 text-xs font-semibold rounded-lg flex items-center gap-1.5 ${activeTab === 'simulator' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+          <Play className="w-3.5 h-3.5" /> Flujos de prueba
+          {packetResults && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />}
         </button>
       </div>
 
       {activeTab === 'rules' ? (
-        /* Rules Table */
-        <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-950 shadow-xl">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="bg-slate-900 text-slate-400 border-b border-slate-800 text-[11px] font-semibold uppercase tracking-wider">
-                <th className="py-3 px-3 w-14 text-center">Orden</th>
-                <th className="py-3 px-3 w-24">Acción</th>
-                <th className="py-3 px-3 w-20">Protocolo</th>
-                <th className="py-3 px-3">IP Origen</th>
-                <th className="py-3 px-3 w-20">Puerto Org</th>
-                <th className="py-3 px-3">IP Destino</th>
-                <th className="py-3 px-3 w-24">Puerto Dst</th>
-                <th className="py-3 px-3">Descripción / Propósito</th>
-                <th className="py-3 px-3 w-16 text-center">Estado</th>
-                <th className="py-3 px-3 w-28 text-center">Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/80 font-mono">
-              {rules.map((rule, idx) => {
-                const isSshOpenAny =
-                  hints &&
-                  rule.destPort === '22' &&
-                  rule.action === 'PERMIT' &&
-                  rule.sourceIp.includes('0.0.0.0');
-
-                const isDenyTooHigh =
-                  hints &&
-                  rule.action === 'DENY' &&
-                  rule.sourceIp.includes('0.0.0.0') &&
-                  rule.destIp.includes('0.0.0.0') &&
-                  idx < rules.length - 1;
-
-                return (
-                  <tr
-                    key={rule.id}
-                    className={`hover:bg-slate-900/60 transition-colors ${
-                      !rule.enabled ? 'opacity-40 bg-slate-950/40' : ''
-                    } ${isSshOpenAny || isDenyTooHigh ? 'bg-amber-950/15' : ''}`}
-                  >
-                    {/* Index & Reorder */}
-                    <td className="py-2.5 px-3 text-center text-slate-500 font-sans">
-                      <div className="flex items-center justify-center gap-1">
-                        <span className="font-mono text-slate-400">#{idx + 1}</span>
-                      </div>
-                    </td>
-
-                    {/* Action Select */}
-                    <td className="py-2.5 px-3">
-                      <select
-                        value={rule.action}
-                        onChange={(e) =>
-                          handleActionChange(rule.id, e.target.value as RuleAction)
-                        }
-                        className={`w-full px-2 py-1 rounded text-xs font-bold border ${
-                          rule.action === 'PERMIT'
-                            ? 'bg-emerald-950/80 text-emerald-300 border-emerald-700'
-                            : 'bg-rose-950/80 text-rose-300 border-rose-700'
-                        }`}
-                      >
-                        <option value="PERMIT">PERMIT</option>
-                        <option value="DENY">DENY</option>
-                      </select>
-                    </td>
-
-                    {/* Protocol Select */}
-                    <td className="py-2.5 px-3">
-                      <select
-                        value={rule.protocol}
-                        onChange={(e) =>
-                          handleProtocolChange(rule.id, e.target.value as RuleProtocol)
-                        }
-                        className="w-full px-2 py-1 rounded bg-slate-900 text-slate-200 border border-slate-700 text-xs"
-                      >
-                        <option value="TCP">TCP</option>
-                        <option value="ANY">ANY</option>
-                        <option value="UDP">UDP</option>
-                        <option value="ICMP">ICMP</option>
-                      </select>
-                    </td>
-
-                    {/* Source IP */}
-                    <td className="py-2.5 px-3">
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={rule.sourceIp}
-                          onChange={(e) =>
-                            handleInputChange(rule.id, 'sourceIp', e.target.value)
-                          }
-                          className={`w-full px-2.5 py-1 rounded bg-slate-900 border text-xs text-white ${
-                            isSshOpenAny
-                              ? 'border-amber-500 focus:ring-1 focus:ring-amber-500'
-                              : 'border-slate-700 focus:border-cyan-500'
-                          }`}
-                          placeholder="e.g. 10.1.0.0/24 o 0.0.0.0/0"
-                        />
-                        {isSshOpenAny && (
-                          <span
-                            title="¡Vulnerabilidad! SSH expuesto a 0.0.0.0/0 (Internet). Restringe a 10.1.0.0/24"
-                            className="absolute right-2 top-1.5 text-amber-400"
-                          >
-                            <AlertTriangle className="w-3.5 h-3.5" />
-                          </span>
-                        )}
-                      </div>
-                    </td>
-
-                    {/* Source Port */}
-                    <td className="py-2.5 px-3">
-                      <input
-                        type="text"
-                        value={rule.sourcePort}
-                        onChange={(e) =>
-                          handleInputChange(rule.id, 'sourcePort', e.target.value)
-                        }
-                        className="w-full px-2 py-1 rounded bg-slate-900 border border-slate-700 text-xs text-slate-300"
-                        placeholder="ANY"
-                      />
-                    </td>
-
-                    {/* Dest IP */}
-                    <td className="py-2.5 px-3">
-                      <input
-                        type="text"
-                        value={rule.destIp}
-                        onChange={(e) =>
-                          handleInputChange(rule.id, 'destIp', e.target.value)
-                        }
-                        className="w-full px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-xs text-white focus:border-cyan-500"
-                        placeholder="e.g. 192.168.2.10"
-                      />
-                    </td>
-
-                    {/* Dest Port */}
-                    <td className="py-2.5 px-3">
-                      <input
-                        type="text"
-                        value={rule.destPort}
-                        onChange={(e) =>
-                          handleInputChange(rule.id, 'destPort', e.target.value)
-                        }
-                        className="w-full px-2 py-1 rounded bg-slate-900 border border-slate-700 text-xs text-cyan-300 font-semibold"
-                        placeholder="22, 443, 53, ANY"
-                      />
-                    </td>
-
-                    {/* Description */}
-                    <td className="py-2.5 px-3 font-sans">
-                      <input
-                        type="text"
-                        value={rule.description}
-                        onChange={(e) =>
-                          handleInputChange(rule.id, 'description', e.target.value)
-                        }
-                        className="w-full px-2 py-1 rounded bg-slate-900 border border-slate-700 text-xs text-slate-300"
-                        placeholder="Motivo de la regla..."
-                      />
-                    </td>
-
-                    {/* Enabled Toggle */}
-                    <td className="py-2.5 px-3 text-center">
+        <div className="space-y-4">
+          {/* Token tray */}
+          <div className="p-3.5 rounded-2xl bg-slate-900/95 backdrop-blur border border-slate-700 space-y-2.5 md:sticky md:top-[7.5rem] z-20 shadow-xl shadow-slate-950/60">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <GripVertical className="w-4 h-4 text-cyan-400" /> Valores disponibles
+              </div>
+              <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
+                <MousePointerClick className="w-3.5 h-3.5" />
+                {selected ? (
+                  <span>
+                    Toca una casilla para colocar <strong className="text-cyan-300 font-mono">{selected.value}</strong> ·{' '}
+                    <button onClick={() => setSelected(null)} className="underline">cancelar</button>
+                  </span>
+                ) : (
+                  <span>Arrastra un valor a una casilla, o tócalo y luego toca la casilla.</span>
+                )}
+              </div>
+            </div>
+            {groups.map((g) => (
+              <div key={g.kind} className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3">
+                <div className="text-[11px] font-semibold text-slate-500 sm:w-36 shrink-0">{g.title}</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {g.values.map((v) => {
+                    const isSel = selected?.kind === g.kind && selected.value === v;
+                    return (
                       <button
-                        onClick={() => handleToggleEnabled(rule.id)}
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          rule.enabled
-                            ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
-                            : 'bg-slate-800 text-slate-500'
+                        key={v}
+                        draggable
+                        onDragStart={(e) => {
+                          e.dataTransfer.setData('text/plain', v);
+                          e.dataTransfer.effectAllowed = 'copy';
+                          setDragging({ kind: g.kind, value: v });
+                        }}
+                        onDragEnd={() => setDragging(null)}
+                        onClick={() => { sound.playClick(); setSelected(isSel ? null : { kind: g.kind, value: v }); }}
+                        aria-pressed={isSel}
+                        className={`px-2.5 py-1.5 rounded-lg border font-mono text-sm font-semibold cursor-grab active:cursor-grabbing transition-all ${tokenClass(g.kind, v)} ${
+                          isSel ? 'ring-2 ring-white scale-105' : 'hover:brightness-125'
                         }`}
+                      >
+                        {v === '0.0.0.0/0' ? '0.0.0.0/0 (any)' : v}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Rules */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden">
+            <div className="hidden md:grid grid-cols-[3.5rem_repeat(5,minmax(0,1fr))_6.5rem] gap-2 px-3 py-2.5 bg-slate-900 border-b border-slate-800 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              <span>Orden</span>
+              {COLUMNS.map((c) => <span key={c.field}>{c.label}</span>)}
+              <span className="text-right">Estado</span>
+            </div>
+            <ol className="divide-y divide-slate-800/80">
+              {rules.map((rule, idx) => (
+                <li key={rule.id} className={`p-3 space-y-2 ${!rule.enabled ? 'opacity-45' : ''}`}>
+                  <div className="grid grid-cols-2 md:grid-cols-[3.5rem_repeat(5,minmax(0,1fr))_6.5rem] gap-2 items-center">
+                    <div className="col-span-2 md:col-span-1 flex md:flex-col items-center gap-1">
+                      <span className="font-mono text-sm font-bold text-slate-300">#{idx + 1}</span>
+                      <div className="flex md:flex-col gap-1">
+                        <button onClick={() => move(idx, -1)} disabled={idx === 0} aria-label="Subir regla" className="p-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-30">
+                          <ArrowUp className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => move(idx, 1)} disabled={idx === rules.length - 1} aria-label="Bajar regla" className="p-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-30">
+                          <ArrowDown className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                    {COLUMNS.map((c) => (
+                      <div key={c.field} className="space-y-1">
+                        <span className="md:hidden text-[10px] font-semibold uppercase text-slate-500">{c.label}</span>
+                        {renderSlot(rule, c.field)}
+                      </div>
+                    ))}
+                    <div className="col-span-2 md:col-span-1 flex md:justify-end items-center gap-1.5">
+                      <button
+                        onClick={() => { sound.playToggle(); update(rule.id, { enabled: !rule.enabled }); }}
+                        className={`px-2.5 py-1.5 rounded-md text-xs font-bold ${rule.enabled ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-slate-800 text-slate-400'}`}
                       >
                         {rule.enabled ? 'ON' : 'OFF'}
                       </button>
-                    </td>
-
-                    {/* Action buttons (Move Up, Down, Delete) */}
-                    <td className="py-2.5 px-3 text-center font-sans">
-                      <div className="flex items-center justify-center gap-1">
-                        <button
-                          disabled={idx === 0}
-                          onClick={() => handleMoveUp(idx)}
-                          className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-slate-800"
-                          title="Subir prioridad (Move Up)"
-                        >
-                          <ArrowUp className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          disabled={idx === rules.length - 1}
-                          onClick={() => handleMoveDown(idx)}
-                          className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 disabled:opacity-30 disabled:hover:bg-slate-800"
-                          title="Bajar prioridad (Move Down)"
-                        >
-                          <ArrowDown className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteRule(rule.id)}
-                          className="p-1 rounded bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-800/60"
-                          title="Eliminar regla"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          {/* Table Footer with Implicit Deny note */}
-          <div className="p-3 bg-slate-900/60 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-            <span className="font-mono text-slate-500">
-              [Regla Implícita Final: DENY ANY ANY en la última posición]
-            </span>
-            <span className="text-slate-400">
-              Total de Reglas Activas: {rules.filter((r) => r.enabled).length} de {rules.length}
-            </span>
+                      <button
+                        onClick={() => { sound.playToggle(); onRulesChange(rules.filter((r) => r.id !== rule.id)); }}
+                        aria-label="Eliminar regla"
+                        className="p-1.5 rounded-md bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-800/60"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400 md:pl-[4rem]">{rule.description}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="px-3 py-2.5 bg-slate-900/60 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+              <span className="font-mono">Todo lo que no coincide con ninguna regla se deniega (implicit deny).</span>
+              <span>Reglas activas: {rules.filter((r) => r.enabled).length} de {rules.length}</span>
+            </div>
           </div>
         </div>
       ) : (

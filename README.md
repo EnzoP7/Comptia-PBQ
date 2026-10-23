@@ -56,7 +56,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 
 | Formato | Ejemplos |
 |---|---|
-| 🧱 **Reglas de firewall / ACL** | Ordenar reglas *first-match*, restringir orígenes, egress filtering, DMZ multizona. Se corrige enviando paquetes de prueba reales por tu tabla. |
+| 🧱 **Reglas de firewall / ACL** | Arrastrar acciones, protocolos, IPs y puertos a cada regla (o tocar y colocar en el celular), ordenar las reglas *first-match*, egress filtering, DMZ multizona. Se corrige enviando paquetes de prueba reales por tu tabla. |
 | 🗺️ **Diagramas de red** | Ubicar WAF, IPS, bastion host, RADIUS, ZTNA, transit gateway. |
 | 📜 **Análisis de logs / SIEM** | Paciente cero, línea de tiempo, Kerberoasting, beaconing C2, MITRE ATT&CK. |
 | ⚙️ **Configuración** | Wi-Fi WPA3-Enterprise, VPN IPsec, PKI y certificados, SPF/DKIM/DMARC, cabeceras HTTP, contenedores, MDM. |

@@ -323,6 +323,7 @@ export default function App() {
   const best = bestScore(history, currentPBQ.id);
   const attemptCount = history[currentPBQ.id]?.length ?? 0;
   const isLast = currentIndex === visiblePbqs.length - 1;
+  const isWide = !!PBQ_REGISTRY[currentPBQ.id].wide;
   const textSize = (xl: string, lg: string, normal: string) => (fontSize === 'xlarge' ? xl : fontSize === 'large' ? lg : normal);
 
   return (
@@ -382,7 +383,7 @@ export default function App() {
 
         <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* LEFT COLUMN: scenario and instructions */}
-          <section className="lg:col-span-5 space-y-4">
+          <section className={`${isWide ? "lg:col-span-12 space-y-4" : "lg:col-span-5 space-y-4"}`}>
             <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-xl">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
@@ -553,7 +554,7 @@ export default function App() {
           </section>
 
           {/* RIGHT COLUMN: interactive simulator */}
-          <section className="lg:col-span-7 space-y-6">
+          <section className={`${isWide ? "lg:col-span-12" : "lg:col-span-7"} space-y-6`}>
             <div className="min-h-[520px]">
               <SimulatorErrorBoundary resetKey={currentPBQ.id} onReset={handleResetCurrentPBQ}>
                 {PBQ_REGISTRY[currentPBQ.id].render(
@@ -564,7 +565,7 @@ export default function App() {
               </SimulatorErrorBoundary>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-900/95 border border-slate-800 shadow-2xl flex flex-wrap items-center justify-between gap-4 sticky bottom-4 z-30">
+            <div className="p-2.5 sm:p-4 rounded-2xl bg-slate-900/95 border border-slate-800 shadow-2xl flex items-center justify-between gap-2 sm:gap-4 sticky bottom-2 sm:bottom-4 z-30">
               <button
                 disabled={currentIndex === 0}
                 onClick={goPrev}
@@ -572,7 +573,7 @@ export default function App() {
                 title="PBQ anterior (Ctrl + ←)"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Anterior</span>
+                <span className="hidden sm:inline">Anterior</span>
               </button>
 
               <div className="flex items-center gap-3">
@@ -583,7 +584,8 @@ export default function App() {
                     title="Enviar y validar solución (Ctrl + Enter)"
                   >
                     <FileCheck className="w-4 h-4" />
-                    <span>Enviar y Validar PBQ</span>
+                    <span className="sm:hidden">Validar</span>
+                    <span className="hidden sm:inline">Enviar y Validar PBQ</span>
                     <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-400/50 text-[10px] font-mono text-cyan-200">
                       Ctrl+↵
                     </kbd>
@@ -618,7 +620,7 @@ export default function App() {
                   className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors shadow-md shadow-cyan-950"
                   title="Siguiente PBQ (Ctrl + →)"
                 >
-                  <span>Siguiente</span>
+                  <span className="hidden sm:inline">Siguiente</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
@@ -627,7 +629,7 @@ export default function App() {
                   className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors shadow-lg shadow-emerald-950"
                 >
                   <Award className="w-4 h-4" />
-                  <span>{examInProgress ? 'Finalizar simulacro' : 'Ver reporte'}</span>
+                  <span>{examInProgress ? 'Finalizar' : 'Reporte'}</span>
                 </button>
               )}
             </div>
