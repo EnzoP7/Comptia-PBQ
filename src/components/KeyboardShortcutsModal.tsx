@@ -15,7 +15,7 @@ export const KeyboardShortcutsModal: React.FC<Props> = ({ isOpen, onClose }) => 
       keys: ['Ctrl', 'Enter'],
       macKeys: ['⌘', 'Enter'],
       action: 'Enviar y Validar PBQ actual',
-      description: 'Evalúa la solución actual y abre el reporte de calificación y diagnóstico pedagógico.',
+      description: 'Valida la PBQ actual y abre la corrección criterio por criterio (solo en práctica libre).',
     },
     {
       keys: ['Ctrl', '→'],
@@ -39,7 +39,7 @@ export const KeyboardShortcutsModal: React.FC<Props> = ({ isOpen, onClose }) => 
       keys: ['Alt', 'E'],
       macKeys: ['⌥', 'E'],
       action: 'Explicación Detallada y Glosario',
-      description: 'Abre la justificación pedagógica y glosario de opciones del PBQ actual.',
+      description: 'Abre la corrección y la guía de estudio de la PBQ actual (después de validarla).',
     },
     {
       keys: ['Alt', 'R'],
@@ -57,7 +57,7 @@ export const KeyboardShortcutsModal: React.FC<Props> = ({ isOpen, onClose }) => 
       keys: ['Alt', 'S'],
       macKeys: ['⌥', 'S'],
       action: 'Reporte de Evaluación / Revisión',
-      description: 'Abre el resumen Pearson VUE con desglose por dominios oficiales.',
+      description: 'Abre tu reporte de progreso con el desempeño por dominio oficial.',
     },
     {
       keys: ['Ctrl', '/'],

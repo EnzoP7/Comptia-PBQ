@@ -143,7 +143,7 @@ export const Header: React.FC<Props> = ({
           {onOpenCheatSheet && (
             <button
               onClick={onOpenCheatSheet}
-              className="hidden lg:flex px-3.5 py-2 text-xs font-semibold text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-xl transition-colors whitespace-nowrap shrink-0 flex items-center gap-2"
+              className="hidden px-3.5 py-2 text-xs font-semibold text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-xl transition-colors whitespace-nowrap shrink-0 flex items-center gap-2"
               title="Guía Rápida & Puertos Críticos (Alt+P)"
             >
               <BookMarked className="w-3.5 h-3.5 text-amber-400" />
@@ -153,7 +153,7 @@ export const Header: React.FC<Props> = ({
 
           {onOpenStrategy && <button
             onClick={onOpenStrategy}
-            className="px-4 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors whitespace-nowrap shrink-0 shadow-md shadow-cyan-950 flex items-center gap-2"
+            className="lg:hidden px-4 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors whitespace-nowrap shrink-0 shadow-md shadow-cyan-950 flex items-center gap-2"
           >
             <BookOpen className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Estrategia</span>
