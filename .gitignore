@@ -9,3 +9,6 @@ coverage/
 
 # Impeccable review captures (regenerated on demand)
 .impeccable/review/
+
+# Local agent tooling
+.codex/
