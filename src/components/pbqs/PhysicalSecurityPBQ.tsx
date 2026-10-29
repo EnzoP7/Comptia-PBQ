@@ -72,6 +72,7 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('perimeterBarrier', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="bollards_k12_reinforced">Bolardos reforzados de acero con certificación anti-impacto (Crash-rated K12)</option>
             <option value="chain_link_fence">Cerca perimetral de malla de 2,4 m con concertina</option>
             <option value="wooden_barrier">Barrera levadiza (boom gate) con caseta de guardia</option>
@@ -92,6 +93,7 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('datacenterEntrance', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="single_door_badge">Puerta con lector de tarjeta RFID + PIN</option>
             <option value="mantrap_biometric_weight">Vestíbulo de control de acceso (mantrap) con tarjeta + biometría</option>
             <option value="manual_key">Puerta con cerradura biométrica de huella dactilar</option>
@@ -112,6 +114,7 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('fireSuppression', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="wet_pipe_water">Rociadores de tubería húmeda con agua presurizada (Wet Pipe Sprinklers)</option>
             <option value="clean_agent_gas">Sistema de gas limpio no conductor (Clean Agent FM-200 / Novec 1230)</option>
             <option value="dry_powder">Rociadores de tubería seca (Dry Pipe Sprinklers)</option>
@@ -132,6 +135,7 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('thermalManagement', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="fans_ambient">Aumentar la capacidad de los equipos CRAC sin cambiar la disposición de los racks</option>
             <option value="hot_cold_aisle_containment">Confinamiento de Pasillos Fríos y Pasillos Calientes (Hot Aisle / Cold Aisle)</option>
             <option value="mixed_aisles">Todos los racks orientados en la misma dirección (frente contra espalda)</option>
@@ -152,6 +156,7 @@ export const PhysicalSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('rfShielding', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="none_sheetrock">Muros de hormigón armado de 30 cm</option>
             <option value="faraday_cage_tempest">Jaula de Faraday (apantallamiento metálico conectado a tierra)</option>
             <option value="soundproof_foam">Sala sin ventanas con película de privacidad en vidrios internos</option>

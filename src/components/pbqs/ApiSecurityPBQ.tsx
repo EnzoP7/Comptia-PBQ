@@ -129,6 +129,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
                   onChange={(e) => handleChange(sc.id, 'identifiedVulnerability', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-rose-500 font-sans"
                 >
+                  <option value="" disabled>-- Seleccionar opción --</option>
                   {shuffled(vulnOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
@@ -147,6 +148,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
                   onChange={(e) => handleChange(sc.id, 'secureRemediation', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-emerald-500 font-sans"
                 >
+                  <option value="" disabled>-- Seleccionar opción --</option>
                   {shuffled(remediationOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}

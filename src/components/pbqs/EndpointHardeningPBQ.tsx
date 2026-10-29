@@ -261,11 +261,14 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                     <div className="pt-1">
                       <select
                         value={policy.currentValue}
-                        onChange={(e) =>
-                          handlePolicyChange(policy.id, Number(e.target.value))
-                        }
+                        onChange={(e) => {
+                          // Keep the option's own type: lockout values are numbers, PowerShell policies are strings.
+                          const opt = policy.options?.find((o) => String(o.value) === e.target.value);
+                          handlePolicyChange(policy.id, opt ? opt.value : e.target.value);
+                        }}
                         className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500"
                       >
+                        <option value="" disabled>-- Seleccionar opción --</option>
                         {policy.options?.map((opt) => (
                           <option key={opt.value} value={opt.value}>
                             {opt.label}

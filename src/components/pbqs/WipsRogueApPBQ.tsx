@@ -118,6 +118,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             onChange={(e) => handleFieldChange('threatClassification', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="Interfering AP (Vecino inofensivo)">AP interferente común de empresa vecina</option>
             <option value="Rogue AP / Evil Twin (Gemelo Malicioso Activo)">
               Rogue AP / Evil Twin (Gemelo Malicioso que suplanta red corporativa)
@@ -147,6 +148,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             onChange={(e) => handleFieldChange('switchPortAction', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="Shutdown Switch Port (Bloquear y apagar Gi1/0/24 via Port Security)">
               Shutdown Switch Port (Apagar inmediatamente el puerto Gi1/0/24 por Port Security)
             </option>
@@ -201,6 +203,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
             onChange={(e) => handleFieldChange('clientAuthProtocol', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="802.1X EAP-TLS (Certificados Mutuos Cliente y Servidor)">
               802.1X EAP-TLS (Autenticación mutua con certificados digitales en ambos extremos)
             </option>

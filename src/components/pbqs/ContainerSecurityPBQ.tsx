@@ -76,6 +76,7 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('baseImage', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="node_slim">node:18-slim (imagen oficial reducida)</option>
             <option value="distroless_minimal">gcr.io/distroless/static:nonroot</option>
             <option value="ubuntu_full">ubuntu:24.04 (imagen oficial completa)</option>
@@ -99,6 +100,7 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('runAsUser', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="root_uid_0">root (UID 0)</option>
             <option value="non_root_uid_10001">nonroot (UID 10001)</option>
           </select>
@@ -121,6 +123,7 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('secretsManagement', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="configmap_unencrypted">Kubernetes Secret estándar (base64 en etcd)</option>
             <option value="vault_csi_kms">HashiCorp Vault / AWS Secrets Manager inyectado en memoria vía CSI Driver</option>
             <option value="env_vars_plain">ENV DB_PASS definido en el Dockerfile durante el build</option>
@@ -144,6 +147,7 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('networkPolicy', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="allow_all_flat">Sin NetworkPolicy (comportamiento por defecto de Kubernetes)</option>
             <option value="default_deny_ingress_egress">Default-deny de ingress y egress con reglas explícitas por etiquetas</option>
           </select>
@@ -166,6 +170,7 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('rootFilesystem', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="read_write">readOnlyRootFilesystem: false</option>
             <option value="readonly_true">readOnlyRootFilesystem: true + volumen emptyDir para /tmp</option>
           </select>
@@ -188,6 +193,7 @@ export const ContainerSecurityPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('cpuMemoryLimits', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="no_limits">Solo requests de CPU/RAM, sin limits</option>
             <option value="enforce_limits">requests y limits explícitos (500m CPU, 512Mi RAM)</option>
           </select>

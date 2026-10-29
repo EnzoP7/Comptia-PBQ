@@ -83,6 +83,7 @@ export const IdsYaraRulesPBQ: React.FC<Props> = ({
                 onChange={(e) => handleChange('snortAction', e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="drop">drop (IPS en línea: descarta activamente el paquete y bloquea el ataque)</option>
                 <option value="alert">alert (Solo genera alerta en el log sin bloquear)</option>
                 <option value="pass">pass (Ignora el tráfico silenciosamente)</option>
@@ -98,6 +99,7 @@ export const IdsYaraRulesPBQ: React.FC<Props> = ({
                 onChange={(e) => handleChange('snortContentMatch', e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="admin">admin</option>
                 <option value="UNION SELECT">UNION SELECT</option>
                 <option value="GET /">GET /</option>
@@ -148,6 +150,7 @@ export const IdsYaraRulesPBQ: React.FC<Props> = ({
                 onChange={(e) => handleChange('yaraMagicHeader', e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="0x5A4D">0x5A4D</option>
                 <option value="0x2550">0x2550</option>
                 <option value="0x0000">0x0000</option>
@@ -163,6 +166,7 @@ export const IdsYaraRulesPBQ: React.FC<Props> = ({
                 onChange={(e) => handleChange('yaraStringMatch', e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="notepad.exe">notepad.exe</option>
                 <option value="cmd.exe /c powershell -enc">cmd.exe /c powershell -enc</option>
                 <option value="Hello World">Hello World</option>

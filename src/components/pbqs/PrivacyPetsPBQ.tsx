@@ -117,6 +117,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'selectedTechnique', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-violet-500 font-sans"
                 >
+                  <option value="" disabled>-- Seleccionar opción --</option>
                   {shuffled(techniqueOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
@@ -135,6 +136,7 @@ export const PrivacyPetsPBQ: React.FC<PrivacyPetsPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'reversibility', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500 font-sans"
                 >
+                  <option value="" disabled>-- Seleccionar opción --</option>
                   {shuffled(reversibilityOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}

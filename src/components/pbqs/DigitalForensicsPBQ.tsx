@@ -180,6 +180,7 @@ export const DigitalForensicsPBQ: React.FC<Props> = ({
                 onChange={(e) => handleHashChange(e.target.value)}
                 className="w-full p-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="md5">MD5 (128 bits)</option>
                 <option value="crc32">CRC32 (Checksum sin propiedades criptográficas)</option>
                 <option value="sha1">SHA-1 (160 bits)</option>

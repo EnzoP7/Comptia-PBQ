@@ -136,6 +136,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               onChange={(e) => handleFieldChange('certificateType', e.target.value)}
               className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
+              <option value="" disabled>-- Seleccionar opción --</option>
               <option value="Self-Signed (Autofirmado por el servidor)">
                 Autofirmado local (generado con openssl req)
               </option>
@@ -166,6 +167,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               onChange={(e) => handleFieldChange('signatureAlgorithm', e.target.value)}
               className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
+              <option value="" disabled>-- Seleccionar opción --</option>
               <option value="SHA-256 with RSA 2048/4096">
                 SHA-256 with RSA 2048 o 4096
               </option>
@@ -224,6 +226,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
               onChange={(e) => handleFieldChange('revocationCheckMethod', e.target.value)}
               className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
             >
+              <option value="" disabled>-- Seleccionar opción --</option>
               <option value="OCSP Stapling (RFC 6066 - Grapado en el handshake)">
                 OCSP Stapling RFC 6066 (el servidor adjunta la respuesta OCSP en el handshake)
               </option>

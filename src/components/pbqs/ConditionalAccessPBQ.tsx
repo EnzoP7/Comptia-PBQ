@@ -94,6 +94,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('requireMfa', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="sms_otp">MFA por SMS / llamada telefónica (OTP)</option>
             <option value="fido2_phishing_resistant">
               MFA Resistente a Phishing (FIDO2 WebAuthn / Llave de Seguridad FIPS)
@@ -120,6 +121,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('geoBlockingPolicy', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="block_untrusted_geos">
               Bloquear acceso desde países no autorizados (Geoblocking estricto)
             </option>
@@ -145,6 +147,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('deviceCompliance', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="require_mdm_compliant">
               Exigir dispositivo corporativo registrado y conforme (MDM / Intune Compliant)
             </option>
@@ -170,6 +173,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('adminJustInTime', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="standing_admin_access">
               Privilegios permanentes de Administrador Global (Standing Access - Alto Riesgo)
             </option>
@@ -196,6 +200,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
             onChange={(e) => handleFieldChange('riskBasedAuth', e.target.value)}
             className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="ignore_risk">Registrar el riesgo de inicio de sesión para revisión semanal del SOC</option>
             <option value="block_high_risk_signin">
               Bloquear acceso automáticamente cuando el nivel de riesgo de la sesión sea ALTO

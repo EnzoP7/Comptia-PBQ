@@ -72,6 +72,7 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('targetRto', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="rto_under_2_hours">Menos de 2 horas</option>
             <option value="rto_7_days">7 días</option>
             <option value="rto_24_hours">24 Horas</option>
@@ -92,6 +93,7 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('targetRpo', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="rpo_24_hours">24 horas (backup nocturno)</option>
             <option value="rpo_1_week">1 semana (backup completo semanal)</option>
             <option value="rpo_15_minutes">15 minutos (replicación de base de datos)</option>
@@ -112,6 +114,7 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('recoverySiteType', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="hot_site_mirrored">Hot Site / Mirrored Active-Active (infraestructura duplicada y datos replicados)</option>
             <option value="warm_site">Warm Site (hardware instalado; los datos se restauran desde backup)</option>
             <option value="cold_site">Cold Site (instalaciones con energía y conectividad, sin equipos)</option>
@@ -132,6 +135,7 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('backupRule', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="nas_same_subnet">Snapshots diarios en el mismo SAN de producción</option>
             <option value="single_usb">Backup diario a cinta guardada en la misma sala de servidores</option>
             <option value="rule_3_2_1">Regla 3-2-1</option>
@@ -152,6 +156,7 @@ export const DisasterRecoveryPBQ: React.FC<Props> = ({
             onChange={(e) => handleChange('immutabilityControl', e.target.value)}
             className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
           >
+            <option value="" disabled>-- Seleccionar opción --</option>
             <option value="shared_smb_folder">Replicación síncrona a un segundo data center, sin copias offline</option>
             <option value="no_lock">Backups cifrados con AES-256 sin bloqueo de retención</option>
             <option value="worm_immutable_lock">WORM (Write Once, Read Many) / almacenamiento inmutable con bloqueo de retención</option>

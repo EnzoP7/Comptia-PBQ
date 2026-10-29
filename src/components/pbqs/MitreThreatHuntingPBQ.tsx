@@ -121,6 +121,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'mitreCode', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-rose-500"
                 >
+                  <option value="" disabled>-- Seleccionar opción --</option>
                   {shuffled(mitreCodeOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
@@ -139,6 +140,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'telemetrySource', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-cyan-500"
                 >
+                  <option value="" disabled>-- Seleccionar opción --</option>
                   {shuffled(telemetryOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
@@ -157,6 +159,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
                   onChange={(e) => handleChange(sc.id, 'remediationControl', e.target.value)}
                   className="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none focus:border-emerald-500"
                 >
+                  <option value="" disabled>-- Seleccionar opción --</option>
                   {shuffled(remediationOptions).map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}

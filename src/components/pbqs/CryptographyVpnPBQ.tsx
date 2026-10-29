@@ -108,6 +108,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('ikeVersion', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="IKEv1">IKEv1 (Main Mode)</option>
                 <option value="IKEv2">IKEv2 (Moderno, soporta EAP, menor sobrecarga, anti-DoS)</option>
               </select>
@@ -129,6 +130,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('dhGroup', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="Group 19 (ECDH 256-bit)">Group 19 (Curvas Elípticas ECDH 256-bit - Alta Eficiencia)</option>
                 <option value="Group 14 (2048-bit)">Group 14 (MODP 2048-bit - Estándar NIST)</option>
                 <option value="Group 2 (1024-bit)">Group 2 (1024-bit MODP)</option>
@@ -149,6 +151,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('ikeEncryption', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="3DES">3DES (Triple DES)</option>
                 <option value="DES">DES (56-bit)</option>
                 <option value="AES-256">AES-256 CBC</option>
@@ -171,6 +174,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('ikeHash', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="SHA-384">SHA-384 (Familia SHA-2 - Suite B de alta seguridad)</option>
                 <option value="SHA-1">SHA-1 (160-bit)</option>
                 <option value="SHA-256">SHA-256 (Familia SHA-2)</option>
@@ -204,6 +208,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('ipsecProtocol', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="AH">AH (Authentication Header - Solo integridad, ¡NO CIFRA EL PAYLOAD!)</option>
                 <option value="ESP (Encapsulating Security Payload)">
                   ESP (Encapsulating Security Payload - Cifrado + Integridad + Autenticación)
@@ -224,6 +229,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('ipsecCipher', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="AES-GCM-256">AES-GCM-256 (Cifrado Autenticado AEAD - Alto rendimiento hardware)</option>
                 <option value="DES">DES (56 bits)</option>
                 <option value="AES-CBC-256">AES-CBC-256 (Requiere HMAC separado)</option>
@@ -276,6 +282,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('storageCipher', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="AES-256 (XTS/CBC)">AES-256 XTS / CBC (Estándar FIPS 140-3 y CompTIA)</option>
                 <option value="Blowfish">Blowfish (Bloque pequeño de 64-bit)</option>
                 <option value="RC4">RC4 (Cifrador de flujo con sesgos estadísticos)</option>
@@ -295,6 +302,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
                 onChange={(e) => handleFieldChange('webTlsVersion', e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 font-mono"
               >
+                <option value="" disabled>-- Seleccionar opción --</option>
                 <option value="TLS 1.0">TLS 1.0 / 1.1 (Deprecado por RFC 8996 y PCI-DSS)</option>
                 <option value="SSL 3.0">SSL 3.0</option>
                 <option value="TLS 1.2">TLS 1.2 (suites CBC y AEAD habilitadas)</option>

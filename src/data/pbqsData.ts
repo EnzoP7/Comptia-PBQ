@@ -1912,7 +1912,7 @@ export const INITIAL_SECURITY_POLICIES_PBQ4: SecurityPolicyItem[] = [
     id: 'policy-lockout',
     name: 'Umbral de Bloqueo de Cuenta (Account Lockout)',
     type: 'select',
-    currentValue: 0,
+    currentValue: '',
     targetValue: 5,
     options: [
       { value: 0, label: 'Deshabilitado (0 intentos)' },
@@ -1994,7 +1994,7 @@ export const INITIAL_SECURITY_POLICIES_PBQ11: SecurityPolicyItem[] = [
     id: 'policy-ps-execution',
     name: 'Directiva de Ejecución de PowerShell (Execution Policy)',
     type: 'select',
-    currentValue: 'Unrestricted',
+    currentValue: '',
     targetValue: 'AllSigned',
     options: [
       { value: 'Unrestricted', label: 'Unrestricted (Sin restricciones)' },
@@ -2100,26 +2100,26 @@ export const INITIAL_FOLDER_PERMISSIONS = INITIAL_FOLDER_PERMISSIONS_PBQ5;
 // PBQ 12: Conditional Access & Zero Trust State
 // --------------------------------------------------------
 export const INITIAL_CONDITIONAL_ACCESS_STATE: ConditionalAccessState = {
-  requireMfa: 'disabled', // Needs fido2_phishing_resistant
-  geoBlockingPolicy: 'allow_all', // Needs block_untrusted_geos
-  deviceCompliance: 'any_device', // Needs require_mdm_compliant
-  adminJustInTime: 'standing_admin_access', // Needs enforce_pim_jit
-  riskBasedAuth: 'ignore_risk' // Needs block_high_risk_signin
+  requireMfa: '', // Needs fido2_phishing_resistant
+  geoBlockingPolicy: '', // Needs block_untrusted_geos
+  deviceCompliance: '', // Needs require_mdm_compliant
+  adminJustInTime: '', // Needs enforce_pim_jit
+  riskBasedAuth: '' // Needs block_high_risk_signin
 };
 
 // --------------------------------------------------------
 // PBQ 6: Cryptography & VPN (IPSec & At-Rest)
 // --------------------------------------------------------
 export const INITIAL_CRYPTO_STATE_PBQ6: CryptoConfigState = {
-  ikeVersion: 'IKEv1',
-  dhGroup: 'Group 2 (1024-bit)',
-  ikeEncryption: '3DES',
-  ikeHash: 'MD5',
-  ipsecProtocol: 'AH',
-  ipsecCipher: 'DES',
+  ikeVersion: '',
+  dhGroup: '',
+  ikeEncryption: '',
+  ikeHash: '',
+  ipsecProtocol: '',
+  ipsecCipher: '',
   ipsecPfs: false,
-  storageCipher: 'RC4',
-  webTlsVersion: 'TLS 1.0'
+  storageCipher: '',
+  webTlsVersion: ''
 };
 
 export const INITIAL_CRYPTO_STATE = INITIAL_CRYPTO_STATE_PBQ6;
@@ -2128,11 +2128,11 @@ export const INITIAL_CRYPTO_STATE = INITIAL_CRYPTO_STATE_PBQ6;
 // PBQ 13: PKI Certificate Chain State
 // --------------------------------------------------------
 export const INITIAL_PKI_CERT_STATE: PkiCertConfigState = {
-  certificateType: 'Self-Signed (Autofirmado por el servidor)', // Needs Public CA
+  certificateType: '', // Needs Public CA
   issuerAuthority: 'Internal Host Untrusted',
-  signatureAlgorithm: 'SHA-1 with RSA 1024', // Broken
+  signatureAlgorithm: '', // Broken
   intermediateIncluded: false, // Incomplete chain error
-  revocationCheckMethod: 'CRL (Descarga periódica lenta)', // Needs OCSP Stapling
+  revocationCheckMethod: '', // Needs OCSP Stapling
   sanDomains: '', // Missing SAN
   keyUsage: 'Digital Signature, Key Encipherment'
 };
@@ -2143,8 +2143,8 @@ export const INITIAL_PKI_CERT_STATE: PkiCertConfigState = {
 export const INITIAL_WIRELESS_STATE_PBQ7: WirelessApConfigState = {
   ssidName: 'CORP-SECURE-MGMT',
   broadcastSsid: true,
-  securityMode: 'WPA2-PSK (Pre-Shared Key)',
-  cipherSuite: 'TKIP',
+  securityMode: '',
+  cipherSuite: '',
   radiusIp: '192.168.1.1',
   radiusPort: 8080,
   radiusSecret: '123456',
@@ -2161,10 +2161,10 @@ export const INITIAL_WIRELESS_STATE = INITIAL_WIRELESS_STATE_PBQ7;
 // --------------------------------------------------------
 export const INITIAL_WIPS_ROGUE_STATE: WipsRogueApConfigState = {
   detectedBssid: '00:11:22:33:44:55 (Unrecognized Vendor)',
-  threatClassification: 'Unclassified / Ignore', // Needs 'Rogue AP / Evil Twin'
-  switchPortAction: 'Monitor Only (Dejar puerto activo)', // Needs 'Shutdown Port'
+  threatClassification: '', // Needs 'Rogue AP / Evil Twin'
+  switchPortAction: '', // Needs 'Shutdown Port'
   wirelessContainment: false, // Needs true (Deauth containment)
-  clientAuthProtocol: 'WPA2-PSK (Clave compartida)', // Needs '802.1X EAP-TLS'
+  clientAuthProtocol: '', // Needs '802.1X EAP-TLS'
   certificateValidationEnforced: false // Needs true
 };
 
@@ -2340,34 +2340,34 @@ export const INITIAL_IR_ACTIONS_PBQ17: IncidentResponseActionItem[] = [
 // PBQ 18: Container & Pod Security State
 // --------------------------------------------------------
 export const INITIAL_CONTAINER_STATE_PBQ18: ContainerHardeningState = {
-  baseImage: 'ubuntu_full', // Needs 'distroless_minimal'
-  runAsUser: 'root_uid_0', // Needs 'non_root_uid_10001'
-  secretsManagement: 'env_vars_plain', // Needs 'vault_csi_kms'
-  networkPolicy: 'allow_all_flat', // Needs 'default_deny_ingress_egress'
-  rootFilesystem: 'read_write', // Needs 'readonly_true'
-  cpuMemoryLimits: 'no_limits' // Needs 'enforce_limits'
+  baseImage: '', // Needs 'distroless_minimal'
+  runAsUser: '', // Needs 'non_root_uid_10001'
+  secretsManagement: '', // Needs 'vault_csi_kms'
+  networkPolicy: '', // Needs 'default_deny_ingress_egress'
+  rootFilesystem: '', // Needs 'readonly_true'
+  cpuMemoryLimits: '' // Needs 'enforce_limits'
 };
 
 // --------------------------------------------------------
 // PBQ 19: Physical Security & Datacenter Design State
 // --------------------------------------------------------
 export const INITIAL_PHYSICAL_STATE_PBQ19: PhysicalSecurityState = {
-  perimeterBarrier: 'chain_link_fence', // Needs 'bollards_k12_reinforced'
-  datacenterEntrance: 'single_door_badge', // Needs 'mantrap_biometric_weight'
-  fireSuppression: 'wet_pipe_water', // Needs 'clean_agent_gas'
-  thermalManagement: 'mixed_aisles', // Needs 'hot_cold_aisle_containment'
-  rfShielding: 'none_sheetrock' // Needs 'faraday_cage_tempest'
+  perimeterBarrier: '', // Needs 'bollards_k12_reinforced'
+  datacenterEntrance: '', // Needs 'mantrap_biometric_weight'
+  fireSuppression: '', // Needs 'clean_agent_gas'
+  thermalManagement: '', // Needs 'hot_cold_aisle_containment'
+  rfShielding: '' // Needs 'faraday_cage_tempest'
 };
 
 // --------------------------------------------------------
 // PBQ 20: Disaster Recovery & Business Continuity State
 // --------------------------------------------------------
 export const INITIAL_DISASTER_RECOVERY_STATE_PBQ20: DisasterRecoveryState = {
-  targetRto: 'rto_24_hours', // Needs 'rto_under_2_hours'
-  targetRpo: 'rpo_24_hours', // Needs 'rpo_15_minutes'
-  recoverySiteType: 'warm_site', // Needs 'hot_site_mirrored'
-  backupRule: 'single_usb', // Needs 'rule_3_2_1'
-  immutabilityControl: 'no_lock' // Needs 'worm_immutable_lock'
+  targetRto: '', // Needs 'rto_under_2_hours'
+  targetRpo: '', // Needs 'rpo_15_minutes'
+  recoverySiteType: '', // Needs 'hot_site_mirrored'
+  backupRule: '', // Needs 'rule_3_2_1'
+  immutabilityControl: '' // Needs 'worm_immutable_lock'
 };
 
 // --------------------------------------------------------
@@ -2456,7 +2456,7 @@ export const INITIAL_FORENSIC_STATE_PBQ22: ForensicVerificationState = {
       targetOrder: 3,
     },
   ],
-  selectedHashAlgorithm: 'md5', // Needs 'sha256'
+  selectedHashAlgorithm: '', // Needs 'sha256'
   chainOfCustodySignoff: false, // Needs true
   writeBlockerUsed: false, // Needs true
 };
@@ -2529,12 +2529,12 @@ export const INITIAL_CLI_SCENARIOS_PBQ25: SecurityCliScenario[] = [
 // PBQ 26: IDS Snort & YARA Rule Engineering State
 // --------------------------------------------------------
 export const INITIAL_IDS_YARA_STATE_PBQ26: IdsYaraState = {
-  snortAction: 'alert', // Needs 'drop'
+  snortAction: '', // Needs 'drop'
   snortProtocol: 'tcp',
-  snortContentMatch: 'GET /', // Needs 'UNION SELECT'
+  snortContentMatch: '', // Needs 'UNION SELECT'
   snortNocase: false, // Needs true
-  yaraMagicHeader: '0x0000', // Needs '0x5A4D'
-  yaraStringMatch: 'calc.exe', // Needs 'cmd.exe /c powershell -enc'
+  yaraMagicHeader: '', // Needs '0x5A4D'
+  yaraStringMatch: '', // Needs 'cmd.exe /c powershell -enc'
 };
 
 // --------------------------------------------------------
