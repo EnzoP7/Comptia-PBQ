@@ -1,247 +1,248 @@
 <div align="center">
 
-<a href="https://enzop7.github.io/Comptia-PBQ/"><img src="docs/images/banner.png" alt="Simulador de PBQs Security+ SY0-701" width="100%" /></a>
+<a href="https://enzop7.github.io/Comptia-PBQ/"><img src="docs/images/banner.png" alt="Security+ SY0-701 PBQ Simulator" width="100%" /></a>
 
-# Simulador de PBQs · Security+ SY0-701
+# Security+ SY0-701 PBQ Simulator
 
-**Practica gratis las Performance-Based Questions del examen CompTIA Security+ SY0-701, en español o en inglés.**<br />
-*Free CompTIA Security+ SY0-701 PBQ practice, in Spanish or English.*<br />
-Escenarios interactivos, corrección criterio por criterio y simulacros con tiempo, como el día del examen.
+**Free, hands-on practice for the performance-based questions of the CompTIA Security+ SY0-701 exam, in English or Spanish.**<br />
+Interactive scenarios, criterion-by-criterion grading and timed mock exams that feel like exam day.
 
-<a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practicar%20ahora-online-06b6d4?style=for-the-badge" alt="Practicar ahora" /></a>
+<a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practice%20now-online-c8102e?style=for-the-badge" alt="Practice now" /></a>
 
-![PBQs](https://img.shields.io/badge/PBQs-92-0891b2?style=flat-square)
-![Dominios](https://img.shields.io/badge/dominios-5%2F5-10b981?style=flat-square)
-![Examen](https://img.shields.io/badge/examen-SY0--701-6366f1?style=flat-square)
-![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol%20%7C%20English-f59e0b?style=flat-square)
-![Precio](https://img.shields.io/badge/precio-gratis-22c55e?style=flat-square)
+![PBQs](https://img.shields.io/badge/PBQs-92-1f2937?style=flat-square)
+![Domains](https://img.shields.io/badge/domains-5%2F5-1f2937?style=flat-square)
+![Exam](https://img.shields.io/badge/exam-SY0--701-c8102e?style=flat-square)
+![Languages](https://img.shields.io/badge/languages-English%20%7C%20Espa%C3%B1ol-1f2937?style=flat-square)
+![Price](https://img.shields.io/badge/price-free-1f2937?style=flat-square)
+![License](https://img.shields.io/badge/no%20account-required-1f2937?style=flat-square)
 
 </div>
 
 ---
 
-## ¿Qué son las PBQs y por qué practicarlas?
+## Why practice PBQs?
 
-Las **PBQs (Performance-Based Questions)** son las preguntas prácticas del examen Security+: en lugar de elegir una respuesta, tienes que **hacer** algo. Por ejemplo: ordenar las reglas de un firewall, ubicar controles en un diagrama de red, analizar logs de un SIEM, asignar permisos o clasificar ataques. Suelen aparecer al principio del examen, consumen mucho tiempo y son donde más puntos se pierden por falta de práctica.
+**Performance-based questions (PBQs)** are the hands-on items of the Security+ exam. Instead of picking an answer, you **do** something: order firewall rules, place controls on a network diagram, read SIEM logs, assign permissions or match attacks to evidence. They usually come first, take the most time, and are where unprepared candidates lose the most points.
 
-Este simulador reúne **92 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
+This simulator contains **92 original PBQs** covering all five domains and all 28 SY0-701 objectives (every objective is the primary target of at least one PBQ), using the same mechanics you will meet on the exam.
 
-<p align="center"><img src="docs/images/app-practice.png" alt="Vista de práctica: tabla de reglas de firewall" width="90%" /></p>
+<p align="center"><img src="docs/images/app-practice.png" alt="Practice view: firewall rule table" width="90%" /></p>
 
-## Español o inglés
+## Highlights
 
-Al entrar por primera vez eliges el idioma en la pantalla de bienvenida, y puedes cambiarlo cuando quieras con el selector **ES / EN** de la barra superior. Todo se traduce: enunciados, opciones, terminal, corrección y guía de estudio. Tu progreso es el mismo en los dos idiomas.
-
-*On your first visit you pick the language on the welcome screen, and you can switch at any time with the **ES / EN** toggle in the top bar. Everything is translated: scenarios, options, terminal, grading and study guide. Your progress is shared between both languages.*
-
-## Cómo funciona
-
-### 1. Práctica libre
-Elige cualquier PBQ en la barra superior (puedes filtrar por dominio, por las que no hiciste o por las que fallaste), resuélvela y pulsa **Enviar y validar**. La calificación es con **crédito parcial**: cada criterio suma puntos y se aprueba con 75%.
-
-### 2. Corrección que enseña
-Al validar ves, **criterio por criterio**:
-- **qué elegiste y cuál era la respuesta correcta**;
-- **por qué** esa es la respuesta en ese escenario;
-- los **conceptos** que debes dominar, con su definición y la **trampa típica del examen**;
-- un bloque **"Qué repasar"** con tus errores, y una **guía de estudio** de cada PBQ.
-
-<p align="center"><img src="docs/images/app-review.png" alt="Corrección criterio por criterio con conceptos y trampas de examen" width="90%" /></p>
-
-### Dificultad como el examen real
-Cada PBQ indica su nivel. **Básica** e **Intermedia** se parecen a lo que reportan quienes ya rindieron el SY0-701: entre 2 y 5 PBQs cortas (reglas de firewall, identificar ataques o equipos comprometidos en logs, emparejar conceptos, configurar una VPN o un certificado). **Avanzada** va más allá del examen (terminal libre, muchas zonas o servicios a la vez) y sirve para reforzar. Puedes filtrar por nivel, y el simulacro usa por defecto solo PBQs básicas e intermedias.
-
-Las PBQs marcadas como **Extra: puede no aparecer** (25, 32, 42, 60, 62, 63, 64 y 76) tratan temas que no figuran en los objetivos del SY0-701: línea de comandos, Nmap, chmod y ataques a Active Directory. El SY0-701 eliminó la lista de herramientas de consola que tenía el SY0-601. Están al final de la lista para darles una mirada general y no entran en el simulacro "como el examen real".
-
-### 3. Pistas apagadas por defecto
-En el examen real no hay ayudas, así que aquí tampoco, salvo que las actives. El botón **Pistas** enciende medidores de cumplimiento, explicaciones de cada opción, el simulador de tráfico del firewall y un tip táctico. Úsalas para aprender, no para medirte.
-
-### 4. Simulacro con tiempo
-Elige **cuántas PBQs** (3, 5, 8 o 12) y **cuántos minutos por PBQ**. Las preguntas salen al azar respetando el **peso oficial de cada dominio**, y puedes **priorizar tus puntos débiles** (las que nunca hiciste o en las que sacaste menos nota). Durante el simulacro no hay pistas, ni cheat sheet, ni pausa, ni corrección: todo se califica al finalizar o cuando se acaba el tiempo. Después puedes revisar cada PBQ.
-
-<p align="center"><img src="docs/images/app-exam-setup.png" alt="Configuración del simulacro con tiempo" width="80%" /></p>
-
-### 5. Repaso de trampas
-Más de 100 tarjetas con los pares de conceptos que más se confunden en el examen (PEP vs. motor de políticas, DDoS reflejado vs. amplificado, journaling vs. replicación, tolerancia vs. umbral…). Eliges entre dos opciones y la app te muestra la palabra clave que los diferencia y la PBQ donde practicarlo. Usa repetición espaciada: las que fallas vuelven en la misma ronda y al día siguiente; las que aciertas se espacian hasta 30 días. Se abre con el botón **Repaso de trampas** o con <kbd>Alt</kbd> + <kbd>T</kbd>.
-
-### 6. Tu progreso es privado
-No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se guardan **solo en tu navegador**. El reporte de progreso muestra tu desempeño por dominio oficial.
-
-## Formatos de PBQ que vas a practicar
-
-| Formato | Ejemplos |
+| | |
 |---|---|
-| 🧱 **Reglas de firewall / ACL** | Arrastrar acciones, protocolos, IPs y puertos a cada regla (o tocar y colocar en el celular), ordenar las reglas *first-match*, egress filtering, DMZ multizona. Se corrige enviando paquetes de prueba reales por tu tabla. |
-| 🗺️ **Diagramas de red** | Ubicar WAF, IPS, bastion host, RADIUS, ZTNA, transit gateway. |
-| 📜 **Análisis de logs / SIEM** | Paciente cero, línea de tiempo, Kerberoasting, beaconing C2, MITRE ATT&CK. |
-| ⚙️ **Configuración** | Wi-Fi WPA3-Enterprise, VPN IPsec, PKI y certificados, SPF/DKIM/DMARC, cabeceras HTTP, contenedores, MDM. |
-| 💻 **Terminal Linux interactiva** | Una consola simulada donde escribes comandos: investiga `auth.log`, `ps aux`, `ss -tunap`, `crontab`; bloquea con `iptables`/`ufw`; corrige permisos y SUID con `find`/`chmod`; verifica integridad con `sha256sum`; analiza logs con `grep | sort | uniq -c`. Se corrige por el estado final del servidor. |
-| 🐧 **Línea de comandos (selección)** | Permisos Linux (`chmod`, `chown`, `umask`, SUID/SGID/sticky), `netstat`, `tcpdump`, hashes, Nmap, Snort/YARA. |
-| 🧩 **Clasificación (arrastrar y soltar)** | Categorías y tipos de controles, ataques a aplicaciones desde logs, actores de amenaza, acuerdos con terceros, pentesting, riesgo y BIA. |
-| 🔢 **Orden y cálculo** | Orden de volatilidad, ciclo de respuesta a incidentes, SLE/ALE con valores distintos en cada intento. |
+| **Partial-credit grading** | Every criterion scores on its own; 75% passes. You see what you chose, the right answer, why, and the classic exam trap. |
+| **Exam-like difficulty** | Each PBQ is labeled *Basic*, *Intermediate* or *Advanced*, calibrated against what SY0-701 candidates report. |
+| **Timed mock exams** | 3, 5, 8 or 12 PBQs drawn by official domain weight, with an option to prioritize your weak spots. No hints, no pause. |
+| **Trap review** | 100+ spaced-repetition flashcards for the concept pairs candidates confuse most. |
+| **Bilingual** | Every scenario, option, terminal message and explanation is available in English and Spanish. |
+| **Private by design** | No accounts. Answers, notes, flags and history stay in your browser. |
 
-<p align="center"><img src="docs/images/app-terminal.png" alt="PBQ con terminal Linux interactiva" width="90%" /></p>
+## How it works
 
-<p align="center"><img src="docs/images/app-linux.png" alt="PBQ de permisos Linux con bits rwx y especiales" width="90%" /></p>
+### 1. Free practice
+Pick any PBQ from the top bar (filter by domain, by difficulty, by the ones you have not done or by the ones you failed), solve it, and press **Submit and Validate**. Grading uses **partial credit**: every criterion adds points and 75% passes.
 
-## Catálogo de PBQs por dominio
+### 2. Grading that teaches
+After validating you see, **criterion by criterion**:
+- **what you chose and what the right answer was**;
+- **why** that answer is right in this scenario;
+- the **concepts** to master, with their definition and the **typical exam trap**;
+- a **"What to review"** block with your mistakes, plus a **study guide** for every PBQ.
 
-<details>
-<summary><b>Dominio 1: Conceptos Generales de Seguridad</b> — 12% del examen · 11 PBQs</summary>
+<p align="center"><img src="docs/images/app-review.png" alt="Criterion-by-criterion grading with concepts and exam traps" width="90%" /></p>
 
-| # | PBQ | Objetivo |
-|---|---|---|
-| 6 | Conexión Sitio a Sitio IPSec y Cifrado de Datos en Reposo | 1.4 |
-| 13 | Diagnóstico de Errores en Cadena de Certificados PKI y Web TLS | 1.4 |
-| 19 | Diseño de Seguridad Física y Protección de Centro de Datos | 1.2 |
-| 34 | Implementación de Zero Trust Architecture (ZTA) según NIST SP 800-207 | 1.2 |
-| 37 | Gestión de Ciclo de Vida PKI, Formatos X.509 (.PFX/.PEM), OCSP Stapling y Key Escrow | 1.4 |
-| 51 | Clasificación de Controles de Seguridad: Categoría × Tipo | 1.1 |
-| 52 | Proceso de Gestión de Cambios: Elementos de Negocio e Implicaciones Técnicas | 1.3 |
-| 61 | Hashing, Salting, Key Stretching, Firmas Digitales y Protección de Claves | 1.4 |
-| 71 | Certificados Digitales y PKI: Wildcard, SAN, CSR y Revocación | 1.4 |
-| 78 | Zero Trust: Plano de Control, Plano de Datos, PEP y Tecnologías de Engaño | 1.2 |
-| 79 | Niveles de Cifrado, Algoritmos y Herramientas de Claves | 1.4 |
+### 3. Difficulty that matches the real exam
+Each PBQ shows its level. **Basic** and **Intermediate** match what SY0-701 candidates report: two to five short PBQs (firewall rules, spotting attacks or compromised hosts in logs, matching concepts, configuring a VPN or a certificate). **Advanced** goes beyond the exam (free-form terminal, many zones or services at once) and is meant for reinforcement. Mock exams use only Basic and Intermediate PBQs by default.
 
-</details>
+PBQs labeled **Extra: may not appear** (25, 32, 42, 60, 62, 63, 64 and 76) cover topics that are not in the SY0-701 objectives: command-line work, Nmap, `chmod` and Active Directory attacks. The SY0-701 dropped the list of command-line tools the SY0-601 had. They sit at the end of the list for a general look and are left out of the exam-like mock exam.
 
-<details>
-<summary><b>Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones</b> — 22% del examen · 16 PBQs</summary>
+### 4. Hints off by default
+The real exam has no help, so neither does this simulator unless you turn it on. **Hints** enables compliance meters, per-option explanations, the firewall traffic simulator and a tactical tip. Use them to learn, not to measure yourself.
 
-| # | PBQ | Objetivo |
-|---|---|---|
-| 4 | Aseguramiento de Servidor Web y Líneas Base de Seguridad | 2.5 |
-| 11 | Endurecimiento de Estación de Trabajo (VBA, Credential Guard & LLMNR) | 2.5 |
-| 14 | Detección y Mitigación de Rogue AP y Ataques Evil Twin (WIPS) | 2.4 |
-| 21 | Identificación de Vectores de Ingeniería Social y Factores Humanos | 2.2 |
-| 28 | Identificación de Ataques Criptográficos y Selección de Contramedidas | 2.4 |
-| 40 | Matriz de Ataques de Ingeniería Social, Disparadores Psicológicos y Defensas | 2.2 |
-| 42 | Investigación de Ataques a Active Directory, Telemetría SIEM y MITRE ATT&CK | 2.4 |
-| 45 | Triage de Malware: Amenazas a Endpoints, Criptografía y Persistencia en Memoria | 2.4 |
-| 46 | Triage de Malware: Amenazas de Red, Código Latente y Evasión Polimórfica | 2.4 |
-| 47 | Auditoría de Seguridad de APIs REST: BOLA, SSRF, JWT Tampering y Rate Limiting | 2.3 |
-| 55 | Identificación de Ataques a Aplicaciones desde Logs y Payloads | 2.3 |
-| 56 | Perfilado de Actores de Amenaza, Motivaciones y Tecnologías de Engaño | 2.1 |
-| 63 | Terminal Linux: Auditoría de Hardening, SUID e Integridad de Binarios | 2.5 |
-| 80 | Vectores de Amenaza y Tipos de Vulnerabilidad | 2.2 |
-| 81 | Indicadores de Actividad Maliciosa: Distinguir Ataques Parecidos | 2.4 |
-| 92 | Indicadores en los Registros y Temas Sueltos del SY0-701 | 2.4 |
+### 5. Timed mock exam
+Choose **how many PBQs** (3, 5, 8 or 12) and **how many minutes per PBQ**. Questions are drawn at random following the **official domain weights**, and you can **prioritize your weak spots** (PBQs you never tried or scored lowest on). During the mock exam there are no hints, cheat sheet, pause or grading: everything is scored when you finish or when time runs out. Afterwards you can review every PBQ.
 
-</details>
+<p align="center"><img src="docs/images/app-exam-setup.png" alt="Timed mock exam setup" width="80%" /></p>
 
-<details>
-<summary><b>Dominio 3: Arquitectura de Seguridad</b> — 18% del examen · 13 PBQs</summary>
+### 6. Trap review
+More than 100 flashcards with the concept pairs most often confused on the exam (PEP vs. policy engine, reflected vs. amplified DDoS, journaling vs. replication, risk tolerance vs. threshold…). You choose between two options, and the app shows the keyword that tells them apart and the PBQ where you can practice it. Cards use spaced repetition: misses come back in the same round and the next day; correct answers are spaced out up to 30 days. Open it with the **Trap review** button or <kbd>Alt</kbd> + <kbd>T</kbd>.
 
-| # | PBQ | Objetivo |
-|---|---|---|
-| 1 | Diseño de Perímetro Seguro y Micro-Segmentación | 3.2 |
-| 8 | Arquitectura Híbrida Cloud (AWS/Azure) y Zero Trust Ingress | 3.1 |
-| 16 | Clasificación de Información Sensible y Controles DLP en 3 Estados | 3.3 |
-| 18 | Endurecimiento de Contenedores Docker y Pods de Kubernetes | 3.1 |
-| 20 | Continuidad de Negocio, Cálculo de RTO/RPO y Resiliencia | 3.4 |
-| 39 | Clasificación de Datos en Cloud Storage, Reglas Regex DLP y CASB Inline | 3.3 |
-| 41 | Matriz de Responsabilidad Compartida en la Nube (IaaS vs PaaS vs SaaS) | 3.1 |
-| 44 | Técnicas de Ofuscación de Datos, PETs y Niveles de Reversibilidad | 3.3 |
-| 49 | Filtrado de Tráfico Multi-Interfaz: WAN, DMZ Pública, LAN Interna y Base de Datos PCI-DSS | 3.2 |
-| 68 | Acceso Remoto por VPN: Túnel Completo, Túnel Dividido y Sitio a Sitio | 3.2 |
-| 83 | Dispositivos y Atributos de Red: Proxy, NGFW, WAF, IDS, Inline y Fail-Open | 3.2 |
-| 84 | Modelos de Arquitectura y sus Consideraciones de Seguridad | 3.1 |
-| 85 | Copias de Seguridad, Replicación, Journaling y Pruebas de Resiliencia | 3.4 |
+### 7. Your progress stays private
+No accounts, no sign-up. Answers, notes, flags and attempt history are stored **only in your browser**. The progress report shows your performance per official domain.
 
-</details>
+## PBQ formats
 
-<details>
-<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 39 PBQs</summary>
-
-| # | PBQ | Objetivo |
-|---|---|---|
-| 2 | Endurecimiento de Reglas de Firewall Corporativo | 4.5 |
-| 3 | Investigación de Paciente Cero y Cadena de Ataque | 4.9 |
-| 5 | Resolución de Conflicto de Permisos en Compartición de Archivos | 4.6 |
-| 7 | Despliegue Wi-Fi Corporativo WPA3 Enterprise | 4.1 |
-| 9 | Mitigación de Exfiltración de Datos y Filtrado Egress (Salida) | 4.5 |
-| 10 | Investigación de Phishing, Beaconing C2 y Ataque Kerberos | 4.9 |
-| 12 | Políticas de Acceso Condicional (Conditional Access) y Zero Trust | 4.6 |
-| 15 | Priorización de Vulnerabilidades CVSS v3.1 y Remediación Táctica | 4.3 |
-| 17 | Secuencia del Ciclo de Vida de Respuesta a Incidentes NIST | 4.8 |
-| 22 | Orden Forense de Volatilidad (RFC 3227) y Verificación de Integridad | 4.8 |
-| 24 | Defensa de Correo Electrónico: Registros DNS SPF, DKIM y DMARC | 4.5 |
-| 25 | Diagnóstico Táctico de Amenazas por Comandos de Consola (Linux / Windows) | 4.9 |
-| 26 | Ingeniería de Detección: Reglas NIPS Snort y Reglas YARA para Malware | 4.5 |
-| 27 | Integración Shift-Left de Seguridad en el Pipeline CI/CD | 4.1 |
-| 29 | Arquitectura de Autenticación Federada, Tokens y Single Sign-On (SSO) | 4.6 |
-| 30 | Consola de Directivas de Dispositivos Móviles Empresariales (MDM / MAM / BYOD) | 4.1 |
-| 31 | Auditoría de Puertos en Texto Plano y Migración Criptográfica de Red | 4.5 |
-| 32 | Interpretación de Escaneo Nmap y Hardening Táctico de Puertos Abiertos | 4.3 |
-| 33 | Hardening de Infraestructura DNS, Cifrado DoT y Mitigación de Ataques | 4.5 |
-| 35 | Blindaje de Aplicaciones Web: Cabeceras de Seguridad y TLS 1.3 | 4.1 |
-| 36 | Procedimiento de Retención Judicial (Legal Hold), Adquisición Bit-a-Bit y Admisibilidad | 4.8 |
-| 38 | Arquitectura WiFi Corporativa: WPA3-Enterprise, 802.1X EAP-TLS y WIPS | 4.1 |
-| 48 | Ingeniería de Detección en SIEM y Playbooks Automatizados en SOAR | 4.7 |
-| 50 | Hardening de Infraestructura y Migración de Protocolos Legados (SOC 2 / ISO 27001) | 4.5 |
-| 57 | Modelos de Control de Acceso, Factores de Autenticación y PAM | 4.6 |
-| 60 | Permisos Linux: rwx, Notación Octal, chown, umask y Bits SUID/SGID/Sticky | 4.6 |
-| 62 | Terminal Linux: Respuesta a Incidente en un Servidor Web Comprometido | 4.8 |
-| 64 | Terminal Linux: Análisis de Logs Web con Tuberías y Bloqueo de Atacantes | 4.9 |
-| 65 | Ciclo de Vida de Activos: Adquisición, Inventario, Baja Segura y Retención | 4.2 |
-| 66 | Herramientas de Monitoreo de Seguridad y Actividades del SOC | 4.4 |
-| 69 | Identificar Equipos Comprometidos a partir de Logs de Red | 4.9 |
-| 70 | Protocolos Seguros y sus Puertos | 4.5 |
-| 75 | Escribe el Puerto: Servicios y Números de Puerto según el Escenario | 4.5 |
-| 76 | Terminal Linux: Permisos con chmod y chown en Notación Octal | 4.6 |
-| 77 | Reglas de Firewall de una Oficina: Servidores Publicados, Administración y Navegación | 4.5 |
-| 82 | Técnicas de Mitigación y Capacidades de Seguridad Empresarial | 4.5 |
-| 86 | Automatización, Orquestación y Gestión de Cambios | 4.7 |
-| 87 | Modelos de Acceso, Autenticación y Modelos de Dispositivos Móviles | 4.6 |
-| 88 | Respuesta a Incidentes, Forense, Fuentes de Datos y Monitoreo | 4.8 |
-
-</details>
-
-<details>
-<summary><b>Dominio 5: Gestión y Supervisión del Programa de Seguridad</b> — 20% del examen · 13 PBQs</summary>
-
-| # | PBQ | Objetivo |
-|---|---|---|
-| 23 | Análisis Cuantitativo de Riesgo (Fórmulas SLE, ARO, ALE) y Tratamiento | 5.2 |
-| 43 | Gobernanza de Datos, Roles de Custodia, Estados del Dato y Sanitización | 5.1 |
-| 53 | Acuerdos con Terceros y Jerarquía de Documentos de Gobernanza | 5.3 |
-| 54 | Tipos de Pruebas de Penetración, Reconocimiento y Auditorías | 5.5 |
-| 58 | Terminología de Gestión de Riesgos y Análisis de Impacto al Negocio (BIA) | 5.2 |
-| 59 | Cumplimiento Normativo, Privacidad y Programa de Concienciación | 5.4 |
-| 67 | Programa de Concienciación: Temas de Capacitación y Ciclo del Programa | 5.6 |
-| 72 | Roles de los Datos: Owner, Controller, Processor, Custodian, Steward y DPO | 5.1 |
-| 73 | Estructuras de Gobernanza: Centralizada, Descentralizada, Junta y Comités | 5.1 |
-| 74 | Tipos de Acuerdos (SLA, MOU, MOA, MSA, SOW, NDA, BPA) y Evaluación de Proveedores | 5.3 |
-| 89 | Terminología de Riesgo y Gestión de Vulnerabilidades | 5.2 |
-| 90 | Leyes, Marcos y Conceptos de Cumplimiento | 5.1 |
-| 91 | Proveedores, Auditorías, Roles y Concienciación | 5.3 |
-
-</details>
-
-## Atajos de teclado
-
-| Atajo | Acción |
+| Format | Examples |
 |---|---|
-| <kbd>Ctrl</kbd> + <kbd>Enter</kbd> | Validar la PBQ actual (práctica libre) |
-| <kbd>Ctrl</kbd> + <kbd>→</kbd> · <kbd>Alt</kbd> + <kbd>→</kbd> | Siguiente PBQ |
-| <kbd>Ctrl</kbd> + <kbd>←</kbd> · <kbd>Alt</kbd> + <kbd>←</kbd> | PBQ anterior |
-| <kbd>Alt</kbd> + <kbd>E</kbd> | Abrir la corrección y la guía de estudio de la PBQ actual |
-| <kbd>Alt</kbd> + <kbd>R</kbd> | Reiniciar las respuestas de la PBQ actual |
-| <kbd>Alt</kbd> + <kbd>P</kbd> | Cheat sheet de puertos y conceptos (solo en práctica) |
-| <kbd>Alt</kbd> + <kbd>T</kbd> | Repaso de trampas con tarjetas (solo en práctica) |
-| <kbd>Alt</kbd> + <kbd>S</kbd> | Reporte de progreso por dominio |
-| <kbd>Ctrl</kbd> + <kbd>/</kbd> | Mostrar u ocultar la ayuda de atajos |
-| <kbd>Esc</kbd> | Cerrar cualquier ventana |
+| **Firewall rules / ACLs** | Drag actions, protocols, IPs and ports into each rule (or tap and place on mobile), order *first-match* rules, egress filtering, multi-zone DMZ. Graded by sending real test packets through your rule table. |
+| **Network diagrams** | Place a WAF, IPS, bastion host, RADIUS, ZTNA or transit gateway. |
+| **Log and SIEM analysis** | Patient zero, timelines, beaconing C2, compromised hosts from network logs. |
+| **Configuration** | WPA3-Enterprise Wi-Fi, IPsec VPN, PKI and certificates, SPF/DKIM/DMARC, HTTP headers, containers, MDM. |
+| **Classification (drag and drop)** | Control categories and types, application attacks from logs, threat actors, third-party agreements, penetration testing, risk and BIA, data roles, governance structures. |
+| **Ordering and calculation** | Incident response lifecycle, order of volatility, SLE/ALE with different values on every attempt. |
+| **Interactive Linux terminal** *(extra)* | A simulated console: investigate `auth.log`, `ps aux`, `ss -tunap` and `crontab`; block with `iptables`/`ufw`; fix permissions and SUID with `find`/`chmod`; verify integrity with `sha256sum`; analyze logs with `grep \| sort \| uniq -c`. Graded by the final state of the server. |
 
-> En macOS, <kbd>Cmd</kbd> funciona igual que <kbd>Ctrl</kbd>.
+<p align="center"><img src="docs/images/app-terminal.png" alt="PBQ with an interactive Linux terminal" width="90%" /></p>
 
-## También en el celular
+## PBQ catalog by domain
 
-<p align="center"><img src="docs/images/app-mobile.png" alt="Vista en celular" width="260" /></p>
+<details>
+<summary><b>Domain 1: General Security Concepts</b> — 12% of the exam · 11 PBQs</summary>
 
-## Ejecutar en local
+| # | PBQ | Objective |
+|---|---|---|
+| 6 | Site-to-Site IPSec Connection and Data-at-Rest Encryption | 1.4 |
+| 13 | Diagnosing PKI Certificate Chain and Web TLS Errors | 1.4 |
+| 19 | Physical Security Design and Data Center Protection | 1.2 |
+| 34 | Implementing Zero Trust Architecture (ZTA) per NIST SP 800-207 | 1.2 |
+| 37 | PKI Lifecycle Management, X.509 Formats (.PFX/.PEM), OCSP Stapling and Key Escrow | 1.4 |
+| 51 | Security Control Classification: Category × Type | 1.1 |
+| 52 | Change Management Process: Business Elements and Technical Implications | 1.3 |
+| 61 | Hashing, Salting, Key Stretching, Digital Signatures and Key Protection | 1.4 |
+| 71 | Digital Certificates and PKI: Wildcard, SAN, CSR and Revocation | 1.4 |
+| 78 | Zero Trust: Control Plane, Data Plane, PEP and Deception Technologies | 1.2 |
+| 79 | Encryption Levels, Algorithms and Key Tools | 1.4 |
 
-Requiere [Node.js](https://nodejs.org/) 20 o superior.
+</details>
+
+<details>
+<summary><b>Domain 2: Threats, Vulnerabilities, and Mitigations</b> — 22% of the exam · 16 PBQs</summary>
+
+| # | PBQ | Objective |
+|---|---|---|
+| 4 | Web Server Hardening and Security Baselines | 2.5 |
+| 11 | Workstation Hardening (VBA, Credential Guard & LLMNR) | 2.5 |
+| 14 | Detecting and Mitigating Rogue APs and Evil Twin Attacks (WIPS) | 2.4 |
+| 21 | Identifying Social Engineering Vectors and Human Factors | 2.2 |
+| 28 | Identifying Cryptographic Attacks and Selecting Countermeasures | 2.4 |
+| 40 | Matrix of Social Engineering Attacks, Psychological Triggers and Defenses | 2.2 |
+| 42 | Investigating Active Directory Attacks, SIEM Telemetry and MITRE ATT&CK *(extra)* | 2.4 |
+| 45 | Malware Triage: Endpoint Threats, Cryptography and In-Memory Persistence | 2.4 |
+| 46 | Malware Triage: Network Threats, Dormant Code and Polymorphic Evasion | 2.4 |
+| 47 | REST API Security Audit: BOLA, SSRF, JWT Tampering and Rate Limiting | 2.3 |
+| 55 | Identifying Application Attacks from Logs and Payloads | 2.3 |
+| 56 | Profiling Threat Actors, Motivations and Deception Technologies | 2.1 |
+| 63 | Linux Terminal: Hardening, SUID and Binary Integrity Audit *(extra)* | 2.5 |
+| 80 | Threat Vectors and Vulnerability Types | 2.2 |
+| 81 | Indicators of Malicious Activity: Telling Similar Attacks Apart | 2.4 |
+| 92 | Log Indicators and Remaining SY0-701 Topics | 2.4 |
+
+</details>
+
+<details>
+<summary><b>Domain 3: Security Architecture</b> — 18% of the exam · 13 PBQs</summary>
+
+| # | PBQ | Objective |
+|---|---|---|
+| 1 | Secure Perimeter Design and Micro-Segmentation | 3.2 |
+| 8 | Hybrid Cloud Architecture (AWS/Azure) and Zero Trust Ingress | 3.1 |
+| 16 | Classifying Sensitive Information and DLP Controls in 3 States | 3.3 |
+| 18 | Hardening Docker Containers and Kubernetes Pods | 3.1 |
+| 20 | Business Continuity, RTO/RPO Calculation and Resilience | 3.4 |
+| 39 | Data Classification in Cloud Storage, DLP Regex Rules and Inline CASB | 3.3 |
+| 41 | Cloud Shared Responsibility Matrix (IaaS vs PaaS vs SaaS) | 3.1 |
+| 44 | Data Obfuscation Techniques, PETs and Reversibility Levels | 3.3 |
+| 49 | Multi-Interface Traffic Filtering: WAN, Public DMZ, Internal LAN and PCI-DSS Database | 3.2 |
+| 68 | Remote Access VPN: Full Tunnel, Split Tunnel and Site-to-Site | 3.2 |
+| 83 | Network Appliances and Attributes: Proxy, NGFW, WAF, IDS, Inline and Fail-Open | 3.2 |
+| 84 | Architecture Models and Their Security Considerations | 3.1 |
+| 85 | Backups, Replication, Journaling and Resilience Testing | 3.4 |
+
+</details>
+
+<details>
+<summary><b>Domain 4: Security Operations</b> — 28% of the exam · 39 PBQs</summary>
+
+| # | PBQ | Objective |
+|---|---|---|
+| 2 | Corporate Firewall Rule Hardening | 4.5 |
+| 3 | Patient Zero and Attack Chain Investigation | 4.9 |
+| 5 | Resolving a File Share Permission Conflict | 4.6 |
+| 7 | Corporate WPA3 Enterprise Wi-Fi Deployment | 4.1 |
+| 9 | Data Exfiltration Mitigation and Egress Filtering | 4.5 |
+| 10 | Investigating Phishing, C2 Beaconing and a Kerberos Attack | 4.9 |
+| 12 | Conditional Access Policies and Zero Trust | 4.6 |
+| 15 | CVSS v3.1 Vulnerability Prioritization and Tactical Remediation | 4.3 |
+| 17 | NIST Incident Response Lifecycle Sequence | 4.8 |
+| 22 | Forensic Order of Volatility (RFC 3227) and Integrity Verification | 4.8 |
+| 24 | Email Defense: SPF, DKIM and DMARC DNS Records | 4.5 |
+| 25 | Tactical Threat Diagnosis with Console Commands (Linux / Windows) *(extra)* | 4.9 |
+| 26 | Detection Engineering: Snort NIPS Rules and YARA Rules for Malware | 4.5 |
+| 27 | Shift-Left Security Integration in the CI/CD Pipeline | 4.1 |
+| 29 | Federated Authentication Architecture, Tokens and Single Sign-On (SSO) | 4.6 |
+| 30 | Enterprise Mobile Device Policy Console (MDM / MAM / BYOD) | 4.1 |
+| 31 | Plaintext Port Audit and Network Cryptographic Migration | 4.5 |
+| 32 | Nmap Scan Interpretation and Tactical Hardening of Open Ports *(extra)* | 4.3 |
+| 33 | DNS Infrastructure Hardening, DoT Encryption and Attack Mitigation | 4.5 |
+| 35 | Web Application Hardening: Security Headers and TLS 1.3 | 4.1 |
+| 36 | Legal Hold Procedure, Bit-by-Bit Acquisition and Admissibility | 4.8 |
+| 38 | Corporate Wi-Fi Architecture: WPA3-Enterprise, 802.1X EAP-TLS and WIPS | 4.1 |
+| 48 | SIEM Detection Engineering and Automated SOAR Playbooks | 4.7 |
+| 50 | Infrastructure Hardening and Legacy Protocol Migration (SOC 2 / ISO 27001) | 4.5 |
+| 57 | Access Control Models, Authentication Factors and PAM | 4.6 |
+| 60 | Linux Permissions: rwx, Octal Notation, chown, umask and SUID/SGID/Sticky Bits *(extra)* | 4.6 |
+| 62 | Linux Terminal: Incident Response on a Compromised Web Server *(extra)* | 4.8 |
+| 64 | Linux Terminal: Web Log Analysis with Pipes and Attacker Blocking *(extra)* | 4.9 |
+| 65 | Asset Lifecycle: Procurement, Inventory, Secure Disposal and Retention | 4.2 |
+| 66 | Security Monitoring Tools and SOC Activities | 4.4 |
+| 69 | Identifying Compromised Hosts from Network Logs | 4.9 |
+| 70 | Secure Protocols and Their Ports | 4.5 |
+| 75 | Write the Port: Services and Port Numbers by Scenario | 4.5 |
+| 76 | Linux Terminal: Permissions with chmod and chown in Octal Notation *(extra)* | 4.6 |
+| 77 | Office Firewall Rules: Published Servers, Administration and Browsing | 4.5 |
+| 82 | Mitigation Techniques and Enterprise Security Capabilities | 4.5 |
+| 86 | Automation, Orchestration and Change Management | 4.7 |
+| 87 | Access Models, Authentication and Mobile Deployment Models | 4.6 |
+| 88 | Incident Response, Forensics, Data Sources and Monitoring | 4.8 |
+
+</details>
+
+<details>
+<summary><b>Domain 5: Security Program Management and Oversight</b> — 20% of the exam · 13 PBQs</summary>
+
+| # | PBQ | Objective |
+|---|---|---|
+| 23 | Quantitative Risk Analysis (SLE, ARO, ALE Formulas) and Treatment | 5.2 |
+| 43 | Data Governance, Custody Roles, Data States and Sanitization | 5.1 |
+| 53 | Third-Party Agreements and Governance Document Hierarchy | 5.3 |
+| 54 | Penetration Test Types, Reconnaissance and Audits | 5.5 |
+| 58 | Risk Management Terminology and Business Impact Analysis (BIA) | 5.2 |
+| 59 | Regulatory Compliance, Privacy and Awareness Program | 5.4 |
+| 67 | Awareness Program: Training Topics and Program Lifecycle | 5.6 |
+| 72 | Data Roles: Owner, Controller, Processor, Custodian, Steward and DPO | 5.1 |
+| 73 | Governance Structures: Centralized, Decentralized, Board and Committees | 5.1 |
+| 74 | Agreement Types (SLA, MOU, MOA, MSA, SOW, NDA, BPA) and Vendor Assessment | 5.3 |
+| 89 | Risk Terminology and Vulnerability Management | 5.2 |
+| 90 | Laws, Frameworks and Compliance Concepts | 5.1 |
+| 91 | Vendors, Audits, Roles and Awareness | 5.3 |
+
+</details>
+## Keyboard shortcuts
+
+| Shortcut | Action |
+|---|---|
+| <kbd>Ctrl</kbd> + <kbd>Enter</kbd> | Validate the current PBQ (free practice) |
+| <kbd>Ctrl</kbd> + <kbd>→</kbd> · <kbd>Alt</kbd> + <kbd>→</kbd> | Next PBQ |
+| <kbd>Ctrl</kbd> + <kbd>←</kbd> · <kbd>Alt</kbd> + <kbd>←</kbd> | Previous PBQ |
+| <kbd>Alt</kbd> + <kbd>E</kbd> | Open the grading and study guide of the current PBQ |
+| <kbd>Alt</kbd> + <kbd>R</kbd> | Reset the answers of the current PBQ |
+| <kbd>Alt</kbd> + <kbd>P</kbd> | Ports and concepts cheat sheet (practice only) |
+| <kbd>Alt</kbd> + <kbd>T</kbd> | Trap review flashcards (practice only) |
+| <kbd>Alt</kbd> + <kbd>S</kbd> | Progress report by domain |
+| <kbd>Ctrl</kbd> + <kbd>/</kbd> | Show or hide the shortcuts help |
+| <kbd>Esc</kbd> | Close any dialog |
+
+> On macOS, <kbd>Cmd</kbd> works like <kbd>Ctrl</kbd>.
+
+## On mobile too
+
+<p align="center"><img src="docs/images/app-mobile.png" alt="Mobile view" width="260" /></p>
+
+## Run locally
+
+Requires [Node.js](https://nodejs.org/) 20 or later.
 
 ```bash
 git clone https://github.com/EnzoP7/Comptia-PBQ.git
@@ -250,45 +251,47 @@ npm install
 npm run dev      # http://localhost:3000
 ```
 
-| Comando | Para qué |
+| Command | Purpose |
 |---|---|
-| `npm run dev` | Servidor de desarrollo |
-| `npm run build` | Build de producción en `dist/` |
-| `npm run lint` | Chequeo de tipos |
+| `npm run dev` | Development server |
+| `npm run build` | Production build in `dist/` |
+| `npm run lint` | Type check |
+| `npm run i18n:check` | List strings missing an English translation |
 
-Cada push a `main` se publica automáticamente en GitHub Pages (`.github/workflows/deploy.yml`).
+Every push to `main` is deployed automatically to GitHub Pages (`.github/workflows/deploy.yml`).
 
 <details>
-<summary><b>Estructura del proyecto y cómo añadir PBQs</b></summary>
+<summary><b>Project structure and adding PBQs</b></summary>
 
-| Archivo | Rol |
+| File | Role |
 |---|---|
-| `src/pbqRegistry.tsx` | Para cada PBQ: estado inicial, evaluador y simulador. |
-| `src/data/pbqsData.ts` | Catálogo de las PBQs 1–50 y sus datos iniciales. |
-| `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59, 61 y 65–75 (incluye columnas de respuesta escrita, como el número de puerto). |
-| `src/data/linuxPermissionsPbq.ts` | PBQ 60: permisos Linux. |
-| `src/data/reviewPbqs.ts` | PBQs 78–91: repaso de los pares de conceptos que más se confunden en los exámenes de práctica (cada fila marca la trampa). |
-| `src/data/firewallPbq77.ts` | PBQ 77: reglas de firewall corregidas por requisito con el simulador de paquetes. |
-| `src/data/terminalPbqs.ts` | PBQs 62–64 y 76: escenarios de terminal Linux y su corrección por estado del servidor. |
-| `src/terminal/engine.ts` | Intérprete de comandos simulado (sistema de archivos, procesos, red, firewall, cron, servicios). |
-| `src/data/sy0701Objectives.ts` | Objetivos y pesos oficiales del SY0-701. |
-| `src/data/studyGuide.ts` | Guía de estudio: conceptos enlazados a cada criterio corregido. |
-| `src/data/trapCards.ts` · `src/utils/trapProgress.ts` | Tarjetas del repaso de trampas y su repetición espaciada (guardada en el navegador). |
-| `src/utils/evaluator.ts` | Evaluadores con crédito parcial de las PBQs 1–50. |
-| `src/i18n/` | Idioma: selector, traductor de la página y diccionario `en.json` (español → inglés). |
+| `src/pbqRegistry.tsx` | For every PBQ: initial state, evaluator and simulator. |
+| `src/data/pbqsData.ts` | Catalog of PBQs 1–50 and their initial data. |
+| `src/data/matrixPbqs.ts` | Classification PBQs 51–59, 61, 65–75 and 92 (including typed-answer columns such as port numbers). |
+| `src/data/reviewPbqs.ts` | PBQs 78–91: the concept pairs most often confused in practice exams, each row naming the trap. |
+| `src/data/linuxPermissionsPbq.ts` | PBQ 60: Linux permissions. |
+| `src/data/firewallPbq77.ts` | PBQ 77: firewall rules graded per requirement with the packet simulator. |
+| `src/data/terminalPbqs.ts` | PBQs 62–64 and 76: Linux terminal scenarios graded by server state. |
+| `src/terminal/engine.ts` | Simulated shell (file system, processes, network, firewall, cron, services). |
+| `src/data/difficulty.ts` | Difficulty levels and the list of *Extra* PBQs outside the objectives. |
+| `src/data/sy0701Objectives.ts` | Official SY0-701 objectives and domain weights. |
+| `src/data/studyGuide.ts` | Study guide: concepts linked to every graded criterion. |
+| `src/data/trapCards.ts` · `src/utils/trapProgress.ts` | Trap review cards and their spaced repetition (stored in the browser). |
+| `src/utils/evaluator.ts` | Partial-credit evaluators for PBQs 1–50. |
+| `src/i18n/` | Language switch, page translator and the `en.json` dictionary (Spanish → English). |
 
-**Añadir una PBQ de clasificación:** agrega una entrada a `MATRIX_PBQS` en `src/data/matrixPbqs.ts` (filas, columnas con opciones, respuesta correcta y explicación por fila). Se registra, se corrige, se muestra y genera su guía de estudio automáticamente. Si cambias la forma del estado de una PBQ existente, incrementa `STORAGE_VERSION` en `src/utils/storage.ts`.
+**Adding a classification PBQ:** add an entry to `MATRIX_PBQS` in `src/data/matrixPbqs.ts` (rows, columns with options, correct answer and per-row explanation). It is registered, graded, rendered and gets its study guide automatically. If you change the shape of an existing PBQ's state, bump `STORAGE_VERSION` in `src/utils/storage.ts`.
 
-**Traducción al inglés:** el contenido se escribe en español y el inglés vive en `src/i18n/en.json`. Después de agregar o cambiar textos, ejecuta `npm run i18n:check`: lista las cadenas sin traducir. Para traducirlas en bloque, `node scripts/i18n.mjs export faltantes.tsv` genera un archivo `id<TAB>texto`; escribe las traducciones como `id|texto en inglés` (o `id|=` si ya está en inglés) y aplícalas con `node scripts/i18n.mjs merge faltantes.tsv traducciones.tsv`.
+**English translation:** content is authored in Spanish and the English text lives in `src/i18n/en.json`. After adding or changing text, run `npm run i18n:check` to list untranslated strings. To translate them in bulk, `node scripts/i18n.mjs export missing.tsv` writes an `id<TAB>text` file; write the translations as `id|English text` (or `id|=` when the text is already English) and apply them with `node scripts/i18n.mjs merge missing.tsv translations.tsv`.
 
 </details>
 
-## Contribuir
+## Contributing
 
-¿Encontraste un error técnico, una respuesta discutible o quieres proponer una PBQ? Abre un *issue* o un *pull request*. Las correcciones de contenido con una fuente (objetivos oficiales, NIST, RFC) son especialmente bienvenidas.
+Found a technical error, a debatable answer, or want to propose a PBQ? Open an *issue* or a *pull request*. Content fixes backed by a source (official objectives, NIST, an RFC) are especially welcome.
 
-## Aviso
+## Disclaimer
 
-Proyecto independiente de estudio, **sin afiliación con CompTIA**. CompTIA y Security+ son marcas registradas de CompTIA, Inc. Las preguntas son originales y no provienen del examen real. Úsalo como práctica complementaria al material oficial.
+Independent study project, **not affiliated with, endorsed by or sponsored by CompTIA**. CompTIA and Security+ are registered trademarks of CompTIA, Inc. All questions are original and do not come from the real exam. Use it as a complement to official study material.
 
-<sub>Palabras clave: CompTIA Security+ SY0-701, PBQ, performance-based questions, simulador, examen de práctica, ciberseguridad, preguntas prácticas de Security+ en español, Security+ practice in English.</sub>
+<sub>Keywords: CompTIA Security+ SY0-701, PBQ, performance-based questions, simulator, practice exam, cybersecurity, Security+ practice questions in English and Spanish.</sub>
