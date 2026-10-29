@@ -4,6 +4,7 @@
  */
 import { MatrixOption, MatrixPbqConfig, PBQItem } from '../types/pbq';
 import { domainNameFor, formatObjective } from './sy0701Objectives';
+import { REVIEW_PBQS } from './reviewPbqs';
 
 const o = (value: string, label: string): MatrixOption => ({ value, label });
 
@@ -1767,4 +1768,4 @@ const PBQ75: MatrixPbqDefinition = {
   },
 };
 
-export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75];
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75, ...REVIEW_PBQS];

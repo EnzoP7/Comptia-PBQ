@@ -7,7 +7,7 @@
  */
 export type Difficulty = 'basic' | 'intermediate' | 'advanced';
 
-const BASIC = [16, 17, 19, 20, 21, 22, 28, 40, 41, 51, 52, 53, 54, 56, 57, 58, 59, 61, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75];
+const BASIC = [16, 17, 19, 20, 21, 22, 28, 40, 41, 51, 52, 53, 54, 56, 57, 58, 59, 61, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91];
 const ADVANCED = [42, 49, 50, 62, 63, 64];
 
 export function difficultyOf(pbqNumber: number): Difficulty {
