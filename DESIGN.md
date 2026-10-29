@@ -180,6 +180,9 @@ Modules use 16px corners, buttons 12px, controls and chips 8px. The section tab 
 ### Section Tab (signature component)
 A small red tab with white uppercase label (and an optional 14px icon) heads each module: Scenario, Requirements, the controls tray, the classification matrix console. It is the system's one recurring brand gesture.
 
+### Emblem (brand mark)
+An original mark: a brand-red ring open at the bottom on a white disc. The small version (`mark`) carries only "PBQ" and serves as favicon, touch icon and header mark; the full version adds "SY0-701", a "SIMULATOR" pill and "Exam practice" for the welcome screen and banner. Source: `src/components/Emblem.tsx`, with static copies in `public/icon.svg` and `public/emblem.svg`. It is deliberately not the CompTIA certification badge and never carries the CompTIA name or logo.
+
 ### Theme Switch
 Sun/moon icon button next to the language switch. The saved theme is applied before first paint by an inline script, and the browser `theme-color` follows it.
 

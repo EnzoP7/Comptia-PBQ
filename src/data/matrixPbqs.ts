@@ -1843,4 +1843,264 @@ const PBQ92: MatrixPbqDefinition = {
   },
 };
 
-export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75, PBQ92, ...REVIEW_PBQS];
+// ---------------------------------------------------------------------------
+// PBQ 93 — EAP and its variants (3.2, 4.1)
+// ---------------------------------------------------------------------------
+const EAP_METHODS = [
+  o('eap_tls', 'EAP-TLS'),
+  o('peap', 'PEAP'),
+  o('eap_ttls', 'EAP-TTLS'),
+  o('eap_fast', 'EAP-FAST'),
+];
+const EAP_CERTS = [
+  o('both', 'Certificado en el servidor y en cada cliente'),
+  o('server', 'Certificado solo en el servidor'),
+  o('pac', 'Ningún certificado obligatorio: usa un PAC'),
+];
+const EAP_FACTS = [
+  o('eap', 'EAP'),
+  o('eap_tls', 'EAP-TLS'),
+  o('peap', 'PEAP'),
+  o('eap_ttls', 'EAP-TTLS'),
+  o('eap_fast', 'EAP-FAST'),
+  o('radius', 'RADIUS'),
+  o('dot1x', '802.1X'),
+];
+
+const PBQ93: MatrixPbqDefinition = {
+  item: item(
+    93,
+    'wireless-security',
+    'Autenticación Inalámbrica',
+    'EAP y sus Variantes: EAP-TLS, PEAP, EAP-TTLS y EAP-FAST',
+    ['4.1', ['3.2']],
+    5,
+    'La empresa migra la red Wi-Fi y la red cableada a 802.1X con un servidor RADIUS. Cada sede tiene un requisito distinto de seguridad, de compatibilidad o de certificados. Elige el método EAP que corresponde a cada sede y qué certificados exige.',
+    ['Sección 1: el método EAP de cada sede y los certificados que exige.', 'Sección 2: identifica el componente o el método que describe cada frase.'],
+    'Cuenta los certificados: EAP-TLS = servidor Y cliente (mutuo, el más seguro). PEAP y EAP-TTLS = solo servidor, el usuario va dentro de un túnel TLS (PEAP es el de Microsoft con MSCHAPv2; TTLS admite métodos heredados como PAP o CHAP). EAP-FAST = Cisco, sin certificados obligatorios: usa un PAC (Protected Access Credential).'
+  ),
+  config: {
+    pbqId: 'pbq-93',
+    consoleTitle: 'Despliegue de 802.1X por Sede (Objetivo 4.1)',
+    instructions: 'Para cada sede elige el método EAP y los certificados que exige. En la sección 2 elige el componente o método que describe cada frase.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Sedes',
+        columns: [
+          { id: 'method', label: 'Método EAP', options: EAP_METHODS },
+          { id: 'certs', label: 'Certificados', options: EAP_CERTS },
+        ],
+        rows: [
+          {
+            id: 'e1',
+            prompt: 'Casa central: autenticación mutua con certificados, sin contraseñas que se puedan robar con phishing. Ya hay una PKI que emite certificados a cada portátil.',
+            answers: { method: 'eap_tls', certs: 'both' },
+            explanation: 'EAP-TLS autentica a ambos extremos con certificados: es el método más seguro y el que pide una PKI que emita un certificado por equipo.',
+          },
+          {
+            id: 'e2',
+            prompt: 'Sucursal con equipos Windows unidos al dominio: los usuarios entran con su usuario y contraseña del Active Directory; solo el servidor tiene certificado.',
+            answers: { method: 'peap', certs: 'server' },
+            explanation: 'PEAP crea un túnel TLS con el certificado del servidor y dentro autentica al usuario con MSCHAPv2 (usuario y contraseña del dominio). Es el más común en redes Windows.',
+          },
+          {
+            id: 'e3',
+            prompt: 'Laboratorio con un sistema heredado que solo sabe autenticar con PAP: hay que proteger esas credenciales dentro de un túnel cifrado.',
+            answers: { method: 'eap_ttls', certs: 'server' },
+            explanation: 'EAP-TTLS crea el túnel con el certificado del servidor y dentro admite métodos heredados (PAP, CHAP, MSCHAP), cosa que PEAP no hace.',
+          },
+          {
+            id: 'e4',
+            prompt: 'Almacén con equipos Cisco y sin infraestructura de certificados: se necesita un túnel seguro igual, y la reautenticación debe ser rápida al moverse entre puntos de acceso.',
+            answers: { method: 'eap_fast', certs: 'pac' },
+            explanation: 'EAP-FAST (Cisco) establece el túnel con un PAC (Protected Access Credential) en lugar de certificados, y está pensado para reautenticación rápida.',
+          },
+          {
+            id: 'e5',
+            prompt: 'Auditoría: el método debe impedir que un atacante con un punto de acceso falso (evil twin) consiga credenciales reutilizables, porque no existen contraseñas.',
+            answers: { method: 'eap_tls', certs: 'both' },
+            explanation: 'Sin contraseñas no hay nada que capturar: EAP-TLS solo usa certificados en ambos extremos. Con PEAP, un usuario que acepta un certificado falso puede entregar su contraseña.',
+          },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Conceptos',
+        columns: [{ id: 'fact', label: 'Componente o método', options: EAP_FACTS }],
+        rows: [
+          { id: 'f1', prompt: 'Marco de autenticación que define cómo se transportan los distintos métodos; no es un método por sí solo.', answers: { fact: 'eap' }, explanation: 'EAP (Extensible Authentication Protocol) es el marco; EAP-TLS, PEAP, EAP-TTLS y EAP-FAST son sus métodos.' },
+          { id: 'f2', prompt: 'Estándar de control de acceso por puerto que bloquea el puerto del switch o la asociación Wi-Fi hasta que el usuario se autentica.', answers: { fact: 'dot1x' }, explanation: '802.1X define el control de acceso por puerto con suplicante, autenticador (switch o AP) y servidor de autenticación.' },
+          { id: 'f3', prompt: 'Servidor AAA que recibe las solicitudes del punto de acceso y valida las credenciales del método EAP.', answers: { fact: 'radius' }, explanation: 'RADIUS es el servidor de autenticación de 802.1X (puertos UDP 1812/1813). Trampa: EAP es el marco, no el servidor.' },
+          { id: 'f4', prompt: 'Método desarrollado por Cisco que no exige certificados porque usa una credencial de acceso protegido.', answers: { fact: 'eap_fast' }, explanation: 'EAP-FAST usa un PAC en lugar de certificados.' },
+          { id: 'f5', prompt: 'Método que encapsula EAP dentro de un túnel TLS y que Microsoft usa con MSCHAPv2.', answers: { fact: 'peap' }, explanation: 'PEAP (Protected EAP) = túnel TLS + MSCHAPv2 en el interior.' },
+          { id: 'f6', prompt: 'Método que exige un certificado instalado en cada dispositivo cliente.', answers: { fact: 'eap_tls' }, explanation: 'Solo EAP-TLS exige certificado en el cliente; es su mayor fortaleza y su mayor costo de gestión.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 94 — Malware identification and remediation (2.4, 4.8)
+// ---------------------------------------------------------------------------
+const MALWARE_TYPES = [
+  o('virus', 'Virus'),
+  o('worm', 'Gusano (worm)'),
+  o('trojan', 'Troyano'),
+  o('rat', 'Troyano de acceso remoto (RAT)'),
+  o('ransomware', 'Ransomware'),
+  o('spyware', 'Spyware'),
+  o('keylogger', 'Keylogger'),
+  o('adware', 'Adware'),
+  o('bloatware', 'Bloatware'),
+  o('rootkit', 'Rootkit'),
+  o('logic_bomb', 'Bomba lógica'),
+  o('fileless', 'Malware sin archivos (fileless)'),
+  o('botnet', 'Bot / botnet'),
+  o('cryptojacking', 'Criptominero (cryptojacking)'),
+  o('backdoor', 'Puerta trasera (backdoor)'),
+];
+const REMEDIATIONS = [
+  o('reimage', 'Aislar el equipo y reinstalarlo desde una imagen limpia'),
+  o('restore_offline', 'Aislar los equipos y restaurar desde copias offline o inmutables'),
+  o('patch_segment', 'Segmentar la red y parchear la vulnerabilidad en todos los equipos'),
+  o('av_clean', 'Escanear con el antimalware actualizado y desinfectar los archivos'),
+  o('remove_app_creds', 'Quitar la aplicación y cambiar las contraseñas desde un equipo limpio'),
+  o('uninstall_baseline', 'Desinstalar el software innecesario y aplicar la línea base'),
+  o('remove_code_review', 'Eliminar el código programado y revisar los cambios del autor'),
+  o('kill_persistence', 'Detener el proceso, eliminar la persistencia y restringir PowerShell'),
+  o('block_c2', 'Bloquear el servidor de comando y control y limpiar los equipos'),
+  o('remove_account', 'Eliminar la cuenta oculta y revisar todos los accesos administrativos'),
+  o('remove_extension', 'Eliminar la extensión o el programa y restablecer el navegador'),
+];
+
+const PBQ94: MatrixPbqDefinition = {
+  item: item(
+    94,
+    'malware-triage',
+    'Análisis de Malware',
+    'Identificar el Tipo de Malware y Elegir la Remediación',
+    ['2.4', ['4.8']],
+    7,
+    'El equipo de respuesta a incidentes recibe catorce casos de la semana. Para cada uno, identifica el tipo de malware a partir de la evidencia y elige el método de remediación más adecuado.',
+    ['Identifica el tipo de malware de cada caso.', 'Elige la remediación que corresponde a ese malware.', 'Algunas opciones pueden no usarse o usarse más de una vez.'],
+    'Busca el rasgo que lo delata: se propaga solo = gusano; necesita que alguien ejecute un archivo = virus; parece legítimo = troyano; da control remoto = RAT; se oculta del propio SO = rootkit; espera una fecha o condición = bomba lógica; vive en memoria = fileless. Si el malware toca el kernel o el arranque, no se limpia: se reinstala. Si cifra datos, se restaura desde copias offline.'
+  ),
+  config: {
+    pbqId: 'pbq-94',
+    consoleTitle: 'Casos de Malware de la Semana (Objetivo 2.4)',
+    instructions: 'Lee la evidencia de cada caso, elige el tipo de malware y la remediación.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Casos',
+        columns: [
+          { id: 'type', label: 'Tipo de malware', options: MALWARE_TYPES },
+          { id: 'fix', label: 'Remediación', options: REMEDIATIONS },
+        ],
+        rows: [
+          {
+            id: 'm1',
+            prompt: 'Todos los archivos del servidor de archivos tienen la extensión .locked y aparece una nota que pide 2 BTC para recuperarlos.',
+            evidence: 'LEEME.txt · 48.312 archivos renombrados · vssadmin delete shadows /all',
+            answers: { type: 'ransomware', fix: 'restore_offline' },
+            explanation: 'Cifrar datos y pedir rescate es ransomware. Se aíslan los equipos y se restaura desde copias offline o inmutables, que el atacante no pudo cifrar; pagar no garantiza nada.',
+          },
+          {
+            id: 'm2',
+            prompt: 'En una hora, 200 equipos sin parche se infectaron entre sí por SMB sin que nadie abriera nada.',
+            evidence: 'tcp/445 desde cada host infectado hacia toda la subred',
+            answers: { type: 'worm', fix: 'patch_segment' },
+            explanation: 'Propagarse solo por la red, explotando una vulnerabilidad, es un gusano. Se contiene segmentando y se corta parcheando esa vulnerabilidad en todos los equipos.',
+          },
+          {
+            id: 'm3',
+            prompt: 'Un ejecutable adjunto en un correo infectó otros .exe de la carpeta compartida cada vez que un usuario los abrió.',
+            evidence: 'Hash de 14 ejecutables modificado · infección al ejecutarse',
+            answers: { type: 'virus', fix: 'av_clean' },
+            explanation: 'Necesita que el usuario ejecute el archivo y se adjunta a otros programas: virus. Lo resuelve un escaneo con el antimalware actualizado que desinfecta los archivos.',
+          },
+          {
+            id: 'm4',
+            prompt: 'Un "instalador gratuito" de un editor de PDF funciona bien, pero en segundo plano abrió una conexión saliente por la que el atacante controla el equipo y ve el escritorio.',
+            evidence: 'pdfeditor_setup.exe → svchost32.exe → 185.220.101.4:8443 (persistente)',
+            answers: { type: 'rat', fix: 'reimage' },
+            explanation: 'Un programa aparentemente legítimo que da control remoto es un RAT. Como el atacante tuvo control total, no se confía en una limpieza: se aísla y se reinstala desde imagen limpia.',
+          },
+          {
+            id: 'm5',
+            prompt: 'Las herramientas del propio sistema no muestran ningún proceso extraño, pero un análisis de memoria encuentra hooks en el kernel y un controlador sin firmar.',
+            evidence: 'SSDT hook detectado · driver no firmado cargado en el arranque',
+            answers: { type: 'rootkit', fix: 'reimage' },
+            explanation: 'Ocultarse del SO a nivel kernel es un rootkit. No se puede confiar en el sistema infectado para limpiarse: hay que reinstalar desde una imagen limpia.',
+          },
+          {
+            id: 'm6',
+            prompt: 'El día que despidieron a un administrador, un script programado por él borró la base de clientes.',
+            evidence: 'cron: 0 9 * * 1 /opt/scripts/check.sh · si el usuario jperez no existe → rm -rf /data',
+            answers: { type: 'logic_bomb', fix: 'remove_code_review' },
+            explanation: 'Código que espera una condición (que la cuenta deje de existir) es una bomba lógica. Se elimina y se revisa todo lo que ese autor programó, por si dejó otras.',
+          },
+          {
+            id: 'm7',
+            prompt: 'Varias cuentas bancarias de empleados fueron vaciadas; en sus equipos un componente registraba cada tecla escrita y la enviaba por correo.',
+            evidence: 'SetWindowsHookEx(WH_KEYBOARD_LL) · envío SMTP cada 10 minutos',
+            answers: { type: 'keylogger', fix: 'remove_app_creds' },
+            explanation: 'Registrar las pulsaciones es un keylogger. Se quita y, como las contraseñas ya se filtraron, se cambian todas desde un equipo limpio.',
+          },
+          {
+            id: 'm8',
+            prompt: 'Un portátil se calienta y va lento; la CPU está al 100 % con un proceso que se conecta a un pool de minería.',
+            evidence: 'xmrig.exe · stratum+tcp://pool.minexmr.com:4444',
+            answers: { type: 'cryptojacking', fix: 'block_c2' },
+            explanation: 'Usar los recursos del equipo para minar criptomonedas es cryptojacking. Se bloquea la conexión al pool y se limpia el equipo.',
+          },
+          {
+            id: 'm9',
+            prompt: 'No hay ningún archivo malicioso en disco: un comando de PowerShell codificado en base64 se ejecuta desde una suscripción WMI cada vez que arranca el equipo.',
+            evidence: 'powershell.exe -enc JABzAD0ATgBlAHcA… · WMI EventConsumer persistente',
+            answers: { type: 'fileless', fix: 'kill_persistence' },
+            explanation: 'Ejecutarse en memoria con herramientas legítimas es malware sin archivos. El antivirus no encuentra nada que borrar: se detiene el proceso, se elimina la persistencia (WMI, registro, tareas) y se restringe PowerShell.',
+          },
+          {
+            id: 'm10',
+            prompt: 'Cincuenta equipos internos consultan cada 60 segundos el mismo dominio y participan en un ataque de denegación de servicio contra un tercero.',
+            evidence: 'Beacon HTTP cada 60 s a update-check.example.biz · picos de tráfico UDP saliente',
+            answers: { type: 'botnet', fix: 'block_c2' },
+            explanation: 'Equipos controlados en conjunto desde un servidor de comando y control forman una botnet. Se bloquea el C2 para cortar las órdenes y se limpian los equipos.',
+          },
+          {
+            id: 'm11',
+            prompt: 'En los servidores aparece una cuenta de administrador que nadie creó y que permite entrar por SSH aunque cambien las contraseñas de los demás.',
+            evidence: 'Usuario "sysupdate" con UID 0 · clave pública añadida a authorized_keys',
+            answers: { type: 'backdoor', fix: 'remove_account' },
+            explanation: 'Un acceso oculto que evita la autenticación normal es una puerta trasera. Se elimina la cuenta y la clave y se revisan todos los accesos administrativos.',
+          },
+          {
+            id: 'm12',
+            prompt: 'Tras instalar una extensión de cupones, el navegador muestra ventanas emergentes de publicidad y cambió el buscador por defecto.',
+            evidence: 'Extensión "Super Cupones" · página de inicio y buscador modificados',
+            answers: { type: 'adware', fix: 'remove_extension' },
+            explanation: 'Mostrar publicidad no deseada es adware. Se elimina la extensión y se restablece el navegador.',
+          },
+          {
+            id: 'm13',
+            prompt: 'Los portátiles nuevos traen de fábrica una docena de programas de prueba que nadie usa y que amplían la superficie de ataque.',
+            answers: { type: 'bloatware', fix: 'uninstall_baseline' },
+            explanation: 'Software preinstalado e innecesario es bloatware. Se desinstala y se aplica la línea base segura de la empresa.',
+          },
+          {
+            id: 'm14',
+            prompt: 'Una aplicación de "linterna" para el móvil enviaba en segundo plano los contactos, la ubicación y el historial de navegación a un servidor externo.',
+            evidence: 'Permisos: contactos, ubicación, almacenamiento · tráfico a analytics-collect.example.net',
+            answers: { type: 'spyware', fix: 'remove_app_creds' },
+            explanation: 'Recolectar información del usuario sin su conocimiento es spyware. Se quita la aplicación y se cambian las contraseñas de las cuentas que pudieron quedar expuestas.',
+          },
+        ],
+      },
+    ],
+  },
+};
+
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75, PBQ92, PBQ93, PBQ94, ...REVIEW_PBQS];

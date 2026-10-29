@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Shield,
   Clock,
   Flag,
   BookOpen,
@@ -18,6 +17,7 @@ import {
 import { sound } from '../utils/audio';
 import { LanguageSwitch } from './LanguageSwitch';
 import { ThemeSwitch } from './ThemeSwitch';
+import { Emblem } from './Emblem';
 
 interface Props {
   mode: 'practice' | 'exam';
@@ -78,9 +78,7 @@ export const Header: React.FC<Props> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between gap-3 lg:gap-8">
         {/* Zone 1: Brand Wordmark */}
         <div className="flex items-center gap-2.5 whitespace-nowrap min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-on-accent shadow-md shadow-cyan-950">
-            <Shield className="w-5 h-5" />
-          </div>
+          <Emblem className="w-9 h-9 shrink-0 rounded-full ring-1 ring-slate-800" />
           <span className="text-base font-bold tracking-tight text-white font-sans">
             <span className="hidden sm:inline">Security+ </span><span>SY0-701</span><span className="hidden sm:inline"> PBQ Simulator</span>
           </span>

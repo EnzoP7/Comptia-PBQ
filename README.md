@@ -9,7 +9,7 @@ Interactive scenarios, criterion-by-criterion grading and timed mock exams that 
 
 <a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practice%20now-online-c8102e?style=for-the-badge" alt="Practice now" /></a>
 
-![PBQs](https://img.shields.io/badge/PBQs-92-1f2937?style=flat-square)
+![PBQs](https://img.shields.io/badge/PBQs-94-1f2937?style=flat-square)
 ![Domains](https://img.shields.io/badge/domains-5%2F5-1f2937?style=flat-square)
 ![Exam](https://img.shields.io/badge/exam-SY0--701-c8102e?style=flat-square)
 ![Languages](https://img.shields.io/badge/languages-English%20%7C%20Espa%C3%B1ol-1f2937?style=flat-square)
@@ -24,7 +24,7 @@ Interactive scenarios, criterion-by-criterion grading and timed mock exams that 
 
 **Performance-based questions (PBQs)** are the hands-on items of the Security+ exam. Instead of picking an answer, you **do** something: order firewall rules, place controls on a network diagram, read SIEM logs, assign permissions or match attacks to evidence. They usually come first, take the most time, and are where unprepared candidates lose the most points.
 
-This simulator contains **92 original PBQs** covering all five domains and all 28 SY0-701 objectives (every objective is the primary target of at least one PBQ), using the same mechanics you will meet on the exam.
+This simulator contains **94 original PBQs** covering all five domains and all 28 SY0-701 objectives (every objective is the primary target of at least one PBQ), using the same mechanics you will meet on the exam.
 
 <p align="center"><img src="docs/images/app-practice.png" alt="Practice view: firewall rule table" width="90%" /></p>
 
@@ -109,7 +109,7 @@ No accounts, no sign-up. Answers, notes, flags and attempt history are stored **
 </details>
 
 <details>
-<summary><b>Domain 2: Threats, Vulnerabilities, and Mitigations</b> — 22% of the exam · 16 PBQs</summary>
+<summary><b>Domain 2: Threats, Vulnerabilities, and Mitigations</b> — 22% of the exam · 17 PBQs</summary>
 
 | # | PBQ | Objective |
 |---|---|---|
@@ -129,6 +129,7 @@ No accounts, no sign-up. Answers, notes, flags and attempt history are stored **
 | 80 | Threat Vectors and Vulnerability Types | 2.2 |
 | 81 | Indicators of Malicious Activity: Telling Similar Attacks Apart | 2.4 |
 | 92 | Log Indicators and Remaining SY0-701 Topics | 2.4 |
+| 94 | Identify the Malware Type and Choose the Remediation | 2.4 |
 
 </details>
 
@@ -154,7 +155,7 @@ No accounts, no sign-up. Answers, notes, flags and attempt history are stored **
 </details>
 
 <details>
-<summary><b>Domain 4: Security Operations</b> — 28% of the exam · 39 PBQs</summary>
+<summary><b>Domain 4: Security Operations</b> — 28% of the exam · 40 PBQs</summary>
 
 | # | PBQ | Objective |
 |---|---|---|
@@ -197,6 +198,7 @@ No accounts, no sign-up. Answers, notes, flags and attempt history are stored **
 | 86 | Automation, Orchestration and Change Management | 4.7 |
 | 87 | Access Models, Authentication and Mobile Deployment Models | 4.6 |
 | 88 | Incident Response, Forensics, Data Sources and Monitoring | 4.8 |
+| 93 | EAP and Its Variants: EAP-TLS, PEAP, EAP-TTLS and EAP-FAST | 4.1 |
 
 </details>
 
@@ -220,6 +222,7 @@ No accounts, no sign-up. Answers, notes, flags and attempt history are stored **
 | 91 | Vendors, Audits, Roles and Awareness | 5.3 |
 
 </details>
+
 ## Keyboard shortcuts
 
 | Shortcut | Action |
@@ -268,7 +271,7 @@ Every push to `main` is deployed automatically to GitHub Pages (`.github/workflo
 |---|---|
 | `src/pbqRegistry.tsx` | For every PBQ: initial state, evaluator and simulator. |
 | `src/data/pbqsData.ts` | Catalog of PBQs 1–50 and their initial data. |
-| `src/data/matrixPbqs.ts` | Classification PBQs 51–59, 61, 65–75 and 92 (including typed-answer columns such as port numbers). |
+| `src/data/matrixPbqs.ts` | Classification PBQs 51–59, 61, 65–75 and 92–94 (including typed-answer columns such as port numbers). |
 | `src/data/reviewPbqs.ts` | PBQs 78–91: the concept pairs most often confused in practice exams, each row naming the trap. |
 | `src/data/linuxPermissionsPbq.ts` | PBQ 60: Linux permissions. |
 | `src/data/firewallPbq77.ts` | PBQ 77: firewall rules graded per requirement with the packet simulator. |

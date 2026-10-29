@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Security+ SY0-701 PBQ Simulator">
+  <circle cx="300" cy="300" r="290" fill="#ffffff"/>
+  <path d="M 170 525.167 A 260 260 0 1 1 430 525.167" fill="none" stroke="#c8102e" stroke-width="44"/>
+  <g font-family="'Source Sans 3', 'Segoe UI', sans-serif" text-anchor="middle">
+    <text x="300" y="200" font-weight="700" font-size="56" fill="#c8102e" letter-spacing="2">SY0-701</text>
+    <text x="300" y="338" font-weight="800" font-size="150" fill="#101317" letter-spacing="-4">PBQ</text>
+    <rect x="160" y="370" width="280" height="56" rx="28" fill="none" stroke="#5f6670" stroke-width="5"/>
+    <text x="300" y="410" font-weight="700" font-size="32" fill="#454c56" letter-spacing="3">SIMULATOR</text>
+    <text x="300" y="474" font-weight="600" font-size="34" fill="#5f6670">Exam practice</text>
+  </g>
+</svg>
