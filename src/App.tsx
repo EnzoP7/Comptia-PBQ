@@ -15,6 +15,7 @@ import { loadProgress, saveProgress } from './utils/storage';
 import { AttemptHistory, bestScore, buildExamSet } from './utils/examBuilder';
 import { HintsContext } from './context/HintsContext';
 import { t } from './i18n/language';
+import { DIFFICULTY_INFO, difficultyOf } from './data/difficulty';
 
 import { Header } from './components/Header';
 import { PBQNav } from './components/PBQNav';
@@ -214,8 +215,9 @@ export default function App() {
     if (examInProgress && examSecondsLeft === 0) finishExam(true);
   }, [examInProgress, examSecondsLeft]);
 
-  const startExam = (count: number, minutes: number, prioritizeWeak: boolean) => {
-    const ids = buildExamSet(ALL_PBQS, count, history, prioritizeWeak);
+  const startExam = (count: number, minutes: number, prioritizeWeak: boolean, realisticOnly: boolean) => {
+    const pool = realisticOnly ? ALL_PBQS.filter((p) => difficultyOf(p.number) !== 'advanced') : ALL_PBQS;
+    const ids = buildExamSet(pool, count, history, prioritizeWeak);
     setAnswers((prev) => ({ ...prev, ...initialAnswersFor(ids) }));
     setEvaluations((prev) => Object.fromEntries(Object.entries(prev).filter(([id]) => !ids.includes(id))));
     setFlaggedIds((prev) => new Set([...prev].filter((id) => !ids.includes(id))));
@@ -397,6 +399,12 @@ export default function App() {
               </div>
 
               <div className="flex flex-wrap items-center gap-2 text-xs">
+                <span
+                  className={`font-semibold px-2 py-1 rounded-md border ${DIFFICULTY_INFO[difficultyOf(currentPBQ.number)].className}`}
+                  title={DIFFICULTY_INFO[difficultyOf(currentPBQ.number)].hint}
+                >
+                  {DIFFICULTY_INFO[difficultyOf(currentPBQ.number)].label}
+                </span>
                 <span className="text-slate-400 font-mono bg-slate-800 px-2 py-1 rounded-md">{currentPBQ.estimatedMinutes} min aprox</span>
                 {!examInProgress && attemptCount > 0 && (
                   <span className="font-mono text-slate-400 bg-slate-950 border border-slate-800 px-2 py-1 rounded-md">

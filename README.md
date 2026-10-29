@@ -10,7 +10,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 <a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practicar%20ahora-online-06b6d4?style=for-the-badge" alt="Practicar ahora" /></a>
 
-![PBQs](https://img.shields.io/badge/PBQs-67-0891b2?style=flat-square)
+![PBQs](https://img.shields.io/badge/PBQs-71-0891b2?style=flat-square)
 ![Dominios](https://img.shields.io/badge/dominios-5%2F5-10b981?style=flat-square)
 ![Examen](https://img.shields.io/badge/examen-SY0--701-6366f1?style=flat-square)
 ![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol%20%7C%20English-f59e0b?style=flat-square)
@@ -24,7 +24,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 Las **PBQs (Performance-Based Questions)** son las preguntas prácticas del examen Security+: en lugar de elegir una respuesta, tienes que **hacer** algo. Por ejemplo: ordenar las reglas de un firewall, ubicar controles en un diagrama de red, analizar logs de un SIEM, asignar permisos o clasificar ataques. Suelen aparecer al principio del examen, consumen mucho tiempo y son donde más puntos se pierden por falta de práctica.
 
-Este simulador reúne **67 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
+Este simulador reúne **71 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
 
 <p align="center"><img src="docs/images/app-practice.png" alt="Vista de práctica: tabla de reglas de firewall" width="90%" /></p>
 
@@ -47,6 +47,9 @@ Al validar ves, **criterio por criterio**:
 - un bloque **"Qué repasar"** con tus errores, y una **guía de estudio** de cada PBQ.
 
 <p align="center"><img src="docs/images/app-review.png" alt="Corrección criterio por criterio con conceptos y trampas de examen" width="90%" /></p>
+
+### Dificultad como el examen real
+Cada PBQ indica su nivel. **Básica** e **Intermedia** se parecen a lo que reportan quienes ya rindieron el SY0-701: entre 2 y 5 PBQs cortas (reglas de firewall, identificar ataques o equipos comprometidos en logs, emparejar conceptos, configurar una VPN o un certificado). **Avanzada** va más allá del examen (terminal libre, muchas zonas o servicios a la vez) y sirve para reforzar. Puedes filtrar por nivel, y el simulacro usa por defecto solo PBQs básicas e intermedias.
 
 ### 3. Pistas apagadas por defecto
 En el examen real no hay ayudas, así que aquí tampoco, salvo que las actives. El botón **Pistas** enciende medidores de cumplimiento, explicaciones de cada opción, el simulador de tráfico del firewall y un tip táctico. Úsalas para aprender, no para medirte.
@@ -79,7 +82,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 ## Catálogo de PBQs por dominio
 
 <details>
-<summary><b>Dominio 1: Conceptos Generales de Seguridad</b> — 12% del examen · 8 PBQs</summary>
+<summary><b>Dominio 1: Conceptos Generales de Seguridad</b> — 12% del examen · 9 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -91,6 +94,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 51 | Clasificación de Controles de Seguridad: Categoría × Tipo | 1.1 |
 | 52 | Proceso de Gestión de Cambios: Elementos de Negocio e Implicaciones Técnicas | 1.3 |
 | 61 | Hashing, Salting, Key Stretching, Firmas Digitales y Protección de Claves | 1.4 |
+| 71 | Certificados Digitales y PKI: Wildcard, SAN, CSR y Revocación | 1.4 |
 
 </details>
 
@@ -116,7 +120,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 </details>
 
 <details>
-<summary><b>Dominio 3: Arquitectura de Seguridad</b> — 18% del examen · 9 PBQs</summary>
+<summary><b>Dominio 3: Arquitectura de Seguridad</b> — 18% del examen · 10 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -129,11 +133,12 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 41 | Matriz de Responsabilidad Compartida en la Nube (IaaS vs PaaS vs SaaS) | 3.1 |
 | 44 | Técnicas de Ofuscación de Datos, PETs y Niveles de Reversibilidad | 3.3 |
 | 49 | Filtrado de Tráfico Multi-Interfaz: WAN, DMZ Pública, LAN Interna y Base de Datos PCI-DSS | 3.2 |
+| 68 | Acceso Remoto por VPN: Túnel Completo, Túnel Dividido y Sitio a Sitio | 3.2 |
 
 </details>
 
 <details>
-<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 30 PBQs</summary>
+<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 32 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -167,6 +172,8 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 64 | Terminal Linux: Análisis de Logs Web con Tuberías y Bloqueo de Atacantes | 4.9 |
 | 65 | Ciclo de Vida de Activos: Adquisición, Inventario, Baja Segura y Retención | 4.2 |
 | 66 | Herramientas de Monitoreo de Seguridad y Actividades del SOC | 4.4 |
+| 69 | Identificar Equipos Comprometidos a partir de Logs de Red | 4.9 |
+| 70 | Protocolos Seguros y sus Puertos | 4.5 |
 
 </details>
 
@@ -231,7 +238,7 @@ Cada push a `main` se publica automáticamente en GitHub Pages (`.github/workflo
 |---|---|
 | `src/pbqRegistry.tsx` | Para cada PBQ: estado inicial, evaluador y simulador. |
 | `src/data/pbqsData.ts` | Catálogo de las PBQs 1–50 y sus datos iniciales. |
-| `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59, 61 y 65–67. |
+| `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59, 61 y 65–71. |
 | `src/data/linuxPermissionsPbq.ts` | PBQ 60: permisos Linux. |
 | `src/data/terminalPbqs.ts` | PBQs 62–64: escenarios de terminal Linux y su corrección por estado del servidor. |
 | `src/terminal/engine.ts` | Intérprete de comandos simulado (sistema de archivos, procesos, red, firewall, cron, servicios). |

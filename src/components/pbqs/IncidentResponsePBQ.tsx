@@ -19,12 +19,12 @@ interface Props {
 }
 
 export const NIST_PHASES = [
-  { id: '1_preparation', label: '1. Preparación (Preparation)', color: 'border-blue-700 bg-blue-950/40 text-blue-300' },
-  { id: '2_detection', label: '2. Detección y Análisis (Detection & Analysis)', color: 'border-cyan-700 bg-cyan-950/40 text-cyan-300' },
-  { id: '3_containment', label: '3. Contención (Containment)', color: 'border-amber-700 bg-amber-950/40 text-amber-300' },
-  { id: '4_eradication', label: '4. Erradicación (Eradication)', color: 'border-rose-700 bg-rose-950/40 text-rose-300' },
-  { id: '5_recovery', label: '5. Recuperación (Recovery)', color: 'border-emerald-700 bg-emerald-950/40 text-emerald-300' },
-  { id: '6_lessons_learned', label: '6. Lecciones Aprendidas (Lessons Learned)', color: 'border-purple-700 bg-purple-950/40 text-purple-300' },
+  { id: '1_preparation', short: '1. Preparación', label: '1. Preparación (Preparation)', color: 'border-blue-700 bg-blue-950/40 text-blue-300' },
+  { id: '2_detection', short: '2. Detección y análisis', label: '2. Detección y Análisis (Detection & Analysis)', color: 'border-cyan-700 bg-cyan-950/40 text-cyan-300' },
+  { id: '3_containment', short: '3. Contención', label: '3. Contención (Containment)', color: 'border-amber-700 bg-amber-950/40 text-amber-300' },
+  { id: '4_eradication', short: '4. Erradicación', label: '4. Erradicación (Eradication)', color: 'border-rose-700 bg-rose-950/40 text-rose-300' },
+  { id: '5_recovery', short: '5. Recuperación', label: '5. Recuperación (Recovery)', color: 'border-emerald-700 bg-emerald-950/40 text-emerald-300' },
+  { id: '6_lessons_learned', short: '6. Lecciones aprendidas', label: '6. Lecciones Aprendidas (Lessons Learned)', color: 'border-purple-700 bg-purple-950/40 text-purple-300' },
 ];
 
 export const IncidentResponsePBQ: React.FC<Props> = ({
@@ -148,7 +148,7 @@ export const IncidentResponsePBQ: React.FC<Props> = ({
                             : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                         }`}
                       >
-                        {phase.label.split('(')[0].trim()}
+                        {phase.short}
                       </button>
                     );
                   })}

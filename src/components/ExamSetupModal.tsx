@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Timer, X, Play, Target } from 'lucide-react';
+import { Timer, X, Play, Target, Gauge } from 'lucide-react';
 import { sound } from '../utils/audio';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onStart: (count: number, minutes: number, prioritizeWeak: boolean) => void;
+  onStart: (count: number, minutes: number, prioritizeWeak: boolean, realisticOnly: boolean) => void;
   totalAvailable: number;
 }
 
@@ -19,6 +19,7 @@ export const ExamSetupModal: React.FC<Props> = ({ isOpen, onClose, onStart, tota
   const [count, setCount] = useState(5);
   const [minutesPerPbq, setMinutesPerPbq] = useState(6);
   const [prioritizeWeak, setPrioritizeWeak] = useState(true);
+  const [realisticOnly, setRealisticOnly] = useState(true);
 
   if (!isOpen) return null;
   const minutes = count * minutesPerPbq;
@@ -90,6 +91,21 @@ export const ExamSetupModal: React.FC<Props> = ({ isOpen, onClose, onStart, tota
               <span className="text-slate-400 block">Elige primero PBQs que nunca hiciste o en las que sacaste menos nota.</span>
             </span>
           </label>
+
+          <label className="flex items-start gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={realisticOnly}
+              onChange={(e) => setRealisticOnly(e.target.checked)}
+              className="mt-0.5 accent-cyan-500"
+            />
+            <span className="text-xs space-y-0.5">
+              <span className="font-semibold text-slate-200 flex items-center gap-1.5">
+                <Gauge className="w-3.5 h-3.5 text-emerald-400" /> Dificultad como el examen real
+              </span>
+              <span className="text-slate-400 block">Solo PBQs básicas e intermedias. Desactívalo para incluir las avanzadas, más exigentes que el examen.</span>
+            </span>
+          </label>
         </div>
 
         <div className="px-6 py-4 bg-slate-950 border-t border-slate-800 flex justify-end gap-2">
@@ -99,7 +115,7 @@ export const ExamSetupModal: React.FC<Props> = ({ isOpen, onClose, onStart, tota
           <button
             onClick={() => {
               sound.playSuccess();
-              onStart(count, minutes, prioritizeWeak);
+              onStart(count, minutes, prioritizeWeak, realisticOnly);
             }}
             className="px-5 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl flex items-center gap-1.5"
           >

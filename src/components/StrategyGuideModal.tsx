@@ -73,6 +73,21 @@ export const StrategyGuideModal: React.FC<Props> = ({
             </div>
           )}
 
+          {/* What candidates report after taking SY0-701 */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm font-bold text-white">
+              <FileSearch className="w-4 h-4 text-emerald-400" />
+              <span>Qué cuentan quienes ya rindieron el SY0-701</span>
+            </div>
+            <ul className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1.5 list-disc pl-6">
+              <li>Aparecen entre 2 y 5 PBQs, casi siempre al principio del examen.</li>
+              <li>Los temas más mencionados: reglas de firewall, identificar el ataque o los equipos comprometidos a partir de logs, emparejar ataques con su mitigación, ubicar controles en un diagrama y configurar una VPN o un certificado.</li>
+              <li>Muchas son más cortas y sencillas de lo esperado (emparejar o arrastrar pocos elementos). Lo que más cuesta es la interfaz poco clara y el tiempo, no la teoría.</li>
+              <li>La estrategia más repetida: marcar las PBQs, responder primero las preguntas de opción múltiple y volver al final con 20–30 minutos.</li>
+              <li>En este simulador, las PBQs <strong>Básicas</strong> e <strong>Intermedias</strong> se parecen a las del examen; las <strong>Avanzadas</strong> son más exigentes y sirven para reforzar.</li>
+            </ul>
+          </div>
+
           {/* Core Pillar 1: Time Management */}
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm font-bold text-white">

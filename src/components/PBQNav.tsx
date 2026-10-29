@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { DIFFICULTY_INFO, difficultyOf } from '../data/difficulty';
 import { PBQItem, EvaluationResult } from '../types/pbq';
 import {
   Network,
@@ -161,6 +162,11 @@ export const PBQNav: React.FC<Props> = ({
           { id: 'failed', label: 'Falladas', count: pbqs.filter((p) => evaluations[p.id] && !evaluations[p.id].passed).length },
         ]),
     { id: 'flagged', label: 'Marcadas', count: pbqs.filter((p) => flaggedIds.has(p.id)).length },
+    ...(['basic', 'intermediate', 'advanced'] as const).map((d) => ({
+      id: d,
+      label: DIFFICULTY_INFO[d].label,
+      count: pbqs.filter((p) => difficultyOf(p.number) === d).length,
+    })),
   ];
 
   const matchesFilter = (p: PBQItem) => {
@@ -168,6 +174,7 @@ export const PBQNav: React.FC<Props> = ({
     if (categoryFilter === 'pending') return !evaluations[p.id];
     if (categoryFilter === 'failed') return !!evaluations[p.id] && !evaluations[p.id].passed;
     if (categoryFilter === 'flagged') return flaggedIds.has(p.id);
+    if (categoryFilter in DIFFICULTY_INFO) return difficultyOf(p.number) === categoryFilter;
     return `d${getDomainId(p.domain)}` === categoryFilter;
   };
 

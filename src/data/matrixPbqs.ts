@@ -1331,4 +1331,212 @@ const PBQ67: MatrixPbqDefinition = {
   },
 };
 
-export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67];
+// ---------------------------------------------------------------------------
+// PBQ 68 — Remote access VPN: full vs split tunnel (3.2). Reported by candidates on SY0-701.
+// ---------------------------------------------------------------------------
+const VPN_OPTIONS = [
+  o('full', 'Túnel completo (full tunnel)'),
+  o('split', 'Túnel dividido (split tunnel)'),
+  o('site', 'VPN IPsec sitio a sitio'),
+  o('clientless', 'VPN TLS sin cliente (clientless / portal web)'),
+  o('always_on', 'VPN siempre activa (always-on)'),
+];
+
+const PBQ68: MatrixPbqDefinition = {
+  item: item(
+    68,
+    'cryptography-vpn',
+    'VPN y Acceso Remoto',
+    'Acceso Remoto por VPN: Túnel Completo, Túnel Dividido y Sitio a Sitio',
+    ['3.2', ['4.5']],
+    3,
+    'La empresa revisa cómo se conectan sus empleados remotos y sucursales. Para cada necesidad, elige la configuración de VPN adecuada.',
+    ['Selecciona el tipo de VPN o de túnel que cumple cada requisito.'],
+    'Túnel completo = TODO el tráfico del usuario pasa por la VPN y por los controles de la empresa (más seguro, más carga). Túnel dividido = solo el tráfico corporativo va por la VPN; Internet sale directo (más rápido, menos visibilidad). Sitio a sitio = une dos redes, no usuarios.'
+  ),
+  config: {
+    pbqId: 'pbq-68',
+    consoleTitle: 'Configuración de VPN Corporativa (Objetivo 3.2)',
+    instructions: 'Elige la configuración que corresponde a cada caso. Algunas opciones pueden repetirse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Requisitos de acceso',
+        columns: [{ id: 'vpn', label: 'Configuración', options: VPN_OPTIONS }],
+        rows: [
+          { id: 'v1', prompt: 'Toda la navegación de los portátiles remotos, incluida la de Internet, debe pasar por el proxy y el DLP de la empresa.', answers: { vpn: 'full' }, explanation: 'Si todo el tráfico debe inspeccionarse, se enruta todo por la VPN: túnel completo.' },
+          { id: 'v2', prompt: 'El enlace de la VPN está saturado por videos; solo el tráfico hacia las aplicaciones internas debe ir por el túnel.', answers: { vpn: 'split' }, explanation: 'Mandar por la VPN solo lo corporativo y dejar Internet directo es túnel dividido.' },
+          { id: 'v3', prompt: 'La nueva sucursal debe quedar conectada permanentemente con la red de la oficina central a través de Internet.', answers: { vpn: 'site' }, explanation: 'Conectar dos redes completas entre sí, sin intervención del usuario, es una VPN IPsec sitio a sitio.' },
+          { id: 'v4', prompt: 'Un proveedor externo debe usar una aplicación interna desde su navegador sin instalar ningún software.', answers: { vpn: 'clientless' }, explanation: 'Acceso por navegador a través de un portal TLS, sin cliente instalado: VPN sin cliente.' },
+          { id: 'v5', prompt: 'Los portátiles deben conectarse a la VPN automáticamente al encenderse, antes de que el usuario inicie sesión.', answers: { vpn: 'always_on' }, explanation: 'La conexión automática y permanente, sin que el usuario la active, es always-on VPN.' },
+          { id: 'v6', prompt: 'Un empleado se conecta desde la Wi-Fi de un aeropuerto y no debe quedar ningún tráfico expuesto en esa red.', answers: { vpn: 'full' }, explanation: 'En una red no confiable, el túnel completo protege todo el tráfico del equipo, no solo el corporativo.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 69 — Identifying compromised hosts from logs (4.9). Reported by candidates on SY0-701.
+// ---------------------------------------------------------------------------
+const HOST_STATUS = [o('compromised', 'Comprometido'), o('clean', 'Legítimo / sin compromiso')];
+const HOST_INDICATOR = [
+  o('beacon', 'Beaconing a un C2'),
+  o('exfil', 'Exfiltración de datos'),
+  o('lateral', 'Movimiento lateral'),
+  o('miner', 'Minería de criptomonedas'),
+  o('normal', 'Actividad normal'),
+];
+
+const PBQ69: MatrixPbqDefinition = {
+  item: item(
+    69,
+    'log-siem',
+    'Análisis de Logs e Identificación de Incidentes',
+    'Identificar Equipos Comprometidos a partir de Logs de Red',
+    ['4.9', ['2.4']],
+    4,
+    'El firewall y el proxy registraron la actividad de seis equipos durante la noche. Revisa la evidencia de cada uno e indica si está comprometido y qué indicador lo delata.',
+    ['Para cada equipo indica si está comprometido.', 'Selecciona el indicador que explica tu decisión.'],
+    'Busca patrones, no palabras sueltas: conexiones a intervalos exactos = beaconing; grandes volúmenes salientes fuera de horario = exfiltración; un equipo de usuario que intenta conectarse a muchos equipos internos por SMB/RDP = movimiento lateral. Que un servidor reciba muchas conexiones es normal si es su función.'
+  ),
+  config: {
+    pbqId: 'pbq-69',
+    consoleTitle: 'Revisión de Logs del Firewall y el Proxy (Objetivo 4.9)',
+    instructions: 'Lee la evidencia de cada equipo y completa las dos columnas.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Equipos analizados',
+        columns: [
+          { id: 'status', label: 'Estado', options: HOST_STATUS },
+          { id: 'indicator', label: 'Indicador', options: HOST_INDICATOR },
+        ],
+        rows: [
+          { id: 'h1', prompt: 'PC-CONTA-07 (estación de un usuario)', evidence: '02:00:00 → 203.0.113.80:443 · 02:05:00 → 203.0.113.80:443 · 02:10:00 → 203.0.113.80:443 (cada 5 min exactos, 512 bytes)', answers: { status: 'compromised', indicator: 'beacon' }, explanation: 'Conexiones del mismo tamaño a intervalos exactos hacia una IP externa, de madrugada: beaconing de un malware hacia su C2.' },
+          { id: 'h2', prompt: 'SRV-WEB-01 (servidor web público)', evidence: '09:00–18:00 · 14.200 conexiones entrantes TCP 443 desde múltiples IP · respuestas 200', answers: { status: 'clean', indicator: 'normal' }, explanation: 'Un servidor web recibe muchas conexiones HTTPS: es su función. Volumen alto no es sinónimo de compromiso.' },
+          { id: 'h3', prompt: 'PC-RRHH-02 (estación de un usuario)', evidence: '03:12 → 198.51.100.9:443 · 4,8 GB enviados · 3 MB recibidos', answers: { status: 'compromised', indicator: 'exfil' }, explanation: 'Gigabytes salientes fuera de horario hacia un destino desconocido, con casi nada recibido: exfiltración.' },
+          { id: 'h4', prompt: 'PC-VENTAS-11 (estación de un usuario)', evidence: '10:41 → 10.0.0.5:445 · 10.0.0.6:445 · 10.0.0.7:445 … 10.0.0.250:445 (SYN a 246 equipos en 40 s)', answers: { status: 'compromised', indicator: 'lateral' }, explanation: 'Una estación que barre la subred por SMB intenta propagarse a otros equipos: movimiento lateral.' },
+          { id: 'h5', prompt: 'SRV-APP-04 (servidor de aplicaciones)', evidence: 'CPU 99 % sostenido · conexión permanente → pool.minexmr.example:3333', answers: { status: 'compromised', indicator: 'miner' }, explanation: 'CPU al máximo y conexión al puerto 3333 de un pool: cryptojacking.' },
+          { id: 'h6', prompt: 'PC-IT-01 (estación del administrador)', evidence: 'Lunes 09:30 → 10.0.0.20:22 (SSH) · sesión de 25 min · ticket de cambio CHG-2291 aprobado', answers: { status: 'clean', indicator: 'normal' }, explanation: 'Un administrador conectándose por SSH en horario laboral y con un cambio aprobado es actividad legítima.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 70 — Secure protocols and ports (4.5). The most common matching PBQ topic.
+// ---------------------------------------------------------------------------
+const SECURE_PROTOCOLS = [
+  o('ssh', 'SSH'),
+  o('sftp', 'SFTP'),
+  o('https', 'HTTPS'),
+  o('ldaps', 'LDAPS'),
+  o('smtps', 'SMTPS / Submission'),
+  o('imaps', 'IMAPS'),
+  o('snmpv3', 'SNMPv3'),
+  o('dot', 'DNS over TLS'),
+];
+const SECURE_PORTS = [
+  o('22', '22'),
+  o('443', '443'),
+  o('587', '587'),
+  o('636', '636'),
+  o('853', '853'),
+  o('993', '993'),
+  o('161', '161'),
+];
+
+const PBQ70: MatrixPbqDefinition = {
+  item: item(
+    70,
+    'port-security',
+    'Puertos y Protocolos Seguros',
+    'Protocolos Seguros y sus Puertos',
+    ['4.5', ['3.2']],
+    3,
+    'El equipo de redes reemplaza los protocolos en texto claro. Para cada necesidad elige el protocolo seguro y el puerto por defecto que debe permitirse en el firewall.',
+    ['Selecciona el protocolo seguro de cada necesidad.', 'Selecciona su puerto por defecto.'],
+    'Pares que conviene memorizar: Telnet 23 → SSH 22; FTP 21 → SFTP 22; HTTP 80 → HTTPS 443; LDAP 389 → LDAPS 636; SMTP 25 → submission 587; IMAP 143 → IMAPS 993; DNS 53 → DoT 853; SNMPv1/v2c → SNMPv3 (sigue en 161).'
+  ),
+  config: {
+    pbqId: 'pbq-70',
+    consoleTitle: 'Migración a Protocolos Seguros (Objetivo 4.5)',
+    instructions: 'Completa protocolo y puerto para cada necesidad.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Necesidades',
+        columns: [
+          { id: 'protocol', label: 'Protocolo', options: SECURE_PROTOCOLS },
+          { id: 'port', label: 'Puerto', options: SECURE_PORTS },
+        ],
+        rows: [
+          { id: 'p1', prompt: 'Administrar por consola los switches sin enviar la contraseña en claro (reemplaza a Telnet).', answers: { protocol: 'ssh', port: '22' }, explanation: 'SSH cifra la sesión de consola y usa el puerto 22.' },
+          { id: 'p2', prompt: 'Enviar los archivos de nómina al banco de forma cifrada (reemplaza a FTP).', answers: { protocol: 'sftp', port: '22' }, explanation: 'SFTP funciona sobre SSH, por eso comparte el puerto 22.' },
+          { id: 'p3', prompt: 'Que las aplicaciones consulten el Active Directory por un canal cifrado.', answers: { protocol: 'ldaps', port: '636' }, explanation: 'LDAP sobre TLS: LDAPS en el puerto 636.' },
+          { id: 'p4', prompt: 'Que los clientes de correo envíen mensajes al servidor con autenticación y cifrado.', answers: { protocol: 'smtps', port: '587' }, explanation: 'El envío de los clientes (submission) usa el puerto 587 con STARTTLS.' },
+          { id: 'p5', prompt: 'Que los usuarios lean su buzón desde el móvil por un canal cifrado.', answers: { protocol: 'imaps', port: '993' }, explanation: 'IMAP sobre TLS: IMAPS en el puerto 993.' },
+          { id: 'p6', prompt: 'Cifrar las consultas DNS de los equipos hacia el resolver.', answers: { protocol: 'dot', port: '853' }, explanation: 'DNS over TLS usa el puerto dedicado 853 (DoH usaría 443).' },
+          { id: 'p7', prompt: 'Monitorear los routers con autenticación y cifrado en lugar de community strings.', answers: { protocol: 'snmpv3', port: '161' }, explanation: 'SNMPv3 agrega autenticación y cifrado pero mantiene el puerto 161.' },
+          { id: 'p8', prompt: 'Publicar la intranet para que las contraseñas no viajen en claro (reemplaza a HTTP).', answers: { protocol: 'https', port: '443' }, explanation: 'HTTP sobre TLS: HTTPS en el puerto 443.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 71 — Certificates and PKI basics (1.4). Certificate PBQs are reported on SY0-701.
+// ---------------------------------------------------------------------------
+const PKI_TERMS = [
+  o('csr', 'CSR (solicitud de firma de certificado)'),
+  o('wildcard', 'Certificado wildcard'),
+  o('san', 'Certificado SAN (Subject Alternative Name)'),
+  o('self_signed', 'Certificado autofirmado'),
+  o('crl', 'CRL'),
+  o('ocsp', 'OCSP'),
+  o('root', 'CA raíz'),
+  o('intermediate', 'CA intermedia'),
+  o('escrow', 'Key escrow'),
+];
+
+const PBQ71: MatrixPbqDefinition = {
+  item: item(
+    71,
+    'crypto-concepts',
+    'Certificados y PKI',
+    'Certificados Digitales y PKI: Wildcard, SAN, CSR y Revocación',
+    ['1.4', []],
+    3,
+    'El administrador de la PKI recibe varios pedidos durante la semana. Identifica qué elemento de la PKI resuelve cada pedido.',
+    ['Selecciona el tipo de certificado, proceso o componente de PKI de cada caso.'],
+    'Wildcard = *.dominio.com (un nivel de subdominios del MISMO dominio). SAN = lista de nombres distintos en un solo certificado. CSR = lo que el servidor envía a la CA con su clave pública. CRL = lista publicada de revocados; OCSP = consulta en tiempo real de un certificado.'
+  ),
+  config: {
+    pbqId: 'pbq-71',
+    consoleTitle: 'Pedidos a la PKI Corporativa (Objetivo 1.4)',
+    instructions: 'Elige el elemento de PKI que corresponde a cada pedido. Algunas opciones pueden no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Pedidos',
+        columns: [{ id: 'term', label: 'Elemento', options: PKI_TERMS }],
+        rows: [
+          { id: 'k1', prompt: 'Un solo certificado debe servir para www.empresa.com, tienda.empresa.com y soporte.empresa.com, y para los subdominios que se creen el año próximo.', answers: { term: 'wildcard' }, explanation: '*.empresa.com cubre cualquier subdominio de primer nivel, incluidos los futuros.' },
+          { id: 'k2', prompt: 'Un solo certificado debe proteger empresa.com, empresa.net y empresa-pagos.com.', answers: { term: 'san' }, explanation: 'Dominios distintos en un mismo certificado se listan en la extensión SAN; un wildcard no sirve.' },
+          { id: 'k3', prompt: 'El servidor genera su par de claves y envía a la CA un archivo con su clave pública y sus datos para que se los firme.', answers: { term: 'csr' }, explanation: 'Ese archivo es la Certificate Signing Request (CSR). La clave privada nunca sale del servidor.' },
+          { id: 'k4', prompt: 'Un equipo de pruebas del laboratorio necesita HTTPS ya, sin costo y sin que lo usen clientes externos.', answers: { term: 'self_signed' }, explanation: 'Un certificado autofirmado sirve para uso interno o pruebas; los navegadores externos no confían en él.' },
+          { id: 'k5', prompt: 'Los navegadores deben poder consultar en tiempo real si el certificado de un sitio fue revocado.', answers: { term: 'ocsp' }, explanation: 'OCSP responde el estado de un certificado concreto en el momento.' },
+          { id: 'k6', prompt: 'La CA publica cada 24 horas un archivo con todos los números de serie revocados.', answers: { term: 'crl' }, explanation: 'La lista periódica de certificados revocados es la CRL.' },
+          { id: 'k7', prompt: 'La CA de máximo nivel de la jerarquía se guarda apagada en una caja fuerte y solo se enciende para firmar a otras CA.', answers: { term: 'root' }, explanation: 'La CA raíz es el ancla de confianza: se mantiene offline y solo firma a las CA intermedias.' },
+          { id: 'k9', prompt: 'La CA que está en línea, fue firmada por la raíz y emite a diario los certificados de los servidores.', answers: { term: 'intermediate' }, explanation: 'Las CA intermedias (o emisoras) emiten los certificados del día a día y protegen a la raíz, que queda offline.' },
+          { id: 'k8', prompt: 'Un tercero de confianza guarda una copia de las claves de cifrado para recuperarlas si un empleado se va.', answers: { term: 'escrow' }, explanation: 'Depositar las claves con un tercero para su recuperación es key escrow.' },
+        ],
+      },
+    ],
+  },
+};
+
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71];
