@@ -1,4 +1,13 @@
-import { EvaluationResult, MatrixAnswers, MatrixPbqConfig, PartialCreditItem } from '../types/pbq';
+import { EvaluationResult, MatrixAnswers, MatrixColumn, MatrixPbqConfig, PartialCreditItem } from '../types/pbq';
+
+const normalizeTyped = (v: string) => v.trim().toLowerCase().replace(/\s+/g, '');
+
+/** Typed answers accept any of the alternatives listed as "a|b"; list answers must match exactly. */
+function cellCorrect(col: MatrixColumn, given: string | undefined, expected: string): boolean {
+  if (!given) return false;
+  if (!col.freeText) return given === expected;
+  return expected.split('|').some((alt) => normalizeTyped(alt) === normalizeTyped(given));
+}
 
 /** Partial credit per cell: every correctly classified cell is worth the same. */
 export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers): EvaluationResult {
@@ -14,10 +23,10 @@ export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers):
       let rowCorrect = 0;
       for (const col of section.columns) {
         totalCells++;
-        if (answers[row.id]?.[col.id] === row.answers[col.id]) {
+        if (cellCorrect(col, answers[row.id]?.[col.id], row.answers[col.id])) {
           rowCorrect++;
         } else {
-          const labelOf = (v: string | undefined) => col.options.find((o) => o.value === v)?.label ?? v;
+          const labelOf = (v: string | undefined) => col.options.find((o) => o.value === v)?.label ?? (col.freeText ? v?.split('|')[0] : v);
           const chosen = answers[row.id]?.[col.id];
           missed.push(`${col.label}: elegiste "${chosen ? labelOf(chosen) : 'sin respuesta'}" — correcto: "${labelOf(row.answers[col.id])}"`);
         }

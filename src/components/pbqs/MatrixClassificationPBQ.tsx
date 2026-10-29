@@ -73,6 +73,16 @@ export const MatrixClassificationPBQ: React.FC<Props> = ({ config, answers, onCh
                 {section.columns.map((col) => (
                   <label key={col.id} className="space-y-1 block">
                     <span className="text-[11px] font-semibold text-slate-400">{col.label}</span>
+                    {col.freeText ? (
+                      <input
+                        value={answers[row.id]?.[col.id] ?? ''}
+                        onChange={(e) => onChange({ ...answers, [row.id]: { ...answers[row.id], [col.id]: e.target.value } })}
+                        placeholder={col.freeText.placeholder}
+                        spellCheck={false}
+                        autoComplete="off"
+                        className="w-full text-xs font-mono bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-cyan-500"
+                      />
+                    ) : (
                     <select
                       value={answers[row.id]?.[col.id] ?? ''}
                       onChange={(e) => handleSelect(row.id, col.id, e.target.value)}
@@ -85,6 +95,7 @@ export const MatrixClassificationPBQ: React.FC<Props> = ({ config, answers, onCh
                         </option>
                       ))}
                     </select>
+                    )}
                   </label>
                 ))}
               </div>

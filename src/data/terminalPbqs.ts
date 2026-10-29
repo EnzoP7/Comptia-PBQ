@@ -511,4 +511,100 @@ const PBQ64: TerminalPbqDefinition = {
   },
 };
 
-export const TERMINAL_PBQS: TerminalPbqDefinition[] = [PBQ62, PBQ63, PBQ64];
+// =====================================================================
+// PBQ 76 — Writing chmod / chown commands with octal notation
+// =====================================================================
+const subtree = (s: TerminalState, root: string) => Object.keys(s.fs).filter((p) => p === root || p.startsWith(root + '/'));
+
+const PBQ76: TerminalPbqDefinition = {
+  item: item(
+    76,
+    'linux-permissions',
+    'Terminal Linux: Permisos con chmod y chown en Notación Octal',
+    ['4.6', ['4.1']],
+    6,
+    'El servidor files01 quedó con permisos incorrectos después de una migración. Escribe en la consola los comandos chmod y chown necesarios para dejar cada ruta como pide el requisito, y responde las dos preguntas sobre notación octal.',
+    [
+      '/opt/app/deploy.sh: el dueño puede leer, escribir y ejecutar; el grupo, leer y ejecutar; el resto, nada.',
+      '/etc/app/api.key: debe pertenecer al usuario y al grupo app, y solo su dueño puede leerlo y modificarlo.',
+      '/var/www/html y todo su contenido deben pertenecer al usuario y al grupo www-data.',
+      '/srv/equipo: dueño root, grupo ingenieria; dueño y grupo con acceso completo, el resto sin acceso, y los archivos nuevos deben heredar el grupo del directorio.',
+      '/home/ana/.ssh: solo ana puede entrar, listar y crear archivos.',
+      'Responde las preguntas de notación octal.',
+    ],
+    'r = 4, w = 2, x = 1 y se suman por tríada (dueño, grupo, otros): rwx = 7, r-x = 5, rw- = 6, r-- = 4. El bit SGID es un 2 delante (2770). chown usuario:grupo cambia ambos; :grupo solo el grupo; -R aplica a todo el contenido. Revisa el resultado con ls -l.'
+  ),
+  initial: () =>
+    base('files01', {
+      cwd: '/root',
+      fs: buildFs({
+        '/etc/passwd': file(PASSWD + '\nana:x:1003:1003:Ana,,,:/home/ana:/bin/bash\napp:x:1002:1002:App,,,:/opt/app:/usr/sbin/nologin'),
+        '/opt/app/deploy.sh': file('#!/bin/bash\n./build && ./release', 0o777),
+        '/etc/app/api.key': file('API_KEY=sk_live_51Hx9...', 0o644),
+        '/var/www/html/index.html': file('<h1>Intranet</h1>', 0o644),
+        '/var/www/html/css/site.css': file('body { margin: 0 }', 0o644),
+        '/srv/equipo/plan.txt': file('Plan del trimestre', 0o644),
+        '/home/ana/.ssh/authorized_keys': file('ssh-ed25519 AAAAC3Nza... ana@laptop', 0o600, 'ana', 'ana'),
+      }),
+      users: { root: { uid: 0, locked: false }, 'www-data': { uid: 33, locked: false }, ana: { uid: 1003, locked: false }, app: { uid: 1002, locked: false } },
+      lines: welcome('files01', 'Revisión de permisos posterior a la migración. Usa ls -l para ver el estado actual.'),
+    }),
+  questions: [
+    { id: 'octal', label: '¿Qué valor octal equivale a rw-r-----?', placeholder: 'ej. 755' },
+    { id: 'umask', label: 'Con umask 022, ¿con qué permisos octales se crea un archivo nuevo?', placeholder: 'ej. 600' },
+  ],
+  hintCommands: ['ls -l /opt/app', 'chmod 750 /opt/app/deploy.sh', 'chown app:app /etc/app/api.key', 'chown -R www-data:www-data /var/www/html', 'chown :ingenieria /srv/equipo', 'chmod 2770 /srv/equipo'],
+  evaluate: (s) => {
+    const node = (p: string) => s.fs[p];
+    const mode = (p: string) => node(p)?.mode ?? -1;
+    const key = node('/etc/app/api.key');
+    const web = subtree(s, '/var/www/html');
+    const team = node('/srv/equipo');
+    return result(
+      [
+        crit('t76-deploy', '/opt/app/deploy.sh en 750', mode('/opt/app/deploy.sh') === 0o750, 15,
+          'rwx (7) para el dueño, r-x (5) para el grupo y nada (0) para el resto.',
+          'El modo correcto es 750: chmod 750 /opt/app/deploy.sh. Estaba en 777, cualquier usuario podía modificar el script.'),
+        crit('t76-key', '/etc/app/api.key de app:app con 600', !!key && key.owner === 'app' && key.group === 'app' && key.mode === 0o600, 15,
+          'Solo la cuenta app puede leer y modificar la clave.',
+          'Hacen falta dos comandos: chown app:app /etc/app/api.key y chmod 600 /etc/app/api.key (rw-------).'),
+        crit('t76-web', '/var/www/html completo de www-data:www-data', web.length > 0 && web.every((p) => s.fs[p].owner === 'www-data' && s.fs[p].group === 'www-data'), 15,
+          'El directorio y todo su contenido pertenecen al usuario del servidor web.',
+          'Usa chown -R www-data:www-data /var/www/html: sin -R solo cambia el directorio, no los archivos que contiene.'),
+        crit('t76-team', '/srv/equipo de grupo ingenieria con 2770', !!team && team.group === 'ingenieria' && team.mode === 0o2770, 15,
+          'Acceso completo para dueño y grupo, nada para el resto, y SGID para heredar el grupo.',
+          'Cambia el grupo con chown :ingenieria /srv/equipo (o chgrp) y aplica chmod 2770 /srv/equipo: el 2 inicial es el SGID.'),
+        crit('t76-ssh', '/home/ana/.ssh en 700', mode('/home/ana/.ssh') === 0o700, 15,
+          'Solo ana puede entrar, listar y crear archivos (rwx------).',
+          'El modo correcto es 700: chmod 700 /home/ana/.ssh. OpenSSH rechaza las claves si el directorio es accesible por otros.'),
+        crit('t76-q-octal', 'rw-r----- = 640', (s.answers.octal ?? '').trim() === '640', 12.5,
+          'rw- = 6, r-- = 4, --- = 0.',
+          'rw-r----- es 640: rw- (4+2 = 6), r-- (4), --- (0).'),
+        crit('t76-q-umask', 'umask 022 → archivos 644', (s.answers.umask ?? '').trim() === '644', 12.5,
+          'Los archivos parten de 666 y umask 022 quita la escritura a grupo y otros.',
+          'Los archivos nuevos parten de 666; umask 022 quita w a grupo y otros: 644 (los directorios quedarían en 755).'),
+      ],
+      'Permisos corregidos: dominas la notación octal, chown y los bits especiales.',
+      'Revisa cada ruta con ls -l y recuerda: r = 4, w = 2, x = 1 por tríada.'
+    );
+  },
+  guide: {
+    pbqId: 'pbq-76',
+    overviewRationale:
+      'En el examen pueden pedirte el permiso exacto de un archivo o el comando que lo deja así. La clave es traducir cada requisito a las tres tríadas (dueño, grupo, otros) y sumar r = 4, w = 2, x = 1.',
+    keyTakeaways: [
+      'chmod 750 = rwxr-x---; chmod 640 = rw-r-----; chmod 600 = rw-------; chmod 700 = rwx------.',
+      'chown usuario:grupo cambia ambos; chown :grupo (o chgrp) solo el grupo; -R aplica a todo el contenido.',
+      'SGID en un directorio (2xxx) hace que los archivos nuevos hereden su grupo.',
+      'umask resta permisos: con 022, archivos 644 y directorios 755; con 027, archivos 640 y directorios 750.',
+    ],
+    itemsGlossary: [
+      { name: 'Notación octal', badge: 'chmod', definition: 'Cada tríada se escribe como la suma de r = 4, w = 2 y x = 1.', whyCorrectOrRole: 'deploy.sh queda en 750 y .ssh en 700.', distractorWarning: '777 da escritura a todos los usuarios: nunca es la respuesta de mínimo privilegio.', criteria: ['t76-deploy', 't76-ssh', 't76-q-octal'] },
+      { name: 'chown y -R', badge: 'Propiedad', definition: 'chown usuario:grupo ruta cambia el dueño y el grupo; -R lo aplica recursivamente.', whyCorrectOrRole: 'api.key pasa a app:app y /var/www/html a www-data:www-data con -R.', distractorWarning: 'chmod cambia permisos, no dueños.', criteria: ['t76-key', 't76-web'] },
+      { name: 'SGID en directorios', badge: '2xxx', definition: 'Los archivos creados dentro heredan el grupo del directorio.', whyCorrectOrRole: '/srv/equipo usa 2770 con grupo ingenieria.', criteria: ['t76-team'] },
+      { name: 'umask', badge: 'Valores por defecto', definition: 'Máscara que se resta a 666 (archivos) y 777 (directorios) al crearlos.', whyCorrectOrRole: 'umask 022 deja los archivos nuevos en 644.', criteria: ['t76-q-umask'] },
+    ],
+  },
+};
+
+export const TERMINAL_PBQS: TerminalPbqDefinition[] = [PBQ62, PBQ63, PBQ64, PBQ76];

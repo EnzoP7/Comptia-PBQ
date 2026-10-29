@@ -697,6 +697,8 @@ export interface MatrixColumn {
   id: string;
   label: string;
   options: MatrixOption[];
+  /** Typed answer instead of a list (e.g. a port number). Row answers may list alternatives separated by "|". */
+  freeText?: { placeholder: string };
 }
 
 export interface MatrixRow {

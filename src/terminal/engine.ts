@@ -134,7 +134,7 @@ function countArgs(args: string[]): { n: number; files: string[] } {
 const HELP = `Comandos disponibles en este servidor simulado:
   Archivos:   ls [-la] · cd · pwd · cat · head [-n N] · tail [-n N] · find · rm [-rf]
   Texto:      grep [-i -v -c -n -r] · sort [-n -r] · uniq [-c] · cut -d X -f N · awk '{print $N}' · wc [-l] · echo
-  Permisos:   chmod (octal o simbólico, ej. 640, u-s, o-rwx) · chown usuario[:grupo]
+  Permisos:   chmod (octal o simbólico, ej. 640, u-s, o-rwx) · chown usuario[:grupo] · chgrp grupo
   Procesos:   ps aux · kill [-9] PID · pkill NOMBRE
   Red:        netstat -tulpn · ss -tunap · ip a
   Seguridad:  sha256sum · md5sum · iptables · ufw · crontab -l/-r [-u usuario]
@@ -418,6 +418,11 @@ const COMMANDS: Record<string, Cmd> = {
       }
     }
     return { out: '' };
+  },
+  chgrp: (args, ctx) => {
+    const ops = operands(args);
+    if (ops.length < 2) return { out: '', err: 'Uso: chgrp GRUPO ARCHIVO' };
+    return COMMANDS.chown([...args.filter((a) => a.startsWith('-')), `:${ops[0]}`, ...ops.slice(1)], ctx);
   },
   rm: (args, { s }) => {
     const f = flagsOf(args);

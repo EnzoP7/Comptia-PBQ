@@ -95,6 +95,12 @@ function matrixGuide(pbqId: string): PBQExplanationData | null {
   const items: ItemExplanation[] = [];
   for (const section of def.config.sections) {
     for (const col of section.columns) {
+      if (col.freeText) {
+        for (const r of section.rows) {
+          items.push({ name: r.answers[col.id].split('|')[0], badge: col.label, definition: r.explanation, whyCorrectOrRole: `En este escenario: "${r.prompt}"`, criteria: [r.id] });
+        }
+        continue;
+      }
       for (const opt of col.options) {
         const rows = section.rows.filter((r) => r.answers[col.id] === opt.value);
         if (!rows.length) continue;

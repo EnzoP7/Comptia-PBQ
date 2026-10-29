@@ -10,7 +10,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 <a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practicar%20ahora-online-06b6d4?style=for-the-badge" alt="Practicar ahora" /></a>
 
-![PBQs](https://img.shields.io/badge/PBQs-71-0891b2?style=flat-square)
+![PBQs](https://img.shields.io/badge/PBQs-77-0891b2?style=flat-square)
 ![Dominios](https://img.shields.io/badge/dominios-5%2F5-10b981?style=flat-square)
 ![Examen](https://img.shields.io/badge/examen-SY0--701-6366f1?style=flat-square)
 ![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol%20%7C%20English-f59e0b?style=flat-square)
@@ -24,7 +24,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 Las **PBQs (Performance-Based Questions)** son las preguntas prácticas del examen Security+: en lugar de elegir una respuesta, tienes que **hacer** algo. Por ejemplo: ordenar las reglas de un firewall, ubicar controles en un diagrama de red, analizar logs de un SIEM, asignar permisos o clasificar ataques. Suelen aparecer al principio del examen, consumen mucho tiempo y son donde más puntos se pierden por falta de práctica.
 
-Este simulador reúne **71 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
+Este simulador reúne **77 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
 
 <p align="center"><img src="docs/images/app-practice.png" alt="Vista de práctica: tabla de reglas de firewall" width="90%" /></p>
 
@@ -138,7 +138,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 </details>
 
 <details>
-<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 32 PBQs</summary>
+<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 35 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -174,11 +174,14 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 66 | Herramientas de Monitoreo de Seguridad y Actividades del SOC | 4.4 |
 | 69 | Identificar Equipos Comprometidos a partir de Logs de Red | 4.9 |
 | 70 | Protocolos Seguros y sus Puertos | 4.5 |
+| 75 | Escribe el Puerto: Servicios y Números de Puerto según el Escenario | 4.5 |
+| 76 | Terminal Linux: Permisos con chmod y chown en Notación Octal | 4.6 |
+| 77 | Reglas de Firewall de una Oficina: Servidores Publicados, Administración y Navegación | 4.5 |
 
 </details>
 
 <details>
-<summary><b>Dominio 5: Gestión y Supervisión del Programa de Seguridad</b> — 20% del examen · 7 PBQs</summary>
+<summary><b>Dominio 5: Gestión y Supervisión del Programa de Seguridad</b> — 20% del examen · 10 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -189,6 +192,9 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 58 | Terminología de Gestión de Riesgos y Análisis de Impacto al Negocio (BIA) | 5.2 |
 | 59 | Cumplimiento Normativo, Privacidad y Programa de Concienciación | 5.4 |
 | 67 | Programa de Concienciación: Temas de Capacitación y Ciclo del Programa | 5.6 |
+| 72 | Roles de los Datos: Owner, Controller, Processor, Custodian, Steward y DPO | 5.1 |
+| 73 | Estructuras de Gobernanza: Centralizada, Descentralizada, Junta y Comités | 5.1 |
+| 74 | Tipos de Acuerdos (SLA, MOU, MOA, MSA, SOW, NDA, BPA) y Evaluación de Proveedores | 5.3 |
 
 </details>
 
@@ -238,9 +244,10 @@ Cada push a `main` se publica automáticamente en GitHub Pages (`.github/workflo
 |---|---|
 | `src/pbqRegistry.tsx` | Para cada PBQ: estado inicial, evaluador y simulador. |
 | `src/data/pbqsData.ts` | Catálogo de las PBQs 1–50 y sus datos iniciales. |
-| `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59, 61 y 65–71. |
+| `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59, 61 y 65–75 (incluye columnas de respuesta escrita, como el número de puerto). |
 | `src/data/linuxPermissionsPbq.ts` | PBQ 60: permisos Linux. |
-| `src/data/terminalPbqs.ts` | PBQs 62–64: escenarios de terminal Linux y su corrección por estado del servidor. |
+| `src/data/firewallPbq77.ts` | PBQ 77: reglas de firewall corregidas por requisito con el simulador de paquetes. |
+| `src/data/terminalPbqs.ts` | PBQs 62–64 y 76: escenarios de terminal Linux y su corrección por estado del servidor. |
 | `src/terminal/engine.ts` | Intérprete de comandos simulado (sistema de archivos, procesos, red, firewall, cron, servicios). |
 | `src/data/sy0701Objectives.ts` | Objetivos y pesos oficiales del SY0-701. |
 | `src/data/studyGuide.ts` | Guía de estudio: conceptos enlazados a cada criterio corregido. |

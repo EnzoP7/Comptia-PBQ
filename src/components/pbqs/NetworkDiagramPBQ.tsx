@@ -109,7 +109,7 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
         <div className="flex items-center gap-3">
           <Info className="w-4 h-4 text-cyan-400 shrink-0" />
           <span className="text-slate-300">
-            Haz clic en un <strong>Control de Seguridad</strong> de la bandeja y colócalo en su <strong>Ranura (Slot)</strong> en el diagrama {variant === 'cloud' ? 'híbrido cloud' : 'perimetral'}.
+            Haz clic en un <strong>Control de Seguridad</strong> de la bandeja y colócalo en su <strong>Ranura (Slot)</strong> en el {variant === 'cloud' ? 'diagrama híbrido cloud' : 'diagrama perimetral'}.
           </span>
         </div>
         <button

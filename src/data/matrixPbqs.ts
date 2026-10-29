@@ -1539,4 +1539,232 @@ const PBQ71: MatrixPbqDefinition = {
   },
 };
 
-export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71];
+// ---------------------------------------------------------------------------
+// PBQ 72 — Data roles and responsibilities (5.1)
+// ---------------------------------------------------------------------------
+const DATA_ROLES = [
+  o('owner', 'Propietario de los datos (Data owner)'),
+  o('controller', 'Responsable del tratamiento (Data controller)'),
+  o('processor', 'Encargado del tratamiento (Data processor)'),
+  o('custodian', 'Custodio de los datos (Data custodian)'),
+  o('steward', 'Administrador de los datos (Data steward)'),
+  o('subject', 'Titular de los datos (Data subject)'),
+  o('dpo', 'Delegado de protección de datos (DPO)'),
+];
+
+const PBQ72: MatrixPbqDefinition = {
+  item: item(
+    72,
+    'data-governance',
+    'Gobernanza de Datos',
+    'Roles de los Datos: Owner, Controller, Processor, Custodian, Steward y DPO',
+    ['5.1', ['3.3', '5.4']],
+    3,
+    'Una clínica organiza la responsabilidad sobre la base de datos de pacientes y contrata un servicio en la nube para guardar los estudios. Identifica qué rol cumple cada persona o empresa.',
+    ['Selecciona el rol de cada persona u organización. Algunos roles pueden repetirse o no usarse.'],
+    'Owner = ejecutivo que responde por los datos y decide quién accede y cómo se clasifican. Custodian = TI que aplica los controles (backups, cifrado). Steward = calidad, etiquetado y cumplimiento de políticas. Controller = la ORGANIZACIÓN que decide para qué se usan los datos; processor = quien los trata POR CUENTA del controller. Subject = la persona a quien pertenecen. DPO = supervisa el cumplimiento de privacidad.'
+  ),
+  config: {
+    pbqId: 'pbq-72',
+    consoleTitle: 'Matriz de Responsabilidades sobre los Datos (Objetivo 5.1)',
+    instructions: 'Elige el rol de cada caso.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Personas y organizaciones',
+        columns: [{ id: 'role', label: 'Rol', options: DATA_ROLES }],
+        rows: [
+          { id: 'r1', prompt: 'La directora médica decide qué datos de pacientes son confidenciales y aprueba quién puede acceder a ellos.', answers: { role: 'owner' }, explanation: 'Quien rinde cuentas por los datos, los clasifica y autoriza el acceso es el data owner (un rol de negocio, no de TI).' },
+          { id: 'r2', prompt: 'El administrador de bases de datos configura los backups nocturnos, el cifrado y los permisos que aprobó la directora.', answers: { role: 'custodian' }, explanation: 'Quien aplica técnicamente los controles definidos por el owner es el custodian.' },
+          { id: 'r3', prompt: 'Una analista revisa que los registros estén completos, correctamente etiquetados y que se respeten los plazos de retención.', answers: { role: 'steward' }, explanation: 'Calidad, metadatos y cumplimiento de las políticas sobre los datos: data steward.' },
+          { id: 'r4', prompt: 'La clínica, como organización, determina con qué finalidad se recogen y usan los datos de los pacientes.', answers: { role: 'controller' }, explanation: 'La entidad que decide la finalidad y los medios del tratamiento es el controller.' },
+          { id: 'r5', prompt: 'El proveedor de almacenamiento en la nube guarda los estudios siguiendo las instrucciones de la clínica.', answers: { role: 'processor' }, explanation: 'Trata los datos por cuenta del controller, sin decidir la finalidad: processor.' },
+          { id: 'r6', prompt: 'Un paciente pide una copia de todos los datos que la clínica tiene sobre él.', answers: { role: 'subject' }, explanation: 'La persona a quien pertenecen los datos personales es el data subject.' },
+          { id: 'r7', prompt: 'Una persona independiente supervisa el cumplimiento del GDPR, asesora en las evaluaciones de impacto y es el contacto con la autoridad de protección de datos.', answers: { role: 'dpo' }, explanation: 'Esa función de supervisión de privacidad es la del DPO (Data Protection Officer).' },
+          { id: 'r8', prompt: 'El gerente de ventas decide que la lista de precios es "interna" y autoriza que la vea todo el equipo comercial.', answers: { role: 'owner' }, explanation: 'Clasificar y autorizar el acceso a un conjunto de datos es responsabilidad de su owner.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 73 — Governance structures and external considerations (5.1)
+// ---------------------------------------------------------------------------
+const GOV_STRUCTURES = [
+  o('board', 'Junta directiva (Board)'),
+  o('committee', 'Comité'),
+  o('government', 'Entidad gubernamental'),
+  o('centralized', 'Gobernanza centralizada'),
+  o('decentralized', 'Gobernanza descentralizada'),
+];
+const EXTERNAL_CONSIDERATIONS = [
+  o('regulatory', 'Regulatoria'),
+  o('legal', 'Legal'),
+  o('industry', 'De la industria'),
+  o('local', 'Local / regional'),
+  o('national', 'Nacional'),
+  o('global', 'Global'),
+];
+
+const PBQ73: MatrixPbqDefinition = {
+  item: item(
+    73,
+    'data-governance',
+    'Gobernanza',
+    'Estructuras de Gobernanza: Centralizada, Descentralizada, Junta y Comités',
+    ['5.1', []],
+    3,
+    'Una empresa con filiales en varios países está rediseñando su gobierno de seguridad. Identifica la estructura de gobernanza que describe cada caso y el tipo de consideración externa que la empresa debe tener en cuenta.',
+    ['Sección 1: identifica la estructura de gobernanza.', 'Sección 2: identifica el tipo de consideración externa.'],
+    'Centralizada = un solo equipo decide para toda la organización (consistencia). Descentralizada = cada unidad decide sus propias políticas (agilidad, menos uniformidad). Junta directiva = máxima autoridad, aprueba la estrategia y el apetito de riesgo. Comité = grupo de varias áreas que revisa y recomienda. Entidad gubernamental = organismo público que gobierna o supervisa.'
+  ),
+  config: {
+    pbqId: 'pbq-73',
+    consoleTitle: 'Modelo de Gobierno de Seguridad (Objetivo 5.1)',
+    instructions: 'Elige la opción que corresponde a cada caso. Algunas opciones pueden no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Estructuras',
+        columns: [{ id: 'structure', label: 'Estructura', options: GOV_STRUCTURES }],
+        rows: [
+          { id: 'g1', prompt: 'El equipo de seguridad de la casa matriz define todas las políticas y las aplica igual en todas las filiales.', answers: { structure: 'centralized' }, explanation: 'Un único equipo central que decide para toda la organización es gobernanza centralizada.' },
+          { id: 'g2', prompt: 'Cada filial define sus propias políticas de seguridad según su mercado y solo informa a la casa matriz.', answers: { structure: 'decentralized' }, explanation: 'Las decisiones se reparten entre las unidades de negocio: gobernanza descentralizada.' },
+          { id: 'g3', prompt: 'El máximo órgano de la empresa, elegido por los accionistas, aprueba la estrategia de seguridad y el apetito de riesgo.', answers: { structure: 'board' }, explanation: 'La junta directiva tiene la autoridad final y la responsabilidad ante los accionistas.' },
+          { id: 'g4', prompt: 'Representantes de TI, legal, finanzas y operaciones se reúnen cada mes para revisar riesgos y recomendar acciones a la dirección.', answers: { structure: 'committee' }, explanation: 'Un grupo transversal que analiza y recomienda es un comité (por ejemplo, el comité de riesgos o de seguridad).' },
+          { id: 'g5', prompt: 'Un organismo público supervisa a los bancos del país y puede exigirles controles de seguridad.', answers: { structure: 'government' }, explanation: 'Las entidades gubernamentales gobiernan o supervisan desde fuera de la organización.' },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Consideraciones externas',
+        columns: [{ id: 'external', label: 'Consideración', options: EXTERNAL_CONSIDERATIONS }],
+        rows: [
+          { id: 'e1', prompt: 'Un organismo supervisor exige auditorías anuales y puede sancionar si no se cumplen sus reglas.', answers: { external: 'regulatory' }, explanation: 'Requisitos impuestos y fiscalizados por un regulador: consideración regulatoria.' },
+          { id: 'e2', prompt: 'Un contrato firmado obliga a notificar al cliente cualquier brecha en un plazo de 48 horas.', answers: { external: 'legal' }, explanation: 'Obligaciones que surgen de contratos o de la ley y pueden exigirse en un tribunal: consideración legal.' },
+          { id: 'e3', prompt: 'Al procesar pagos con tarjeta, la empresa debe cumplir PCI DSS.', answers: { external: 'industry' }, explanation: 'Un estándar propio de un sector (tarjetas de pago) es una consideración de la industria.' },
+          { id: 'e4', prompt: 'Una ley de la provincia donde está la planta exige guardar las grabaciones de seguridad durante 90 días.', answers: { external: 'local' }, explanation: 'Normas que aplican solo en una ciudad, provincia o región: consideración local/regional.' },
+          { id: 'e5', prompt: 'La ley de protección de datos del país donde está la casa matriz se aplica a todas sus operaciones locales.', answers: { external: 'national' }, explanation: 'Una ley de alcance país es una consideración nacional.' },
+          { id: 'e6', prompt: 'Al vender a clientes de la Unión Europea desde otros continentes, la empresa debe cumplir el GDPR en todas sus filiales.', answers: { external: 'global' }, explanation: 'Requisitos que alcanzan a operaciones en varios países o continentes: consideración global.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 74 — Agreement types and vendor assessment (5.3)
+// ---------------------------------------------------------------------------
+const AGREEMENT_TYPES = [
+  o('sla', 'SLA (Service-Level Agreement)'),
+  o('mou', 'MOU (Memorandum of Understanding)'),
+  o('moa', 'MOA (Memorandum of Agreement)'),
+  o('msa', 'MSA (Master Service Agreement)'),
+  o('sow', 'SOW / WO (Statement of Work / Work Order)'),
+  o('nda', 'NDA (Non-Disclosure Agreement)'),
+  o('bpa', 'BPA (Business Partners Agreement)'),
+];
+const VENDOR_ASSESSMENT = [
+  o('due_diligence', 'Debida diligencia (Due diligence)'),
+  o('questionnaire', 'Cuestionario de seguridad'),
+  o('right_to_audit', 'Cláusula de derecho a auditoría'),
+  o('conflict', 'Conflicto de interés'),
+  o('supply_chain', 'Análisis de la cadena de suministro'),
+  o('monitoring', 'Monitoreo continuo del proveedor'),
+];
+
+const PBQ74: MatrixPbqDefinition = {
+  item: item(
+    74,
+    'third-party-governance',
+    'Riesgo de Terceros',
+    'Tipos de Acuerdos (SLA, MOU, MOA, MSA, SOW, NDA, BPA) y Evaluación de Proveedores',
+    ['5.3', []],
+    4,
+    'El área de compras está cerrando contratos con varios proveedores y socios. Identifica el tipo de acuerdo que describe cada documento y la actividad de evaluación de proveedores de cada caso.',
+    ['Sección 1: identifica el tipo de acuerdo.', 'Sección 2: identifica la actividad de evaluación del proveedor.'],
+    'SLA = métricas de servicio y penalidades. MOU = intención, no vinculante. MOA = acuerdo formal con responsabilidades. MSA = términos generales para muchos trabajos; SOW/WO = el detalle de UN trabajo. NDA = confidencialidad. BPA = cómo se reparten responsabilidades y ganancias dos socios.'
+  ),
+  config: {
+    pbqId: 'pbq-74',
+    consoleTitle: 'Contratos y Proveedores (Objetivo 5.3)',
+    instructions: 'Elige la opción que corresponde a cada caso. Algunas opciones pueden repetirse o no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Acuerdos',
+        columns: [{ id: 'agreement', label: 'Acuerdo', options: AGREEMENT_TYPES }],
+        rows: [
+          { id: 'a1', prompt: 'El proveedor de Internet garantiza 99,9 % de disponibilidad y responde incidentes críticos en menos de 1 hora; si no cumple, descuenta un porcentaje de la factura.', answers: { agreement: 'sla' }, explanation: 'Métricas de servicio medibles con penalidades: SLA.' },
+          { id: 'a2', prompt: 'Dos empresas firman que tienen la intención de explorar un proyecto conjunto, sin compromisos legales todavía.', answers: { agreement: 'mou' }, explanation: 'Expresar una intención común, normalmente no vinculante: MOU.' },
+          { id: 'a3', prompt: 'Dos organismos formalizan qué aportará cada uno y en qué condiciones para operar un centro de datos compartido.', answers: { agreement: 'moa' }, explanation: 'Un acuerdo formal que fija responsabilidades y condiciones concretas: MOA.' },
+          { id: 'a4', prompt: 'El contrato marco con la consultora fija las tarifas, la confidencialidad y la responsabilidad para todos los trabajos de los próximos tres años.', answers: { agreement: 'msa' }, explanation: 'Términos generales que regirán muchos trabajos futuros: MSA.' },
+          { id: 'a5', prompt: 'Bajo ese contrato marco se firma un documento con el alcance, las fechas y los entregables del pentest de este mes.', answers: { agreement: 'sow' }, explanation: 'El detalle de un trabajo puntual bajo el MSA es un SOW / Work Order.' },
+          { id: 'a6', prompt: 'Antes de mostrar el código fuente a un posible socio, se le exige comprometerse a no revelarlo.', answers: { agreement: 'nda' }, explanation: 'Un compromiso de confidencialidad es un NDA.' },
+          { id: 'a7', prompt: 'Dos empresas que venderán juntas un producto definen quién aporta qué, cómo se reparten las ganancias y quién responde ante los clientes.', answers: { agreement: 'bpa' }, explanation: 'La relación entre socios de negocio se regula con un BPA.' },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Evaluación de proveedores',
+        columns: [{ id: 'assessment', label: 'Actividad', options: VENDOR_ASSESSMENT }],
+        rows: [
+          { id: 'v1', prompt: 'Antes de contratar, se revisan los estados financieros, las demandas pasadas y las certificaciones del proveedor.', answers: { assessment: 'due_diligence' }, explanation: 'Investigar a fondo a un proveedor antes de elegirlo es debida diligencia.' },
+          { id: 'v2', prompt: 'Se le envía al proveedor un formulario con preguntas sobre cifrado, backups, MFA y gestión de incidentes.', answers: { assessment: 'questionnaire' }, explanation: 'El formulario estandarizado de prácticas de seguridad es el cuestionario de seguridad.' },
+          { id: 'v3', prompt: 'El contrato permite a la empresa inspeccionar los controles del proveedor con aviso previo.', answers: { assessment: 'right_to_audit' }, explanation: 'La facultad contractual de auditar al proveedor es la cláusula right-to-audit.' },
+          { id: 'v4', prompt: 'Se descubre que el gerente que eligió al proveedor es socio de esa empresa.', answers: { assessment: 'conflict' }, explanation: 'Un interés personal que puede influir en la decisión es un conflicto de interés.' },
+          { id: 'v5', prompt: 'Se verifica de dónde vienen los componentes de hardware del proveedor y quiénes son sus propios subcontratistas.', answers: { assessment: 'supply_chain' }, explanation: 'Evaluar los proveedores del proveedor es análisis de la cadena de suministro.' },
+          { id: 'v6', prompt: 'Cada trimestre se revisan los informes de cumplimiento del proveedor y las noticias de brechas que lo involucren.', answers: { assessment: 'monitoring' }, explanation: 'Revisar al proveedor de forma continua después de contratarlo es monitoreo del proveedor.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 75 — Port numbers from scenarios, typed (4.5)
+// ---------------------------------------------------------------------------
+const PBQ75: MatrixPbqDefinition = {
+  item: item(
+    75,
+    'port-security',
+    'Puertos y Protocolos',
+    'Escribe el Puerto: Servicios y Números de Puerto según el Escenario',
+    ['4.5', ['3.2']],
+    4,
+    'El administrador del firewall recibe pedidos de los equipos de la empresa. Para cada servicio, escribe el número de puerto por defecto que debe permitirse.',
+    ['Escribe el número de puerto por defecto de cada servicio.', 'Si un servicio usa dos puertos, escribe ambos separados por coma.'],
+    'Los más preguntados: FTP 20/21, SSH/SFTP 22, Telnet 23, SMTP 25, DNS 53, DHCP 67/68, TFTP 69, HTTP 80, Kerberos 88, NTP 123, SNMP 161/162, LDAP 389, HTTPS 443, SMB 445, Syslog 514, SMTP submission 587, LDAPS 636, DoT 853, IMAPS 993, POP3S 995, MS SQL 1433, RADIUS 1812/1813, MySQL 3306, RDP 3389, Syslog TLS 6514.'
+  ),
+  config: {
+    pbqId: 'pbq-75',
+    consoleTitle: 'Solicitudes de Apertura de Puertos (Objetivo 4.5)',
+    instructions: 'Escribe solo el número (por ejemplo, 443).',
+    sections: [
+      {
+        id: 's1',
+        title: 'Solicitudes',
+        columns: [{ id: 'port', label: 'Puerto', options: [], freeText: { placeholder: 'ej. 443' } }],
+        rows: [
+          { id: 'q1', prompt: 'Los administradores necesitan administrar los servidores Linux de forma remota y cifrada.', answers: { port: '22' }, explanation: 'SSH usa TCP 22.' },
+          { id: 'q2', prompt: 'El servidor web público debe atender tráfico cifrado con TLS.', answers: { port: '443' }, explanation: 'HTTPS usa TCP 443.' },
+          { id: 'q3', prompt: 'Los técnicos de soporte usan Escritorio Remoto para conectarse a los servidores Windows.', answers: { port: '3389' }, explanation: 'RDP usa TCP 3389.' },
+          { id: 'q4', prompt: 'Los servidores deben consultar el DNS interno para resolver nombres.', answers: { port: '53' }, explanation: 'DNS usa el puerto 53 (UDP para consultas y TCP para transferencias de zona y respuestas grandes).' },
+          { id: 'q5', prompt: 'Las aplicaciones consultan el Active Directory por un canal cifrado.', answers: { port: '636' }, explanation: 'LDAPS usa TCP 636 (LDAP sin cifrar usa 389).' },
+          { id: 'q6', prompt: 'Los equipos comparten archivos con el servidor de archivos de Windows.', answers: { port: '445' }, explanation: 'SMB usa TCP 445.' },
+          { id: 'q7', prompt: 'Los clientes de correo leen el buzón por IMAP cifrado.', answers: { port: '993' }, explanation: 'IMAPS usa TCP 993.' },
+          { id: 'q8', prompt: 'Los puntos de acceso Wi-Fi envían las solicitudes de autenticación 802.1X al servidor RADIUS.', answers: { port: '1812' }, explanation: 'La autenticación RADIUS usa UDP 1812 (1813 es para accounting).' },
+          { id: 'q9', prompt: 'Los switches envían sus logs al servidor central por el protocolo tradicional, sin cifrar.', answers: { port: '514' }, explanation: 'Syslog tradicional usa UDP 514; la versión con TLS usa 6514.' },
+          { id: 'q10', prompt: 'Los equipos sincronizan su reloj con el servidor de hora, necesario para Kerberos y para correlacionar logs.', answers: { port: '123' }, explanation: 'NTP usa UDP 123.' },
+          { id: 'q11', prompt: 'Los clientes del dominio obtienen tickets del controlador de dominio.', answers: { port: '88' }, explanation: 'Kerberos usa el puerto 88.' },
+          { id: 'q12', prompt: 'Un sistema antiguo transfiere archivos por FTP sin cifrar (canales de datos y de control).', answers: { port: '20,21|21,20|21' }, explanation: 'FTP usa TCP 21 para control y TCP 20 para datos (en modo activo).' },
+          { id: 'q13', prompt: 'La aplicación se conecta a su base de datos Microsoft SQL Server.', answers: { port: '1433' }, explanation: 'MS SQL Server usa TCP 1433 (MySQL usa 3306).' },
+          { id: 'q14', prompt: 'Los clientes de correo envían mensajes al servidor con autenticación y STARTTLS.', answers: { port: '587' }, explanation: 'El envío de los clientes (submission) usa TCP 587; entre servidores se usa 25.' },
+        ],
+      },
+    ],
+  },
+};
+
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75];

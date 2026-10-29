@@ -60,6 +60,7 @@ import { LinuxPermissionsPBQ } from './components/pbqs/LinuxPermissionsPBQ';
 import { TerminalPBQ } from './components/pbqs/TerminalPBQ';
 import { TERMINAL_PBQS } from './data/terminalPbqs';
 import { TerminalState } from './terminal/types';
+import { FIREWALL_ITEM_PBQ77, FIREWALL_PACKET_TESTS_PBQ77, FIREWALL_TOKENS_PBQ77, INITIAL_FIREWALL_RULES_PBQ77, evaluateFirewallPBQ77 } from './data/firewallPbq77';
 
 export interface PBQDefinition<S = any> {
   initial: () => S;
@@ -303,6 +304,19 @@ const HAND_BUILT: Record<string, PBQDefinition> = {
     ),
   },
   'pbq-60': simple(INITIAL_LINUX_PERMS_PBQ60, evaluateLinuxPermissionsPBQ60, LinuxPermissionsPBQ),
+  'pbq-77': {
+    initial: () => INITIAL_FIREWALL_RULES_PBQ77,
+    evaluate: evaluateFirewallPBQ77,
+    render: (s, onChange) => (
+      <FirewallAclPBQ
+        rules={s}
+        onRulesChange={onChange}
+        packetTests={FIREWALL_PACKET_TESTS_PBQ77}
+        tokens={FIREWALL_TOKENS_PBQ77}
+        initialRules={INITIAL_FIREWALL_RULES_PBQ77}
+      />
+    ),
+  },
   'pbq-50': {
     initial: () => D.INITIAL_PORT_AUDIT_PBQ50,
     evaluate: E.evaluateProtocolMigrationPBQ50,
@@ -339,7 +353,7 @@ const TERMINAL_DEFS: Record<string, PBQDefinition<TerminalState>> = Object.fromE
 
 export const PBQ_REGISTRY: Record<string, PBQDefinition> = { ...HAND_BUILT, ...MATRIX_DEFS, ...TERMINAL_DEFS };
 
-export const ALL_PBQS: PBQItem[] = [...D.PBQ_LIST, ...MATRIX_PBQS.map((m) => m.item), LINUX_PERMS_ITEM, ...TERMINAL_PBQS.map((t) => t.item)].sort((a, b) => a.number - b.number);
+export const ALL_PBQS: PBQItem[] = [...D.PBQ_LIST, ...MATRIX_PBQS.map((m) => m.item), LINUX_PERMS_ITEM, FIREWALL_ITEM_PBQ77, ...TERMINAL_PBQS.map((t) => t.item)].sort((a, b) => a.number - b.number);
 
 export function initialAnswersFor(ids: string[]): Record<string, any> {
   return Object.fromEntries(ids.map((id) => [id, PBQ_REGISTRY[id].initial()]));
