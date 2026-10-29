@@ -59,7 +59,10 @@ Elige **cuántas PBQs** (3, 5, 8 o 12) y **cuántos minutos por PBQ**. Las pregu
 
 <p align="center"><img src="docs/images/app-exam-setup.png" alt="Configuración del simulacro con tiempo" width="80%" /></p>
 
-### 5. Tu progreso es privado
+### 5. Repaso de trampas
+Más de 100 tarjetas con los pares de conceptos que más se confunden en el examen (PEP vs. motor de políticas, DDoS reflejado vs. amplificado, journaling vs. replicación, tolerancia vs. umbral…). Eliges entre dos opciones y la app te muestra la palabra clave que los diferencia y la PBQ donde practicarlo. Usa repetición espaciada: las que fallas vuelven en la misma ronda y al día siguiente; las que aciertas se espacian hasta 30 días. Se abre con el botón **Repaso de trampas** o con <kbd>Alt</kbd> + <kbd>T</kbd>.
+
+### 6. Tu progreso es privado
 No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se guardan **solo en tu navegador**. El reporte de progreso muestra tu desempeño por dominio oficial.
 
 ## Formatos de PBQ que vas a practicar
@@ -222,6 +225,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | <kbd>Alt</kbd> + <kbd>E</kbd> | Abrir la corrección y la guía de estudio de la PBQ actual |
 | <kbd>Alt</kbd> + <kbd>R</kbd> | Reiniciar las respuestas de la PBQ actual |
 | <kbd>Alt</kbd> + <kbd>P</kbd> | Cheat sheet de puertos y conceptos (solo en práctica) |
+| <kbd>Alt</kbd> + <kbd>T</kbd> | Repaso de trampas con tarjetas (solo en práctica) |
 | <kbd>Alt</kbd> + <kbd>S</kbd> | Reporte de progreso por dominio |
 | <kbd>Ctrl</kbd> + <kbd>/</kbd> | Mostrar u ocultar la ayuda de atajos |
 | <kbd>Esc</kbd> | Cerrar cualquier ventana |
@@ -266,6 +270,7 @@ Cada push a `main` se publica automáticamente en GitHub Pages (`.github/workflo
 | `src/terminal/engine.ts` | Intérprete de comandos simulado (sistema de archivos, procesos, red, firewall, cron, servicios). |
 | `src/data/sy0701Objectives.ts` | Objetivos y pesos oficiales del SY0-701. |
 | `src/data/studyGuide.ts` | Guía de estudio: conceptos enlazados a cada criterio corregido. |
+| `src/data/trapCards.ts` · `src/utils/trapProgress.ts` | Tarjetas del repaso de trampas y su repetición espaciada (guardada en el navegador). |
 | `src/utils/evaluator.ts` | Evaluadores con crédito parcial de las PBQs 1–50. |
 | `src/i18n/` | Idioma: selector, traductor de la página y diccionario `en.json` (español → inglés). |
 
