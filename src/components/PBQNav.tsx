@@ -194,7 +194,7 @@ export const PBQNav: React.FC<Props> = ({
     <div className="w-full bg-slate-950/95 border-b border-slate-800/80 py-2.5 px-4 sm:px-6 space-y-2.5">
       {/* Category filter pills and Search bar */}
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs shrink-0 max-w-full sm:max-w-3xl">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pr-6 text-xs shrink-0 max-w-full sm:max-w-3xl [mask-image:linear-gradient(to_right,black_calc(100%-2rem),transparent)]">
           <Filter className="w-3.5 h-3.5 text-slate-500 mr-1 hidden sm:inline shrink-0" />
           {categories.map((cat) => (
             <button
@@ -210,7 +210,7 @@ export const PBQNav: React.FC<Props> = ({
               }`}
             >
               <span>{cat.label}</span>{' '}
-              <span className="font-mono text-[10px] text-cyan-400">({cat.count})</span>
+              <span className="text-[11px] text-slate-500 tabular-nums">({cat.count})</span>
             </button>
           ))}
         </div>
@@ -293,7 +293,7 @@ export const PBQNav: React.FC<Props> = ({
                 </span>
 
                 {/* PBQ Number & Mini Title */}
-                <span className="font-mono font-bold">PBQ {numberByPosition ? actualIndex + 1 : pbq.number}</span>
+                <span className="font-bold tabular-nums">PBQ {numberByPosition ? actualIndex + 1 : pbq.number}</span>
                 <span className="text-[11px] text-slate-400 max-w-[110px] truncate hidden md:inline">
                   {pbq.title}
                 </span>

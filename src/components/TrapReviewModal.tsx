@@ -182,7 +182,7 @@ export const TrapReviewModal: React.FC<Props> = ({ isOpen, onClose, onGoToPbq })
 
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 {pending > 0 ? (
-                  <button onClick={() => start(false)} className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold flex items-center gap-2">
+                  <button onClick={() => start(false)} className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-on-accent text-xs font-bold flex items-center gap-2">
                     <Target className="w-3.5 h-3.5" />
                     <span>{`Empezar repaso (${Math.min(pending, 15)} tarjetas)`}</span>
                   </button>
@@ -261,7 +261,7 @@ export const TrapReviewModal: React.FC<Props> = ({ isOpen, onClose, onGoToPbq })
                     >
                       {`Practicar en la PBQ ${card.pbq}`}
                     </button>
-                    <button onClick={advance} className="ml-auto px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold flex items-center gap-2">
+                    <button onClick={advance} className="ml-auto px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-on-accent text-xs font-bold flex items-center gap-2">
                       <span>Siguiente</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
@@ -301,7 +301,7 @@ export const TrapReviewModal: React.FC<Props> = ({ isOpen, onClose, onGoToPbq })
                 <button onClick={() => setView('home')} className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
                   Volver al resumen
                 </button>
-                <button onClick={() => start(stats.due + stats.unseen === 0)} className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold">
+                <button onClick={() => start(stats.due + stats.unseen === 0)} className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-on-accent text-xs font-bold">
                   Otra ronda
                 </button>
               </div>

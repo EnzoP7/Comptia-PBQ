@@ -113,7 +113,7 @@ export const PkiCertificatesPBQ: React.FC<Props> = ({ state, onChange, onReset }
       </div>
 
       {/* Certificate Parameters Form */}
-      <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-5 shadow-xl">
+      <div className="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* 1. Certificate Issuer Authority */}
           <div className="space-y-1.5">

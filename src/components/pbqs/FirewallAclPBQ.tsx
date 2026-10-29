@@ -173,7 +173,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
           <span className="text-slate-300 text-sm">{helperText}</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <button onClick={handleAddRule} className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-lg">
+          <button onClick={handleAddRule} className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-on-accent bg-cyan-600 hover:bg-cyan-500 rounded-lg">
             <Plus className="w-4 h-4" /> Agregar regla
           </button>
           {hints && (
@@ -184,7 +184,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
           {hints && (
             <button
               onClick={() => { sound.playClick(); setShowReference(!showReference); }}
-              className={`flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg ${showReference ? 'bg-amber-600 text-white' : 'bg-slate-800 text-amber-300 hover:bg-slate-700'}`}
+              className={`flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg ${showReference ? 'bg-amber-600 text-on-accent' : 'bg-slate-800 text-amber-300 hover:bg-slate-700'}`}
             >
               <BookOpen className="w-4 h-4" /> Guía de puertos
             </button>
@@ -197,7 +197,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
 
       {/* Collapsible CompTIA Port Reference Panel */}
       {hints && showReference && (
-        <div className="p-4 rounded-xl bg-slate-900 border border-amber-500/30 space-y-3 shadow-xl animate-in fade-in">
+        <div className="p-4 rounded-xl bg-slate-900 border border-amber-500/30 space-y-3 animate-in fade-in">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
               <BookOpen className="w-4 h-4" />
@@ -274,10 +274,10 @@ export const FirewallAclPBQ: React.FC<Props> = ({
 
       {/* Tabs */}
       <div className="flex items-center gap-2 p-1 bg-slate-900/90 rounded-xl border border-slate-800 w-fit">
-        <button onClick={() => setActiveTab('rules')} className={`px-4 py-2 text-xs font-semibold rounded-lg ${activeTab === 'rules' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+        <button onClick={() => setActiveTab('rules')} className={`px-4 py-2 text-xs font-semibold rounded-lg ${activeTab === 'rules' ? 'bg-cyan-600 text-on-accent' : 'text-slate-400 hover:text-white'}`}>
           Reglas del firewall ({rules.length})
         </button>
-        <button onClick={() => setActiveTab('simulator')} className={`px-4 py-2 text-xs font-semibold rounded-lg flex items-center gap-1.5 ${activeTab === 'simulator' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+        <button onClick={() => setActiveTab('simulator')} className={`px-4 py-2 text-xs font-semibold rounded-lg flex items-center gap-1.5 ${activeTab === 'simulator' ? 'bg-cyan-600 text-on-accent' : 'text-slate-400 hover:text-white'}`}>
           <Play className="w-3.5 h-3.5" /> Flujos de prueba
           {packetResults && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />}
         </button>
@@ -286,7 +286,7 @@ export const FirewallAclPBQ: React.FC<Props> = ({
       {activeTab === 'rules' ? (
         <div className="space-y-4">
           {/* Token tray */}
-          <div className="p-3.5 rounded-2xl bg-slate-900/95 backdrop-blur border border-slate-700 space-y-2.5 md:sticky md:top-[7.5rem] z-20 shadow-xl shadow-slate-950/60">
+          <div className="p-3.5 rounded-2xl bg-slate-900/95 backdrop-blur border border-slate-700 space-y-2.5 md:sticky md:top-[7.5rem] z-20">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
                 <GripVertical className="w-4 h-4 text-cyan-400" /> Valores disponibles

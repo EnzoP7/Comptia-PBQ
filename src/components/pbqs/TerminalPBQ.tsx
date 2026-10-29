@@ -66,7 +66,7 @@ export const TerminalPBQ: React.FC<Props> = ({ state, onChange, onReset, questio
 
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl border border-slate-700 bg-[#05070d] shadow-2xl overflow-hidden">
+      <div className="theme-dark rounded-2xl border border-slate-700 bg-[#05070d] overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-slate-900 border-b border-slate-800">
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-200">
             <span className="flex gap-1.5" aria-hidden>

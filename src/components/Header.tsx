@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LanguageSwitch } from './LanguageSwitch';
+import { ThemeSwitch } from './ThemeSwitch';
 
 interface Props {
   mode: 'practice' | 'exam';
@@ -77,11 +78,11 @@ export const Header: React.FC<Props> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between gap-3 lg:gap-8">
         {/* Zone 1: Brand Wordmark */}
         <div className="flex items-center gap-2.5 whitespace-nowrap min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-white shadow-md shadow-cyan-950">
+          <div className="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-on-accent shadow-md shadow-cyan-950">
             <Shield className="w-5 h-5" />
           </div>
           <span className="text-base font-bold tracking-tight text-white font-sans">
-            <span className="hidden sm:inline">Security+ </span><span className="text-cyan-400 font-mono">SY0-701</span> PBQ<span className="hidden sm:inline"> Simulator</span>
+            <span className="hidden sm:inline">Security+ </span><span>SY0-701</span><span className="hidden sm:inline"> PBQ Simulator</span>
           </span>
         </div>
 
@@ -108,7 +109,7 @@ export const Header: React.FC<Props> = ({
               onClick={onOpenCheatSheet}
               className="transition-colors whitespace-nowrap shrink-0 hover:text-white flex items-center gap-1.5"
             >
-              <BookMarked className="w-3.5 h-3.5 text-amber-400" />
+              <BookMarked className="w-3.5 h-3.5 text-slate-500" />
               <span>Cheat Sheet & Puertos</span>
             </button>
           )}
@@ -117,7 +118,7 @@ export const Header: React.FC<Props> = ({
               onClick={onOpenStrategy}
               className="transition-colors whitespace-nowrap shrink-0 hover:text-white flex items-center gap-1.5"
             >
-              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <BookOpen className="w-3.5 h-3.5 text-slate-500" />
               <span>Guía de estrategia</span>
             </button>
           )}
@@ -125,7 +126,7 @@ export const Header: React.FC<Props> = ({
             onClick={onOpenExamSummary}
             className="transition-colors whitespace-nowrap shrink-0 hover:text-white flex items-center gap-1.5"
           >
-            <Award className="w-3.5 h-3.5 text-emerald-400" />
+            <Award className="w-3.5 h-3.5 text-slate-500" />
             <span>Mi progreso</span>
           </button>
         </nav>
@@ -133,6 +134,7 @@ export const Header: React.FC<Props> = ({
         {/* Zone 3: Primary Action */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <LanguageSwitch />
+          <ThemeSwitch />
           <button
             onClick={() => {
               sound.playToggle();
@@ -144,7 +146,7 @@ export const Header: React.FC<Props> = ({
             {isMuted ? (
               <VolumeX className="w-4 h-4 text-slate-500" />
             ) : (
-              <Volume2 className="w-4 h-4 text-cyan-400" />
+              <Volume2 className="w-4 h-4 text-slate-300" />
             )}
           </button>
 
@@ -154,14 +156,14 @@ export const Header: React.FC<Props> = ({
               className="hidden px-3.5 py-2 text-xs font-semibold text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-xl transition-colors whitespace-nowrap shrink-0 flex items-center gap-2"
               title="Guía Rápida & Puertos Críticos (Alt+P)"
             >
-              <BookMarked className="w-3.5 h-3.5 text-amber-400" />
+              <BookMarked className="w-3.5 h-3.5 text-slate-500" />
               <span className="hidden sm:inline">Cheat Sheet</span>
             </button>
           )}
 
           {onOpenStrategy && <button
             onClick={onOpenStrategy}
-            className="lg:hidden px-4 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors whitespace-nowrap shrink-0 shadow-md shadow-cyan-950 flex items-center gap-2"
+            className="lg:hidden px-4 py-2 text-xs font-bold text-slate-200 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-xl transition-colors whitespace-nowrap shrink-0 flex items-center gap-2"
           >
             <BookOpen className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Estrategia</span>
@@ -191,7 +193,7 @@ export const Header: React.FC<Props> = ({
                 onClick={() => onModeChange('exam')}
                 className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
                   mode === 'exam'
-                    ? 'bg-cyan-600 text-white shadow-sm'
+                    ? 'bg-cyan-600 text-on-accent shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -223,7 +225,7 @@ export const Header: React.FC<Props> = ({
                 {timerActive ? (
                   <Pause className="w-3 h-3" />
                 ) : (
-                  <Play className="w-3 h-3 text-emerald-400" />
+                  <Play className="w-3 h-3" />
                 )}
               </button>}
             </div>
@@ -253,7 +255,7 @@ export const Header: React.FC<Props> = ({
               }}
               className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:text-white text-xs font-semibold"
             >
-              <Award className="w-3.5 h-3.5 text-emerald-400" />
+              <Award className="w-3.5 h-3.5 text-slate-500" />
               <span>Progreso</span>
             </button>
 
@@ -285,7 +287,7 @@ export const Header: React.FC<Props> = ({
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:text-white hover:border-slate-700 transition-colors text-xs font-semibold"
                 title="Guía Rápida de Puertos & Cheat Sheet CompTIA (Alt+P)"
               >
-                <BookMarked className="w-3.5 h-3.5 text-amber-400" />
+                <BookMarked className="w-3.5 h-3.5 text-slate-500" />
                 <span className="hidden sm:inline">Cheat Sheet</span>
                 <kbd className="hidden lg:inline text-[10px] font-mono px-1 py-0.2 rounded bg-slate-900 border border-slate-700 text-slate-400">Alt+P</kbd>
               </button>
@@ -297,13 +299,13 @@ export const Header: React.FC<Props> = ({
                   sound.playClick();
                   onOpenTraps();
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-violet-800 bg-violet-950/40 text-violet-200 hover:text-white hover:border-violet-600 transition-colors text-xs font-semibold"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:text-white hover:border-slate-700 transition-colors text-xs font-semibold"
                 title="Tarjetas con los pares de conceptos que más se confunden (Alt+T)"
               >
-                <Brain className="w-3.5 h-3.5 text-violet-400" />
+                <Brain className="w-3.5 h-3.5 text-slate-500" />
                 <span>Repaso de trampas</span>
                 {trapsDue > 0 && (
-                  <span className="min-w-5 px-1.5 rounded-full bg-violet-600 text-white text-[10px] font-bold tabular-nums">{trapsDue}</span>
+                  <span className="min-w-5 px-1.5 rounded-full bg-slate-800 text-slate-200 text-[11px] font-bold tabular-nums">{trapsDue}</span>
                 )}
               </button>
             )}
@@ -318,7 +320,7 @@ export const Header: React.FC<Props> = ({
                 className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-300 hover:text-white hover:border-slate-700 transition-colors text-xs font-semibold"
                 title="Atajos de teclado rápidos (Ctrl+/)"
               >
-                <Keyboard className="w-3.5 h-3.5 text-cyan-400" />
+                <Keyboard className="w-3.5 h-3.5 text-slate-500" />
                 <span className="hidden sm:inline">Atajos</span>
                 <kbd className="text-[10px] font-mono px-1 py-0.2 rounded bg-slate-900 border border-slate-700 text-slate-400">Ctrl+/</kbd>
               </button>

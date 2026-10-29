@@ -78,7 +78,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
       {/* Main Grid of 5 Zero Trust Pillars */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Policy 1: Phishing-Resistant MFA */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold text-white">
               <KeyRound className="w-4 h-4 text-cyan-400" />
@@ -104,7 +104,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
         </div>
 
         {/* Policy 2: Geoblocking Named Locations */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold text-white">
               <Globe className="w-4 h-4 text-cyan-400" />
@@ -129,7 +129,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
         </div>
 
         {/* Policy 3: Device Compliance (MDM) */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold text-white">
               <Smartphone className="w-4 h-4 text-cyan-400" />
@@ -154,7 +154,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
         </div>
 
         {/* Policy 4: Just-In-Time (PIM) for Admins */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold text-white">
               <UserCheck className="w-4 h-4 text-cyan-400" />
@@ -180,7 +180,7 @@ export const ConditionalAccessPBQ: React.FC<Props> = ({ state, onChange, onReset
         </div>
 
         {/* Policy 5: Risk-Based Conditional Access */}
-        <div className="md:col-span-2 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="md:col-span-2 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs font-semibold text-white">
               <AlertTriangle className="w-4 h-4 text-amber-400" />

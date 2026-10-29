@@ -86,7 +86,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
       </div>
 
       {/* Shared Responsibility Interactive Matrix Table */}
-      <div className="rounded-xl border border-slate-800 bg-slate-950/60 overflow-hidden shadow-xl">
+      <div className="rounded-xl border border-slate-800 bg-slate-950/60 overflow-hidden">
         <div className="p-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
           <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
             <Layers className="w-4 h-4 text-cyan-400" />
@@ -142,7 +142,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
                           onClick={() => handleAssign(layer.layerId, 'iaas', 'customer')}
                           className={`px-2 py-1 rounded text-[10px] font-semibold transition-all ${
                             layer.iaasParty === 'customer'
-                              ? 'bg-amber-600 text-white shadow'
+                              ? 'bg-amber-600 text-on-accent shadow'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >
@@ -153,7 +153,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
                           onClick={() => handleAssign(layer.layerId, 'iaas', 'csp')}
                           className={`px-2 py-1 rounded text-[10px] font-semibold transition-all ${
                             layer.iaasParty === 'csp'
-                              ? 'bg-cyan-600 text-white shadow'
+                              ? 'bg-cyan-600 text-on-accent shadow'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >
@@ -173,7 +173,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
                           onClick={() => handleAssign(layer.layerId, 'paas', 'customer')}
                           className={`px-2 py-1 rounded text-[10px] font-semibold transition-all ${
                             layer.paasParty === 'customer'
-                              ? 'bg-amber-600 text-white shadow'
+                              ? 'bg-amber-600 text-on-accent shadow'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >
@@ -184,7 +184,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
                           onClick={() => handleAssign(layer.layerId, 'paas', 'csp')}
                           className={`px-2 py-1 rounded text-[10px] font-semibold transition-all ${
                             layer.paasParty === 'csp'
-                              ? 'bg-cyan-600 text-white shadow'
+                              ? 'bg-cyan-600 text-on-accent shadow'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >
@@ -204,7 +204,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
                           onClick={() => handleAssign(layer.layerId, 'saas', 'customer')}
                           className={`px-2 py-1 rounded text-[10px] font-semibold transition-all ${
                             layer.saasParty === 'customer'
-                              ? 'bg-amber-600 text-white shadow'
+                              ? 'bg-amber-600 text-on-accent shadow'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >
@@ -215,7 +215,7 @@ export const CloudSharedResponsibilityPBQ: React.FC<CloudSharedResponsibilityPBQ
                           onClick={() => handleAssign(layer.layerId, 'saas', 'csp')}
                           className={`px-2 py-1 rounded text-[10px] font-semibold transition-all ${
                             layer.saasParty === 'csp'
-                              ? 'bg-cyan-600 text-white shadow'
+                              ? 'bg-cyan-600 text-on-accent shadow'
                               : 'text-slate-400 hover:text-white'
                           }`}
                         >

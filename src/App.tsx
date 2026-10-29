@@ -385,7 +385,7 @@ export default function App() {
                   : 'Simulacro calificado · revisa cada PBQ con "Ver desglose" o vuelve a Práctica Libre'}
               </span>
               {examInProgress ? (
-                <button onClick={() => finishExam(false)} className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
+                <button onClick={() => finishExam(false)} className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-on-accent font-bold">
                   Finalizar simulacro
                 </button>
               ) : (
@@ -399,14 +399,14 @@ export default function App() {
 
         <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-5">
           {/* Question brief: full width on top, so the simulator below gets the whole screen */}
-          <section className="rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl overflow-hidden">
+          <section className="rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
             <div className="p-4 sm:p-5 flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0 space-y-1.5">
-                <div className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                <div className="text-sm font-semibold text-slate-500 tabular-nums">
                   PBQ {inExamView ? currentIndex + 1 : currentPBQ.number} de {visiblePbqs.length} • {currentPBQ.categoryTitle}
                 </div>
                 <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">{currentPBQ.title}</h1>
-                <div className="text-[11px] text-slate-400 font-mono">
+                <div className="text-xs text-slate-400">
                   <span className="text-slate-300">{currentPBQ.domain}</span> · {currentPBQ.sy0701Objective}
                 </div>
               </div>
@@ -423,7 +423,7 @@ export default function App() {
                     {EXTRA_INFO.label}
                   </span>
                 )}
-                <span className="text-slate-400 font-mono bg-slate-800 px-2 py-1 rounded-md">{currentPBQ.estimatedMinutes} min aprox</span>
+                <span className="text-slate-400 tabular-nums bg-slate-800 px-2 py-1 rounded-md">{currentPBQ.estimatedMinutes} min aprox</span>
                 {!examInProgress && attemptCount > 0 && (
                   <span className="font-mono text-slate-400 bg-slate-950 border border-slate-800 px-2 py-1 rounded-md">
                     Intentos {attemptCount} · Mejor{' '}
@@ -455,7 +455,7 @@ export default function App() {
                         sound.playClick();
                         setFontSize(value);
                       }}
-                      className={`px-2 py-0.5 rounded-md font-semibold ${fontSize === value ? 'bg-cyan-950 text-cyan-300' : 'text-slate-400 hover:text-white'}`}
+                      className={`px-2 py-0.5 rounded-md font-semibold ${fontSize === value ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'}`}
                       title={title}
                     >
                       {label}
@@ -479,8 +479,8 @@ export default function App() {
             {!briefCollapsed && (
               <div className="grid lg:grid-cols-5 border-t border-slate-800">
                 <div className="lg:col-span-3 p-4 sm:p-5 space-y-2.5">
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
-                    <FileText className="w-4 h-4" /> Escenario
+                  <h2 className="section-tab">
+                    <FileText className="w-3.5 h-3.5" /> Escenario
                   </h2>
                   <p
                     className={`text-slate-100 select-text ${textSize(
@@ -494,8 +494,8 @@ export default function App() {
                 </div>
 
                 <div className="lg:col-span-2 p-4 sm:p-5 space-y-3 border-t lg:border-t-0 lg:border-l border-slate-800 bg-slate-950/40">
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                    <ListChecks className="w-4 h-4 text-cyan-400" /> Requerimientos
+                  <h2 className="section-tab">
+                    <ListChecks className="w-3.5 h-3.5" /> Requerimientos
                   </h2>
                   <ol className="space-y-2">
                     {currentPBQ.requirements.map((req, i) => (
@@ -503,7 +503,7 @@ export default function App() {
                         key={i}
                         className={`flex items-start gap-2.5 text-slate-200 ${textSize('text-base leading-relaxed', 'text-sm leading-relaxed', 'text-xs leading-normal')}`}
                       >
-                        <span className="w-5 h-5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 text-[11px] font-mono font-bold flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-[11px] tabular-nums font-bold flex items-center justify-center shrink-0 mt-0.5">
                           {i + 1}
                         </span>
                         <span>{req}</span>
@@ -564,7 +564,7 @@ export default function App() {
                 {mode === 'practice' && (
                   <button
                     onClick={handleEvaluateCurrentPBQ}
-                    className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-cyan-600 to-sky-600 hover:from-cyan-500 hover:to-sky-500 rounded-xl transition-all shadow-lg shadow-cyan-950 ring-1 ring-cyan-400/40"
+                    className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-on-accent bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors shadow-md shadow-slate-900/10"
                     title="Enviar y validar solución (Ctrl + Enter)"
                   >
                     <FileCheck className="w-4 h-4" />
@@ -601,7 +601,7 @@ export default function App() {
               {!isLast ? (
                 <button
                   onClick={goNext}
-                  className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors shadow-md shadow-cyan-950"
+                  className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-900 bg-slate-200 hover:bg-slate-300 rounded-xl transition-colors"
                   title="Siguiente PBQ (Ctrl + →)"
                 >
                   <span className="hidden sm:inline">Siguiente</span>
@@ -610,7 +610,7 @@ export default function App() {
               ) : (
                 <button
                   onClick={() => (examInProgress ? finishExam(false) : setIsExamSummaryOpen(true))}
-                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors shadow-lg shadow-emerald-950"
+                  className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-on-accent bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors shadow-lg shadow-emerald-950"
                 >
                   <Award className="w-4 h-4" />
                   <span>{examInProgress ? 'Finalizar' : 'Reporte'}</span>

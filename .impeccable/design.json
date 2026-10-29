@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-29T00:00:00Z",
+  "title": "Design System: Security+ SY0-701 PBQ Simulator",
+  "extensions": {
+    "colorMeta": {
+      "brand-red": { "role": "primary", "displayName": "Brand Red", "canonical": "#c8102e", "tonalRamp": ["#3d0510", "#7a0b1d", "#b00f29", "#c8102e", "#e48a98", "#f2c3ca", "#f9dfe3", "#fdf1f3"] },
+      "info-navy": { "role": "secondary", "displayName": "Info Navy", "canonical": "#2c578c", "tonalRamp": ["#0c1a2c", "#193354", "#274d7d", "#2c578c", "#9cb6d8", "#c3d4ea", "#e1eaf5", "#f2f6fb"] },
+      "exam-page": { "role": "neutral", "displayName": "Exam Page", "canonical": "#f0f1f3", "tonalRamp": ["#0b0d10", "#1f242b", "#454c56", "#5f6670", "#9aa1aa", "#c8cdd3", "#e1e4e8", "#f0f1f3"] },
+      "charcoal-page": { "role": "neutral", "displayName": "Charcoal Page", "canonical": "#111214", "tonalRamp": ["#111214", "#1a1b1e", "#2a2c30", "#3a3d43", "#5b6068", "#8b9098", "#c9ccd1", "#eff0f2"] }
+    },
+    "typographyMeta": {
+      "title": { "displayName": "Title", "purpose": "PBQ title." },
+      "body": { "displayName": "Body", "purpose": "Scenario, requirements and explanations; scales with the text-size control." },
+      "label": { "displayName": "Label", "purpose": "Buttons, chips and metadata lines." },
+      "section-tab": { "displayName": "Section Tab", "purpose": "Uppercase module headings inside the red tab." },
+      "data": { "displayName": "Data", "purpose": "Timer, ports, IPs, commands and counters only." }
+    },
+    "shadows": [
+      { "name": "float", "value": "0 25px 50px -12px rgba(0,0,0,0.25)", "purpose": "Only for surfaces that float over scrolling content: the sticky action bar and modal dialogs." }
+    ],
+    "motion": [
+      { "name": "state", "value": "150ms ease", "purpose": "Color transitions on hover and selection." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one primary action per view, such as Submit and Validate.",
+      "html": "<button class=\"ds-btn-primary\">Enviar y Validar PBQ</button>",
+      "css": ".ds-btn-primary { background: #c8102e; color: #ffffff; padding: 10px 20px; border: none; border-radius: 12px; font: 700 12px 'Source Sans 3', system-ui, sans-serif; cursor: pointer; transition: background 150ms ease; } .ds-btn-primary:hover { background: #a90d27; } .ds-btn-primary:focus-visible { outline: 2px solid #c8102e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Next PBQ: strong but not red.",
+      "html": "<button class=\"ds-btn-secondary\">Siguiente</button>",
+      "css": ".ds-btn-secondary { background: #2f353e; color: #ffffff; padding: 8px 16px; border: none; border-radius: 12px; font: 600 12px 'Source Sans 3', system-ui, sans-serif; cursor: pointer; transition: background 150ms ease; } .ds-btn-secondary:hover { background: #454c56; } .ds-btn-secondary:focus-visible { outline: 2px solid #c8102e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Neutral Button",
+      "kind": "button",
+      "refersTo": "button-neutral",
+      "description": "Previous, Reset and other low-emphasis actions.",
+      "html": "<button class=\"ds-btn-neutral\">Anterior</button>",
+      "css": ".ds-btn-neutral { background: #e1e4e8; color: #2f353e; padding: 8px 16px; border: none; border-radius: 12px; font: 600 12px 'Source Sans 3', system-ui, sans-serif; cursor: pointer; transition: background 150ms ease; } .ds-btn-neutral:hover { background: #c8cdd3; color: #101317; } .ds-btn-neutral:focus-visible { outline: 2px solid #c8102e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Section Tab",
+      "kind": "custom",
+      "refersTo": "section-tab",
+      "description": "The red tab that heads every module.",
+      "html": "<h2 class=\"ds-section-tab\">Escenario</h2>",
+      "css": ".ds-section-tab { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 4px 10px; border-radius: 4px 4px 0 0; background: #c8102e; color: #ffffff; font: 700 11px 'Source Sans 3', system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Module",
+      "kind": "card",
+      "refersTo": "module",
+      "description": "A flat white pane defined by a hairline.",
+      "html": "<section class=\"ds-module\"><h2 class=\"ds-module-tab\">Requerimientos</h2><p class=\"ds-module-body\">Coloca cada control en la posición del diagrama que satisface cada necesidad.</p></section>",
+      "css": ".ds-module { background: #ffffff; border: 1px solid #e1e4e8; border-radius: 16px; padding: 20px; } .ds-module-tab { display: inline-flex; margin: 0 0 12px; padding: 4px 10px; border-radius: 4px 4px 0 0; background: #c8102e; color: #fff; font: 700 11px 'Source Sans 3', system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; } .ds-module-body { margin: 0; color: #2f353e; font: 400 15px/1.6 'Source Sans 3', system-ui, sans-serif; }"
+    },
+    {
+      "name": "PBQ Chip",
+      "kind": "chip",
+      "description": "Navigation chip in the PBQ strip; the active one is outlined in red.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip ds-chip-active\">PBQ 1</button><button class=\"ds-chip\">PBQ 2</button></div>",
+      "css": ".ds-chips { display: flex; gap: 6px; } .ds-chip { background: #ffffff; color: #454c56; border: 1px solid #e1e4e8; border-radius: 12px; padding: 6px 12px; font: 700 12px 'Source Sans 3', system-ui, sans-serif; font-variant-numeric: tabular-nums; cursor: pointer; } .ds-chip:hover { color: #101317; border-color: #c8cdd3; } .ds-chip-active { border-color: #a90d27; color: #101317; background: #fdf1f3; } .ds-chip:focus-visible { outline: 2px solid #c8102e; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Exam Room",
+    "overview": "The simulator should feel like the screen a candidate meets on exam day, not a hacker console. Work happens on white panes over a cool-gray page, set in a plain institutional sans, with one brand red that marks only what matters: the primary action, where you are, and the label at the head of each module. Everything else is neutral ink, so the scenario text and the task carry the page.",
+    "keyCharacteristics": [
+      "Light exam screen by default, charcoal on demand, one red in both.",
+      "Flat modules defined by a 1px hairline, not by shadow.",
+      "A small red tab heads every module.",
+      "Monospace only for data: timers, counts, IPs, ports, commands."
+    ],
+    "rules": [
+      { "name": "The Red Means Here Rule", "body": "Red appears only on the primary action, the current position, section tabs, focus and genuine errors. Icons, counts, numbers and decoration are neutral ink.", "section": "colors" },
+      { "name": "The One Token Layer Rule", "body": "Components keep the original utility names; src/index.css redefines what each shade means per theme. Shades 950–800 are tints, 700–500 are fills and borders, 400–100 are text.", "section": "colors" },
+      { "name": "The Mono Is Data Rule", "body": "Monospace is for values, never for navigation, labels or a technical look.", "section": "typography" },
+      { "name": "The No Eyebrow Rule", "body": "Position and category information sits as sentence-case metadata; no red, tracked, uppercase line above a heading.", "section": "typography" },
+      { "name": "The One Elevation Rule", "body": "A surface gets a hairline or a shadow, never both, unless it floats over scrolling content.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use the shade roles of the token layer instead of new colors.",
+      "Do head every new module with the section-tab utility.",
+      "Do use text-on-accent for text on any filled brand or state color.",
+      "Do wrap always-dark surfaces (terminals, consoles) in .theme-dark.",
+      "Do keep correct and incorrect distinguishable by icon or text, not color alone."
+    ],
+    "donts": [
+      "Don't use red for icons, counts or decoration.",
+      "Don't combine a hairline border with a wide shadow on in-page modules.",
+      "Don't introduce a second accent hue; information color is navy only.",
+      "Don't use CompTIA logos or wording that implies affiliation."
+    ]
+  }
+}

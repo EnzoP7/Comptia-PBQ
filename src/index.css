@@ -1,30 +1,308 @@
 @import "tailwindcss";
 
+/*
+ * Exam-room theme. Components keep their original utility names (slate, cyan, emerald…), which
+ * were written for a dark UI; the palette below redefines what each shade means so the whole app
+ * reads as a light exam screen by default and as charcoal under [data-theme="dark"].
+ *   slate  → neutral grays (950 = page, 900 = panel, 800 = hairline, 400–100 = ink)
+ *   cyan   → the brand red, reserved for primary action, current position and focus
+ *   indigo, purple, violet, sky, blue → one navy "information" scale
+ *   red → rose, yellow → amber (aliases, so stray utilities stay in the system)
+ * Shades 950–800 are tints, 700–500 are fills and borders, 400–100 are text.
+ */
+@theme {
+  --font-sans: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  --color-white: #101317;
+
+  --color-slate-50: #0b0d10;
+  --color-slate-100: #14171c;
+  --color-slate-200: #1f242b;
+  --color-slate-300: #2f353e;
+  --color-slate-400: #454c56;
+  --color-slate-500: #5f6670;
+  --color-slate-600: #9aa1aa;
+  --color-slate-700: #c8cdd3;
+  --color-slate-800: #e1e4e8;
+  --color-slate-900: #ffffff;
+  --color-slate-950: #f0f1f3;
+
+  --color-cyan-50: #3d0510;
+  --color-cyan-100: #5a0816;
+  --color-cyan-200: #7a0b1d;
+  --color-cyan-300: #960d24;
+  --color-cyan-400: #b00f29;
+  --color-cyan-500: #a90d27;
+  --color-cyan-600: #c8102e;
+  --color-cyan-700: #e48a98;
+  --color-cyan-800: #f2c3ca;
+  --color-cyan-900: #f9dfe3;
+  --color-cyan-950: #fdf1f3;
+
+  --color-emerald-50: #022c22;
+  --color-emerald-100: #053d2f;
+  --color-emerald-200: #064e3b;
+  --color-emerald-300: #065f46;
+  --color-emerald-400: #04704f;
+  --color-emerald-500: #06875f;
+  --color-emerald-600: #047857;
+  --color-emerald-700: #6fcfa8;
+  --color-emerald-800: #a7e6cb;
+  --color-emerald-900: #d4f4e5;
+  --color-emerald-950: #effbf5;
+
+  --color-amber-50: #3b1702;
+  --color-amber-100: #4d2108;
+  --color-amber-200: #6b310d;
+  --color-amber-300: #84400e;
+  --color-amber-400: #9a4a0b;
+  --color-amber-500: #c26407;
+  --color-amber-600: #a14c07;
+  --color-amber-700: #f0c060;
+  --color-amber-800: #f7dc9b;
+  --color-amber-900: #fcefc9;
+  --color-amber-950: #fff9ea;
+
+  --color-rose-50: #45041a;
+  --color-rose-100: #5f0722;
+  --color-rose-200: #7d0e30;
+  --color-rose-300: #94113a;
+  --color-rose-400: #b4123d;
+  --color-rose-500: #d11a45;
+  --color-rose-600: #be123c;
+  --color-rose-700: #f09bae;
+  --color-rose-800: #f8c6d1;
+  --color-rose-900: #fde3e8;
+  --color-rose-950: #fff3f5;
+
+  --color-indigo-50: #0c1a2c;
+  --color-indigo-100: #122640;
+  --color-indigo-200: #193354;
+  --color-indigo-300: #1f3f68;
+  --color-indigo-400: #274d7d;
+  --color-indigo-500: #335e95;
+  --color-indigo-600: #2c578c;
+  --color-indigo-700: #9cb6d8;
+  --color-indigo-800: #c3d4ea;
+  --color-indigo-900: #e1eaf5;
+  --color-indigo-950: #f2f6fb;
+}
+
+@theme inline {
+  --color-purple-50: var(--color-indigo-50);
+  --color-purple-100: var(--color-indigo-100);
+  --color-purple-200: var(--color-indigo-200);
+  --color-purple-300: var(--color-indigo-300);
+  --color-purple-400: var(--color-indigo-400);
+  --color-purple-500: var(--color-indigo-500);
+  --color-purple-600: var(--color-indigo-600);
+  --color-purple-700: var(--color-indigo-700);
+  --color-purple-800: var(--color-indigo-800);
+  --color-purple-900: var(--color-indigo-900);
+  --color-purple-950: var(--color-indigo-950);
+  --color-violet-50: var(--color-indigo-50);
+  --color-violet-100: var(--color-indigo-100);
+  --color-violet-200: var(--color-indigo-200);
+  --color-violet-300: var(--color-indigo-300);
+  --color-violet-400: var(--color-indigo-400);
+  --color-violet-500: var(--color-indigo-500);
+  --color-violet-600: var(--color-indigo-600);
+  --color-violet-700: var(--color-indigo-700);
+  --color-violet-800: var(--color-indigo-800);
+  --color-violet-900: var(--color-indigo-900);
+  --color-violet-950: var(--color-indigo-950);
+  --color-sky-50: var(--color-indigo-50);
+  --color-sky-100: var(--color-indigo-100);
+  --color-sky-200: var(--color-indigo-200);
+  --color-sky-300: var(--color-indigo-300);
+  --color-sky-400: var(--color-indigo-400);
+  --color-sky-500: var(--color-indigo-500);
+  --color-sky-600: var(--color-indigo-600);
+  --color-sky-700: var(--color-indigo-700);
+  --color-sky-800: var(--color-indigo-800);
+  --color-sky-900: var(--color-indigo-900);
+  --color-sky-950: var(--color-indigo-950);
+  --color-blue-50: var(--color-indigo-50);
+  --color-blue-100: var(--color-indigo-100);
+  --color-blue-200: var(--color-indigo-200);
+  --color-blue-300: var(--color-indigo-300);
+  --color-blue-400: var(--color-indigo-400);
+  --color-blue-500: var(--color-indigo-500);
+  --color-blue-600: var(--color-indigo-600);
+  --color-blue-700: var(--color-indigo-700);
+  --color-blue-800: var(--color-indigo-800);
+  --color-blue-900: var(--color-indigo-900);
+  --color-blue-950: var(--color-indigo-950);
+  --color-red-300: var(--color-rose-300);
+  --color-red-400: var(--color-rose-400);
+  --color-red-500: var(--color-rose-500);
+  --color-red-600: var(--color-rose-600);
+  --color-red-800: var(--color-rose-800);
+  --color-red-900: var(--color-rose-900);
+  --color-red-950: var(--color-rose-950);
+  --color-yellow-300: var(--color-amber-300);
+  --color-yellow-400: var(--color-amber-400);
+  --color-yellow-500: var(--color-amber-500);
+}
+
+/* Charcoal theme, and the forced-dark scope used by the terminal. */
+[data-theme='dark'],
+.theme-dark {
+  --color-white: #ffffff;
+
+  --color-slate-50: #f8f9fa;
+  --color-slate-100: #eff0f2;
+  --color-slate-200: #e0e2e5;
+  --color-slate-300: #c9ccd1;
+  --color-slate-400: #a9adb4;
+  --color-slate-500: #8b9098;
+  --color-slate-600: #5b6068;
+  --color-slate-700: #3a3d43;
+  --color-slate-800: #2a2c30;
+  --color-slate-900: #1a1b1e;
+  --color-slate-950: #111214;
+
+  --color-cyan-50: #fff1f2;
+  --color-cyan-100: #ffe0e3;
+  --color-cyan-200: #ffc2c8;
+  --color-cyan-300: #ff98a2;
+  --color-cyan-400: #ff6b7a;
+  --color-cyan-500: #d81f38;
+  --color-cyan-600: #c8102e;
+  --color-cyan-700: #9b1428;
+  --color-cyan-800: #6a1724;
+  --color-cyan-900: #3f1219;
+  --color-cyan-950: #2a0d12;
+
+  --color-emerald-50: #ecfdf5;
+  --color-emerald-100: #d1fae5;
+  --color-emerald-200: #a7f3d0;
+  --color-emerald-300: #6ee7b7;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #06875f;
+  --color-emerald-600: #047857;
+  --color-emerald-700: #047857;
+  --color-emerald-800: #065f46;
+  --color-emerald-900: #064e3b;
+  --color-emerald-950: #022c22;
+
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #a14c07;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
+  --color-amber-950: #451a03;
+
+  --color-rose-50: #fff1f2;
+  --color-rose-100: #ffe4e6;
+  --color-rose-200: #fecdd3;
+  --color-rose-300: #fda4af;
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #be123c;
+  --color-rose-700: #be123c;
+  --color-rose-800: #9f1239;
+  --color-rose-900: #881337;
+  --color-rose-950: #4c0519;
+
+  --color-indigo-50: #eef3fb;
+  --color-indigo-100: #dde7f6;
+  --color-indigo-200: #c4d5ee;
+  --color-indigo-300: #a5bfe5;
+  --color-indigo-400: #86a8db;
+  --color-indigo-500: #4f78b8;
+  --color-indigo-600: #2c578c;
+  --color-indigo-700: #2a4a78;
+  --color-indigo-800: #1e3354;
+  --color-indigo-900: #142035;
+  --color-indigo-950: #0e1726;
+}
+
+/* White text on a filled brand, success, warning or info control, in both themes. */
+@utility text-on-accent {
+  color: #ffffff;
+}
+
+/* The small red tab that heads a module, like a section label on the exam screen. */
+@utility section-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background-color: var(--color-cyan-600);
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 @layer base {
-  body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  html {
+    color-scheme: light;
   }
-  
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+  .theme-dark {
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-feature-settings: 'kern', 'liga';
+  }
+
   code, kbd, samp, pre {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
+  }
+
+  /* Numbers in scores, timers and tables line up. */
+  .tabular-nums, .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-cyan-600) 22%, transparent);
+    color: var(--color-slate-50);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan-600);
+    outline-offset: 2px;
+  }
+
+  input, textarea {
+    caret-color: var(--color-cyan-600);
+  }
+
+  a {
+    text-underline-offset: 3px;
   }
 }
 
-/* Custom Tactical Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: var(--color-slate-950);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
+  background: var(--color-slate-700);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: var(--color-slate-600);
 }

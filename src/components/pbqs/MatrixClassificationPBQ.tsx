@@ -31,10 +31,10 @@ export const MatrixClassificationPBQ: React.FC<Props> = ({ config, answers, onCh
     <div className="space-y-6">
       <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-cyan-400 text-sm font-bold">
-            <Grid3x3 className="w-4 h-4" />
+          <h3 className="section-tab">
+            <Grid3x3 className="w-3.5 h-3.5" />
             <span>{config.consoleTitle}</span>
-          </div>
+          </h3>
           <button
             onClick={onReset}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-slate-400 hover:text-white bg-slate-800 rounded-lg transition-colors shrink-0"
@@ -57,7 +57,7 @@ export const MatrixClassificationPBQ: React.FC<Props> = ({ config, answers, onCh
           {section.rows.map((row, idx) => (
             <div key={row.id} className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
               <div className="flex items-start gap-3">
-                <span className="w-6 h-6 rounded-lg bg-slate-900 text-cyan-400 border border-slate-700 text-xs font-mono font-bold flex items-center justify-center shrink-0">
+                <span className="w-6 h-6 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 text-xs tabular-nums font-bold flex items-center justify-center shrink-0">
                   {idx + 1}
                 </span>
                 <div className="space-y-2 min-w-0 flex-1">

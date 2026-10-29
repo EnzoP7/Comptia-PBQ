@@ -90,7 +90,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
         {state.scenarios.map((sc, index) => (
           <div
             key={sc.id}
-            className="p-5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-slate-700/80 transition-colors space-y-4 shadow-lg"
+            className="p-5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-slate-700/80 transition-colors space-y-4"
           >
             {/* Header */}
             <div className="flex items-start gap-3">

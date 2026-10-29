@@ -41,7 +41,7 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -71,7 +71,7 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
       </div>
 
       {/* Terminal Output Display */}
-      <div className="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
+      <div className="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden">
         <div className="bg-slate-900 px-4 py-2 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-rose-500/80"></div>
@@ -112,7 +112,7 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
       </div>
 
       {/* Part 1: Nmap Scan Technique Identification */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-3">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3">
         <div className="flex items-center gap-2">
           <Search className="w-4 h-4 text-purple-400" />
           <h4 className="text-sm font-bold text-white uppercase tracking-wider">
@@ -159,7 +159,7 @@ export const NmapScanPBQ: React.FC<NmapScanPBQProps> = ({
           {state.portFindings.map((finding) => (
             <div
               key={finding.id}
-              className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4"
+              className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-800 gap-2">
                 <div className="flex items-center gap-3">

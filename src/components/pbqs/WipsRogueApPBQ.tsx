@@ -98,7 +98,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
       {/* WIPS Containment & Policy Controls */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* 1. Threat Classification */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <label className="text-xs font-semibold text-slate-300">
               1. Clasificación Táctica de la Amenaza en el WIPS:
@@ -127,7 +127,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
         </div>
 
         {/* 2. Switch Physical Port Action */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <label className="text-xs font-semibold text-slate-300">
               2. Acción en el Puerto del Switch Ethernet (Gi1/0/24):
@@ -181,7 +181,7 @@ export const WipsRogueApPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
         </div>
 
         {/* 4. Client Authentication Protocol */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <label className="text-xs font-semibold text-slate-300">
               4. Protocolo de Autenticación de Clientes Corporativos:

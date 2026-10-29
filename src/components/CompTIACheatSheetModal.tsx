@@ -111,7 +111,7 @@ export const CompTIACheatSheetModal: React.FC<Props> = ({ isOpen, onClose }) => 
             }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-colors ${
               activeTab === 'ports'
-                ? 'bg-cyan-600 text-white shadow-sm'
+                ? 'bg-cyan-600 text-on-accent shadow-sm'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800'
             }`}
           >
@@ -125,7 +125,7 @@ export const CompTIACheatSheetModal: React.FC<Props> = ({ isOpen, onClose }) => 
             }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-colors ${
               activeTab === 'nist'
-                ? 'bg-cyan-600 text-white shadow-sm'
+                ? 'bg-cyan-600 text-on-accent shadow-sm'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800'
             }`}
           >
@@ -139,7 +139,7 @@ export const CompTIACheatSheetModal: React.FC<Props> = ({ isOpen, onClose }) => 
             }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-colors ${
               activeTab === 'formulas'
-                ? 'bg-cyan-600 text-white shadow-sm'
+                ? 'bg-cyan-600 text-on-accent shadow-sm'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800'
             }`}
           >
@@ -153,7 +153,7 @@ export const CompTIACheatSheetModal: React.FC<Props> = ({ isOpen, onClose }) => 
             }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium transition-colors ${
               activeTab === 'crypto'
-                ? 'bg-cyan-600 text-white shadow-sm'
+                ? 'bg-cyan-600 text-on-accent shadow-sm'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800'
             }`}
           >

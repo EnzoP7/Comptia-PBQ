@@ -32,7 +32,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -64,7 +64,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
       {/* 4 Cards Configuration */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Module 1: DNSSEC Signature Record */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-cyan-950/80 border border-cyan-800/80 rounded-lg text-cyan-400">
               <ShieldCheck className="w-5 h-5" />
@@ -102,7 +102,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
         </div>
 
         {/* Module 2: DNS Encryption Protocol & Port */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-indigo-950/80 border border-indigo-800/80 rounded-lg text-indigo-400">
               <Lock className="w-5 h-5" />
@@ -140,7 +140,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
         </div>
 
         {/* Module 3: Zone Transfer AXFR */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-amber-950/80 border border-amber-800/80 rounded-lg text-amber-400">
               <FileCode className="w-5 h-5" />
@@ -177,7 +177,7 @@ export const DnsSecurityPBQ: React.FC<DnsSecurityPBQProps> = ({
         </div>
 
         {/* Module 4: Open Recursion Mitigation */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-rose-950/80 border border-rose-800/80 rounded-lg text-rose-400">
               <Zap className="w-5 h-5" />

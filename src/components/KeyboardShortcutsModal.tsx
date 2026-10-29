@@ -144,7 +144,7 @@ export const KeyboardShortcutsModal: React.FC<Props> = ({ isOpen, onClose }) => 
               sound.playClick();
               onClose();
             }}
-            className="px-3.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors"
+            className="px-3.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-on-accent font-semibold text-xs transition-colors"
           >
             Entendido
           </button>

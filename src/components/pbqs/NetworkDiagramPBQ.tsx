@@ -122,11 +122,11 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
       </div>
 
       {/* Network Topology Visualizer Canvas */}
-      <div className="relative p-6 rounded-2xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-slate-800 shadow-2xl overflow-hidden">
+      <div className="relative p-6 rounded-2xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-slate-800 overflow-hidden">
         <div
           className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, #38bdf8 1px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 1px 1px, var(--color-slate-700) 1px, transparent 0)`,
             backgroundSize: '24px 24px',
           }}
         />
@@ -200,7 +200,7 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
                 {renderSlotCard(slots.find((s) => s.slotId === 'slot-boundary'))}
                 <div className="flex flex-col justify-center p-3 rounded-xl bg-slate-950/70 border border-slate-800 text-xs">
                   <div className="flex items-center gap-2 text-slate-300 font-semibold mb-1">
-                    <Database className="w-4 h-4 text-cyan-400" />
+                    <Database className="w-4 h-4 text-slate-500" />
                     <span>Base de Datos SQL</span>
                   </div>
                   <p className="text-[11px] text-slate-400 mb-1">
@@ -295,7 +295,7 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
       <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <div>
-            <h4 className="text-sm font-semibold text-slate-200">
+            <h4 className="section-tab">
               Bandeja de Controles de Seguridad Disponibles
             </h4>
             <p className="text-xs text-slate-400">
@@ -331,7 +331,7 @@ export const NetworkDiagramPBQ: React.FC<Props> = ({
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-cyan-400">
+                    <span className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400">
                       {getIcon(control.iconType)}
                     </span>
                     <span className="text-xs font-bold text-slate-200 tracking-wide font-mono">

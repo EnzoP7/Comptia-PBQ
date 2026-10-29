@@ -39,7 +39,7 @@ export const WelcomeModal: React.FC<Props> = ({ isOpen, onClose, onStartExam, to
       <div className="w-full max-w-2xl max-h-[94vh] overflow-y-auto bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl">
         <div className="px-5 sm:px-6 py-5 bg-slate-950 border-b border-slate-800 flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-600 flex items-center justify-center text-white shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-cyan-600 flex items-center justify-center text-on-accent shrink-0">
               <Shield className="w-6 h-6" />
             </div>
             <div>
@@ -79,7 +79,7 @@ export const WelcomeModal: React.FC<Props> = ({ isOpen, onClose, onStartExam, to
           <button onClick={onStartExam} className="px-4 py-2.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 rounded-xl">
             Hacer un simulacro
           </button>
-          <button onClick={onClose} className="px-5 py-2.5 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl">
+          <button onClick={onClose} className="px-5 py-2.5 text-xs font-bold text-on-accent bg-cyan-600 hover:bg-cyan-500 rounded-xl">
             Empezar a practicar
           </button>
         </div>

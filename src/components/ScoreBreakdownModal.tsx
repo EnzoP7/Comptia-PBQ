@@ -105,11 +105,11 @@ export const ScoreBreakdownModal: React.FC<Props> = ({ result, isOpen, onClose, 
                 role="tab"
                 aria-selected={activeTab === tab}
                 onClick={() => { sound.playClick(); setActiveTab(tab); }}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeTab === tab ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/60'}`}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${activeTab === tab ? 'bg-cyan-600 text-on-accent' : 'text-slate-400 hover:text-white hover:bg-slate-800/60'}`}
               >
                 {icon}
                 <span>{label}</span>
-                {badge && <span className="px-1.5 rounded-full text-[10px] bg-slate-950/70 font-mono">{badge}</span>}
+                {badge && <span className={`px-1.5 rounded-full text-[11px] tabular-nums ${activeTab === tab ? 'bg-black/20 text-on-accent' : 'bg-slate-800 text-slate-300'}`}>{badge}</span>}
               </button>
             ))}
           </div>
@@ -212,7 +212,7 @@ export const ScoreBreakdownModal: React.FC<Props> = ({ result, isOpen, onClose, 
                               {ok ? <ShieldCheck className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
                               {ok ? 'Por qué es correcto' : 'Qué falló y cuál es la respuesta'}
                             </div>
-                            <p className="text-slate-200 leading-relaxed">{item.explanation}</p>
+                            <p className="text-slate-200 leading-relaxed whitespace-pre-line">{item.explanation}</p>
                           </div>
 
                           {concepts.map((c) => (
@@ -318,7 +318,7 @@ export const ScoreBreakdownModal: React.FC<Props> = ({ result, isOpen, onClose, 
               </button>
             )}
             {hasNextPBQ && onNextPBQ && (
-              <button onClick={() => { sound.playSuccess(); onNextPBQ(); onClose(); }} className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl">
+              <button onClick={() => { sound.playSuccess(); onNextPBQ(); onClose(); }} className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-on-accent bg-cyan-600 hover:bg-cyan-500 rounded-xl">
                 Siguiente PBQ <ArrowRight className="w-4 h-4" />
               </button>
             )}

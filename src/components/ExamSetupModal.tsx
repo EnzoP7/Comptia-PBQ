@@ -50,7 +50,7 @@ export const ExamSetupModal: React.FC<Props> = ({ isOpen, onClose, onStart, tota
                   key={n}
                   onClick={() => setCount(n)}
                   className={`flex-1 py-2 rounded-xl border text-xs font-bold font-mono ${
-                    count === n ? 'bg-cyan-600 border-cyan-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
+                    count === n ? 'bg-cyan-600 border-cyan-500 text-on-accent' : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
                   }`}
                 >
                   {n}
@@ -117,7 +117,7 @@ export const ExamSetupModal: React.FC<Props> = ({ isOpen, onClose, onStart, tota
               sound.playSuccess();
               onStart(count, minutes, prioritizeWeak, realisticOnly);
             }}
-            className="px-5 py-2 text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl flex items-center gap-1.5"
+            className="px-5 py-2 text-xs font-bold text-on-accent bg-cyan-600 hover:bg-cyan-500 rounded-xl flex items-center gap-1.5"
           >
             <Play className="w-3.5 h-3.5" /> Comenzar
           </button>

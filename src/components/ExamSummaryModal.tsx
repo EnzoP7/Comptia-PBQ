@@ -177,7 +177,7 @@ export const ExamSummaryModal: React.FC<Props> = ({
                     onStartMiniDrill();
                     onClose();
                   }}
-                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-sky-600 hover:from-cyan-500 hover:to-sky-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-950 ring-1 ring-cyan-400/40 shrink-0"
+                  className="px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-on-accent font-bold text-xs flex items-center gap-2 shadow-md shadow-slate-900/10 shrink-0"
                 >
                   <Zap className="w-4 h-4 text-amber-300" />
                   <span>Nuevo Simulacro con Tiempo</span>
@@ -390,7 +390,7 @@ export const ExamSummaryModal: React.FC<Props> = ({
               sound.playClick();
               onClose();
             }}
-            className="px-5 py-2 text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors"
+            className="px-5 py-2 text-xs font-semibold text-on-accent bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors"
           >
             Cerrar Reporte
           </button>

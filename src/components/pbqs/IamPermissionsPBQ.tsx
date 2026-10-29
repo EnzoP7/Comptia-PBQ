@@ -172,7 +172,7 @@ export const IamPermissionsPBQ: React.FC<Props> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* SECTION 1: User Group Assignments (RBAC) */}
-        <div className="lg:col-span-5 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 shadow-xl">
+        <div className="lg:col-span-5 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-slate-800 text-sm font-semibold text-slate-200">
             <Users className="w-4 h-4 text-cyan-400" />
             <span>Asignación de Grupos de Usuarios (RBAC)</span>
@@ -248,7 +248,7 @@ export const IamPermissionsPBQ: React.FC<Props> = ({
         </div>
 
         {/* SECTION 2: Folder ACLs & Inheritance */}
-        <div className="lg:col-span-7 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 shadow-xl">
+        <div className="lg:col-span-7 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-200">
               <FolderTree className="w-4 h-4 text-cyan-400" />
@@ -266,7 +266,7 @@ export const IamPermissionsPBQ: React.FC<Props> = ({
                   }}
                   className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors ${
                     selectedFolderIdx === idx
-                      ? 'bg-cyan-600 text-white'
+                      ? 'bg-cyan-600 text-on-accent'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >

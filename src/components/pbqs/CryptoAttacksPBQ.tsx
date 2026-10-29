@@ -41,7 +41,7 @@ export const CryptoAttacksPBQ: React.FC<Props> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl flex flex-wrap items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">
             <Key className="w-4 h-4 text-cyan-400" />
@@ -82,7 +82,7 @@ export const CryptoAttacksPBQ: React.FC<Props> = ({
               key={c.id}
               className={`p-5 rounded-2xl border transition-all ${
                 isComplete
-                  ? 'bg-slate-900/90 border-slate-700 shadow-lg'
+                  ? 'bg-slate-900/90 border-slate-700'
                   : 'bg-slate-900/60 border-slate-800/80 hover:border-slate-700'
               }`}
             >

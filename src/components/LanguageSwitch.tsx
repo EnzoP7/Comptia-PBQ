@@ -29,7 +29,7 @@ export const LanguageSwitch: React.FC<{ large?: boolean }> = ({ large }) => {
             void setLang(o.value);
           }}
           className={`rounded-md font-semibold transition-colors ${large ? 'flex-1 px-4 py-2 text-sm' : 'px-2 py-1 text-[11px]'} ${
-            lang === o.value ? 'bg-cyan-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'
+            lang === o.value ? 'bg-cyan-600 text-on-accent shadow-sm' : 'text-slate-400 hover:text-white'
           }`}
           title={o.label}
         >

@@ -105,7 +105,7 @@ function lookupComposite(key: string, depth: number): string | null {
     const inner = lookup(quoted[2], depth + 1);
     return inner === null ? null : quoted[1] + inner + quoted[3];
   }
-  const counter = key.match(/^(.*\D)(\s*#?\d+)$/);
+  const counter = key.match(/^(.*[^\d#\s])(\s*#?\d+)$/);
   if (counter) {
     const head = lookup(counter[1], depth + 1);
     if (head !== null) return head + counter[2];
@@ -125,8 +125,28 @@ function lookupComposite(key: string, depth: number): string | null {
   return null;
 }
 
-/** Translates keeping the original leading/trailing whitespace. */
+/** Translates each line of a multi-line text on its own; null when no line changed. */
+function translateLines(text: string): string | null {
+  let changed = false;
+  const lines = text.split('\n').map((line) => {
+    const tl = line.trim() ? translatePreserving(line) : null;
+    if (tl === null) return line;
+    changed = true;
+    return tl;
+  });
+  return changed ? lines.join('\n') : null;
+}
+
+/**
+ * Translates keeping the original leading/trailing whitespace. Multi-line text prefers an exact
+ * whole-text entry, then line by line, and only then a partial (composite) whole-text match.
+ */
 function translatePreserving(text: string): string | null {
+  const multiline = text.trim().includes('\n');
+  if (multiline && !exact?.has(norm(text))) {
+    const byLines = translateLines(text);
+    if (byLines !== null) return byLines;
+  }
   const t = lookup(text);
   if (t === null) return null;
   const lead = text.match(/^\s*/)![0];

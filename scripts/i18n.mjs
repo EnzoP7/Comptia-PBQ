@@ -34,7 +34,7 @@ const decodeEntities = (s) =>
 const KEEP = path.join(ROOT, 'scripts', 'i18n-keep.json');
 
 /** Identifiers, CSS class lists, kebab/snake ids and similar strings that are never shown as prose. */
-const SPANISH_WORDS = /\b(de|del|la|el|los|las|en|y|o|sin|con|para|por|que|queda|otros|todos|archivo|archivos|solo|acceso|relacionado)\b/;
+const SPANISH_WORDS = /\b(a|de|del|la|el|los|las|en|y|o|sin|con|para|por|que|queda|otros|todos|archivo|archivos|solo|acceso|relacionado)\b/;
 
 export function isCode(s) {
   const tokens = s.split(' ');

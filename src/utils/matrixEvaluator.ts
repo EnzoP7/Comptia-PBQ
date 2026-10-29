@@ -38,9 +38,8 @@ export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers):
         achieved: missed.length === 0,
         points: rowCorrect * perCell,
         maxPoints: section.columns.length * perCell,
-        explanation: missed.length === 0
-          ? `Correcto. ${row.explanation}`
-          : `${missed.join(' · ')}. ${row.explanation}`,
+        // Feedback and explanation go on separate lines so each one is translated on its own.
+        explanation: [missed.length === 0 ? 'Correcto.' : missed.join(' · '), row.explanation].join('\n'),
       });
     });
   }

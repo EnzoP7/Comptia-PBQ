@@ -131,16 +131,19 @@ function countArgs(args: string[]): { n: number; files: string[] } {
 
 // ---------- commands ----------
 
-const HELP = `Comandos disponibles en este servidor simulado:
-  Archivos:   ls [-la] · cd · pwd · cat · head [-n N] · tail [-n N] · find · rm [-rf]
-  Texto:      grep [-i -v -c -n -r] · sort [-n -r] · uniq [-c] · cut -d X -f N · awk '{print $N}' · wc [-l] · echo
-  Permisos:   chmod (octal o simbólico, ej. 640, u-s, o-rwx) · chown usuario[:grupo] · chgrp grupo
-  Procesos:   ps aux · kill [-9] PID · pkill NOMBRE
-  Red:        netstat -tulpn · ss -tunap · ip a
-  Seguridad:  sha256sum · md5sum · iptables · ufw · crontab -l/-r [-u usuario]
-  Servicios:  systemctl status|stop|start|disable|enable SERVICIO
-  Cuentas:    usermod -L · passwd -l · userdel · id · whoami
-  Shell:      history · clear · sudo · tuberías con |   (↑/↓ historial, Tab autocompleta)`;
+// One string per line: the terminal renders each output line on its own, so each line is translated on its own.
+const HELP = [
+  'Comandos disponibles en este servidor simulado:',
+  '  Archivos:   ls [-la] · cd · pwd · cat · head [-n N] · tail [-n N] · find · rm [-rf]',
+  "  Texto:      grep [-i -v -c -n -r] · sort [-n -r] · uniq [-c] · cut -d X -f N · awk '{print $N}' · wc [-l] · echo",
+  '  Permisos:   chmod (octal o simbólico, ej. 640, u-s, o-rwx) · chown usuario[:grupo] · chgrp grupo',
+  '  Procesos:   ps aux · kill [-9] PID · pkill NOMBRE',
+  '  Red:        netstat -tulpn · ss -tunap · ip a',
+  '  Seguridad:  sha256sum · md5sum · iptables · ufw · crontab -l/-r [-u usuario]',
+  '  Servicios:  systemctl status|stop|start|disable|enable SERVICIO',
+  '  Cuentas:    usermod -L · passwd -l · userdel · id · whoami',
+  '  Shell:      history · clear · sudo · tuberías con |   (↑/↓ historial, Tab autocompleta)',
+].join('\n');
 
 function lsLine(name: string, node: VNode) {
   const size = node.type === 'dir' ? 4096 : (node.content ?? '').length;

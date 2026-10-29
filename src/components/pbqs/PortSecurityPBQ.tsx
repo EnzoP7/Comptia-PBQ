@@ -84,7 +84,7 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
   return (
     <div className="space-y-6">
       {/* PBQ Instructions Header */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -210,7 +210,7 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
                     <div
                       className={`w-9 h-9 rounded-lg flex items-center justify-center font-mono font-bold text-xs ${
                         isActive
-                          ? 'bg-indigo-600 text-white'
+                          ? 'bg-indigo-600 text-on-accent'
                           : 'bg-slate-800 text-amber-400 border border-slate-700'
                       }`}
                     >
@@ -240,7 +240,7 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
 
         {/* Right Column: Detailed Configuration Form for Active Service */}
         <div className="lg:col-span-8">
-          <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 shadow-xl space-y-6">
+          <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-6 space-y-6">
             {/* Header of Active Service */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
               <div className="flex items-center gap-3">
@@ -413,7 +413,7 @@ export const PortSecurityPBQ: React.FC<PortSecurityPBQProps> = ({
               <button
                 disabled={activeItemIndex === items.length - 1}
                 onClick={() => setActiveItemIndex((prev) => Math.min(items.length - 1, prev + 1))}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:hover:bg-indigo-600 text-xs font-semibold text-white rounded-lg transition"
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:hover:bg-indigo-600 text-xs font-semibold text-on-accent rounded-lg transition"
               >
                 Siguiente Servicio →
               </button>

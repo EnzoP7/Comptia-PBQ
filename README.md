@@ -37,6 +37,7 @@ This simulator contains **92 original PBQs** covering all five domains and all 2
 | **Timed mock exams** | 3, 5, 8 or 12 PBQs drawn by official domain weight, with an option to prioritize your weak spots. No hints, no pause. |
 | **Trap review** | 100+ spaced-repetition flashcards for the concept pairs candidates confuse most. |
 | **Bilingual** | Every scenario, option, terminal message and explanation is available in English and Spanish. |
+| **Exam-room design** | A light screen like exam day, or a charcoal theme for night study, switched with the sun/moon button. |
 | **Private by design** | No accounts. Answers, notes, flags and history stay in your browser. |
 
 ## How it works

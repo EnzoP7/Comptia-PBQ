@@ -31,7 +31,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -63,7 +63,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
       {/* 4 Pillars Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Pillar 1: Policy Decision Point / Engine */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-lg text-emerald-400">
               <Cpu className="w-5 h-5" />
@@ -100,7 +100,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
         </div>
 
         {/* Pillar 2: Policy Enforcement Point */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-blue-950/80 border border-blue-800/80 rounded-lg text-blue-400">
               <Lock className="w-5 h-5" />
@@ -137,7 +137,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
         </div>
 
         {/* Pillar 3: Microsegmentation East-West */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-violet-950/80 border border-violet-800/80 rounded-lg text-violet-400">
               <Layers className="w-5 h-5" />
@@ -174,7 +174,7 @@ export const ZeroTrustPBQ: React.FC<ZeroTrustPBQProps> = ({
         </div>
 
         {/* Pillar 4: Continuous Adaptive Evaluation */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-amber-950/80 border border-amber-800/80 rounded-lg text-amber-400">
               <Activity className="w-5 h-5" />

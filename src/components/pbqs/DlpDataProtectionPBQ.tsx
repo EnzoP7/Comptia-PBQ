@@ -48,7 +48,7 @@ export const DlpDataProtectionPBQ: React.FC<Props> = ({
   return (
     <div className="space-y-6">
       {/* Header bar */}
-      <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl flex flex-wrap items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">
             <ShieldCheck className="w-4 h-4 text-cyan-400" />
@@ -89,7 +89,7 @@ export const DlpDataProtectionPBQ: React.FC<Props> = ({
               key={item.id}
               className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
                 isConfigured
-                  ? 'bg-slate-900/90 border-slate-700 shadow-lg'
+                  ? 'bg-slate-900/90 border-slate-700'
                   : 'bg-slate-900/60 border-slate-800/80 hover:border-slate-700'
               }`}
             >
@@ -137,7 +137,7 @@ export const DlpDataProtectionPBQ: React.FC<Props> = ({
                       <div
                         className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                           isSelected
-                            ? 'border-cyan-400 bg-cyan-500 text-white'
+                            ? 'border-cyan-400 bg-cyan-500 text-on-accent'
                             : 'border-slate-600 bg-slate-900'
                         }`}
                       >

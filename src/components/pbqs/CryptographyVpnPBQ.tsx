@@ -85,7 +85,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* PHASE 1 (IKE SA) */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-200">
               <Key className="w-4 h-4 text-cyan-400" />
@@ -181,7 +181,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
         </div>
 
         {/* PHASE 2 (IPSec SA) */}
-        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 shadow-xl">
+        <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-200">
               <ShieldCheck className="w-4 h-4 text-cyan-400" />
@@ -256,7 +256,7 @@ export const CryptographyVpnPBQ: React.FC<Props> = ({ state, onChange, onReset }
         </div>
 
         {/* SECTION 3: Data-at-Rest & Web Transport Standards */}
-        <div className="lg:col-span-2 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 shadow-xl">
+        <div className="lg:col-span-2 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-slate-800 text-sm font-semibold text-slate-200">
             <Database className="w-4 h-4 text-cyan-400" />
             <span>Estándares de Cifrado en Reposo (At-Rest) y Transporte Web (In-Transit)</span>

@@ -185,7 +185,7 @@ export const StrategyGuideModal: React.FC<Props> = ({
               sound.playClick();
               onClose();
             }}
-            className="px-5 py-2 text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors"
+            className="px-5 py-2 text-xs font-semibold text-on-accent bg-cyan-600 hover:bg-cyan-500 rounded-xl transition-colors"
           >
             Entendido, Continuar con la PBQ
           </button>

@@ -34,7 +34,7 @@ export const RiskManagementPBQ: React.FC<Props> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl flex flex-wrap items-center justify-between gap-4">
+      <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">
             <Calculator className="w-4 h-4 text-cyan-400" />
