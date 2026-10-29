@@ -3,7 +3,7 @@
  * PBQ answer state changes, so stale saved answers are discarded instead of crashing.
  */
 const STORAGE_KEY = 'secplus-pbq-progress';
-const STORAGE_VERSION = 4;
+const STORAGE_VERSION = 5;
 
 export function loadProgress<T>(): Partial<T> | null {
   try {
