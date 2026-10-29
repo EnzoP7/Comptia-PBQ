@@ -2103,4 +2103,143 @@ const PBQ94: MatrixPbqDefinition = {
   },
 };
 
-export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75, PBQ92, PBQ93, PBQ94, ...REVIEW_PBQS];
+// ---------------------------------------------------------------------------
+// PBQ 95 — IPsec: AH vs ESP, tunnel vs transport, IKE (3.2, 1.4)
+// ---------------------------------------------------------------------------
+const IPSEC_PROTOCOL = [
+  o('ah', 'AH (Authentication Header)'),
+  o('esp', 'ESP (Encapsulating Security Payload)'),
+];
+const IPSEC_MODE = [
+  o('tunnel', 'Modo túnel'),
+  o('transport', 'Modo transporte'),
+];
+const IPSEC_FACTS = [
+  o('ike', 'IKE'),
+  o('sa', 'Asociación de seguridad (SA)'),
+  o('ah', 'AH'),
+  o('esp', 'ESP'),
+  o('tunnel', 'Modo túnel'),
+  o('transport', 'Modo transporte'),
+];
+
+const PBQ95: MatrixPbqDefinition = {
+  item: item(
+    95,
+    'cryptography-vpn',
+    'VPN e IPsec',
+    'IPsec: AH vs ESP y Modo Túnel vs Modo Transporte',
+    ['3.2', ['1.4']],
+    4,
+    'El equipo de redes configura IPsec para distintos enlaces. Para cada uno, elige el protocolo (AH o ESP) y el modo (túnel o transporte) que cumplen el requisito.',
+    ['Sección 1: protocolo y modo de cada enlace.', 'Sección 2: identifica el componente de IPsec que describe cada frase.'],
+    'AH = integridad y autenticación, SIN cifrado (y falla con NAT). ESP = cifrado, además de integridad. Túnel = cifra el paquete IP completo y le pone una cabecera nueva: es el de los VPN entre sitios (gateway a gateway). Transporte = protege solo la carga útil y deja la cabecera original: es el de host a host dentro de la red.'
+  ),
+  config: {
+    pbqId: 'pbq-95',
+    consoleTitle: 'Configuración de Enlaces IPsec (Objetivo 3.2)',
+    instructions: 'Elige el protocolo y el modo de cada enlace; en la sección 2, el componente que describe cada frase.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Enlaces',
+        columns: [
+          { id: 'proto', label: 'Protocolo', options: IPSEC_PROTOCOL },
+          { id: 'mode', label: 'Modo', options: IPSEC_MODE },
+        ],
+        rows: [
+          {
+            id: 'p1',
+            prompt: 'VPN entre los firewalls de la casa central y una sucursal a través de Internet: todo el tráfico, incluidas las direcciones internas, debe ir cifrado.',
+            answers: { proto: 'esp', mode: 'tunnel' },
+            explanation: 'Gateway a gateway por Internet = modo túnel (cifra el paquete completo y oculta las IP internas). Confidencialidad = ESP.',
+          },
+          {
+            id: 'p2',
+            prompt: 'Dos servidores de la misma red interna replican una base de datos y el contenido debe ir cifrado; las direcciones originales pueden quedar visibles.',
+            answers: { proto: 'esp', mode: 'transport' },
+            explanation: 'Host a host = modo transporte (protege la carga útil y conserva la cabecera). Cifrado = ESP.',
+          },
+          {
+            id: 'p3',
+            prompt: 'Entre dos equipos de la red de control, la normativa exige probar el origen y la integridad de cada paquete, pero prohíbe cifrar para que el IDS pueda inspeccionar el contenido.',
+            answers: { proto: 'ah', mode: 'transport' },
+            explanation: 'Integridad y autenticación sin cifrado = AH; host a host = transporte. Trampa: ESP cifraría el contenido y el IDS no podría leerlo.',
+          },
+          {
+            id: 'p4',
+            prompt: 'Un empleado remoto se conecta al concentrador VPN de la empresa y necesita acceder cifrado a toda la red interna.',
+            answers: { proto: 'esp', mode: 'tunnel' },
+            explanation: 'Acceso remoto a una red completa a través de un gateway = modo túnel con ESP para el cifrado.',
+          },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Componentes',
+        columns: [{ id: 'fact', label: 'Componente', options: IPSEC_FACTS }],
+        rows: [
+          { id: 'c1', prompt: 'Protocolo que negocia las claves y los parámetros de seguridad antes de proteger el tráfico (UDP 500).', answers: { fact: 'ike' }, explanation: 'IKE (Internet Key Exchange) negocia las claves y crea las asociaciones de seguridad; usa UDP 500 (y 4500 con NAT-T).' },
+          { id: 'c2', prompt: 'Acuerdo unidireccional entre dos extremos que fija los algoritmos y las claves de un flujo protegido.', answers: { fact: 'sa' }, explanation: 'Cada asociación de seguridad (SA) es de un solo sentido; un túnel bidireccional usa al menos dos.' },
+          { id: 'c3', prompt: 'Aporta integridad y autenticación del origen, pero no confidencialidad.', answers: { fact: 'ah' }, explanation: 'AH no cifra. Por eso casi siempre se usa ESP, que puede hacer las dos cosas.' },
+          { id: 'c4', prompt: 'Aporta confidencialidad mediante cifrado, además de integridad.', answers: { fact: 'esp' }, explanation: 'ESP cifra la carga útil (y el paquete completo en modo túnel).' },
+          { id: 'c5', prompt: 'Encapsula el paquete original completo dentro de uno nuevo con otra cabecera IP.', answers: { fact: 'tunnel' }, explanation: 'Eso es el modo túnel: el paquete interno, con sus direcciones, queda oculto.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 96 — High availability and power (3.4)
+// ---------------------------------------------------------------------------
+const HA_OPTIONS = [
+  o('ups', 'UPS (sistema de alimentación ininterrumpida)'),
+  o('generator', 'Generador'),
+  o('dual_psu', 'Fuentes de alimentación redundantes'),
+  o('load_balancing', 'Balanceo de carga'),
+  o('clustering', 'Clustering'),
+  o('platform_diversity', 'Diversidad de plataformas'),
+  o('multicloud', 'Multinube'),
+  o('geo_dispersion', 'Dispersión geográfica'),
+  o('coop', 'Continuidad de operaciones (COOP)'),
+];
+
+const PBQ96: MatrixPbqDefinition = {
+  item: item(
+    96,
+    'disaster-recovery',
+    'Resiliencia',
+    'Alta Disponibilidad y Energía: UPS, Generador, Balanceo y Clustering',
+    ['3.4', ['3.1']],
+    4,
+    'El comité de continuidad revisa los riesgos de disponibilidad de la empresa. Elige el control de alta disponibilidad o de energía que resuelve cada caso.',
+    ['Elige el control que corresponde a cada caso.', 'Algunas opciones pueden no usarse.'],
+    'UPS = cubre el corte de segundos o minutos y da tiempo para un apagado ordenado o para que arranque el generador. Generador = cortes largos (horas). Balanceo de carga = reparte peticiones entre servidores activos; clustering = varios nodos que actúan como uno y se cubren si uno cae. Diversidad de plataformas y multinube = no depender de un solo fabricante o proveedor.'
+  ),
+  config: {
+    pbqId: 'pbq-96',
+    consoleTitle: 'Revisión de Alta Disponibilidad (Objetivo 3.4)',
+    instructions: 'Elige el control de cada caso.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Casos',
+        columns: [{ id: 'ha', label: 'Control', options: HA_OPTIONS }],
+        rows: [
+          { id: 'h1', prompt: 'Un microcorte de 3 segundos reinicia los switches del centro de datos.', answers: { ha: 'ups' }, explanation: 'La UPS entrega energía al instante y cubre cortes breves. Trampa: el generador tarda en arrancar y no evita el reinicio.' },
+          { id: 'h2', prompt: 'Tras una tormenta, la zona puede quedarse sin electricidad durante dos días y el hospital debe seguir funcionando.', answers: { ha: 'generator' }, explanation: 'Para cortes de horas o días se necesita un generador; la UPS solo cubre el puente hasta que arranque.' },
+          { id: 'h3', prompt: 'Un servidor se apaga cuando falla su única fuente de alimentación, aunque el rack tiene dos circuitos eléctricos.', answers: { ha: 'dual_psu' }, explanation: 'Fuentes redundantes, cada una en un circuito distinto, evitan ese punto único de fallo.' },
+          { id: 'h4', prompt: 'La tienda online recibe picos de tráfico y las peticiones deben repartirse entre seis servidores web activos.', answers: { ha: 'load_balancing' }, explanation: 'Repartir peticiones entre servidores activos es balanceo de carga.' },
+          { id: 'h5', prompt: 'La base de datos corre en dos nodos que comparten almacenamiento; si el activo falla, el otro toma su lugar con la misma identidad.', answers: { ha: 'clustering' }, explanation: 'Nodos que funcionan como un único sistema y se cubren entre sí forman un cluster. Trampa: el balanceo reparte carga, no comparte estado.' },
+          { id: 'h6', prompt: 'Una vulnerabilidad de un solo fabricante dejó fuera de servicio a todos los firewalls a la vez; ahora se combinan dos marcas.', answers: { ha: 'platform_diversity' }, explanation: 'Usar tecnologías de distintos fabricantes evita que una sola falla las afecte a todas: diversidad de plataformas.' },
+          { id: 'h7', prompt: 'La caída de una región de un proveedor de nube dejó sin servicio a la empresa; la aplicación se desplegará también en otro proveedor.', answers: { ha: 'multicloud' }, explanation: 'Repartir la carga entre varios proveedores de nube es multinube.' },
+          { id: 'h8', prompt: 'Los dos centros de datos están en el mismo edificio; se decide mover uno a otra ciudad para que un desastre local no afecte a ambos.', answers: { ha: 'geo_dispersion' }, explanation: 'Separar los sitios por distancia es dispersión geográfica.' },
+          { id: 'h9', prompt: 'Plan que define cómo seguirá prestando sus funciones esenciales la organización durante y después de una interrupción grave.', answers: { ha: 'coop' }, explanation: 'Eso es la planificación de continuidad de operaciones (COOP).' },
+        ],
+      },
+    ],
+  },
+};
+
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75, PBQ92, PBQ93, PBQ94, PBQ95, PBQ96, ...REVIEW_PBQS];
