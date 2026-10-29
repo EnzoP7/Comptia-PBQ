@@ -44,7 +44,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
     { value: 'bola_idor', label: 'Broken Object Level Authorization - BOLA / IDOR (OWASP API1)' },
     { value: 'ssrf_cloud_metadata', label: 'Server-Side Request Forgery - SSRF contra Metadatos Cloud (OWASP API7)' },
     { value: 'jwt_alg_none_tampering', label: 'Falsificación de Tokens JWT / Algoritmo "none" Aceptado (OWASP API2)' },
-    { value: 'sqli_api_unparameterized', label: 'Inyección SQL en Parámetros de Endpoint REST (OWASP API8)' },
+    { value: 'sqli_api_unparameterized', label: 'Inyección SQL en Parámetros de Endpoint REST (OWASP API8:2019)' },
     { value: 'lack_of_rate_limiting_stuffing', label: 'Falta de Limitación de Recursos y Rate Limiting / DoS (OWASP API4)' },
     // Distractors
     { value: 'xss_stored', label: 'Stored Cross-Site Scripting (XSS)' },
@@ -81,7 +81,7 @@ export const ApiSecurityPBQ: React.FC<Props> = ({ state, onChange, onReset }) =>
           </button>
         </div>
         <p className="text-xs text-slate-300 leading-relaxed">
-          En el <strong className="text-white">Dominio 3 de CompTIA Security+ SY0-701</strong>, la arquitectura de microservicios y APIs REST exige identificar vulnerabilidades específicas de lógica de negocio y transporte (OWASP API Top 10) e implementar contramedidas de código seguro y controles perimetrales a nivel de API Gateway.
+          En los <strong className="text-white">Dominios 2 y 4 de CompTIA Security+ SY0-701</strong>, la arquitectura de microservicios y APIs REST exige identificar vulnerabilidades específicas de lógica de negocio y transporte (OWASP API Top 10) e implementar contramedidas de código seguro y controles perimetrales a nivel de API Gateway.
         </p>
       </div>
 

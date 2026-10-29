@@ -57,7 +57,7 @@ export const MitreThreatHuntingPBQ: React.FC<MitreThreatHuntingPBQProps> = ({
     { value: 'event_4769_rc4', label: 'Security Event ID 4769: Solicitud TGS con cifrado débil 0x17 (RC4-HMAC)' },
     { value: 'event_4624_type9_lsass', label: 'Event ID 4624 Logon Type 9 (NewCredentials) + Acceso directo a lsass.exe' },
     { value: 'event_4625_responder', label: 'Event ID 4625 ráfagas fallidas + Tráfico UDP 5355 LLMNR Broadcast anómalo' },
-    { value: 'event_4768_forged_tgt', label: 'Event ID 4768: TGT con validez anormal de 10 años sin pre-autenticación' },
+    { value: 'event_4768_forged_tgt', label: 'Event ID 4769 / 4624 con un TGT de vigencia anómala (10 años) sin un 4768 previo' },
     { value: 'event_4104_scriptblock', label: 'Event ID 4104: Script Block Logging con comandos codificados Base64 (-EncodedCommand)' },
   ];
 

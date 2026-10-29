@@ -15,6 +15,7 @@ import {
   LightbulbOff,
 } from 'lucide-react';
 import { sound } from '../utils/audio';
+import { LanguageSwitch } from './LanguageSwitch';
 
 interface Props {
   mode: 'practice' | 'exam';
@@ -125,6 +126,7 @@ export const Header: React.FC<Props> = ({
 
         {/* Zone 3: Primary Action */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <LanguageSwitch />
           <button
             onClick={() => {
               sound.playToggle();

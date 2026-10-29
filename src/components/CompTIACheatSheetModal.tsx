@@ -394,7 +394,7 @@ export const CompTIACheatSheetModal: React.FC<Props> = ({ isOpen, onClose }) => 
                     <span className="text-slate-400">Lista completa descargada periódicamente. Ineficiente y pesada con muchas revocaciones.</span>
                   </div>
                   <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-                    <strong className="text-white block mb-1">OCSP (Online Protocol)</strong>
+                    <strong className="text-white block mb-1">OCSP (Online Certificate Status Protocol)</strong>
                     <span className="text-slate-400">Consulta en tiempo real al respondedor de la CA. Puede filtrar la privacidad del usuario a la CA.</span>
                   </div>
                   <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">

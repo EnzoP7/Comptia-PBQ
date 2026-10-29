@@ -80,7 +80,7 @@ export const StrategyGuideModal: React.FC<Props> = ({
               <span>1. La Regla de los 3 Minutos (Gestión del Tiempo en el Examen)</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              En el examen real de CompTIA Security+ (SY0-701), las PBQs aparecen siempre al principio (Preguntas 1 a 5). Muchos aspirantes se bloquean y gastan 30 minutos aquí.
+              En el examen real de CompTIA Security+ (SY0-701), las PBQs suelen aparecer al principio del examen. Muchos aspirantes se bloquean y gastan 30 minutos aquí.
             </p>
             <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
               <div className="font-semibold text-amber-300">

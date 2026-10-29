@@ -159,7 +159,7 @@ export const PBQ_LIST: PBQItem[] = [
       'Las sesiones de Escritorio Remoto deben autenticarse antes de establecer la sesión gráfica.'
     ],
     tacticalTip:
-      'CompTIA siempre evalúa el reemplazo de protocolos inseguros por seguros: Telnet (23) -> SSH (22); FTP (21) -> SFTP (22) o FTPS (990); HTTP (80) -> HTTPS (443); SMBv1 -> SMBv3. Recuerde que el estándar moderno de longitud de contraseña en SY0-701 es de mínimo 14 caracteres (NIST SP 800-63B).'
+      'CompTIA siempre evalúa el reemplazo de protocolos inseguros por seguros: Telnet (23) -> SSH (22); FTP (21) -> SFTP (22) o FTPS (990); HTTP (80) -> HTTPS (443); SMBv1 -> SMBv3. Las líneas base CIS exigen contraseñas de al menos 14 caracteres (NIST SP 800-63B-4 pide 15 cuando la contraseña es el único factor).'
   },
   // PBQ 5
   {
@@ -976,7 +976,7 @@ export const PBQ_LIST: PBQItem[] = [
       'Para cada caso identifica la técnica MITRE ATT&CK, la telemetría que la evidencia y la mitigación.'
     ],
     tacticalTip:
-      'CompTIA evalúa con frecuencia los Event IDs de Active Directory: 4769 es solicitud de ticket de servicio (Kerberoasting); 4768 es TGT request (Golden Ticket); 4624 es Logon exitoso (Tipo 9 = NewCredentials); 4625 es Logon fallido; 4104 es PowerShell Script Block Logging. Credential Guard aísla LSASS en un contenedor virtualizado (VBS).'
+      'CompTIA evalúa con frecuencia los Event IDs de Active Directory: 4769 es solicitud de ticket de servicio (Kerberoasting); 4768 es la solicitud de TGT (un Golden Ticket se usa sin un 4768 previo); 4624 es Logon exitoso (Tipo 9 = NewCredentials); 4625 es Logon fallido; 4104 es PowerShell Script Block Logging. Credential Guard aísla LSASS en un contenedor virtualizado (VBS).'
   },
 
   // PBQ 43: Data Governance, Roles, Lifecycle & Sanitization (NIST SP 800-88)
@@ -1095,12 +1095,12 @@ export const PBQ_LIST: PBQItem[] = [
       'Para CompTIA Security+, la clave de SOAR es la velocidad de contención orquestada (Playbooks/Runbooks) conectando herramientas dispares (SIEM -> EDR -> Firewall -> IAM). Cuando detectes "Impossible Travel", la respuesta siempre es revocar tokens de sesión y forzar MFA. Con Ransomware, aísla de inmediato el host en el EDR para cortar la propagación lateral. Con fuerza bruta perimetral, inyecta reglas de bloqueo temporal dinámico en el firewall.'
   },
 
-  // PBQ 49: Advanced Stateful Firewall ACLs & DMZ Multi-Tier Filtering (Tier S - Alta Probabilidad)
+  // PBQ 49: Advanced Stateful Firewall ACLs & DMZ Multi-Tier Filtering
   {
     id: 'pbq-49',
     number: 49,
     category: 'firewall-acl',
-    categoryTitle: 'Configuración de Firewall de Próxima Generación (Tier S - Alta Probabilidad)',
+    categoryTitle: 'Configuración de Firewall de Próxima Generación',
     title: 'Filtrado de Tráfico Multi-Interfaz: WAN, DMZ Pública, LAN Interna y Base de Datos PCI-DSS',
     estimatedMinutes: 6,
     domain: 'Dominio 3: Arquitectura de Seguridad',
@@ -1117,15 +1117,15 @@ export const PBQ_LIST: PBQItem[] = [
       'Regla 7: Asegurar la Denegación Implícita (Implicit Deny Any Any) al final absoluto de la tabla de reglas.'
     ],
     tacticalTip:
-      'En CompTIA Security+, las PBQs de Firewall son de las más probables (Tier S ~95%). Recuerda tres reglas de oro: 1) First-Match: una regla DENY ALL al principio romperá todo el tráfico legítimo. 2) Menor privilegio: la base de datos (puerto 5432 o 3306) NUNCA debe aceptar conexiones de WAN ni de toda la DMZ, sino solo de la IP exacta del servidor de aplicaciones (172.16.10.10). 3) Aislamiento DMZ-LAN: la DMZ existe para ser comprometida sin que el atacante pueda saltar a las computadoras de los empleados en la LAN.'
+      'En CompTIA Security+, las PBQs de firewall están entre las más frecuentes. Recuerda tres reglas de oro: 1) First-Match: una regla DENY ALL al principio romperá todo el tráfico legítimo. 2) Menor privilegio: la base de datos (puerto 5432 o 3306) NUNCA debe aceptar conexiones de WAN ni de toda la DMZ, sino solo de la IP exacta del servidor de aplicaciones (172.16.10.10). 3) Aislamiento DMZ-LAN: la DMZ existe para ser comprometida sin que el atacante pueda saltar a las computadoras de los empleados en la LAN.'
   },
 
-  // PBQ 50: Endpoint & Network Port Hardening + Protocol Migration Audit (Tier S - Alta Probabilidad)
+  // PBQ 50: Endpoint & Network Port Hardening + Protocol Migration Audit
   {
     id: 'pbq-50',
     number: 50,
     category: 'port-security',
-    categoryTitle: 'Auditoría de Puertos y Protocolos Empresariales (Tier S - Alta Probabilidad)',
+    categoryTitle: 'Auditoría de Puertos y Protocolos Empresariales',
     title: 'Hardening de Infraestructura y Migración de Protocolos Legados (SOC 2 / ISO 27001)',
     estimatedMinutes: 6,
     domain: 'Dominio 4: Operaciones de Seguridad',
@@ -1906,7 +1906,7 @@ export const INITIAL_SECURITY_POLICIES_PBQ4: SecurityPolicyItem[] = [
     min: 6,
     max: 20,
     step: 1,
-    description: 'NIST SP 800-63B y CompTIA SY0-701 recomiendan un mínimo de 14 caracteres para cuentas corporativas.'
+    description: 'Los CIS Benchmarks recomiendan un mínimo de 14 caracteres; NIST SP 800-63B-4 exige 15 cuando la contraseña es el único factor.'
   },
   {
     id: 'policy-lockout',

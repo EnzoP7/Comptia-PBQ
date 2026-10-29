@@ -1,7 +1,5 @@
 import { EvaluationResult, MatrixAnswers, MatrixPbqConfig, PartialCreditItem } from '../types/pbq';
 
-const truncate = (text: string, max = 70) => (text.length > max ? `${text.slice(0, max - 1)}…` : text);
-
 /** Partial credit per cell: every correctly classified cell is worth the same. */
 export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers): EvaluationResult {
   const breakdown: PartialCreditItem[] = [];
@@ -27,7 +25,7 @@ export function evaluateMatrix(config: MatrixPbqConfig, answers: MatrixAnswers):
       correctCells += rowCorrect;
       breakdown.push({
         id: row.id,
-        label: `${section.title} #${idx + 1}: ${truncate(row.prompt)}`,
+        label: `${section.title} #${idx + 1}: ${row.prompt}`,
         achieved: missed.length === 0,
         points: rowCorrect * perCell,
         maxPoints: section.columns.length * perCell,

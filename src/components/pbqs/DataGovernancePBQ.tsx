@@ -52,7 +52,7 @@ export const DataGovernancePBQ: React.FC<DataGovernancePBQProps> = ({
           </button>
         </div>
         <p className="text-xs text-slate-300 leading-relaxed">
-          En el dominio 1 de CompTIA Security+ SY0-701, la gobernanza de datos evalúa la separación estricta de <strong className="text-white">Roles de Gestión y Privacidad</strong> (Owner, Steward, Custodian, DPO), la aplicación de criptografía adecuada para cada uno de los <strong className="text-cyan-300">Tres Estados del Dato</strong> (Tránsito, Reposo, Uso), y la selección de la técnica de <strong className="text-amber-300">Sanitización</strong> certificada según el estándar NIST SP 800-88 Rev 1.
+          En los dominios 3 y 5 de CompTIA Security+ SY0-701, la gobernanza de datos evalúa la separación estricta de <strong className="text-white">Roles de Gestión y Privacidad</strong> (Owner, Steward, Custodian, DPO), la aplicación de criptografía adecuada para cada uno de los <strong className="text-cyan-300">Tres Estados del Dato</strong> (Tránsito, Reposo, Uso), y la selección de la técnica de <strong className="text-amber-300">Sanitización</strong> certificada según el estándar NIST SP 800-88 Rev 1.
         </p>
       </div>
 

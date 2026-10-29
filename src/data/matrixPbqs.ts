@@ -1117,4 +1117,218 @@ const PBQ61: MatrixPbqDefinition = {
   },
 };
 
-export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61];
+// ---------------------------------------------------------------------------
+// PBQ 65 — Hardware, software and data asset management (4.2)
+// ---------------------------------------------------------------------------
+const ASSET_LIFECYCLE = [
+  o('procurement', 'Adquisición (Procurement)'),
+  o('assignment', 'Asignación de propietario (Ownership)'),
+  o('classification', 'Clasificación'),
+  o('inventory', 'Inventario y seguimiento (Inventory / Tracking)'),
+  o('enumeration', 'Enumeración'),
+  o('decommission', 'Desmantelamiento (Decommissioning)'),
+];
+const ASSET_DISPOSAL = [
+  o('sanitization', 'Sanitización'),
+  o('destruction', 'Destrucción'),
+  o('certification', 'Certificación'),
+  o('retention', 'Retención de datos'),
+];
+
+const PBQ65: MatrixPbqDefinition = {
+  item: item(
+    65,
+    'asset-management',
+    'Gestión de Activos',
+    'Ciclo de Vida de Activos: Adquisición, Inventario, Baja Segura y Retención',
+    ['4.2', ['3.3']],
+    4,
+    'La auditoría interna detectó portátiles sin dueño asignado, servidores que no figuran en la CMDB y discos dados de baja sin constancia de borrado. El CISO te pide documentar el proceso de gestión de activos: identifica la etapa del ciclo de vida que describe cada actividad y el tipo de control de baja que se aplica en cada caso.',
+    [
+      'Sección 1: identifica la etapa del ciclo de vida del activo que describe cada actividad.',
+      'Sección 2: identifica el control de baja y eliminación de datos de cada caso.',
+    ],
+    'Adquisición = la seguridad entra ANTES de comprar (proveedor, soporte, firmware). Asignación = cada activo tiene un dueño responsable. Inventario = registro que se mantiene actualizado; enumeración = descubrir qué existe realmente en la red. En la baja: sanitizar = el medio puede reutilizarse; destruir = el medio deja de existir; certificación = la constancia documental de que se hizo; retención = cuánto tiempo DEBE conservarse antes de eliminarse.'
+  ),
+  config: {
+    pbqId: 'pbq-65',
+    consoleTitle: 'Procedimiento de Gestión de Activos (Objetivo 4.2)',
+    instructions: 'Selecciona la etapa o el control que corresponde a cada actividad. Algunas opciones pueden no usarse y otras repetirse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Ciclo de vida del activo',
+        columns: [{ id: 'stage', label: 'Etapa', options: ASSET_LIFECYCLE }],
+        rows: [
+          { id: 'a1', prompt: 'Antes de comprar 200 portátiles, seguridad exige que el fabricante garantice actualizaciones de firmware durante 5 años y aprueba la compra en el proceso de compras.', answers: { stage: 'procurement' }, explanation: 'Evaluar proveedor, soporte y requisitos de seguridad antes de la compra es parte de la adquisición (procurement).' },
+          { id: 'a2', prompt: 'Cada servidor registrado en la CMDB tiene una persona responsable que decide su ventana de parches y aprueba los accesos.', answers: { stage: 'assignment' }, explanation: 'Asignar un dueño (owner) responsable a cada activo es la etapa de asignación/propiedad; sin dueño nadie rinde cuentas por su seguridad.' },
+          { id: 'a3', prompt: 'La base de datos con historiales médicos se etiqueta como "Restringida" para que se le apliquen cifrado y controles de acceso más estrictos.', answers: { stage: 'classification' }, explanation: 'Etiquetar el activo según la sensibilidad de los datos que contiene es clasificación; de ella dependen los controles que se aplican.' },
+          { id: 'a4', prompt: 'Un agente informa a diario el hardware y software instalado en cada equipo a la CMDB y alerta si un número de serie desaparece.', answers: { stage: 'inventory' }, explanation: 'Mantener actualizado el registro de activos y su ubicación/estado es inventario y seguimiento (asset tracking).' },
+          { id: 'a5', prompt: 'Un barrido de la red descubre todos los dispositivos conectados, incluida una Raspberry Pi que no figura en ningún registro.', answers: { stage: 'enumeration' }, explanation: 'Descubrir activamente qué existe en la red es enumeración; sirve para encontrar shadow IT y activos no inventariados.' },
+          { id: 'a6', prompt: 'Los servidores que terminaron su vida útil se apagan, se retiran de la CMDB, se revocan sus certificados y sus discos pasan al proceso de borrado.', answers: { stage: 'decommission' }, explanation: 'Retirar el activo de producción de forma controlada es desmantelamiento (decommissioning), el inicio de la baja segura.' },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Baja y eliminación de datos',
+        columns: [{ id: 'control', label: 'Control', options: ASSET_DISPOSAL }],
+        rows: [
+          { id: 'd1', prompt: 'Los discos de los portátiles devueltos se sobrescriben según NIST SP 800-88 porque se entregarán a otro departamento.', answers: { control: 'sanitization' }, explanation: 'Si el medio se va a reutilizar, se sanitiza (clear/purge); destruirlo sería innecesario.' },
+          { id: 'd2', prompt: 'Un SSD averiado que contenía datos de tarjetas se tritura porque no puede borrarse de forma confiable.', answers: { control: 'destruction' }, explanation: 'Cuando el medio no se reutilizará o no puede sanitizarse, se destruye físicamente (triturado, desintegración, incineración).' },
+          { id: 'd3', prompt: 'El proveedor de reciclaje entrega un documento firmado con los números de serie de cada disco destruido.', answers: { control: 'certification' }, explanation: 'La constancia documental de la sanitización o destrucción es la certificación; es la evidencia que pide el auditor.' },
+          { id: 'd4', prompt: 'Los registros contables se conservan 7 años por exigencia legal y recién después se eliminan.', answers: { control: 'retention' }, explanation: 'La política de retención define cuánto tiempo deben conservarse los datos antes de eliminarse; borrarlos antes también es un incumplimiento.' },
+          { id: 'd5', prompt: 'Para dar de baja un volumen cloud cifrado, se eliminan de forma irreversible las claves en el KMS (crypto-erase).', answers: { control: 'sanitization' }, explanation: 'El borrado criptográfico es una técnica de sanitización (purge en NIST SP 800-88): sin la clave, los datos quedan ilegibles.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 66 — Alerting and monitoring concepts and tools (4.4)
+// ---------------------------------------------------------------------------
+const MONITORING_TOOLS = [
+  o('siem', 'SIEM'),
+  o('scap', 'SCAP'),
+  o('benchmark', 'Benchmark (CIS)'),
+  o('netflow', 'NetFlow'),
+  o('snmp_trap', 'SNMP trap'),
+  o('vuln_scanner', 'Escáner de vulnerabilidades'),
+  o('agent', 'Monitoreo con agente'),
+  o('agentless', 'Monitoreo sin agente'),
+  o('dlp', 'DLP'),
+];
+const MONITORING_ACTIVITIES = [
+  o('aggregation', 'Agregación de logs'),
+  o('alerting', 'Alertas'),
+  o('tuning', 'Ajuste de alertas (Alert tuning)'),
+  o('quarantine', 'Cuarentena'),
+  o('archiving', 'Archivado'),
+  o('reporting', 'Reportes'),
+];
+
+const PBQ66: MatrixPbqDefinition = {
+  item: item(
+    66,
+    'security-monitoring',
+    'Alertas y Monitoreo',
+    'Herramientas de Monitoreo de Seguridad y Actividades del SOC',
+    ['4.4', ['4.9']],
+    4,
+    'El SOC está rediseñando su plataforma de monitoreo. El jefe de operaciones necesita una tabla que relacione cada necesidad con la herramienta adecuada y cada tarea diaria del equipo con la actividad de monitoreo correspondiente.',
+    [
+      'Sección 1: identifica la herramienta o enfoque de monitoreo que cubre cada necesidad.',
+      'Sección 2: identifica la actividad de monitoreo que describe cada tarea del SOC.',
+    ],
+    'SIEM = correlaciona logs de muchas fuentes y dispara alertas. SCAP = estándar para automatizar la verificación de configuraciones y vulnerabilidades (usa contenido como XCCDF/OVAL); un benchmark (CIS) es la guía de configuración segura contra la que se compara. NetFlow = metadatos de flujos, sin contenido. SNMP trap = el dispositivo AVISA sin que se lo consulten. Alert tuning = reducir falsos positivos sin perder detecciones reales.'
+  ),
+  config: {
+    pbqId: 'pbq-66',
+    consoleTitle: 'Diseño de la Plataforma de Monitoreo del SOC (Objetivo 4.4)',
+    instructions: 'Selecciona la herramienta o actividad que corresponde a cada caso. Algunas opciones pueden no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Herramientas y enfoques',
+        columns: [{ id: 'tool', label: 'Herramienta', options: MONITORING_TOOLS }],
+        rows: [
+          { id: 't1', prompt: 'Una consola central recibe logs del firewall, del Active Directory y del EDR, y genera una alerta cuando 10 inicios de sesión fallidos van seguidos de uno exitoso.', answers: { tool: 'siem' }, explanation: 'Correlacionar eventos de múltiples fuentes con reglas es la función central del SIEM.' },
+          { id: 't2', prompt: 'Una herramienta verifica automáticamente la configuración de 500 servidores usando contenido estandarizado XCCDF/OVAL e informa el grado de cumplimiento.', answers: { tool: 'scap' }, explanation: 'SCAP (Security Content Automation Protocol) estandariza cómo se expresan y verifican configuraciones y vulnerabilidades.' },
+          { id: 't3', prompt: 'El equipo adopta una guía consensuada de configuración segura para Windows Server como línea base contra la que se mide cada servidor.', answers: { tool: 'benchmark' }, explanation: 'Los benchmarks (por ejemplo CIS) son guías de hardening que sirven como línea base de configuración.' },
+          { id: 't4', prompt: 'Los routers exportan origen, destino, puertos y bytes de cada conversación, sin el contenido, para detectar picos de salida de datos.', answers: { tool: 'netflow' }, explanation: 'NetFlow/IPFIX entrega metadatos de flujos: quién habló con quién y cuánto, no el payload (eso sería captura de paquetes).' },
+          { id: 't5', prompt: 'Un switch envía por iniciativa propia un mensaje a la estación de gestión cuando un puerto troncal se cae.', answers: { tool: 'snmp_trap' }, explanation: 'Un trap SNMP es una notificación que el dispositivo envía sin que se la pidan; el polling es lo contrario.' },
+          { id: 't6', prompt: 'Un análisis con credenciales detecta parches faltantes y CVE en los equipos del área de finanzas.', answers: { tool: 'vuln_scanner' }, explanation: 'El escáner de vulnerabilidades identifica parches faltantes, CVE y configuraciones débiles; con credenciales obtiene resultados más precisos.' },
+          { id: 't7', prompt: 'Las cámaras IP y los sensores IoT no permiten instalar software, así que se monitorean recibiendo su syslog y consultando su API.', answers: { tool: 'agentless' }, explanation: 'Cuando no se puede instalar software en el dispositivo se usa monitoreo sin agente (syslog, SNMP, API, WMI).' },
+          { id: 't8', prompt: 'Cada portátil ejecuta un software que recopila eventos locales y los reenvía aunque el equipo esté fuera de la red corporativa.', answers: { tool: 'agent' }, explanation: 'Un agente instalado ofrece visibilidad profunda y funciona fuera de la red; a cambio consume recursos y requiere mantenimiento.' },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Actividades del SOC',
+        columns: [{ id: 'activity', label: 'Actividad', options: MONITORING_ACTIVITIES }],
+        rows: [
+          { id: 'm1', prompt: 'Los logs de 300 fuentes se centralizan en un único repositorio con marcas de tiempo normalizadas (NTP) y formato común.', answers: { activity: 'aggregation' }, explanation: 'Reunir y normalizar logs de muchas fuentes es agregación; es la condición previa para poder correlacionarlos.' },
+          { id: 'm2', prompt: 'Una regla genera 400 falsos positivos diarios por la cuenta de servicio de backup; el analista la excluye de esa regla y ajusta el umbral.', answers: { activity: 'tuning' }, explanation: 'Ajustar reglas para reducir falsos positivos sin crear falsos negativos es alert tuning; evita la fatiga de alertas.' },
+          { id: 'm3', prompt: 'El EDR aísla automáticamente de la red un portátil infectado, manteniendo solo la conexión con la consola de gestión.', answers: { activity: 'quarantine' }, explanation: 'Aislar el equipo o el archivo para contener la amenaza es una respuesta de cuarentena.' },
+          { id: 'm4', prompt: 'Los logs con más de 90 días pasan a almacenamiento económico de solo lectura, donde se conservan un año por cumplimiento.', answers: { activity: 'archiving' }, explanation: 'Conservar logs antiguos a largo plazo para requisitos legales o forenses es archivado.' },
+          { id: 'm5', prompt: 'Cada mes se entrega a la dirección un tablero con incidentes, tiempo medio de respuesta y tendencias.', answers: { activity: 'reporting' }, explanation: 'Resumir métricas y tendencias para la dirección es la actividad de reportes.' },
+          { id: 'm6', prompt: 'El analista de turno recibe una notificación en tiempo real cuando se dispara la regla de "viaje imposible".', answers: { activity: 'alerting' }, explanation: 'Notificar en tiempo real al personal cuando una condición se cumple es la actividad de alertas.' },
+        ],
+      },
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
+// PBQ 67 — Security awareness practices (5.6)
+// ---------------------------------------------------------------------------
+const AWARENESS_TOPICS = [
+  o('phishing', 'Reconocimiento de phishing'),
+  o('insider', 'Amenaza interna (Insider threat)'),
+  o('passwords', 'Gestión de contraseñas'),
+  o('removable', 'Medios extraíbles y cables'),
+  o('social_eng', 'Ingeniería social'),
+  o('opsec', 'Seguridad operacional (OPSEC)'),
+  o('remote', 'Trabajo híbrido y remoto'),
+  o('policy', 'Políticas y manuales'),
+];
+const AWARENESS_PROGRAM = [
+  o('development', 'Desarrollo del programa'),
+  o('execution', 'Ejecución'),
+  o('initial', 'Capacitación inicial'),
+  o('recurring', 'Capacitación recurrente'),
+  o('monitoring', 'Reportes y monitoreo'),
+];
+
+const PBQ67: MatrixPbqDefinition = {
+  item: item(
+    67,
+    'security-awareness',
+    'Concienciación en Seguridad',
+    'Programa de Concienciación: Temas de Capacitación y Ciclo del Programa',
+    ['5.6', ['2.2']],
+    4,
+    'Tras dos incidentes causados por errores humanos, RR. HH. y seguridad diseñan juntos el nuevo programa de concienciación. Identifica el tema de capacitación que cubre cada módulo y la fase del programa que describe cada actividad.',
+    [
+      'Sección 1: identifica el tema de capacitación de cada módulo.',
+      'Sección 2: identifica la fase del programa de concienciación de cada actividad.',
+    ],
+    'Un programa de concienciación se desarrolla (objetivos, público, contenido según riesgos), se ejecuta, se imparte al ingresar (inicial) y se repite periódicamente (recurrente), y se mide (tasa de clics y de reportes en simulaciones). OPSEC = no revelar información útil para un atacante (fotos de credenciales, pantallas, organigramas).'
+  ),
+  config: {
+    pbqId: 'pbq-67',
+    consoleTitle: 'Plan Anual de Concienciación en Seguridad (Objetivo 5.6)',
+    instructions: 'Selecciona el tema o la fase que corresponde a cada caso. Algunas opciones pueden no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Módulos de capacitación',
+        columns: [{ id: 'topic', label: 'Tema', options: AWARENESS_TOPICS }],
+        rows: [
+          { id: 'w1', prompt: 'Enseña a revisar el dominio real del remitente, pasar el cursor sobre los enlaces antes de hacer clic y usar el botón "Reportar" del correo.', answers: { topic: 'phishing' }, explanation: 'Reconocer y reportar correos fraudulentos es el módulo de phishing.' },
+          { id: 'w2', prompt: 'Explica las señales de que un colega copia datos masivamente antes de renunciar y cómo reportarlo de forma confidencial.', answers: { topic: 'insider' }, explanation: 'Detectar y reportar comportamientos de empleados con acceso legítimo que abusan de él es el módulo de amenaza interna.' },
+          { id: 'w3', prompt: 'Recomienda usar un gestor de contraseñas, frases de paso largas y no reutilizar la misma contraseña en distintos sitios.', answers: { topic: 'passwords' }, explanation: 'Buenas prácticas de creación, almacenamiento y reutilización de contraseñas: gestión de contraseñas.' },
+          { id: 'w4', prompt: 'Advierte que no deben conectarse USB encontrados ni cables de carga de origen desconocido, porque pueden ejecutar código o registrar teclas.', answers: { topic: 'removable' }, explanation: 'Los USB y cables maliciosos (por ejemplo O.MG) son el tema de medios extraíbles y cables.' },
+          { id: 'w5', prompt: 'Pide no publicar en redes sociales fotos de la credencial de acceso, de pantallas de la oficina ni del organigrama interno.', answers: { topic: 'opsec' }, explanation: 'Evitar filtrar información aparentemente inocente que ayuda a un atacante es seguridad operacional (OPSEC).' },
+          { id: 'w6', prompt: 'Indica usar la VPN, filtro de privacidad y bloqueo de pantalla al trabajar desde cafeterías, y no compartir el equipo con familiares.', answers: { topic: 'remote' }, explanation: 'Los riesgos de trabajar fuera de la oficina se cubren en el módulo de trabajo híbrido y remoto.' },
+          { id: 'w7', prompt: 'Simula una llamada de alguien que dice ser de soporte técnico y pide el código MFA "para resolver un problema urgente".', answers: { topic: 'social_eng' }, explanation: 'Manipular con un pretexto y urgencia por teléfono (vishing/pretexting) es ingeniería social.' },
+          { id: 'w8', prompt: 'Presenta la política de uso aceptable y el manual del empleado, que cada persona debe leer y firmar.', answers: { topic: 'policy' }, explanation: 'Dar a conocer las políticas y manuales que el usuario debe cumplir (AUP, handbook) es el módulo de políticas.' },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Fases del programa',
+        columns: [{ id: 'phase', label: 'Fase', options: AWARENESS_PROGRAM }],
+        rows: [
+          { id: 'p1', prompt: 'Se definen los objetivos, el público por rol y los contenidos a partir de la evaluación de riesgos y de los incidentes recientes.', answers: { phase: 'development' }, explanation: 'Diseñar objetivos, audiencia y contenido es el desarrollo del programa.' },
+          { id: 'p2', prompt: 'Se publica el calendario, se comunican las sesiones y se imparten los módulos a todas las áreas.', answers: { phase: 'execution' }, explanation: 'Poner en marcha lo planificado (calendario, comunicación, entrega) es la ejecución.' },
+          { id: 'p3', prompt: 'Cada empleado nuevo completa los módulos obligatorios antes de recibir sus accesos.', answers: { phase: 'initial' }, explanation: 'La formación al ingresar, antes de otorgar accesos, es la capacitación inicial (onboarding).' },
+          { id: 'p4', prompt: 'Todo el personal repite la capacitación cada año y recibe micro-módulos trimestrales.', answers: { phase: 'recurring' }, explanation: 'Repetir la formación periódicamente mantiene vigente el conocimiento: capacitación recurrente.' },
+          { id: 'p5', prompt: 'Se mide que la tasa de clics en el phishing simulado bajó del 18% al 4% y que la tasa de reportes subió, y se presenta a la dirección.', answers: { phase: 'monitoring' }, explanation: 'Medir la eficacia con métricas e informar los resultados es la fase de reportes y monitoreo.' },
+        ],
+      },
+    ],
+  },
+};
+
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67];

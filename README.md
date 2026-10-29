@@ -4,15 +4,16 @@
 
 # Simulador de PBQs · Security+ SY0-701
 
-**Practica gratis las Performance-Based Questions del examen CompTIA Security+ SY0-701, en español.**<br />
+**Practica gratis las Performance-Based Questions del examen CompTIA Security+ SY0-701, en español o en inglés.**<br />
+*Free CompTIA Security+ SY0-701 PBQ practice, in Spanish or English.*<br />
 Escenarios interactivos, corrección criterio por criterio y simulacros con tiempo, como el día del examen.
 
 <a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practicar%20ahora-online-06b6d4?style=for-the-badge" alt="Practicar ahora" /></a>
 
-![PBQs](https://img.shields.io/badge/PBQs-64-0891b2?style=flat-square)
+![PBQs](https://img.shields.io/badge/PBQs-67-0891b2?style=flat-square)
 ![Dominios](https://img.shields.io/badge/dominios-5%2F5-10b981?style=flat-square)
 ![Examen](https://img.shields.io/badge/examen-SY0--701-6366f1?style=flat-square)
-![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol-f59e0b?style=flat-square)
+![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol%20%7C%20English-f59e0b?style=flat-square)
 ![Precio](https://img.shields.io/badge/precio-gratis-22c55e?style=flat-square)
 
 </div>
@@ -23,9 +24,15 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 Las **PBQs (Performance-Based Questions)** son las preguntas prácticas del examen Security+: en lugar de elegir una respuesta, tienes que **hacer** algo. Por ejemplo: ordenar las reglas de un firewall, ubicar controles en un diagrama de red, analizar logs de un SIEM, asignar permisos o clasificar ataques. Suelen aparecer al principio del examen, consumen mucho tiempo y son donde más puntos se pierden por falta de práctica.
 
-Este simulador reúne **64 PBQs originales** que cubren los cinco dominios del SY0-701, con la misma mecánica que vas a encontrar en el examen.
+Este simulador reúne **67 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
 
 <p align="center"><img src="docs/images/app-practice.png" alt="Vista de práctica: tabla de reglas de firewall" width="90%" /></p>
+
+## Español o inglés
+
+Al entrar por primera vez eliges el idioma en la pantalla de bienvenida, y puedes cambiarlo cuando quieras con el selector **ES / EN** de la barra superior. Todo se traduce: enunciados, opciones, terminal, corrección y guía de estudio. Tu progreso es el mismo en los dos idiomas.
+
+*On your first visit you pick the language on the welcome screen, and you can switch at any time with the **ES / EN** toggle in the top bar. Everything is translated: scenarios, options, terminal, grading and study guide. Your progress is shared between both languages.*
 
 ## Cómo funciona
 
@@ -126,7 +133,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 </details>
 
 <details>
-<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 28 PBQs</summary>
+<summary><b>Dominio 4: Operaciones de Seguridad</b> — 28% del examen · 30 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -158,11 +165,13 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 60 | Permisos Linux: rwx, Notación Octal, chown, umask y Bits SUID/SGID/Sticky | 4.6 |
 | 62 | Terminal Linux: Respuesta a Incidente en un Servidor Web Comprometido | 4.8 |
 | 64 | Terminal Linux: Análisis de Logs Web con Tuberías y Bloqueo de Atacantes | 4.9 |
+| 65 | Ciclo de Vida de Activos: Adquisición, Inventario, Baja Segura y Retención | 4.2 |
+| 66 | Herramientas de Monitoreo de Seguridad y Actividades del SOC | 4.4 |
 
 </details>
 
 <details>
-<summary><b>Dominio 5: Gestión y Supervisión del Programa de Seguridad</b> — 20% del examen · 6 PBQs</summary>
+<summary><b>Dominio 5: Gestión y Supervisión del Programa de Seguridad</b> — 20% del examen · 7 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -172,6 +181,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 54 | Tipos de Pruebas de Penetración, Reconocimiento y Auditorías | 5.5 |
 | 58 | Terminología de Gestión de Riesgos y Análisis de Impacto al Negocio (BIA) | 5.2 |
 | 59 | Cumplimiento Normativo, Privacidad y Programa de Concienciación | 5.4 |
+| 67 | Programa de Concienciación: Temas de Capacitación y Ciclo del Programa | 5.6 |
 
 </details>
 
@@ -221,15 +231,18 @@ Cada push a `main` se publica automáticamente en GitHub Pages (`.github/workflo
 |---|---|
 | `src/pbqRegistry.tsx` | Para cada PBQ: estado inicial, evaluador y simulador. |
 | `src/data/pbqsData.ts` | Catálogo de las PBQs 1–50 y sus datos iniciales. |
-| `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59 y 61. |
+| `src/data/matrixPbqs.ts` | PBQs de clasificación 51–59, 61 y 65–67. |
 | `src/data/linuxPermissionsPbq.ts` | PBQ 60: permisos Linux. |
 | `src/data/terminalPbqs.ts` | PBQs 62–64: escenarios de terminal Linux y su corrección por estado del servidor. |
 | `src/terminal/engine.ts` | Intérprete de comandos simulado (sistema de archivos, procesos, red, firewall, cron, servicios). |
 | `src/data/sy0701Objectives.ts` | Objetivos y pesos oficiales del SY0-701. |
 | `src/data/studyGuide.ts` | Guía de estudio: conceptos enlazados a cada criterio corregido. |
 | `src/utils/evaluator.ts` | Evaluadores con crédito parcial de las PBQs 1–50. |
+| `src/i18n/` | Idioma: selector, traductor de la página y diccionario `en.json` (español → inglés). |
 
 **Añadir una PBQ de clasificación:** agrega una entrada a `MATRIX_PBQS` en `src/data/matrixPbqs.ts` (filas, columnas con opciones, respuesta correcta y explicación por fila). Se registra, se corrige, se muestra y genera su guía de estudio automáticamente. Si cambias la forma del estado de una PBQ existente, incrementa `STORAGE_VERSION` en `src/utils/storage.ts`.
+
+**Traducción al inglés:** el contenido se escribe en español y el inglés vive en `src/i18n/en.json`. Después de agregar o cambiar textos, ejecuta `npm run i18n:check`: lista las cadenas sin traducir. Para traducirlas en bloque, `node scripts/i18n.mjs export faltantes.tsv` genera un archivo `id<TAB>texto`; escribe las traducciones como `id|texto en inglés` (o `id|=` si ya está en inglés) y aplícalas con `node scripts/i18n.mjs merge faltantes.tsv traducciones.tsv`.
 
 </details>
 
@@ -241,4 +254,4 @@ Cada push a `main` se publica automáticamente en GitHub Pages (`.github/workflo
 
 Proyecto independiente de estudio, **sin afiliación con CompTIA**. CompTIA y Security+ son marcas registradas de CompTIA, Inc. Las preguntas son originales y no provienen del examen real. Úsalo como práctica complementaria al material oficial.
 
-<sub>Palabras clave: CompTIA Security+ SY0-701, PBQ, performance-based questions, simulador, examen de práctica, ciberseguridad, preguntas prácticas de Security+ en español.</sub>
+<sub>Palabras clave: CompTIA Security+ SY0-701, PBQ, performance-based questions, simulador, examen de práctica, ciberseguridad, preguntas prácticas de Security+ en español, Security+ practice in English.</sub>

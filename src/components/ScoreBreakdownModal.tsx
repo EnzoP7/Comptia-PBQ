@@ -146,7 +146,7 @@ export const ScoreBreakdownModal: React.FC<Props> = ({ result, isOpen, onClose, 
                       <li key={item.id}>
                         <button onClick={() => goToCriterion(item.id)} className="text-left text-xs text-slate-200 hover:text-white flex items-start gap-2">
                           <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
-                          <span className="underline decoration-slate-600 underline-offset-2">{item.label}</span>
+                          <span className="underline decoration-slate-600 underline-offset-2 line-clamp-2">{item.label}</span>
                         </button>
                       </li>
                     ))}
@@ -195,7 +195,7 @@ export const ScoreBreakdownModal: React.FC<Props> = ({ result, isOpen, onClose, 
                       <button onClick={() => toggle(item.id, expanded)} aria-expanded={expanded} className="w-full p-3.5 flex items-center justify-between gap-3 text-left">
                         <div className="flex items-start gap-2.5 min-w-0">
                           {ok ? <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> : <XCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />}
-                          <span className="text-xs font-bold text-white">{item.label}</span>
+                          <span className={`text-xs font-bold text-white ${expanded ? '' : 'line-clamp-2'}`}>{item.label}</span>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${ok ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'}`}>

@@ -4,6 +4,7 @@ import { TerminalQuestion, TerminalState } from '../../terminal/types';
 import { complete, prompt, runCommand } from '../../terminal/engine';
 import { useHints } from '../../context/HintsContext';
 import { sound } from '../../utils/audio';
+import { t } from '../../i18n/language';
 
 interface Props {
   state: TerminalState;
@@ -78,7 +79,7 @@ export const TerminalPBQ: React.FC<Props> = ({ state, onChange, onReset, questio
           </div>
           <button
             onClick={() => {
-              if (window.confirm('¿Reiniciar el servidor a su estado inicial? Se pierden los cambios y respuestas de esta PBQ.')) {
+              if (window.confirm(t('¿Reiniciar el servidor a su estado inicial? Se pierden los cambios y respuestas de esta PBQ.'))) {
                 sound.playToggle();
                 onReset();
               }

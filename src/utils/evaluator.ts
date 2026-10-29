@@ -672,8 +672,8 @@ export function evaluateEndpointHardening(
     points: pwdLenCorrect ? 15 : 0,
     maxPoints: 15,
     explanation: pwdLenCorrect
-      ? 'Correcto: La directiva exige al menos 14 caracteres según NIST SP 800-63B y CompTIA SY0-701.'
-      : 'Incorrecto: La longitud mínima requerida por las directivas actuales de CompTIA SY0-701 es de 14 caracteres.'
+      ? 'Correcto: La directiva exige al menos 14 caracteres, como piden las líneas base CIS.'
+      : 'Incorrecto: La línea base exige una longitud mínima de 14 caracteres (CIS Benchmarks).'
   });
 
   const lockoutVal = Number(policies.find((p) => p.id === 'policy-lockout')?.currentValue || 0);

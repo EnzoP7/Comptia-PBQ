@@ -251,7 +251,7 @@ export const EndpointHardeningPBQ: React.FC<Props> = ({
                       {hints && <div className="flex justify-between text-[10px] text-slate-500">
                         <span>Débil (6-10)</span>
                         <span>Aceptable (12)</span>
-                        <span className="text-emerald-400 font-bold">Recomendado NIST (≥14)</span>
+                        <span className="text-emerald-400 font-bold">Recomendado CIS (≥14)</span>
                       </div>}
                     </div>
                   )}

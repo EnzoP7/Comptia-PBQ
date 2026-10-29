@@ -53,7 +53,10 @@ export type PBQCategory =
   | 'compliance-awareness'
   | 'linux-permissions'
   | 'crypto-concepts'
-  | 'linux-terminal';
+  | 'linux-terminal'
+  | 'asset-management'
+  | 'security-monitoring'
+  | 'security-awareness';
 
 export interface PartialCreditItem {
   id: string;

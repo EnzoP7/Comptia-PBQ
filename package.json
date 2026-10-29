@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "i18n:check": "node scripts/i18n.mjs check"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, PlayCircle, Timer, Lightbulb, Save, X } from 'lucide-react';
+import { LanguageSwitch } from './LanguageSwitch';
 
 interface Props {
   isOpen: boolean;
@@ -55,6 +56,10 @@ export const WelcomeModal: React.FC<Props> = ({ isOpen, onClose, onStartExam, to
         </div>
 
         <div className="p-5 sm:p-6 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-xl bg-cyan-950/30 border border-cyan-900/60">
+            <div translate="no" className="text-sm font-semibold text-white">Idioma · Language</div>
+            <LanguageSwitch large />
+          </div>
           {STEPS.map(({ icon: Icon, title, text }) => (
             <div key={title} className="flex items-start gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800">
               <Icon className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />

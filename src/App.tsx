@@ -14,6 +14,7 @@ import { setShuffleSeed } from './utils/shuffle';
 import { loadProgress, saveProgress } from './utils/storage';
 import { AttemptHistory, bestScore, buildExamSet } from './utils/examBuilder';
 import { HintsContext } from './context/HintsContext';
+import { t } from './i18n/language';
 
 import { Header } from './components/Header';
 import { PBQNav } from './components/PBQNav';
@@ -199,7 +200,7 @@ export default function App() {
       const message = pending
         ? `Quedan ${pending} PBQ(s) sin tocar. ¿Finalizar y calificar el simulacro igualmente?`
         : '¿Finalizar y calificar el simulacro?';
-      if (!window.confirm(message)) return;
+      if (!window.confirm(t(message))) return;
     }
     const results = Object.fromEntries(examSession.pbqIds.map((id) => [id, gradePbq(PBQ_BY_ID.get(id)!, answers[id])]));
     setEvaluations((prev) => ({ ...prev, ...results }));
@@ -230,7 +231,7 @@ export default function App() {
   const handleModeChange = (newMode: Mode) => {
     sound.playToggle();
     if (newMode === 'practice') {
-      if (examInProgress && !window.confirm('¿Abandonar el simulacro en curso? No se calificará.')) return;
+      if (examInProgress && !window.confirm(t('¿Abandonar el simulacro en curso? No se calificará.'))) return;
       if (examInProgress) setExamSession(null);
       setMode('practice');
       return;
@@ -240,7 +241,7 @@ export default function App() {
   };
 
   const handleResetAllProgress = () => {
-    if (!window.confirm('Esto borra todas tus respuestas, notas, marcas e historial de intentos. ¿Continuar?')) return;
+    if (!window.confirm(t('Esto borra todas tus respuestas, notas, marcas e historial de intentos. ¿Continuar?'))) return;
     sound.playToggle();
     setAnswers(initialAnswersFor(ALL_IDS));
     setEvaluations({});
