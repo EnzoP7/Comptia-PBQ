@@ -13,6 +13,7 @@ import {
   BookMarked,
   Lightbulb,
   LightbulbOff,
+  Brain,
 } from 'lucide-react';
 import { sound } from '../utils/audio';
 import { LanguageSwitch } from './LanguageSwitch';
@@ -28,6 +29,9 @@ interface Props {
   onOpenStrategy?: () => void;
   onOpenExamSummary: () => void;
   onOpenCheatSheet?: () => void;
+  onOpenTraps?: () => void;
+  /** Trap review cards due today (new + scheduled). */
+  trapsDue?: number;
   isMuted: boolean;
   onToggleMute: () => void;
   onOpenShortcuts?: () => void;
@@ -49,6 +53,8 @@ export const Header: React.FC<Props> = ({
   onOpenStrategy,
   onOpenExamSummary,
   onOpenCheatSheet,
+  onOpenTraps,
+  trapsDue = 0,
   isMuted,
   onToggleMute,
   onOpenShortcuts,
@@ -282,6 +288,23 @@ export const Header: React.FC<Props> = ({
                 <BookMarked className="w-3.5 h-3.5 text-amber-400" />
                 <span className="hidden sm:inline">Cheat Sheet</span>
                 <kbd className="hidden lg:inline text-[10px] font-mono px-1 py-0.2 rounded bg-slate-900 border border-slate-700 text-slate-400">Alt+P</kbd>
+              </button>
+            )}
+
+            {onOpenTraps && (
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  onOpenTraps();
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-violet-800 bg-violet-950/40 text-violet-200 hover:text-white hover:border-violet-600 transition-colors text-xs font-semibold"
+                title="Tarjetas con los pares de conceptos que más se confunden (Alt+T)"
+              >
+                <Brain className="w-3.5 h-3.5 text-violet-400" />
+                <span>Repaso de trampas</span>
+                {trapsDue > 0 && (
+                  <span className="min-w-5 px-1.5 rounded-full bg-violet-600 text-white text-[10px] font-bold tabular-nums">{trapsDue}</span>
+                )}
               </button>
             )}
 

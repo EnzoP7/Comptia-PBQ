@@ -25,6 +25,8 @@ import { ExamSummaryModal } from './components/ExamSummaryModal';
 import { ExamSetupModal } from './components/ExamSetupModal';
 import { KeyboardShortcutsModal } from './components/KeyboardShortcutsModal';
 import { CompTIACheatSheetModal } from './components/CompTIACheatSheetModal';
+import { TrapReviewModal } from './components/TrapReviewModal';
+import { dueCount, loadTrapProgress } from './utils/trapProgress';
 import { SimulatorErrorBoundary } from './components/SimulatorErrorBoundary';
 import { WelcomeModal } from './components/WelcomeModal';
 
@@ -101,6 +103,9 @@ export default function App() {
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(!saved.seenWelcome);
   const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
+  const [isTrapsOpen, setIsTrapsOpen] = useState(false);
+  // Recomputed whenever the trap review closes, so the header badge reflects the last session.
+  const trapsDue = useMemo(() => (isTrapsOpen ? 0 : dueCount(loadTrapProgress())), [isTrapsOpen]);
 
   // Option order must be decided before any simulator renders.
   setShuffleSeed(seed);
@@ -269,7 +274,7 @@ export default function App() {
     const isCmdOrCtrl = e.ctrlKey || e.metaKey;
     const target = e.target as HTMLElement | null;
     const isInput = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable;
-    const anyModalOpen = isBreakdownOpen || isStrategyOpen || isExamSummaryOpen || isShortcutsModalOpen || isCheatSheetOpen || isExamSetupOpen || isWelcomeOpen;
+    const anyModalOpen = isBreakdownOpen || isStrategyOpen || isExamSummaryOpen || isShortcutsModalOpen || isCheatSheetOpen || isTrapsOpen || isExamSetupOpen || isWelcomeOpen;
 
     if (e.key === 'Escape' && anyModalOpen) {
       e.preventDefault();
@@ -278,6 +283,7 @@ export default function App() {
       setIsExamSummaryOpen(false);
       setIsShortcutsModalOpen(false);
       setIsCheatSheetOpen(false);
+      setIsTrapsOpen(false);
       setIsExamSetupOpen(false);
       setIsWelcomeOpen(false);
       return;
@@ -300,6 +306,11 @@ export default function App() {
     if (e.altKey && e.key.toLowerCase() === 'p') {
       e.preventDefault();
       if (mode === 'practice') setIsCheatSheetOpen((prev) => !prev);
+      return;
+    }
+    if (e.altKey && e.key.toLowerCase() === 't') {
+      e.preventDefault();
+      if (mode === 'practice') setIsTrapsOpen((prev) => !prev);
       return;
     }
     if (e.altKey && e.key.toLowerCase() === 's') {
@@ -345,6 +356,8 @@ export default function App() {
           onOpenStrategy={mode === 'practice' ? () => setIsStrategyOpen(true) : undefined}
           onOpenExamSummary={() => !examInProgress && setIsExamSummaryOpen(true)}
           onOpenCheatSheet={mode === 'practice' ? () => setIsCheatSheetOpen(true) : undefined}
+          onOpenTraps={mode === 'practice' ? () => setIsTrapsOpen(true) : undefined}
+          trapsDue={trapsDue}
           isMuted={isMuted}
           onToggleMute={() => setIsMuted(sound.toggleMute())}
           onOpenShortcuts={() => setIsShortcutsModalOpen(true)}
@@ -664,6 +677,15 @@ export default function App() {
         />
 
         <CompTIACheatSheetModal isOpen={isCheatSheetOpen && mode === 'practice'} onClose={() => setIsCheatSheetOpen(false)} />
+
+        <TrapReviewModal
+          isOpen={isTrapsOpen && mode === 'practice'}
+          onClose={() => setIsTrapsOpen(false)}
+          onGoToPbq={(n) => {
+            setIsTrapsOpen(false);
+            setCurrentPbqId(`pbq-${n}`);
+          }}
+        />
 
         <KeyboardShortcutsModal isOpen={isShortcutsModalOpen} onClose={() => setIsShortcutsModalOpen(false)} />
 

@@ -54,6 +54,12 @@ export const KeyboardShortcutsModal: React.FC<Props> = ({ isOpen, onClose }) => 
       description: 'Abre la matriz de puertos críticos, estándares NIST y fórmulas de examen.',
     },
     {
+      keys: ['Alt', 'T'],
+      macKeys: ['⌥', 'T'],
+      action: 'Repaso de trampas',
+      description: 'Tarjetas con repetición espaciada de los pares de conceptos que más se confunden (solo en práctica).',
+    },
+    {
       keys: ['Alt', 'S'],
       macKeys: ['⌥', 'S'],
       action: 'Reporte de Evaluación / Revisión',
