@@ -10,7 +10,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 <a href="https://enzop7.github.io/Comptia-PBQ/"><img src="https://img.shields.io/badge/%E2%96%B6%20Practicar%20ahora-online-06b6d4?style=for-the-badge" alt="Practicar ahora" /></a>
 
-![PBQs](https://img.shields.io/badge/PBQs-91-0891b2?style=flat-square)
+![PBQs](https://img.shields.io/badge/PBQs-92-0891b2?style=flat-square)
 ![Dominios](https://img.shields.io/badge/dominios-5%2F5-10b981?style=flat-square)
 ![Examen](https://img.shields.io/badge/examen-SY0--701-6366f1?style=flat-square)
 ![Idioma](https://img.shields.io/badge/idioma-espa%C3%B1ol%20%7C%20English-f59e0b?style=flat-square)
@@ -24,7 +24,7 @@ Escenarios interactivos, corrección criterio por criterio y simulacros con tiem
 
 Las **PBQs (Performance-Based Questions)** son las preguntas prácticas del examen Security+: en lugar de elegir una respuesta, tienes que **hacer** algo. Por ejemplo: ordenar las reglas de un firewall, ubicar controles en un diagrama de red, analizar logs de un SIEM, asignar permisos o clasificar ataques. Suelen aparecer al principio del examen, consumen mucho tiempo y son donde más puntos se pierden por falta de práctica.
 
-Este simulador reúne **91 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
+Este simulador reúne **92 PBQs originales** que cubren los cinco dominios y los 28 objetivos del SY0-701 (cada objetivo tiene al menos una PBQ que lo evalúa como objetivo principal), con la misma mecánica que vas a encontrar en el examen.
 
 <p align="center"><img src="docs/images/app-practice.png" alt="Vista de práctica: tabla de reglas de firewall" width="90%" /></p>
 
@@ -50,6 +50,8 @@ Al validar ves, **criterio por criterio**:
 
 ### Dificultad como el examen real
 Cada PBQ indica su nivel. **Básica** e **Intermedia** se parecen a lo que reportan quienes ya rindieron el SY0-701: entre 2 y 5 PBQs cortas (reglas de firewall, identificar ataques o equipos comprometidos en logs, emparejar conceptos, configurar una VPN o un certificado). **Avanzada** va más allá del examen (terminal libre, muchas zonas o servicios a la vez) y sirve para reforzar. Puedes filtrar por nivel, y el simulacro usa por defecto solo PBQs básicas e intermedias.
+
+Las PBQs marcadas como **Extra: puede no aparecer** (25, 32, 42, 60, 62, 63, 64 y 76) tratan temas que no figuran en los objetivos del SY0-701: línea de comandos, Nmap, chmod y ataques a Active Directory. El SY0-701 eliminó la lista de herramientas de consola que tenía el SY0-601. Están al final de la lista para darles una mirada general y no entran en el simulacro "como el examen real".
 
 ### 3. Pistas apagadas por defecto
 En el examen real no hay ayudas, así que aquí tampoco, salvo que las actives. El botón **Pistas** enciende medidores de cumplimiento, explicaciones de cada opción, el simulador de tráfico del firewall y un tip táctico. Úsalas para aprender, no para medirte.
@@ -104,7 +106,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 </details>
 
 <details>
-<summary><b>Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones</b> — 22% del examen · 15 PBQs</summary>
+<summary><b>Dominio 2: Amenazas, Vulnerabilidades y Mitigaciones</b> — 22% del examen · 16 PBQs</summary>
 
 | # | PBQ | Objetivo |
 |---|---|---|
@@ -123,6 +125,7 @@ No hay cuentas ni registro. Respuestas, notas, marcas e historial de intentos se
 | 63 | Terminal Linux: Auditoría de Hardening, SUID e Integridad de Binarios | 2.5 |
 | 80 | Vectores de Amenaza y Tipos de Vulnerabilidad | 2.2 |
 | 81 | Indicadores de Actividad Maliciosa: Distinguir Ataques Parecidos | 2.4 |
+| 92 | Indicadores en los Registros y Temas Sueltos del SY0-701 | 2.4 |
 
 </details>
 

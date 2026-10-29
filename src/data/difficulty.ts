@@ -7,8 +7,23 @@
  */
 export type Difficulty = 'basic' | 'intermediate' | 'advanced';
 
-const BASIC = [16, 17, 19, 20, 21, 22, 28, 40, 41, 51, 52, 53, 54, 56, 57, 58, 59, 61, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91];
+const BASIC = [16, 17, 19, 20, 21, 22, 28, 40, 41, 51, 52, 53, 54, 56, 57, 58, 59, 61, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92];
 const ADVANCED = [42, 49, 50, 62, 63, 64];
+
+/**
+ * PBQs whose core skill is not in the SY0-701 objectives (command-line work, Nmap, Active
+ * Directory attacks). The 701 dropped the 601's list of command-line tools, so these are kept for
+ * a quick look at the end of the list, but left out of the exam-like simulation.
+ */
+const EXTRA = [25, 32, 42, 60, 62, 63, 64, 76];
+
+export const isExtra = (pbqNumber: number) => EXTRA.includes(pbqNumber);
+
+export const EXTRA_INFO = {
+  label: 'Extra: puede no aparecer',
+  hint: 'Su tema central no figura en los objetivos del SY0-701. Dale una mirada general, sin estudiarla a fondo.',
+  className: 'text-slate-300 bg-slate-800/80 border-slate-600',
+};
 
 export function difficultyOf(pbqNumber: number): Difficulty {
   if (BASIC.includes(pbqNumber)) return 'basic';

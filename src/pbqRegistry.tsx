@@ -7,6 +7,7 @@ import React from 'react';
 import * as D from './data/pbqsData';
 import * as E from './utils/evaluator';
 import { MATRIX_PBQS } from './data/matrixPbqs';
+import { isExtra } from './data/difficulty';
 import { evaluateMatrix } from './utils/matrixEvaluator';
 import { withTrafficTests } from './utils/firewallSim';
 import { LINUX_PERMS_ITEM, INITIAL_LINUX_PERMS_PBQ60, evaluateLinuxPermissionsPBQ60 } from './data/linuxPermissionsPbq';
@@ -353,7 +354,7 @@ const TERMINAL_DEFS: Record<string, PBQDefinition<TerminalState>> = Object.fromE
 
 export const PBQ_REGISTRY: Record<string, PBQDefinition> = { ...HAND_BUILT, ...MATRIX_DEFS, ...TERMINAL_DEFS };
 
-export const ALL_PBQS: PBQItem[] = [...D.PBQ_LIST, ...MATRIX_PBQS.map((m) => m.item), LINUX_PERMS_ITEM, FIREWALL_ITEM_PBQ77, ...TERMINAL_PBQS.map((t) => t.item)].sort((a, b) => a.number - b.number);
+export const ALL_PBQS: PBQItem[] = [...D.PBQ_LIST, ...MATRIX_PBQS.map((m) => m.item), LINUX_PERMS_ITEM, FIREWALL_ITEM_PBQ77, ...TERMINAL_PBQS.map((t) => t.item)].sort((a, b) => Number(isExtra(a.number)) - Number(isExtra(b.number)) || a.number - b.number);
 
 export function initialAnswersFor(ids: string[]): Record<string, any> {
   return Object.fromEntries(ids.map((id) => [id, PBQ_REGISTRY[id].initial()]));

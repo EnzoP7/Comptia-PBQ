@@ -103,7 +103,7 @@ export const ExamSetupModal: React.FC<Props> = ({ isOpen, onClose, onStart, tota
               <span className="font-semibold text-slate-200 flex items-center gap-1.5">
                 <Gauge className="w-3.5 h-3.5 text-emerald-400" /> Dificultad como el examen real
               </span>
-              <span className="text-slate-400 block">Solo PBQs básicas e intermedias. Desactívalo para incluir las avanzadas, más exigentes que el examen.</span>
+              <span className="text-slate-400 block">Solo PBQs básicas e intermedias del temario oficial. Desactívalo para incluir las avanzadas y las extra, que pueden no aparecer.</span>
             </span>
           </label>
         </div>

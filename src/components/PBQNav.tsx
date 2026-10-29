@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DIFFICULTY_INFO, difficultyOf } from '../data/difficulty';
+import { DIFFICULTY_INFO, EXTRA_INFO, difficultyOf, isExtra } from '../data/difficulty';
 import { PBQItem, EvaluationResult } from '../types/pbq';
 import {
   Network,
@@ -167,6 +167,7 @@ export const PBQNav: React.FC<Props> = ({
       label: DIFFICULTY_INFO[d].label,
       count: pbqs.filter((p) => difficultyOf(p.number) === d).length,
     })),
+    { id: 'extra', label: 'Extra', count: pbqs.filter((p) => isExtra(p.number)).length },
   ];
 
   const matchesFilter = (p: PBQItem) => {
@@ -174,6 +175,7 @@ export const PBQNav: React.FC<Props> = ({
     if (categoryFilter === 'pending') return !evaluations[p.id];
     if (categoryFilter === 'failed') return !!evaluations[p.id] && !evaluations[p.id].passed;
     if (categoryFilter === 'flagged') return flaggedIds.has(p.id);
+    if (categoryFilter === 'extra') return isExtra(p.number);
     if (categoryFilter in DIFFICULTY_INFO) return difficultyOf(p.number) === categoryFilter;
     return `d${getDomainId(p.domain)}` === categoryFilter;
   };
@@ -248,7 +250,8 @@ export const PBQNav: React.FC<Props> = ({
             No se encontraron PBQs con el filtro &quot;{searchQuery}&quot;
           </div>
         ) : (
-          filteredPbqs.map((pbq) => {
+          filteredPbqs.map((pbq, i) => {
+            const startsExtra = isExtra(pbq.number) && (i === 0 || !isExtra(filteredPbqs[i - 1].number));
             const actualIndex = pbqs.findIndex((p) => p.id === pbq.id);
             const isSelected = currentIndex === actualIndex;
             const isFlagged = flaggedIds.has(pbq.id);
@@ -257,8 +260,13 @@ export const PBQNav: React.FC<Props> = ({
             const isAnswered = hideScores && answeredIds.has(pbq.id);
 
             return (
+              <React.Fragment key={pbq.id}>
+              {startsExtra && (
+                <span className="shrink-0 px-2 py-1 rounded-lg border border-dashed border-slate-600 text-[10px] font-semibold text-slate-400 whitespace-nowrap" title={EXTRA_INFO.hint}>
+                  {EXTRA_INFO.label}
+                </span>
+              )}
               <button
-                key={pbq.id}
                 onClick={() => {
                   sound.playClick();
                   onSelectIndex(actualIndex);
@@ -312,6 +320,7 @@ export const PBQNav: React.FC<Props> = ({
                   <Flag className="w-3 h-3 text-amber-400 fill-amber-400 shrink-0" />
                 )}
               </button>
+              </React.Fragment>
             );
           })
         )}

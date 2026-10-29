@@ -1768,4 +1768,79 @@ const PBQ75: MatrixPbqDefinition = {
   },
 };
 
-export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75, ...REVIEW_PBQS];
+// ---------------------------------------------------------------------------
+// PBQ 92 — Official sub-topics no other PBQ covered (2.4, 2.2, 3.1, 3.3, 4.1, 4.3, 4.5)
+// ---------------------------------------------------------------------------
+const LOG_INDICATORS = [
+  o('out_of_cycle', 'Registro fuera de ciclo'),
+  o('missing_logs', 'Registros faltantes'),
+  o('resource_consumption', 'Consumo de recursos'),
+  o('resource_inaccessible', 'Recurso inaccesible'),
+  o('account_lockout', 'Bloqueo de cuenta'),
+  o('published', 'Publicado / documentado'),
+];
+const SYLLABUS_GAPS = [
+  o('bloatware', 'Bloatware'),
+  o('sase', 'SASE'),
+  o('sovereignty', 'Soberanía de los datos'),
+  o('selinux', 'SELinux'),
+  o('xdr', 'XDR'),
+  o('code_signing', 'Firma de código'),
+  o('secure_cookies', 'Cookies seguras'),
+  o('site_survey', 'Estudio de sitio / mapa de calor'),
+  o('rescan', 'Volver a escanear (validación)'),
+  o('gap_analysis', 'Análisis de brechas'),
+];
+
+const PBQ92: MatrixPbqDefinition = {
+  item: item(
+    92,
+    'security-monitoring',
+    'Temas del Temario Oficial',
+    'Indicadores en los Registros y Temas Sueltos del SY0-701',
+    ['2.4', ['2.2', '3.1', '3.3', '4.1', '4.3', '4.5']],
+    4,
+    'Antes de la auditoría, el SOC repasa indicadores que suelen pasar desapercibidos, y el equipo de arquitectura revisa conceptos del temario que todavía no aplicó. Identifica el concepto de cada caso.',
+    ['Sección 1: el indicador de actividad maliciosa (2.4).', 'Sección 2: el control, tecnología o actividad que corresponde.'],
+    'Fuera de ciclo = algo ocurre a una hora o fecha en la que no debería (un backup a las 3 de la mañana de un domingo sin programar). Registros faltantes = huecos en los logs, típico de un atacante que borra rastros. Publicado/documentado = el ataque o la filtración ya aparece en Internet o en un aviso público.'
+  ),
+  config: {
+    pbqId: 'pbq-92',
+    consoleTitle: 'Repaso de Temas del Temario (Objetivo 2.4 y otros)',
+    instructions: 'Elige la opción que corresponde a cada caso. Algunas opciones pueden no usarse.',
+    sections: [
+      {
+        id: 's1',
+        title: 'Indicadores',
+        columns: [{ id: 'ind', label: 'Indicador', options: LOG_INDICATORS }],
+        rows: [
+          { id: 'i1', prompt: 'El servidor de nóminas registra una exportación completa de datos a las 3:12 de la mañana de un domingo, fuera de cualquier tarea programada.', answers: { ind: 'out_of_cycle' }, explanation: 'Actividad en un momento en que no debería ocurrir: registro fuera de ciclo.' },
+          { id: 'i2', prompt: 'Los logs de seguridad del controlador de dominio no tienen ninguna entrada entre las 01:00 y las 01:45, y el servicio no se detuvo.', answers: { ind: 'missing_logs' }, explanation: 'Un hueco en los registros suele indicar que el atacante borró sus rastros: registros faltantes.' },
+          { id: 'i3', prompt: 'Un servidor web pasa de 10 % a 100 % de CPU y su tráfico de salida se dispara sin aumento de visitas.', answers: { ind: 'resource_consumption' }, explanation: 'Uso de CPU, memoria o red sin explicación (criptominería, exfiltración): consumo de recursos.' },
+          { id: 'i4', prompt: 'Los usuarios no pueden abrir los archivos del recurso compartido: todos tienen una extensión nueva.', answers: { ind: 'resource_inaccessible' }, explanation: 'Archivos o servicios que dejan de estar disponibles (por ejemplo, por ransomware): recurso inaccesible.' },
+          { id: 'i5', prompt: 'Varios usuarios llaman a soporte porque sus cuentas quedaron bloqueadas sin que ellos intentaran entrar.', answers: { ind: 'account_lockout' }, explanation: 'Bloqueos que el usuario no provocó indican intentos de adivinar contraseñas: bloqueo de cuenta.' },
+          { id: 'i6', prompt: 'Un investigador avisa que una base con correos de clientes de la empresa se está vendiendo en un foro.', answers: { ind: 'published' }, explanation: 'La filtración ya es pública: indicador publicado/documentado.' },
+        ],
+      },
+      {
+        id: 's2',
+        title: 'Conceptos',
+        columns: [{ id: 'gap', label: 'Concepto', options: SYLLABUS_GAPS }],
+        rows: [
+          { id: 'g1', prompt: 'Los portátiles nuevos traen de fábrica programas de prueba y utilidades que nadie usa y amplían la superficie de ataque.', answers: { gap: 'bloatware' }, explanation: 'Software preinstalado e innecesario: bloatware. Se elimina al endurecer el equipo.' },
+          { id: 'g2', prompt: 'Unificar en un servicio en la nube el SD-WAN con SWG, CASB, ZTNA y firewall para los empleados remotos.', answers: { gap: 'sase' }, explanation: 'Red y seguridad entregadas como servicio desde la nube: SASE (Secure Access Service Edge).' },
+          { id: 'g3', prompt: 'Los datos de clientes europeos deben quedar sujetos a las leyes del país donde se almacenan.', answers: { gap: 'sovereignty' }, explanation: 'Los datos quedan sujetos a la ley del país donde residen: soberanía de los datos.' },
+          { id: 'g4', prompt: 'En los servidores Linux se aplica control de acceso obligatorio (MAC) que limita qué puede hacer cada proceso.', answers: { gap: 'selinux' }, explanation: 'SELinux aplica MAC en Linux; el objetivo 4.5 lo nombra junto a Group Policy.' },
+          { id: 'g5', prompt: 'Correlacionar la telemetría de endpoints, red, correo y nube en una sola plataforma de detección y respuesta.', answers: { gap: 'xdr' }, explanation: 'EDR se limita al endpoint; XDR (Extended Detection and Response) extiende la detección a varias capas.' },
+          { id: 'g6', prompt: 'Garantizar que el instalador de la aplicación proviene del desarrollador y no fue alterado.', answers: { gap: 'code_signing' }, explanation: 'Una firma digital sobre el código prueba origen e integridad: firma de código.' },
+          { id: 'g7', prompt: 'Que la cookie de sesión solo viaje por HTTPS y no sea accesible desde JavaScript.', answers: { gap: 'secure_cookies' }, explanation: 'Atributos Secure y HttpOnly: cookies seguras (objetivo 4.1).' },
+          { id: 'g8', prompt: 'Antes de instalar los puntos de acceso, medir la cobertura y las interferencias en cada piso.', answers: { gap: 'site_survey' }, explanation: 'Un estudio de sitio con mapa de calor define dónde ubicar los AP y evita fugas de señal.' },
+          { id: 'g9', prompt: 'Después de aplicar el parche, confirmar que la vulnerabilidad ya no aparece.', answers: { gap: 'rescan' }, explanation: 'La validación de la remediación se hace volviendo a escanear (objetivo 4.3).' },
+          { id: 'g10', prompt: 'Comparar los controles actuales con los que exige un marco para saber qué falta implementar.', answers: { gap: 'gap_analysis' }, explanation: 'Estado actual contra estado deseado: análisis de brechas (objetivo 1.2).' },
+        ],
+      },
+    ],
+  },
+};
+
+export const MATRIX_PBQS: MatrixPbqDefinition[] = [PBQ51, PBQ52, PBQ53, PBQ54, PBQ55, PBQ56, PBQ57, PBQ58, PBQ59, PBQ61, PBQ65, PBQ66, PBQ67, PBQ68, PBQ69, PBQ70, PBQ71, PBQ72, PBQ73, PBQ74, PBQ75, PBQ92, ...REVIEW_PBQS];

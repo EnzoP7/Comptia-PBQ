@@ -15,7 +15,7 @@ import { loadProgress, saveProgress } from './utils/storage';
 import { AttemptHistory, bestScore, buildExamSet } from './utils/examBuilder';
 import { HintsContext } from './context/HintsContext';
 import { t } from './i18n/language';
-import { DIFFICULTY_INFO, difficultyOf } from './data/difficulty';
+import { DIFFICULTY_INFO, EXTRA_INFO, difficultyOf, isExtra } from './data/difficulty';
 
 import { Header } from './components/Header';
 import { PBQNav } from './components/PBQNav';
@@ -221,7 +221,7 @@ export default function App() {
   }, [examInProgress, examSecondsLeft]);
 
   const startExam = (count: number, minutes: number, prioritizeWeak: boolean, realisticOnly: boolean) => {
-    const pool = realisticOnly ? ALL_PBQS.filter((p) => difficultyOf(p.number) !== 'advanced') : ALL_PBQS;
+    const pool = realisticOnly ? ALL_PBQS.filter((p) => difficultyOf(p.number) !== 'advanced' && !isExtra(p.number)) : ALL_PBQS;
     const ids = buildExamSet(pool, count, history, prioritizeWeak);
     setAnswers((prev) => ({ ...prev, ...initialAnswersFor(ids) }));
     setEvaluations((prev) => Object.fromEntries(Object.entries(prev).filter(([id]) => !ids.includes(id))));
@@ -418,6 +418,11 @@ export default function App() {
                 >
                   {DIFFICULTY_INFO[difficultyOf(currentPBQ.number)].label}
                 </span>
+                {isExtra(currentPBQ.number) && (
+                  <span className={`font-semibold px-2 py-1 rounded-md border ${EXTRA_INFO.className}`} title={EXTRA_INFO.hint}>
+                    {EXTRA_INFO.label}
+                  </span>
+                )}
                 <span className="text-slate-400 font-mono bg-slate-800 px-2 py-1 rounded-md">{currentPBQ.estimatedMinutes} min aprox</span>
                 {!examInProgress && attemptCount > 0 && (
                   <span className="font-mono text-slate-400 bg-slate-950 border border-slate-800 px-2 py-1 rounded-md">
